@@ -1,0 +1,106 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$purple-palette: (
+  50: #f1effa,
+  100: #e2e0f6,
+  200: #c2bceb,
+  300: #a69de2,
+  400: #8679d7,
+  500: #6a5ace,
+  600: #4736b5,
+  700: #36298a,
+  800: #231b5a,
+  900: #120e2f,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$black-palette: (
+  50: #e8e8e8,
+  100: #d4d4d4,
+  200: #a6a6a6,
+  300: #7a7a7a,
+  400: #4d4d4d,
+  500: #212121,
+  600: #1a1a1a,
+  700: #141414,
+  800: #0d0d0d,
+  900: #080808,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$my-primary: mat.define-palette($purple-palette, 500);
+$my-accent: mat.define-palette($black-palette, 500);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+    ),
+    typography:
+      mat.define-typography-config(
+        $font-family: 'Manrope',
+      ),
+    density: 0,
+  )
+);
+
+@include mat.core-theme($my-theme);
+@include mat.button-theme($my-theme);
+@include mat.progress-spinner-theme($my-theme);
+@include mat.input-theme($my-theme);
+@include mat.form-field-theme($my-theme);
+@include mat.checkbox-theme($my-theme);
+@include mat.icon-theme($my-theme);
+@include mat.icon-button-theme($my-theme);
+@include mat.sidenav-theme($my-theme);
+@include mat.menu-theme($my-theme);
+@include mat.expansion-theme($my-theme);
+@include mat.dialog-theme($my-theme);
+@include mat.bottom-sheet-theme($my-theme);
+@include mat.tabs-theme($my-theme);
+@include mat.slider-theme($my-theme);
+
+html {
+  --mdc-filled-button-container-height: 54px;
+  --mdc-filled-button-container-shape: 12px;
+  --mat-tab-header-divider-color: #d1d0d0;
+  --mat-tab-header-divider-height: 1px;
+
+  .mdc-text-field--outlined {
+    --mdc-outlined-text-field-container-shape: 12px !important;
+  }
+  .mat-mdc-unelevated-button {
+    --mdc-filled-button-label-text-tracking: normal;
+  }
+  .mat-bottom-sheet-container {
+    --mat-bottom-sheet-container-text-line-height: 2em;
+  }
+  .mat-accent {
+    --mdc-circular-progress-active-indicator-color: #f0f0f0;
+  }
+}

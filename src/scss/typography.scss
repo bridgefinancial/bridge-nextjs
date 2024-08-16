@@ -1,0 +1,56 @@
+// General typographic rules
+html,
+body {
+  @include normal;
+  @include sans;
+  color: $oc-gray-9;
+  font-size: 16px; // If you change this value, you'll want to change the $rem-base variable in functions.scss
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include sora;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+h5 {
+  font-size: 0.875rem;
+}
+
+h6 {
+  font-size: 0.75rem;
+}
+
+.error {
+  @include bold;
+  color: $oc-red-9;
+  font-size: 0.875rem;
+}
+
+.hint {
+  @include normal;
+  color: $oc-gray-8;
+  font-size: 0.75rem;
+}

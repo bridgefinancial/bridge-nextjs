@@ -1,0 +1,121 @@
+// Typography
+@mixin manrope {
+  font-family: 'Manrope', sans-serif;
+}
+
+@mixin sora {
+  font-family: 'Sora', sans-serif;
+}
+
+@mixin sans {
+  font-family: 'Manrope', sans-serif;
+}
+
+// Font weight
+
+@mixin light {
+  font-weight: 300;
+}
+@mixin normal {
+  font-weight: 400;
+}
+@mixin medium {
+  font-weight: 500;
+}
+@mixin semi-bold {
+  font-weight: 600;
+}
+@mixin bold {
+  font-weight: 700;
+}
+
+// Shadow
+
+@mixin shadow-none {
+  box-shadow: none;
+}
+@mixin shadow-xs {
+  box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.25);
+}
+@mixin shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.25);
+}
+@mixin shadow-md {
+  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.25);
+}
+@mixin shadow-lg {
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.25);
+}
+@mixin shadow-xl {
+  box-shadow: 0 1rem 2rem 0 rgba(0, 0, 0, 0.25);
+}
+
+// Placeholder
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
+  }
+}
+
+// Scrollbar
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+
+  // Track
+  &::-webkit-scrollbar-track {
+    background: $oc-gray-4;
+    border-radius: 0.5rem;
+  }
+
+  // Handle
+  &::-webkit-scrollbar-thumb {
+    background: $oc-gray-6;
+    border-radius: 0.5rem;
+  }
+
+  // Handle on hover
+  &::-webkit-scrollbar-thumb:hover {
+    background: $oc-gray-6;
+  }
+}
+
+// Breakpoints
+
+$breakpoints: (
+  'xxs': 320px,
+  'xs': 480px,
+  's': 768px,
+  'm': 1024px,
+  'l': 1280px,
+  'xl': 1440px,
+  'xxl': 1920px,
+);
+
+@mixin media-query($size) {
+  @if map_has_key($breakpoints, $size) {
+    $width: map_get($breakpoints, $size);
+
+    @media only screen and (max-width: $width) {
+      @content;
+    }
+  }
+}

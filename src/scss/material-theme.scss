@@ -1,7 +1,8 @@
-@use '@angular/material' as mat;
 
-@include mat.core();
 
+@import './variables';
+
+/* Define color palettes */
 $purple-palette: (
   50: #f1effa,
   100: #e2e0f6,
@@ -12,19 +13,7 @@ $purple-palette: (
   600: #4736b5,
   700: #36298a,
   800: #231b5a,
-  900: #120e2f,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-  ),
+  900: #120e2f
 );
 
 $black-palette: (
@@ -37,70 +26,50 @@ $black-palette: (
   600: #1a1a1a,
   700: #141414,
   800: #0d0d0d,
-  900: #080808,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-  ),
+  900: #080808
 );
 
-$my-primary: mat.define-palette($purple-palette, 500);
-$my-accent: mat.define-palette($black-palette, 500);
+/* Define theme variables */
+:root {
+  --primary-color: map-get($purple-palette, 500);
+  --primary-color-contrast: white;
+  --accent-color: map-get($black-palette, 500);
+  --accent-color-contrast: white;
+  --font-family: 'Manrope', sans-serif;
 
-$my-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $my-primary,
-      accent: $my-accent,
-    ),
-    typography:
-      mat.define-typography-config(
-        $font-family: 'Manrope',
-      ),
-    density: 0,
-  )
-);
+  /* Define CSS variables for various components */
+  --button-height: 54px;
+  --button-border-radius: 12px;
+  --tab-header-divider-color: #d1d0d0;
+  --tab-header-divider-height: 1px;
+  --text-field-border-radius: 12px;
+  --bottom-sheet-text-line-height: 2em;
+  --circular-progress-indicator-color: #f0f0f0;
+}
 
-@include mat.core-theme($my-theme);
-@include mat.button-theme($my-theme);
-@include mat.progress-spinner-theme($my-theme);
-@include mat.input-theme($my-theme);
-@include mat.form-field-theme($my-theme);
-@include mat.checkbox-theme($my-theme);
-@include mat.icon-theme($my-theme);
-@include mat.icon-button-theme($my-theme);
-@include mat.sidenav-theme($my-theme);
-@include mat.menu-theme($my-theme);
-@include mat.expansion-theme($my-theme);
-@include mat.dialog-theme($my-theme);
-@include mat.bottom-sheet-theme($my-theme);
-@include mat.tabs-theme($my-theme);
-@include mat.slider-theme($my-theme);
+/* Button styles */
+button {
+  height: var(--button-height);
+  border-radius: var(--button-border-radius);
+  font-family: var(--font-family);
+}
 
-html {
-  --mdc-filled-button-container-height: 54px;
-  --mdc-filled-button-container-shape: 12px;
-  --mat-tab-header-divider-color: #d1d0d0;
-  --mat-tab-header-divider-height: 1px;
+/* Tab header styles */
+.mat-tab-header {
+  border-bottom: var(--tab-header-divider-height) solid var(--tab-header-divider-color);
+}
 
-  .mdc-text-field--outlined {
-    --mdc-outlined-text-field-container-shape: 12px !important;
-  }
-  .mat-mdc-unelevated-button {
-    --mdc-filled-button-label-text-tracking: normal;
-  }
-  .mat-bottom-sheet-container {
-    --mat-bottom-sheet-container-text-line-height: 2em;
-  }
-  .mat-accent {
-    --mdc-circular-progress-active-indicator-color: #f0f0f0;
-  }
+/* Text field styles */
+.mdc-text-field--outlined {
+  border-radius: var(--text-field-border-radius) !important;
+}
+
+/* Bottom sheet styles */
+.mat-bottom-sheet-container {
+  line-height: var(--bottom-sheet-text-line-height);
+}
+
+/* Circular progress styles */
+.mat-accent {
+  --mdc-circular-progress-active-indicator-color: var(--circular-progress-indicator-color);
 }

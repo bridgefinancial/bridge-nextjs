@@ -34,23 +34,29 @@
 @mixin shadow-none {
   box-shadow: none;
 }
+
 @mixin shadow-xs {
-  box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.25);
 }
+
 @mixin shadow-sm {
-  box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
 }
+
 @mixin shadow-md {
-  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
 }
+
 @mixin shadow-lg {
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
 }
+
 @mixin shadow-xl {
-  box-shadow: 0 1rem 2rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.25);
 }
 
 // Placeholder
+
 @mixin optional-at-root($sel) {
   @at-root #{if(not &, $sel, selector-append(&, $sel))} {
     @content;
@@ -82,19 +88,19 @@
 
   // Track
   &::-webkit-scrollbar-track {
-    background: $oc-gray-4;
+    background: $gray-400;  // Replaced $oc-gray-4 with $gray-400
     border-radius: 0.5rem;
   }
 
   // Handle
   &::-webkit-scrollbar-thumb {
-    background: $oc-gray-6;
+    background: $gray-600;  // Replaced $oc-gray-6 with $gray-600
     border-radius: 0.5rem;
   }
 
   // Handle on hover
   &::-webkit-scrollbar-thumb:hover {
-    background: $oc-gray-6;
+    background: $gray-600;  // Replaced $oc-gray-6 with $gray-600
   }
 }
 
@@ -112,7 +118,7 @@ $breakpoints: (
 
 @mixin media-query($size) {
   @if map_has_key($breakpoints, $size) {
-    $width: map_get($breakpoints, $size);
+    $width: map-get($breakpoints, $size);
 
     @media only screen and (max-width: $width) {
       @content;

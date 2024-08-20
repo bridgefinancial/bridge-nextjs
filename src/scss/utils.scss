@@ -1,3 +1,7 @@
+@import './variables';
+@import './mixins';
+
+// Display utilities
 .display {
   &-none {
     display: none;
@@ -19,6 +23,7 @@
   }
 }
 
+// Position utilities
 .position {
   &-absolute {
     position: absolute;
@@ -37,8 +42,7 @@
   }
 }
 
-// shadow
-
+// Shadow utilities
 .shadow {
   &-none {
     @include shadow-none;
@@ -54,8 +58,7 @@
   }
 }
 
-// image
-
+// Image utilities
 .image {
   &-cover {
     object-fit: cover;
@@ -68,8 +71,7 @@
   }
 }
 
-// text
-
+// Text utilities
 $text-sizes: (
   'xs': 0.75rem,
   's': 0.875rem,
@@ -138,8 +140,7 @@ $text-weights: (
   }
 }
 
-// Grid
-
+// Grid utilities
 .grid {
   display: grid;
 
@@ -153,8 +154,7 @@ $text-weights: (
   }
 }
 
-// Flexbox
-
+// Flexbox utilities
 .flex {
   display: flex;
 
@@ -167,8 +167,7 @@ $text-weights: (
   }
 }
 
-// Align
-
+// Align utilities
 .align {
   &-center {
     align-items: center;
@@ -181,8 +180,7 @@ $text-weights: (
   }
 }
 
-// Justify
-
+// Justify utilities
 .justify {
   &-center {
     justify-content: center;
@@ -209,34 +207,31 @@ $text-weights: (
     justify-items: center;
   }
   &-start {
-    justify-items: flex-start;
+    justify-items: start;
   }
   &-end {
-    justify-items: flex-end;
+    justify-items: end;
   }
   &-stretch {
     justify-items: stretch;
   }
 }
 
-// flex 1-12
-
+// Flex grow utilities (1-12)
 @for $i from 1 through 12 {
   .flex-#{$i} {
     flex: $i;
   }
 }
 
-// gap 1-12
-
+// Gap utilities (1-12)
 @for $i from 1 through 12 {
   .gap-#{$i} {
     gap: $i * 0.25rem;
   }
 }
 
-// padding 0-12
-
+// Padding utilities (0-12)
 @for $i from 0 through 12 {
   .pt-#{$i} {
     padding-top: $i * 0.25rem;
@@ -263,8 +258,7 @@ $text-weights: (
   }
 }
 
-// margin 0-12
-
+// Margin utilities (0-12)
 @for $i from 0 through 12 {
   .mt-#{$i} {
     margin-top: $i * 0.25rem;

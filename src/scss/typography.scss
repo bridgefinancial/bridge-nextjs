@@ -1,10 +1,11 @@
+@import './variables';
+@import './mixins';
+
 // General typographic rules
 html,
 body {
-  @include normal;
-  @include sans;
   color: $oc-gray-9;
-  font-size: 16px; // If you change this value, you'll want to change the $rem-base variable in functions.scss
+  font-size: 16px; 
   line-height: 1.5;
   font-weight: 400;
 }
@@ -15,7 +16,6 @@ h3,
 h4,
 h5,
 h6 {
-  @include sora;
   font-weight: 600;
 }
 

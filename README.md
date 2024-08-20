@@ -1,4 +1,25 @@
 
+
+## Folder Structure
+
+Our project’s folder structure is organized as follows:
+
+```
+- src
+  - app
+  - hoc
+  - hooks
+  - providers
+  - utils
+  - components
+```
+
+## Middleware Implementation
+
+The `Middleware.ts` file is responsible for checking the authentication token and redirecting the user based on their login status. This implementation is flexible and subject to future enhancements.
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -21,23 +42,6 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Folder Structure
-
-Our project’s folder structure is organized as follows:
-
-```
-- src
-  - app
-  - hoc
-  - hooks
-  - providers
-  - utils
-  - components
-```
-
-## Middleware Implementation
-
-The `Middleware.ts` file is responsible for checking the authentication token and redirecting the user based on their login status. This implementation is flexible and subject to future enhancements.
 
 ## Learn More
 

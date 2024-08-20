@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
  function MainHeader(props: HeaderProps) {
-  const {pathForHome = "/", logoPath = "/assets/images/Bridge-logo.png"} = props
+  const {pathForHome = "/", logoPath = "/images/bridge-logo.png"} = props
   return (
     <AppBar position="absolute" sx={{ backgroundColor: 'white', height: '99px' }}>
       <Container maxWidth="xl">
@@ -23,9 +23,11 @@ interface HeaderProps {
               width={150}             // Image width
               height={42}             // Image height
               alt="Logo"
-             
+             unoptimized={true}
         
             />
+
+            <img src={logoPath}  width={20} height={20}/>
                         {/* </Link> */}
 
                       
@@ -39,3 +41,4 @@ interface HeaderProps {
 
 
 export default MainHeader
+

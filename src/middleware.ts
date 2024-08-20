@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { routePaths } from './types/routes.enum';
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('auth-token');
@@ -10,7 +11,7 @@ export function middleware(request: NextRequest) {
 
   if (!token && !isAuthRoute) {
     const url = request.nextUrl.clone();
-    url.pathname = '/auth/login';
+    url.pathname = routePaths.LOGIN
     url.searchParams.set('navigateTo', encodeURIComponent(pathname));
     return NextResponse.redirect(url);
   }
@@ -19,5 +20,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|static|favicon.ico).*)'], // Adjust this to match your protected routes
+  matcher: [
+    '/((?!_next|static|favicon.ico|images|css|js|fonts|media|assets).*)', // Adjust to match all your asset directories
+  ],
 };

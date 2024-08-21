@@ -1,0 +1,75 @@
+
+
+@import './variables';
+
+/* Define color palettes */
+$purple-palette: (
+  50: #f1effa,
+  100: #e2e0f6,
+  200: #c2bceb,
+  300: #a69de2,
+  400: #8679d7,
+  500: #6a5ace,
+  600: #4736b5,
+  700: #36298a,
+  800: #231b5a,
+  900: #120e2f
+);
+
+$black-palette: (
+  50: #e8e8e8,
+  100: #d4d4d4,
+  200: #a6a6a6,
+  300: #7a7a7a,
+  400: #4d4d4d,
+  500: #212121,
+  600: #1a1a1a,
+  700: #141414,
+  800: #0d0d0d,
+  900: #080808
+);
+
+/* Define theme variables */
+:root {
+  --primary-color: map-get($purple-palette, 500);
+  --primary-color-contrast: white;
+  --accent-color: map-get($black-palette, 500);
+  --accent-color-contrast: white;
+  --font-family: 'Manrope', sans-serif;
+
+  /* Define CSS variables for various components */
+  --button-height: 54px;
+  --button-border-radius: 12px;
+  --tab-header-divider-color: #d1d0d0;
+  --tab-header-divider-height: 1px;
+  --text-field-border-radius: 12px;
+  --bottom-sheet-text-line-height: 2em;
+  --circular-progress-indicator-color: #f0f0f0;
+}
+
+/* Button styles */
+button {
+  height: var(--button-height);
+  border-radius: var(--button-border-radius);
+  font-family: var(--font-family);
+}
+
+/* Tab header styles */
+.mat-tab-header {
+  border-bottom: var(--tab-header-divider-height) solid var(--tab-header-divider-color);
+}
+
+/* Text field styles */
+.mdc-text-field--outlined {
+  border-radius: var(--text-field-border-radius) !important;
+}
+
+/* Bottom sheet styles */
+.mat-bottom-sheet-container {
+  line-height: var(--bottom-sheet-text-line-height);
+}
+
+/* Circular progress styles */
+.mat-accent {
+  --mdc-circular-progress-active-indicator-color: var(--circular-progress-indicator-color);
+}

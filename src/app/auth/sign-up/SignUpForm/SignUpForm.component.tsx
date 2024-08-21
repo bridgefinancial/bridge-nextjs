@@ -1,32 +1,52 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
 import {
   TextField,
   Button,
   Checkbox,
   FormControlLabel,
-  Link,
   Typography,
   Box,
+  Card,
+  CardContent,
+  CardHeader,
 } from '@mui/material';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import { externalUrls, routePaths } from '@/types/routes.enum';
+import Link from 'next/link'
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
 
 interface SignUpFormProps {
   title?: string;
 }
 
+// Define a type for form values
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  businessName: string;
+  industry: string;
+  email: string;
+  password: string;
+  terms: boolean;
+}
 
+// Define a type for form errors
+interface FormErrors {
+  firstName: string;
+  lastName: string;
+  businessName: string;
+  industry: string;
+  email: string;
+  password: string;
+  terms: string;
+}
 
-// 1 of 1 error
-
-// Unhandled Runtime Error
-
-// Error: The default export is not a React Component in page: "/auth/sign-up"
-
-// Call Stack
-// Next.js
-
-export const SignUpForm: React.FC<SignUpFormProps> = () => {
-  const [formValues, setFormValues] = useState({
+export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
+  const [formValues, setFormValues] = useState<FormValues>({
     firstName: '',
     lastName: '',
     businessName: '',
@@ -36,7 +56,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = () => {
     terms: false,
   });
 
-  const [formErrors, setFormErrors] = useState({
+  const [formErrors, setFormErrors] = useState<FormErrors>({
     firstName: '',
     lastName: '',
     businessName: '',
@@ -45,7 +65,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = () => {
     password: '',
     terms: '',
   });
-
+  const [isPasswordTextSecure, setIsPasswordTextSecure] = useState<boolean>(true); // State to manage secure text visibility
+  const [isLoading, setLoading] = useState(false)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormValues({
@@ -54,8 +75,16 @@ export const SignUpForm: React.FC<SignUpFormProps> = () => {
     });
   };
 
-  const validate = () => {
-    let errors: any = {};
+  const validate = (): FormErrors => {
+    const errors: FormErrors = {
+      firstName: '',
+      lastName: '',
+      businessName: '',
+      industry: '',
+      email: '',
+      password: '',
+      terms: '',
+    };
 
     if (!formValues.firstName) {
       errors.firstName = 'First name is required';
@@ -89,131 +118,153 @@ export const SignUpForm: React.FC<SignUpFormProps> = () => {
 
     setFormErrors(errors);
 
-    return Object.keys(errors).length === 0;
+    return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    try{
     e.preventDefault();
-    if (validate()) {
+    const errors = validate();
+    if (Object.values(errors).every(error => !error)) {
       // Handle form submission logic here
-      console.log(formValues);
+      console.log('Form submitted:', formValues);
+    }
+  }catch{
+
+    } finally{
+      setLoading(false)
     }
   };
 
+    // Toggle password visibility
+    const handleSecurePressOnChange = () => {
+      setIsPasswordTextSecure(!isPasswordTextSecure);
+    };
+  
+    // Handle mouse down event
+    const handleOnMouseDownForSecure = (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault(); // Prevent the button from gaining focus
+    };
+
   return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom textAlign="center">
-        Sign Up
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="First name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="firstName"
-          value={formValues.firstName}
-          onChange={handleChange}
-          error={Boolean(formErrors.firstName)}
-          helperText={formErrors.firstName}
-        />
-        <TextField
-          label="Last name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="lastName"
-          value={formValues.lastName}
-          onChange={handleChange}
-          error={Boolean(formErrors.lastName)}
-          helperText={formErrors.lastName}
-        />
-        <TextField
-          label="Business name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="businessName"
-          value={formValues.businessName}
-          onChange={handleChange}
-          error={Boolean(formErrors.businessName)}
-          helperText={formErrors.businessName}
-        />
-        <TextField
-          label="Industry"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="industry"
-          value={formValues.industry}
-          onChange={handleChange}
-          error={Boolean(formErrors.industry)}
-          helperText={formErrors.industry}
-        />
-        <TextField
-          label="Email"
-          type="email"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="email"
-          value={formValues.email}
-          onChange={handleChange}
-          error={Boolean(formErrors.email)}
-          helperText={formErrors.email}
-        />
-        <TextField
+    <CardWithTitle titleProps={{ text: "Login" }}>
+
+        <form onSubmit={handleSubmit}>
+          <TextInputGroup
+            label="First Name"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            name="firstName"
+            value={formValues.firstName}
+            onChange={handleChange}
+            error={Boolean(formErrors.firstName)}
+            helperText={formErrors.firstName}
+          />
+          <TextInputGroup
+            label="Last Name"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            name="lastName"
+            value={formValues.lastName}
+            onChange={handleChange}
+            error={Boolean(formErrors.lastName)}
+            helperText={formErrors.lastName}
+          />
+          <TextInputGroup
+            label="Business Name"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            name="businessName"
+            value={formValues.businessName}
+            onChange={handleChange}
+            error={Boolean(formErrors.businessName)}
+            helperText={formErrors.businessName}
+          />
+          <TextInputGroup
+            label="Industry"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            name="industry"
+            value={formValues.industry}
+            onChange={handleChange}
+            error={Boolean(formErrors.industry)}
+            helperText={formErrors.industry}
+          />
+          <TextInputGroup
+            label="Email"
+            type="email"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            name="email"
+            value={formValues.email}
+            onChange={handleChange}
+            error={Boolean(formErrors.email)}
+            helperText={formErrors.email}
+          />
+          <SecureTextInputGroup
           label="Password"
-          type="password"
-          variant="outlined"
           fullWidth
-          margin="normal"
+          margin={"normal"}
           name="password"
           value={formValues.password}
+          disabled={isLoading}
           onChange={handleChange}
           error={Boolean(formErrors.password)}
           helperText={formErrors.password}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="terms"
-              checked={formValues.terms}
-              onChange={handleChange}
-              color="primary"
+          isSecure={isPasswordTextSecure}
+          securePressOnChange={handleSecurePressOnChange}
+          handleOnMouseDown={handleOnMouseDownForSecure}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="terms"
+                checked={formValues.terms}
+                onChange={handleChange}
+                color="primary"
+              />
+            }
+            label={
+              <ParagraphText component={"p"} sx={{ 
+                fontSize: {
+                  xs: 14,
+                  md: 14,
+                  lg: 14, 
+
+                }
+               }}>
+                I accept the Bridge{' '}
+                <Link legacyBehavior={true} target='_blank' href={externalUrls.TERMS_OF_SERVICE}>
+                  Terms of Service
+                </Link>
+              </ParagraphText>
+            }
+          />
+          {formErrors.terms && (
+            <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              {formErrors.terms}
+            </Typography>
+          )}
+          <Box sx={{ marginTop: 3 }}>
+            <ContainedButton
+              text="Sign Up"
+              fullWidth
+              sx={{ padding: 1.5 }}
             />
-          }
-          label={
-            <>
-              I accept the Bridge{' '}
-              <Link href="/terms-of-service" color="primary">
-                Terms of Service
-              </Link>
-            </>
-          }
-        />
-        {formErrors.terms && (
-          <Typography variant="body2" color="error" sx={{ mt: -2, mb: 2 }}>
-            {formErrors.terms}
-          </Typography>
-        )}
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ marginTop: 2, padding: 1.5 }}
-        >
-          Sign up
-        </Button>
-      </form>
-      <Typography variant="body2" align="center" sx={{ marginTop: 3 }}>
-        Already have an account?{' '}
-        <Link href="/login" color="primary">
-          Log In
-        </Link>
-      </Typography>
-    </Box>
+          </Box>
+        </form>
+        <ParagraphText align="center" sx={{ marginTop: 3 }}>
+          Already have an account?{' '}
+          <Link href={routePaths.LOGIN} color="primary">
+            Log In
+          </Link>
+        </ParagraphText>
+
+      </CardWithTitle>
   );
 };
-

@@ -23,6 +23,8 @@ src/
     ├── atoms/
     │   ├── containers/
     │   ├── buttons/
+    │   ├── seo/
+
     │   ├── typography/
     │   ├── data-display/
     │   └── forms/

@@ -10,6 +10,7 @@ import {
   Link,
 } from "@mui/material";
 import MainHeader from "@/components/organisms/headers/MainHeader";
+import ImageBackground from "@/components/atoms/containers/ImageBackground";
 
 interface LayoutProps {
   children: ReactNode;
@@ -19,8 +20,11 @@ interface LayoutProps {
 const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
   const { children, pathForHome = "/" } = props;
   return (
+    <ImageBackground src="/assets/images/gradient.png" alt="Bridge Financial Gradient">
+
     <Box>
       <MainHeader pathForHome={pathForHome} />
+
       <Box
         sx={{
           height: "100vh",
@@ -32,6 +36,8 @@ const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
         <Container maxWidth="md">{children}</Container>
       </Box>
     </Box>
+    </ImageBackground>
+
   );
 };
 

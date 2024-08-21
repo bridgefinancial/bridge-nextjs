@@ -2,14 +2,13 @@ import React from 'react';
 import Head from 'next/head';
 
 interface PageMetaDataProps {
-  title: string;
-  description: string;
+  companyName?: string;
+  pageName?: string;
+  description?: string;
   keywords?: string;
   author?: string;
   ogTitle?: string;
   ogDescription?: string;
-  companyName?: string;
-  pageName?: string;
   ogImage?: string;
   ogUrl?: string;
   twitterCard?: string;
@@ -19,7 +18,6 @@ export function PageMetaData(props: PageMetaDataProps) {
   const {
     companyName = "Bridge Financial",
     pageName = "",
-    title,
     description = "Bridge offers expert consulting, real-time business valuation, and technology solutions to optimize and sell your business for maximum value.",
     keywords,
     author,
@@ -30,18 +28,15 @@ export function PageMetaData(props: PageMetaDataProps) {
     twitterCard
   } = props;
 
-  // Ensure title and description are provided
-  if (!title || !description) {
-    throw new Error("The 'title' and 'description' fields are required for SEO.");
-  }
+  // Combine companyName and pageName to create the title
+  const combinedTitle = `${companyName}${pageName ? ` - ${pageName}` : ''}`;
 
-  // Limit title and description length
-  const truncatedTitle = title.length > 60 ? `${title.substring(0, 57)}...` : title;
+  // Limit description length
   const truncatedDescription = description.length > 160 ? `${description.substring(0, 157)}...` : description;
-
+console.log(combinedTitle, truncatedDescription)
   return (
     <Head>
-      <title>{truncatedTitle} | {companyName} - {pageName}</title>
+      <title>{combinedTitle}</title>
       <meta name="description" content={truncatedDescription} />
       {keywords && <meta name="keywords" content={keywords} />}
       {author && <meta name="author" content={author} />}

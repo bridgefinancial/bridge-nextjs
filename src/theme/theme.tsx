@@ -1,4 +1,3 @@
-// src/theme/theme.ts
 import { createTheme } from '@mui/material/styles';
 
 export const colors = {
@@ -89,7 +88,18 @@ const theme = createTheme({
       fontWeight: 600,
       color: colors.gray900,
     },
-
+  },
+  components: {
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: colors.bridgeBlack,
+          '&.Mui-checked': {
+            color: colors.bridgeBlack,
+          },
+        },
+      },
+    },
   },
 });
 

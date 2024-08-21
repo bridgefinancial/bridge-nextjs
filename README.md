@@ -14,6 +14,7 @@ Our project’s folder structure is organized as follows:
   - components
 ```
 
+
 ## Middleware Implementation
 
 The `Middleware.ts` file is responsible for checking the authentication token and redirecting the user based on their login status. This implementation is flexible and subject to future enhancements.

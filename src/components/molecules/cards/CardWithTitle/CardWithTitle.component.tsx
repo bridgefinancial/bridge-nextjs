@@ -34,8 +34,8 @@ const CardWithTitle: FC<CardWithTitleProps> = ({ sx = {}, children, titleProps }
     <Box sx={mergedOuterStyles}>
       <Box
         sx={{
-          paddingLeft: 12,
-          paddingRight: 12,
+          paddingLeft: { xs: 2, sm: 12 }, // Smaller padding on xs devices
+          paddingRight: { xs: 2, sm: 12 }, // Smaller padding on xs devices
           paddingTop: 5,
           paddingBottom: 5,
         }}

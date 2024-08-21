@@ -10,7 +10,11 @@ import {
   CardHeader,
 } from '@mui/material';
 import { routePaths } from '@/types/routes.enum';
-import Link from 'next/link'
+import Link from 'next/link';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
 
 const ResetPasswordForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -42,16 +46,14 @@ const ResetPasswordForm: React.FC = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: 400, margin: 'auto', padding: 3 }}>
-      <CardHeader title="Password Reset" />
-      <CardContent>
+    <CardWithTitle titleProps={{ text: "Password Reset" }}>
         {submitted ? (
           <Typography variant="body1" align="center">
             Please check your email for a password reset link.
           </Typography>
         ) : (
           <form onSubmit={handleSubmit}>
-            <TextField
+            <TextInputGroup
               label="Email"
               type="email"
               fullWidth
@@ -62,18 +64,15 @@ const ResetPasswordForm: React.FC = () => {
               helperText={error}
             />
             <Box sx={{ marginTop: 2 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
+              <ContainedButton
+              type="submit"
+              text={"Send Recovery Link"}
                 fullWidth
-              >
-                Send Recovery Link
-              </Button>
-            </Box>
+               />
+               </Box>
           </form>
         )}
-        <Typography
+        <ParagraphText
           variant="body2"
           align="center"
           sx={{ marginTop: 3 }}
@@ -81,9 +80,8 @@ const ResetPasswordForm: React.FC = () => {
           <Link href={routePaths.LOGIN} >
             Back to Login
           </Link>
-        </Typography>
-      </CardContent>
-    </Card>
+        </ParagraphText>
+    </CardWithTitle>
   );
 };
 

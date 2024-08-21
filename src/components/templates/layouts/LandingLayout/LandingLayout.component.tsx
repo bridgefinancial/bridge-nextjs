@@ -31,6 +31,7 @@ const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          padding:1
         }}
       >
         <Container maxWidth="md">{children}</Container>

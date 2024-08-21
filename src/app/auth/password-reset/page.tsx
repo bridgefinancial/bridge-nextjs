@@ -1,10 +1,9 @@
 
 import React from 'react';
 import { Box, Container } from '@mui/material';
-import LoginForm from './LoginForm';
-import PageMetaData from '@/components/atoms/seo/PageMetaData';
+import ResetPasswordForm from './ResetPasswordForm';
 
-const LoginPage: React.FC = () => {
+const PasswordResetPage: React.FC = () => {
   return (
     <>
   
@@ -20,7 +19,7 @@ const LoginPage: React.FC = () => {
         <Box
         
         >
-            <LoginForm />
+            <ResetPasswordForm />
    
         </Box>
       </Container>
@@ -30,4 +29,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default PasswordResetPage;

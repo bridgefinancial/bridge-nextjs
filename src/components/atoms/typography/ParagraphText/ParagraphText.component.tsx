@@ -1,7 +1,6 @@
 import { Typography, TypographyProps } from '@mui/material';
 import { Manrope } from 'next/font/google';
-import React, { FC, useMemo } from 'react';
-import merge from 'lodash.merge'; // You can use lodash's merge utility
+import React, { FC } from 'react';
 import useMergeStyles from '@/hooks/useMergeStyles.hook';
 
 // Load the Manrope Regular font
@@ -16,17 +15,25 @@ interface ParagraphTextProps extends TypographyProps {
 
 const ParagraphText: FC<ParagraphTextProps> = (props: ParagraphTextProps) => {
   const { children, className, sx = {}, ...rest } = props;
-  
-  const mergedStyles = useMergeStyles(   {fontSize: {
-    xs: '14px', // Font size for extra-small screens
-    sm: '16px', // Font size for small screens and up
-    md: '16px', // Font size for medium screens and up
-    lg: '16px', // Font size for large screens and up
-  },
-  '& a': {
-    color: 'black', // Set the color to black
-    textDecoration: 'underline',
-  }}, sx)
+
+  const mergedStyles = useMergeStyles(
+    {
+      fontSize: {
+        xs: '14px', // Font size for extra-small screens (mobile)
+        sm: '16px', // Font size for small screens and up (tablets)
+        md: '16px', // Font size for medium screens and up (desktop)
+        lg: '16px', // Font size for large screens and up
+      },
+      '& a': {
+        color: 'black', // Set the color to black
+        textDecoration: 'underline',
+      },
+      '& p': {
+        fontSize: 'inherit', // Ensure p tags inherit this responsive font size
+      },
+    },
+    sx
+  );
 
   return (
     <Typography

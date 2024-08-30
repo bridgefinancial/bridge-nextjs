@@ -1,14 +1,16 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
   "extends": [
     "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -21,13 +23,22 @@
   "plugins": [
     "@typescript-eslint",
     "react",
-    "react-hooks"
+    "react-hooks",
+    "prettier",
+    "filenames"
   ],
   "rules": {
     "react/display-name": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "@typescript-eslint/no-var-requires": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "react/jsx-pascal-case": ["error", { "allowAllCaps": true }],
+    "react/jsx-boolean-value": ["error", "always"],
+    "react/self-closing-comp": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "overrides": [
     {
@@ -41,11 +52,48 @@
     },
     {
       "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-      "overrideConfig": {
-        "linterOptions": {
-          "reportUnusedDisableDirectives": true
-        }
+      "rules": {
+        "no-unused-vars": "warn",
+        "no-console": "warn",
+        "prefer-const": "error"
+      }
+    },
+    {
+      "files": ["components/**/*.tsx"],
+      "rules": {
+        "filenames/match-regex": ["error", "^[A-Z][a-zA-Z0-9]+\\.component\\.tsx$|^[a-z]+\\.tsx$", true],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          { "selector": "variableLike", "format": ["camelCase"] },
+          { "selector": "function", "format": ["camelCase"] },
+          { "selector": "typeLike", "format": ["PascalCase"] },
+          { "selector": "enumMember", "format": ["UPPER_SNAKE_CASE"] }
+        ]
+      }
+    },
+    {
+      "files": ["components/**/*.styles.tsx", "components/**/*.spec.tsx", "components/**/*.stories.tsx", "components/**/*.component.tsx"],
+      "rules": {
+        "filenames/match-exported": ["error", "PascalCase"]
+      }
+    },
+    {
+      "files": ["components/**/*.tsx"],
+      "excludedFiles": ["components/**/*.styles.tsx", "components/**/*.spec.tsx", "components/**/*.stories.tsx", "components/**/*.component.tsx"],
+      "rules": {
+        "filenames/match-exported": [
+          "error",
+          "PascalCase",
+          {
+            "condition": "^([A-Z][a-zA-Z0-9]*)$"
+          }
+        ]
       }
     }
-  ]
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }

@@ -11,10 +11,10 @@ import {
 } from '@mui/material';
 import { routePaths } from '@/types/routes.enum';
 import Link from 'next/link';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import ParagraphText from '@/components/design-system/atoms/typography/ParagraphText';
+import TextInputGroup from '@/components/design-system/molecules/forms/TextInputGroup';
+import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
+import CardWithTitle from '@/components/design-system/molecules/cards/CardWithTitle';
 
 const ResetPasswordForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');

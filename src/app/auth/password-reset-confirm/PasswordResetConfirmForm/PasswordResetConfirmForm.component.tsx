@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { routePaths } from '@/types/routes.enum';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
-import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
+import ParagraphText from '@/components/design-system/atoms/typography/ParagraphText';
+import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
+import CardWithTitle from '@/components/design-system/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/design-system/molecules/forms/SecureTextInputGroup';
 
 const PasswordResetConfirmForm: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');

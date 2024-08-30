@@ -11,28 +11,20 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/design-system/atoms/typography/ParagraphText';
 import { externalUrls, routePaths } from '@/types/routes.enum';
 import Link from 'next/link'
-import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
-import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import CardWithTitle from '@/components/design-system/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/design-system/molecules/forms/SecureTextInputGroup';
+import TextInputGroup from '@/components/design-system/molecules/forms/TextInputGroup';
 
 interface SignUpFormProps {
   title?: string;
 }
 
 // Define a type for form values
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  businessName: string;
-  industry: string;
-  email: string;
-  password: string;
-  terms: boolean;
-}
+
 
 // Define a type for form errors
 interface FormErrors {
@@ -75,52 +67,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
     });
   };
 
-  const validate = (): FormErrors => {
-    const errors: FormErrors = {
-      firstName: '',
-      lastName: '',
-      businessName: '',
-      industry: '',
-      email: '',
-      password: '',
-      terms: '',
-    };
-
-    if (!formValues.firstName) {
-      errors.firstName = 'First name is required';
-    }
-
-    if (!formValues.lastName) {
-      errors.lastName = 'Last name is required';
-    }
-
-    if (!formValues.businessName) {
-      errors.businessName = 'Business name is required';
-    }
-
-    if (!formValues.industry) {
-      errors.industry = 'Industry is required';
-    }
-
-    if (!formValues.email) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      errors.email = 'Invalid email address';
-    }
-
-    if (!formValues.password) {
-      errors.password = 'Password is required';
-    }
-
-    if (!formValues.terms) {
-      errors.terms = 'You must accept the terms and conditions';
-    }
-
-    setFormErrors(errors);
-
-    return errors;
-  };
-
+ 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     try{
     e.preventDefault();

@@ -1,45 +1,46 @@
 
-
 ## Atomic Design Approach
 
-For this project, we’ve chosen to embrace the **Atomic Design methodology**. This approach, combined with leveraging third-party libraries such as Material UI, Tailwind, and others, allows us to build a scalable and consistent UI. Our goal is to avoid building custom components and styles from scratch when existing libraries and tools can be effectively leveraged. This not only speeds up development but also ensures we’re using well-tested and widely-adopted solutions.
+For this project, we’ve adopted the **Atomic Design methodology** as the foundation for our UI development. This approach, combined with the use of third-party libraries like Material UI and Tailwind, enables us to build a scalable, consistent, and maintainable UI. Our focus is on leveraging existing libraries to avoid reinventing the wheel—this accelerates development and ensures the use of well-tested, widely-adopted solutions.
 
-It’s crucial to understand that **Atomic Design** should not be viewed strictly as a visual design system limited to UI components. Instead, it’s a design pattern that helps structure your codebase. For instance, components like **ErrorBoundary** or containers that manage application state or behavior can also be considered atoms, even though they are not visual elements. They are fundamental building blocks that can be composed into more complex structures.
+It’s important to recognize that **Atomic Design** extends beyond just a visual design system limited to UI components. It’s a design pattern that provides a systematic way to structure your codebase. For example, components like **ErrorBoundary** or containers managing application state can be considered atoms, even though they may not be visual elements. These are fundamental building blocks that can be composed into more complex structures.
 
-For more insight into how Atomic Design can be implemented with React, consider exploring this example.
 For more insight into how Atomic Design can be implemented with React, consider exploring this [example](https://medium.com/@simo-dlamini/a-friendly-guide-to-the-atomic-file-structure-in-react-8bd33e55361c#:~:text=The%20Atomic%20Design%20methodology%20provides%20a%20way%20to,elements%20that%20make%20our%20apps%20consistent%20and%20scalable).
 
 ### Purpose and Structure
 
-This approach focuses on organizing reusable components in a clear, maintainable way, ensuring that any developer—whether new to the project or stepping in after another has left—can easily navigate and contribute to the codebase. While this methodology enhances consistency across the team, it’s important to note that it is not a Design System in itself but rather a method for structuring React components efficiently.
+This approach is centered on organizing reusable components in a clear, maintainable way, ensuring that any developer—whether new to the project or stepping in after another has left—can easily navigate and contribute to the codebase. While this methodology enhances consistency across the team, it’s important to note that it is not a Design System in itself but rather a method for structuring React components efficiently.
 
-Starting your project with Atomic Design makes it easier to eventually create a full-fledged design system if needed. If you want to reuse components across multiple projects, this structure allows you to create a component library, enabling you to import code that already works in production without needing to rewrite large portions of code. This approach also streamlines communication with UI/UX design teams, especially if they follow the same methodology and naming conventions, ensuring that everyone is on the same page.
+Starting your project with Atomic Design simplifies the process of eventually creating a full-fledged design system if needed. If you want to reuse components across multiple projects, this structure allows you to create a component library, enabling you to import code that is already proven in production without needing to rewrite large portions of it. This approach also improves communication with UI/UX design teams, especially if they follow the same methodology and naming conventions, ensuring that everyone is aligned.
 
 ### Example of a Folder Structure
 
 ```plaintext
 src/
 └── components/
-    ├── atoms/
-    │   ├── containers/
-    │   ├── buttons/
-    │   ├── seo/
-
-    │   ├── typography/
-    │   ├── data-display/
-    │   └── forms/
-    ├── molecules/
-    │   ├── forms/
-    │   ├── cards/
-    │   ├── feedback/
-    │   ├── navigation/
-    │   └── overlays/
-    ├── organisms/
-    │   ├── headers/
-    │   ├── footers/
-    │   ├── layouts/
-    │   └── profiles/
-    └── templates/
+    └── design-system/
+        ├── atoms/
+        │   ├── containers/
+        │   ├── buttons/
+        │   ├── typography/
+        │   ├── data-display/
+        │   └── forms/
+        ├── molecules/
+        │   ├── forms/
+        │   ├── cards/
+        │   ├── feedback/
+        │   ├── navigation/
+        │   └── overlays/
+        ├── organisms/
+        │   ├── headers/
+        │   ├── footers/
+        │   └── profiles/
+        └── templates/
+            └── layouts/
+                ├── LandingLayout/
+                │   ├── index.tsx
+                │   └── LandingLayout.component.tsx
+                └── PortalLayout/
 ```
 
 ```plaintext
@@ -54,13 +55,13 @@ atoms/
 
 ### Organization Rationale
 
-The project is organized into four main categories, following the Atomic Design methodology:
+The project is structured into four main categories following the Atomic Design methodology:
 
-1. **Atoms**: The basic building blocks of the UI, such as buttons, typography elements, and form inputs. These are the simplest and smallest components in the system.
+1. **Atoms**: The smallest, most basic building blocks of the UI, such as buttons, typography elements, and form inputs. These components are simple and form the foundation of the design system.
 
     **Example: Button Component**
     ```tsx
-    // src/components/atoms/buttons/PrimaryButton.tsx
+    // src/components/design-system/atoms/buttons/PrimaryButton.tsx
     import React from 'react';
 
     interface PrimaryButtonProps {
@@ -82,11 +83,11 @@ The project is organized into four main categories, following the Atomic Design 
     export default PrimaryButton;
     ```
 
-2. **Molecules**: Combinations of atoms that form more complex components, like form fields or card layouts. These components are functional and reusable across the application.
+2. **Molecules**: More complex components composed of atoms, such as form fields or card layouts. These components are functional and reusable across the application.
 
     **Example: Form Field Component**
     ```tsx
-    // src/components/molecules/forms/FormField.tsx
+    // src/components/design-system/molecules/forms/FormField.tsx
     import React from 'react';
 
     interface FormFieldProps {
@@ -115,11 +116,11 @@ The project is organized into four main categories, following the Atomic Design 
     export default FormField;
     ```
 
-3. **Organisms**: Larger, more complex components composed of molecules and atoms. These components make up significant sections of the UI, such as headers, footers, and layout structures.
+3. **Organisms**: Larger, more complex components composed of molecules and atoms. These components represent significant sections of the UI, such as headers, footers, and layout structures.
 
     **Example: Header Component**
     ```tsx
-    // src/components/organisms/headers/MainHeader.tsx
+    // src/components/design-system/organisms/headers/MainHeader.tsx
     import React from 'react';
     import PrimaryButton from '../../atoms/buttons/PrimaryButton';
     import FormField from '../../molecules/forms/FormField';
@@ -144,21 +145,41 @@ The project is organized into four main categories, following the Atomic Design 
 
 4. **Templates**: High-level components that define the overall structure or layout of a page or section of the application. Templates ensure consistency in layout across different parts of the application by combining organisms, molecules, and atoms.
 
-    **Example: Page Layout**
+    **Example: Landing Layout**
     ```tsx
-    // src/components/templates/MainLayout.tsx
-    import React from 'react';
-    import MainHeader from '../organisms/headers/MainHeader';
+    // src/components/design-system/templates/layouts/LandingLayout/LandingLayout.component.tsx
+    import React, { ReactNode } from "react";
+    import { Container, Box } from "@mui/material";
+    import MainHeader from "@/components/design-system/organisms/headers/MainHeader";
+    import ImageBackground from "@/components/design-system/atoms/containers/ImageBackground";
 
-    const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <div className="flex flex-col min-h-screen">
-        <MainHeader />
-        <main className="flex-grow p-8">{children}</main>
-        <footer className="p-4 bg-gray-800 text-white text-center">© 2024 Bridge Financial</footer>
-      </div>
-    );
+    interface LayoutProps {
+      children: ReactNode;
+      pathForHome?: string;
+    }
 
-    export default MainLayout;
+    const LandingLayout: React.FC<LayoutProps> = ({ children, pathForHome = "/" }) => {
+      return (
+        <ImageBackground src="/assets/images/gradient.png" alt="Bridge Financial Gradient">
+          <Box>
+            <MainHeader pathForHome={pathForHome} />
+            <Box
+              sx={{
+                height: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 1,
+              }}
+            >
+              <Container maxWidth="md">{children}</Container>
+            </Box>
+          </Box>
+        </ImageBackground>
+      );
+    };
+
+    export default LandingLayout;
     ```
 
 ### View-Only Components
@@ -167,9 +188,17 @@ These components should be treated as views that are reusable for displaying dat
 
 They shouldn't contain anything from Next.js when it comes to links or routing. The reason for this is that they should be flexible enough to be used in any React project, without being tied to a specific routing system or using a lot of internal functions. This flexibility also makes it easier to eventually reuse these components in other projects or even in a shared component library.
 
+### Independence of the Design System
+
+It’s important to treat the `design-system` folder as an independent module within the project. This means:
+
+- **No External Imports:** Nothing from outside the `design-system` folder should be imported into it. The components within `design-system` should not rely on external sources from other parts of the project. This ensures that the `design-system` can be maintained as a self-contained module, which can be easily extracted or reused in other projects if necessary.
+
 ### Flexibility
 
-This structure is intended to be scalable and adaptable, supporting the ongoing growth and evolution of the project. As new features are added or old ones are deprecated, this structure is open to change, allowing for adjustments that better meet the needs of the development process.
+This structure is intended to be scalable and adaptable, supporting the ongoing growth and evolution of the project. As
+
+ new features are added or old ones are deprecated, this structure is open to change, allowing for adjustments that better meet the needs of the development process.
 
 Setting up your project with Atomic Design from the beginning not only aids in creating a consistent UI but also lays the groundwork for an eventual design system. If you decide to create a design system later, or if you want to reuse components across different projects, this setup allows for easy extraction of components into a shared library. You can then import code that you already know works in production without having to rewrite large portions of it. Moreover, this approach greatly enhances collaboration with UI/UX design teams, especially if they follow the same methodology and naming conventions, ensuring that design and development are always aligned.
 
@@ -193,9 +222,7 @@ const useUserData = (userId: string) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUserData = async ()
-
- => {
+    const fetchUserData = async () => {
       try {
         const response = await fetch(`/api/users/${userId}`);
         if (!response.ok) throw new Error('Failed to fetch user data');
@@ -220,9 +247,9 @@ export default useUserData;
 **Using the Hook in a Functional Component:**
 
 ```tsx
-// src/components/organisms/profiles/UserProfile.tsx
+// src/components/design-system/organisms/profiles/UserProfile.tsx
 import React from 'react';
-import useUserData from '../../hooks/useUserData';
+import useUserData from '../../../hooks/useUserData';
 import PrimaryButton from '../../atoms/buttons/PrimaryButton';
 
 interface UserProfileProps {
@@ -254,7 +281,7 @@ export default UserProfile;
 Routing logic should be kept out of UI components to ensure they are reusable in different contexts, including non-Next.js projects.
 
 ```tsx
-// src/components/molecules/navigation/NavigationLink.tsx
+// src/components/design-system/molecules/navigation/NavigationLink.tsx
 import React from 'react';
 import { useRouter } from 'next/router';
 import PrimaryButton from '../../atoms/buttons/PrimaryButton';
@@ -284,7 +311,7 @@ export default NavigationLink;
 Including API calls directly within UI components can lead to poor separation of concerns, making the component difficult to test and reuse.
 
 ```tsx
-// src/components/organisms/profiles/UserProfile.tsx
+// src/components/design-system/organisms/profiles/UserProfile.tsx
 import React, { useEffect, useState } from 'react';
 
 interface UserProfileProps {
@@ -332,7 +359,7 @@ export default UserProfile;
 Embedding Next.js-specific routing logic directly in UI components limits their reusability in other React environments and makes them less flexible.
 
 ```tsx
-// src/components/organisms/headers/MainHeader.tsx
+// src/components/design-system/organisms/headers/MainHeader.tsx
 import React from 'react';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
@@ -366,7 +393,7 @@ To avoid restyling a Material UI component repeatedly throughout your applicatio
 Here’s an example of how to create a predefined `PrimaryButton` component using Material UI's `styled` utility.
 
 ```tsx
-// src/components/atoms/buttons/PrimaryButton.tsx
+// src/components/design-system/atoms/buttons/PrimaryButton.tsx
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
@@ -394,7 +421,7 @@ export default PrimaryButton;
 Alternatively, you can use the `sx` prop to apply consistent styles without creating a separate component. However, this approach requires reapplying the same `sx` styles wherever the component is used.
 
 ```tsx
-// src/components/organisms/headers/MainHeader.tsx
+// src/components/design-system/organisms/headers/MainHeader.tsx
 import React from 'react';
 import Button from '@mui/material/Button';
 

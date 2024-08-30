@@ -9,11 +9,16 @@ export function middleware(request: NextRequest) {
   // Check if the user is trying to access an auth-related route
   const isAuthRoute = pathname.startsWith('/auth');
 
-  if (!token && !isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = routePaths.LOGIN
-    url.searchParams.set('navigateTo', encodeURIComponent(pathname));
-    return NextResponse.redirect(url);
+  // Bypass redirection in development mode
+  // We can change this later, but the reason this is here is so we can visit other pages 
+  // while developing the application without hooking up all the API responses to the backend.
+  if (process.env.NODE_ENV !== 'development') {
+    if (!token && !isAuthRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = routePaths.LOGIN;
+      url.searchParams.set('navigateTo', encodeURIComponent(pathname));
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();

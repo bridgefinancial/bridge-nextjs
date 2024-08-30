@@ -9,7 +9,7 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import LandingLayout from "@/components/templates/layouts/LandingLayout/LandingLayout.component";
+import LandingLayout from "@/components/design-system/templates/layouts/LandingLayout/LandingLayout.component";
 interface LayoutProps {
   children: ReactNode;
 }

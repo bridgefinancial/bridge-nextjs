@@ -1,5 +1,5 @@
-import TitleText from "@/components/atoms/typography/TitleText";
-import { TitleTextProps } from "@/components/atoms/typography/TitleText/TitleText.component";
+import TitleText from "@/components/design-system/atoms/typography/TitleText";
+import { TitleTextProps } from "@/components/design-system/atoms/typography/TitleText/TitleText.component";
 import { Box } from "@mui/material";
 import React, { FC, useMemo } from "react";
 import merge from 'lodash.merge'; // Import lodash's merge utility

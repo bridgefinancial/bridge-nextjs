@@ -9,12 +9,13 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import MainHeader from "@/components/organisms/headers/MainHeader";
-import ImageBackground from "@/components/atoms/containers/ImageBackground";
+import MainHeader from "@/components/design-system/organisms/headers/MainHeader";
+import ImageBackground from "@/components/design-system/atoms/containers/ImageBackground";
 
 interface LayoutProps {
   children: ReactNode;
   pathForHome?: string;
+  
 }
 
 const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
@@ -23,7 +24,11 @@ const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
     <ImageBackground src="/assets/images/gradient.png" alt="Bridge Financial Gradient">
 
     <Box>
-      <MainHeader pathForHome={pathForHome} />
+      <MainHeader
+
+      linkProps={{ 
+        href: pathForHome
+       }}/>
 
       <Box
         sx={{

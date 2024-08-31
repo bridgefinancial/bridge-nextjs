@@ -1,8 +1,42 @@
-import React, { useState, useMemo, MouseEvent, ReactNode } from 'react';
-import { Drawer, IconButton, Menu, MenuItem, Avatar } from '@mui/material';
-import Link, { LinkProps } from 'next/link';
-import { usePathname } from 'next/navigation';
-import PersonIcon from '@mui/icons-material/Person';
+import React, { useState, useMemo, useRef, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Menu, MenuItem } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Theme, useTheme } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import GradientBox from "@/components/design-system/atoms/containers/GradientBox";
+import Image, { ImageProps } from "next/image";
+import Link, { LinkProps } from "next/link";
+import TitleText from "@/components/design-system/atoms/typography/TitleText";
+
+interface UserProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+const drawerWidth = 240;
+
+interface Props {
+  window?: () => Window;
+  logoProps?: ImageProps;
+  tabs?: PortalTab[];
+  user?: UserProps;
+  logout?: () => void;
+  children?: React.ReactNode;
+}
 
 interface PortalTab {
   label?: string;
@@ -11,178 +45,322 @@ interface PortalTab {
   linkProps?: LinkProps;
 }
 
-interface PortalProps {
-  LinkComponent?: typeof Link;
-  children?: ReactNode;
-  tabs?: PortalTab[];
-  user?: {
-    first_name: string;
-    email: string;
-    last_name: string;
-  };
-  logout?: () => void;
+interface DrawerListItemProps {
+  text: string;
+  href: string | any;
+  active?: boolean;
+  icon?: string;
 }
 
-export const PortalLayout: React.FC<PortalProps> = (props) => {
-  const {
-    tabs = [],
-    logout,
-    children,
-    user = {
-      first_name: 'Unknown',
-      last_name: 'Name',
-      email: '',
-    },
-    LinkComponent = Link,
-  } = props;
-  const { first_name, last_name, email } = user;
-  const [drawerOpen, setDrawerOpen] = useState(false);
+export const DrawerListItem: React.FC<DrawerListItemProps> = ({
+  text,
+  href,
+  active,
+  icon,
+}) => {
+  const theme: Theme = useTheme();
+
+  return (
+    <ListItem disablePadding>
+      <Link href={href} passHref>
+        <ListItemButton
+          sx={{ backgroundColor: active ? "gray.200" : "inherit" }}
+        >
+          <ListItemIcon>
+            <Box
+              sx={{
+                width: "24px",
+                height: "24px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "4px",
+                color: active
+                  ? theme.palette.text.primary
+                  : theme.palette.text.secondary,
+              }}
+            >
+              <svg width="100%" height="100%">
+                <use href={`/assets/icons/${icon}.svg#${icon}`} />
+              </svg>
+            </Box>
+          </ListItemIcon>
+          <ListItemText
+            primary={text}
+            primaryTypographyProps={{
+              color: active
+                ? theme.palette.text.primary
+                : theme.palette.text.secondary,
+              fontWeight: active ? "bold" : "normal",
+            }}
+          />
+        </ListItemButton>
+      </Link>
+    </ListItem>
+  );
+};
+
+interface BarProps {
+  logoProps: ImageProps;
+  title?: string;
+  handleDrawerToggle?: () => void;
+  logout?: () => void;
+  user?: UserProps;
+}
+
+const MobileBar: React.FC<BarProps> = (props: BarProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { logoProps, handleDrawerToggle } = props;
+  return (
+    <AppBar
+      className={""}
+      position="fixed"
+      sx={{
+        width: isMobile ? "100%" : `calc(100% - ${drawerWidth}px)`,
+        ml: isMobile ? 0 : `${drawerWidth}px`,
+      }}
+    >
+      <Toolbar sx={{ height: 80, padding: 2, justifyContent: "space-between" }}>
+        <div>
+          {isMobile && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+        </div>
+        <div>
+          <Image width={100} height={28.52} {...logoProps} />
+        </div>
+        <div></div>
+      </Toolbar>
+      <GradientBox containerStyle={{ width: "100%", height: 3 }} />
+    </AppBar>
+  );
+};
+const DesktopBar: React.FC<BarProps> = (props: BarProps) => {
+  const theme = useTheme();
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const { title, user, logout } = props;
 
-  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
-
-  const openMenu = (event: MouseEvent<HTMLDivElement>) => {
+  const openMenu = (event: React.MouseEvent<HTMLElement>) => {
     setMenuAnchorEl(event.currentTarget);
   };
 
-  const closeMenu = () => setMenuAnchorEl(null);
-
-  // Memoize the label of the active tab
-  const activeTabLabel = useMemo(() => {
-    const activeTab = tabs.find(tab => tab.active);
-    return activeTab ? activeTab.label : '';
-  }, [tabs]);
-
-  const memoizedTabs = useMemo(
-    () =>
-      tabs.map((tab, index) => {
-        const { href, ...linkProps } = tab.linkProps || {}; // Destructure href and the rest of the props
-
-        if (!href) {
-          return null; // Skip rendering if href is undefined
-        }
-
-        return (
-          <LinkComponent
-            key={index}
-            passHref
-            href={href} // Explicitly pass the href prop
-            className={`group w-full p-4 flex items-center justify-start gap-2 rounded-lg cursor-pointer hover:bg-gray-200 ${
-              tab.active ? 'bg-gray-200' : ''
-            }`}
-            {...linkProps}
-          >
-            <>
-              <div
-                className={`w-6 h-6 flex items-center justify-center p-1 ${
-                  tab.active ? 'text-bridge-black' : 'text-gray-400'
-                }`}
-              >
-                <svg width="100%" height="100%">
-                  <use href={`/assets/icons/${tab.icon}.svg#${tab.icon}`} />
-                </svg>
-              </div>
-              <p
-                className={`text-[16px] ${
-                  tab.active ? 'font-bold text-bridge-black' : 'font-semibold text-gray-400'
-                }`}
-              >
-                {tab.label}
-              </p>
-            </>
-          </LinkComponent>
-        );
-      }),
-    [tabs]
-  );
+  const closeMenu = () => {
+    setMenuAnchorEl(null);
+  };
+  
 
   return (
-    <div className="flex flex-col md:flex-row items-start relative h-screen w-screen">
-      <Drawer open={drawerOpen} onClose={toggleDrawer}>
-        <div className="box-border flex flex-col gap-24 py-5 px-6">
-          <div className="flex flex-col items-start gap-8">
-            <div className="flex items-center justify-between w-full min-w-[300px]">
-              <img className="max-w-[100px]" alt="Bridge Financial logo" src="/assets/images/Bridge-logo.png" />
-              <IconButton onClick={toggleDrawer}>
-                <span className="material-icons">close</span>
-              </IconButton>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-row items-center justify-start gap-5">
-                <Avatar
-                  sx={{ width: 64, height: 64, bgcolor: 'gray.50' }} // 64px is equivalent to 16 in tailwind (w-16, h-16)
-                >
-                  <PersonIcon />
-                </Avatar>
-                <div className="space-y-1">
-                  <p>
-                    <strong>
-                      {first_name} {last_name}
-                    </strong>
-                  </p>
-                  <p>{email}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer" onClick={logout}>
-                <span className="material-icons" color="secondary">
-                  logout
-                </span>
-                <p className="no-underline text-bridge-black">Log out</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col w-full items-stretch justify-start gap-1">{memoizedTabs}</div>
-        </div>
-      </Drawer>
-      <div className="h-screen w-screen flex flex-col md:flex-row items-stretch justify-stretch">
-        <div className="sticky w-screen top-0 md:hidden bg-white">
-          <div className="w-full grid grid-cols-3 p-4">
-            <div>
-              <IconButton onClick={toggleDrawer}>
-                <span className="material-icons">menu</span>
-              </IconButton>
-            </div>
-            <div className="flex items-center justify-center">
-              <Link href="/" passHref>
-                <img className="max-w-[100px]" alt="Bridge Financial logo" src="/assets/images/Bridge-logo.png" />
-              </Link>
-            </div>
-            <div></div>
-          </div>
-          <div className="w-full h-[3px] linear-gradient-orange-purple-blue"></div>
-        </div>
-        <div className="h-full grow-0 hidden md:flex flex-col basis-[250px] box-border py-7 px-5 bg-white border-0 border-r border-solid border-gray-300">
-          <Link href="/" passHref className="mx-auto mb-16">
-            <img className="max-w-[120px]" alt="Bridge logo" src="/assets/images/Bridge-logo.png" />
-          </Link>
-          <div className="flex flex-col w-full items-stretch justify-start gap-1">{memoizedTabs}</div>
-        </div>
-        <div className="grow bg-gray-50 w-full overflow-auto">
-          <div className="w-full max-w-[1200px] px-4 py-8 md:px-10 md:py-6 box-border">
-            <div className="flex items-center justify-between w-full text-bridge-black py-2">
-              <h1>{activeTabLabel}</h1> {/* Display the memoized active tab label here */}
-              <div
-                className="hidden md:flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-200"
-                onClick={openMenu}
-              >
-                <div className="w-16 h-16 rounded-lg bg-white flex items-center justify-center">
-                  <Avatar>{first_name ? first_name[0] : null}</Avatar>
-                </div>
-                <span className="material-icons" color="secondary">
-                  keyboard_arrow_down
-                </span>
-              </div>
-              <Menu anchorEl={menuAnchorEl} open={Boolean(menuAnchorEl)} onClose={closeMenu}>
-                <MenuItem onClick={logout}>Log out</MenuItem>
-              </Menu>
-            </div>
-            <div>
-              {children? children: null}
-            </div>
-          </div>
-        </div>
-      </div>
+    <AppBar
+      elevation={0}
+      position="relative"
+      sx={{
+        zIndex: theme.zIndex.drawer + 1,
+        backgroundColor: "transparent",
+        padding: 0,
+        borderWidth: 1,
+        borderColor: "blue",
+      }}
+    >
+      <Toolbar
+        disableGutters
+        sx={{ height: 80, padding: 0, backgroundColor: "inherit" }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            maxWidth: "1200px",  // maxWidth applied here
+            color: theme.palette.text.primary,
+            paddingY: 2,
+            paddingX: 0,
+            backgroundColor: "inherit",
+            margin: "0 auto",  // Center the bar
+          }}
+        >
+          <TitleText
+            component={"h1"}
+            sx={{
+              fontSize: 32,
+              fontWeight: 600,
+            }}
+            style={{
+              color: "#212121",
+            }}
+          >
+            {title}
+          </TitleText>
+          <Box
+            sx={{
+              backgroundColor: "inherit",
+              display: { md: "flex", xs: "none" },
+              alignItems: "center",
+              gap: 2,
+
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+            onClick={openMenu}
+          >
+            <Box
+              sx={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "inherit",
+                justifyContent: "center",
+              }}
+            >
+              <Avatar>{user?.firstName ? user.firstName[0] : null}</Avatar>
+            </Box>
+          </Box>
+          <Menu
+            anchorEl={menuAnchorEl}
+            open={Boolean(menuAnchorEl)}
+            onClose={closeMenu}
+          >
+            <MenuItem onClick={logout}>Log out</MenuItem>
+          </Menu>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+
+const PortalLayout: React.FC<Props> = ({
+  window,
+  logoProps = {
+    src: "/assets/images/bridge-logo.png",
+    alt: "Bridge Financial Logo",
+  },
+  tabs = [],
+  user,
+  logout,
+  children,
+}) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const desktopBarRef = useRef<HTMLDivElement>(null);
+  const [minHeight, setMinHeight] = useState("100vh");
+
+  const handleDrawerToggle = () => {
+    if (isMobile) {
+      setMobileOpen(!mobileOpen);
+    }
+  };
+
+  useEffect(() => {
+    if (desktopBarRef.current) {
+      const desktopBarHeight = desktopBarRef.current.offsetHeight;
+      setMinHeight(`calc(100vh - ${desktopBarHeight}px)`);
+    }
+  }, []);
+
+  const activeTabLabel = useMemo(() => {
+    const activeTab = tabs.find((tab) => tab.active);
+    return activeTab ? activeTab.label : "";
+  }, [tabs]);
+
+  const drawer = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
+        {tabs.map((tab, index) => (
+          <DrawerListItem
+            key={index}
+            text={tab.label || ""}
+            href={tab.linkProps?.href || ""}
+            active={tab.active}
+            icon={tab.icon}
+          />
+        ))}
+      </List>
     </div>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <div>
+
+      {isMobile ? (
+        <MobileBar
+          handleDrawerToggle={handleDrawerToggle}
+          logoProps={logoProps}
+        />
+      ) : null}
+            </div>
+
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          container={container}
+          variant={isMobile ? "temporary" : "persistent"}
+          open={isMobile ? mobileOpen : true}
+          onClose={isMobile ? handleDrawerToggle : undefined}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "block", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box component="main" sx={{ flexGrow: 1, padding: 4 }}>
+       
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "1200px",
+            boxSizing: "border-box",
+            backgroundColor: "#f9fafb",
+            minHeight: minHeight, // Use the calculated minHeight
+            display: "flex",
+            flexDirection: "column", // Ensures children stack vertically
+          }}
+        >
+           <div ref={desktopBarRef}>
+          <DesktopBar
+            logoProps={logoProps}
+            title={activeTabLabel}
+            user={user}
+            logout={logout}
+          />
+        </div>
+          <Box sx={{ flex: 1 }}>{children ? children : null}</Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

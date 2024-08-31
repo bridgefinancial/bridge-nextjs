@@ -26,20 +26,20 @@ export interface LoginDto {
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  error: string | null;
+  errors: Record<string, string> | null;
   loading: boolean;
 }
 
 type AuthAction =
   | { type: 'SET_USER'; payload: User | null }
-  | { type: 'SET_ERROR'; payload: string }
+  | { type: 'SET_ERRORS'; payload: Record<string, string> | null }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_AUTHENTICATED'; payload: boolean };
 
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
-  error: null,
+  errors: null,
   loading: false,
 };
 
@@ -58,9 +58,9 @@ const AuthContext = createContext<{
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
     case 'SET_USER':
-      return { ...state, user: action.payload, isAuthenticated: !!action.payload, error: null, loading: false };
-    case 'SET_ERROR':
-      return { ...state, error: action.payload, user: null, loading: false };
+      return { ...state, user: action.payload, isAuthenticated: !!action.payload, errors: null, loading: false };
+    case 'SET_ERRORS':
+      return { ...state, errors: action.payload, user: null, loading: false };
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
     case 'SET_AUTHENTICATED':
@@ -70,15 +70,15 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
   }
 }
 
-function validateLogin(dto: LoginDto) {
-  const errors: { email?: string; password?: string } = {};
+function validateLogin(dto: LoginDto): Record<string, string> | null {
+  const errors: Record<string, string> = {};
   if (!dto.email || !/\S+@\S+\.\S+/.test(dto.email)) errors.email = "Invalid email address.";
   if (!dto.password) errors.password = "Password is required.";
-  return Object.keys(errors).length > 0 ? JSON.stringify(errors) : null;
+  return Object.keys(errors).length > 0 ? errors : null;
 }
 
-function validateSignUp(dto: SignUpDto) {
-  const errors: { [key: string]: string } = {};
+function validateSignUp(dto: SignUpDto): Record<string, string> | null {
+  const errors: Record<string, string> = {};
   if (!dto.firstName.trim()) errors.firstName = "First name is required.";
   if (!dto.lastName.trim()) errors.lastName = "Last name is required.";
   if (!dto.businessName.trim()) errors.businessName = "Business name is required.";
@@ -86,7 +86,7 @@ function validateSignUp(dto: SignUpDto) {
   if (!dto.email || !/\S+@\S+\.\S+/.test(dto.email)) errors.email = "Invalid email address.";
   if (!dto.password || dto.password.length < 8) errors.password = "Password must be at least 8 characters long.";
   if (!dto.terms) errors.terms = "You must accept the terms and conditions.";
-  return Object.keys(errors).length > 0 ? JSON.stringify(errors) : null;
+  return Object.keys(errors).length > 0 ? errors : null;
 }
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -94,9 +94,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (dto: LoginDto, callback?: () => void) => {
     dispatch({ type: 'SET_LOADING', payload: true });
-    const error = validateLogin(dto);
-    if (error) {
-      dispatch({ type: 'SET_ERROR', payload: error });
+    const errors = validateLogin(dto);
+    if (errors) {
+      dispatch({ type: 'SET_ERRORS', payload: errors });
       dispatch({ type: 'SET_LOADING', payload: false });
       return;
     }
@@ -104,8 +104,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const simulatedResponse: User = { first_name: "Test", last_name: "User", email: dto.email };
       dispatch({ type: 'SET_USER', payload: simulatedResponse });
       if (callback) callback();
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: 'Login failed' });
+    } catch {
+      dispatch({ type: 'SET_ERRORS', payload: { general: 'Login failed' } });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
@@ -113,9 +113,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const signUp = async (dto: SignUpDto, callback?: () => void) => {
     dispatch({ type: 'SET_LOADING', payload: true });
-    const error = validateSignUp(dto);
-    if (error) {
-      dispatch({ type: 'SET_ERROR', payload: error });
+    const errors = validateSignUp(dto);
+    if (errors) {
+      dispatch({ type: 'SET_ERRORS', payload: errors });
       dispatch({ type: 'SET_LOADING', payload: false });
       return;
     }
@@ -123,8 +123,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const simulatedResponse: User = { first_name: dto.firstName, last_name: dto.lastName, email: dto.email };
       dispatch({ type: 'SET_USER', payload: simulatedResponse });
       if (callback) callback();
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: 'Registration failed' });
+    } catch {
+      dispatch({ type: 'SET_ERRORS', payload: { general: 'Registration failed' } });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
@@ -135,8 +135,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       dispatch({ type: 'SET_USER', payload: null });
       dispatch({ type: 'SET_AUTHENTICATED', payload: false });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: 'Logout failed' });
+    } catch {
+      dispatch({ type: 'SET_ERRORS', payload: { general: 'Logout failed' } });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }

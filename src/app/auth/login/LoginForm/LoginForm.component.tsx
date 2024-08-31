@@ -8,30 +8,17 @@ import CardWithTitle from '@/components/design-system/molecules/cards/CardWithTi
 import SecureTextInputGroup from '@/components/design-system/molecules/forms/SecureTextInputGroup';
 import { routePaths } from '@/types/routes.enum';
 import Link from 'next/link';
-
-// Define types for form values and errors
-interface FormValues {
-  email: string;
-  password: string;
-}
-
-interface FormErrors {
-  email: string;
-  password: string;
-}
+import { LoginDto, useAuth } from '@/providers/Auth.provider';
 
 const LoginForm: React.FC = () => {
-  const [formValues, setFormValues] = useState<FormValues>({
+  const { state: userState, login } = useAuth();
+  const { loading, errors } = userState;
+  
+  const [formValues, setFormValues] = useState<LoginDto>({
     email: '',
     password: '',
   });
 
-  const [formErrors, setFormErrors] = useState<FormErrors>({
-    email: '',
-    password: '',
-  });
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordTextSecure, setIsPasswordTextSecure] = useState<boolean>(true); // State to manage secure text visibility
 
   // Handle change in form fields
@@ -53,39 +40,13 @@ const LoginForm: React.FC = () => {
     event.preventDefault(); // Prevent the button from gaining focus
   };
 
-  // Validate form fields
-  const validate = (): boolean => {
-    let errors: FormErrors = {
-      email: '',
-      password: '',
-    };
-
-    if (!formValues.email) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      errors.email = 'Invalid email address';
-    }
-
-    if (!formValues.password) {
-      errors.password = 'Password is required';
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validate()) {
-      setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        console.log(formValues);
-        setIsLoading(false);
-        // Handle form submission logic here
-      }, 2000);
-    }
+    // e.preventDefault();
+    login(formValues, () => {
+      // callback logic here, 
+      // could be a redirect
+    });
   };
 
   return (
@@ -97,11 +58,11 @@ const LoginForm: React.FC = () => {
           fullWidth
           margin="normal"
           name="email"
-          disabled={isLoading}
+          disabled={loading}
           value={formValues.email}
           onChange={handleChange}
-          error={Boolean(formErrors.email)}
-          helperText={formErrors.email}
+          error={Boolean(errors && errors.email)}
+          helperText={errors?.email}
         />
         <SecureTextInputGroup
           label="Password"
@@ -109,22 +70,22 @@ const LoginForm: React.FC = () => {
           margin={"normal"}
           name="password"
           value={formValues.password}
-          disabled={isLoading}
+          disabled={loading}
           onChange={handleChange}
-          error={Boolean(formErrors.password)}
-          helperText={formErrors.password}
+          error={Boolean(errors && errors.password)}
+          helperText={errors?.password}
           isSecure={isPasswordTextSecure}
           securePressOnChange={handleSecurePressOnChange}
           handleOnMouseDown={handleOnMouseDown}
         />
 
         <ParagraphText variant="body2" align="left" sx={{ mt: 3, mb: 3 }}>
-          <Link  href={routePaths.PASSWORD_RESET} color="primary">
+          <Link href={routePaths.PASSWORD_RESET} color="primary">
             Forgot my password
           </Link>
         </ParagraphText>
 
-        <ContainedButton isLoading={isLoading} fullWidth text={"Login"} />
+        <ContainedButton type={"submit"} isLoading={loading} fullWidth text={"Login"} />
       </form>
 
       <ParagraphText variant="body2" align="center" sx={{ mt: 2 }}>

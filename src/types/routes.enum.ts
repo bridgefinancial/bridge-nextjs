@@ -51,6 +51,15 @@ export enum PortalRoutes  {
 }
 
 /**
+ * Enum defining the questionnaire routes.
+ */
+export enum QuestionnaireRoutes {
+    VALUATION = "/q/valuation",
+    RECOMMENDATION = "/q/recommendations",
+    ONBOARD = "/q/onboard"
+}
+
+/**
  * Object combining all the route paths from BaseRoutes, AuthRoutes, and PortalRoutes.
  * This consolidated object provides a single source of truth for all route paths in the application.
  * 
@@ -60,7 +69,8 @@ export enum PortalRoutes  {
 export const routePaths = {
     ...BaseRoutes,
     ...AuthRoutes,
-    ...PortalRoutes
+    ...PortalRoutes,
+    ...QuestionnaireRoutes,
 };
 
 /**

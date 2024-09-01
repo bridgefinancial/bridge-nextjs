@@ -9,12 +9,13 @@ export function middleware(request: NextRequest) {
   // Check if the user is trying to access an auth-related route
   const isAuthRoute = pathname.startsWith('/auth');
 
-  if (!token && !isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = routePaths.LOGIN
-    url.searchParams.set('navigateTo', encodeURIComponent(pathname));
-    return NextResponse.redirect(url);
-  }
+  // TODO: Must add login functionality before uncommenting this, or else no other routes will work!
+  // if (!token && !isAuthRoute) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = routePaths.LOGIN
+  //   url.searchParams.set('navigateTo', encodeURIComponent(pathname));
+  //   return NextResponse.redirect(url);
+  // }
 
   return NextResponse.next();
 }

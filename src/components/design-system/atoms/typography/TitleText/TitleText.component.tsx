@@ -1,6 +1,7 @@
-import { Typography, TypographyProps } from '@mui/material';
-import { Sora } from 'next/font/google';
 import React, { FC } from 'react';
+import { Typography } from '@mui/material';
+import { Sora } from 'next/font/google';
+import { BaseTypographyProps } from '@/types/base-typography-props.interface';
 
 // Load the Sora Semi Bold font
 const sora = Sora({
@@ -8,11 +9,9 @@ const sora = Sora({
   subsets: ['latin'],
 });
 
-export interface TitleTextProps extends TypographyProps {}
-
-const TitleText: FC<TitleTextProps> = ({ children, className, ...rest }) => {
+const TitleText: FC<BaseTypographyProps> = ({ children, className = '', sx = {}, ...rest }) => {
   return (
-    <Typography className={`${sora.className} ${className}`} {...rest}>
+    <Typography className={`${sora.className} ${className}`} sx={sx} {...rest}>
       {children}
     </Typography>
   );

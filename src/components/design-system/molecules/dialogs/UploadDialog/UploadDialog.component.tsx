@@ -13,8 +13,10 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import BaseDialog from '../BaseDialog';
+import { BaseDialogProps } from '../BaseDialog/BaseDialog.component';
+import { BaseTypographyProps } from '../../../../../types/base-typography-props.interface';
 
-interface UploadDialogProps {
+interface UploadDialogProps  extends Partial<BaseDialogProps>{
   open: boolean;
   onClose: () => void;
   onNewFilesProvided: (files: File[]) => void;
@@ -24,6 +26,10 @@ interface UploadDialogProps {
   submitting?: boolean;
   avatarIcon?: string;
   dropzoneText?: string;
+  titleProps?: {
+    titleText: string,
+    titleStyles: BaseTypographyProps
+  },
   supportedFormatsText?: string;
   completeText?: string;
   cancelText?: string;
@@ -44,6 +50,12 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   completeText = 'Complete',
   cancelText = 'Cancel',
   saveText = 'Save',
+  titleProps = {
+    titleText: "Upload files",
+    titleStyles: {
+      fontWeight: 600
+    }
+  }
 }) => {
   const handleFileDrop = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -57,9 +69,9 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
 
   return (
     <BaseDialog
+    titleProps={titleProps}
       open={open}
       onClose={onClose}
-      title="Upload files"
       actions={
         <Box className="w-full flex items-center justify-center gap-2">
           <Button variant="contained" className="w-full" onClick={onClose} disabled={submitting}>

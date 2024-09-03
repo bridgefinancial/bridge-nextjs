@@ -6,6 +6,11 @@ import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadDialog from '@/components/design-system/molecules/dialogs/UploadDialog';
+import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
+import ListItemWithActions from '@/components/design-system/molecules/lists/ListItemWithActions';
+
+
+
 
 interface Document {
   filename: string;
@@ -75,6 +80,7 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, handleOpenDelete
 
         {/* Actions */}
         <Grid item xs={12} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          
           <IconButton>
             <DownloadIcon />
           </IconButton>
@@ -90,15 +96,17 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, handleOpenDelete
     <Box py={{ xs: 4, lg: 8 }}>
       {/* Upload Button */}
       <Box display="flex" justifyContent="flex-end" mb={4}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleOpenUpload}
-          sx={{ borderRadius: '50px', px: 6 }}
-          startIcon={<UploadIcon color="inherit" />}
-        >
-          Upload
-        </Button>
+        <ContainedButton
+       
+         backgroundColor='#6a5ace'
+         onClick={handleOpenUpload}
+         text='Upload'
+         sx={{ borderRadius: '50px', paddingLeft: 3, paddingRight: 3, fontWeight: 600 }}
+         startIcon={<UploadIcon color="inherit" />}
+        />
+
+       
+        
       </Box>
 
       {/* Document List */}
@@ -115,6 +123,8 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, handleOpenDelete
         {renderedDocuments}
       </Paper>
 
+
+
       {/* Upload Dialog */}
       <UploadDialog
         open={uploadDialogOpen}
@@ -124,12 +134,13 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, handleOpenDelete
         handleRemoveFileAtIndex={handleRemoveFileAtIndex}
         handleSave={handleSave}
         submitting={submitting}
+        
         avatarIcon="/assets/images/pdf-file-icon.png"
         dropzoneText="Drop your files here"
         supportedFormatsText="Supported formats: PDF, DOCX, JPG"
         completeText="Uploaded"
-        cancelText="Abort"
-        saveText="Upload"
+        cancelText="Cancel"
+        saveText="Save"
       />
     </Box>
   );

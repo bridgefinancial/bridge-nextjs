@@ -2,6 +2,7 @@ import { Typography, TypographyProps } from '@mui/material';
 import { Sora } from 'next/font/google';
 import React, { FC, useMemo } from 'react';
 import merge from 'lodash.merge'; // Import lodash's merge utility
+import { BaseTypographyProps } from '@/types/base-typography-props.interface';
 
 // Load the Sora Regular font
 const sora = Sora({
@@ -9,7 +10,7 @@ const sora = Sora({
   subsets: ['latin'],
 });
 
-interface SubTitleTextProps extends TypographyProps {
+interface SubTitleTextProps extends BaseTypographyProps {
   sx?: any; // Define sx as optional
 }
 

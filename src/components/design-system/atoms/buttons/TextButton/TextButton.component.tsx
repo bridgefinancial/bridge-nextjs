@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import merge from 'lodash.merge'; // Import lodash's merge utility
 import { BaseButtonProps } from '@/types/base-button-props.interface';
 
-interface ContainedButtonProps extends BaseButtonProps {
+interface TextButtonProps extends BaseButtonProps {
     fullWidth?: boolean;
     textColor?: string;
     backgroundColor?: string;
@@ -18,11 +18,11 @@ interface ContainedButtonProps extends BaseButtonProps {
     sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
 }
 
-const ContainedButton: FC<ContainedButtonProps> = (props) => {
+const TextButton: FC<TextButtonProps> = (props) => {
     const {
         fullWidth,
-        textColor = 'white',
-        backgroundColor = '#212121',
+        textColor = '#212121',
+        backgroundColor = 'transparent',
         text,
         onClick = () => console.log('onclick inside of contained button'),
         isLoading,
@@ -48,7 +48,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     return (
         <Button
             sx={mergedStyles}
-            variant="contained"
+            variant="text"
             onClick={onClick}
          
             fullWidth={fullWidth}
@@ -62,4 +62,4 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     );
 };
 
-export default ContainedButton;
+export default TextButton;

@@ -131,7 +131,7 @@ export const QuestionnaireProvider = ({
     try {
       // Get the form ID from the environment or a default value
       const apiUrl = `${
-        process.env.REACT_APP_DJANGO_API_BASE_URL ?? "http://localhost:8000"
+        process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
       }/api/submit-form/${form.id}/`;
 
       // Send a POST request to the server with the form data

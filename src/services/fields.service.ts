@@ -55,9 +55,7 @@ export class FieldInformationService {
     | undefined {
     // radio
     if (FieldInformationService.isRadio(field.type)) {
-      let defaultOptions = FieldInformationService.radios.find(
-        (listing) => listing.name === field.type
-      )?.data;
+      let defaultOptions = FieldInformationService.radios[field.type]?.data;
       if (!field.enum) {
         return defaultOptions ? defaultOptions : undefined;
       } else {

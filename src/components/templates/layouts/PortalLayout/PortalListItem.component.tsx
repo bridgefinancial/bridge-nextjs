@@ -54,7 +54,6 @@ const PortalListItem: React.FC<PortalListItemProps> = ({
                 display: "flex",
                 alignItems: "center",
 
-                borderColor: "blue",
                 justifyContent: "center",
               }}
             >

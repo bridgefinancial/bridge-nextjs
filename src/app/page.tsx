@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation"; // Import the useRouter from next/navigation for app router
 import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import LandingLayout from "@/components/layouts/LandingLayout";
+import LandingLayout from "@/components/templates/layouts/LandingLayout";
 import { Box } from "@mui/material";
 import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
 import { useAuth } from "@/providers/Auth.provider";
@@ -18,11 +18,11 @@ export default function Home() {
   const {isAuthenticated} = authState
   useEffect(() => {
     // Redirect to the login page
-    if(isAuthenticated){
-      router.push(routePaths.LOGIN);
-    } else {
-      router.push(routePaths.DOCUMENTS)
-    }
+    // if(isAuthenticated){
+    //   router.push(routePaths.LOGIN);
+    // } else {
+    //   router.push(routePaths.DOCUMENTS)
+    // }
   }, [router]);
 
   return (

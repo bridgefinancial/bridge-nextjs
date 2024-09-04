@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Avatar, Typography, Menu, MenuItem } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Avatar, Menu, MenuItem, IconButton } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import { UserProps } from './PortalLayout.types';
@@ -16,7 +16,7 @@ interface MenuOptionItem extends Partial<TextButtonProps> {
   text?: string;
   onClick?: () => void;
   startIcon?: React.ReactNode;
-  sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
+  sx?: Record<string, any>;
 }
 
 const UserProfileMenu: React.FC<UserProfileMenuProps> = ({ user, isExpanded = false, menuOptions }) => {
@@ -30,50 +30,54 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({ user, isExpanded = fa
     setMenuAnchorEl(null);
   };
 
+  // Close menu on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuAnchorEl && !menuAnchorEl.contains(event.target as Node)) {
+        closeMenu();
+      }
+    };
+
+    if (menuAnchorEl) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuAnchorEl]);
+
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
         gap: 2,
-        width: isExpanded? "initial": 100,
-        height: isExpanded? 'initial': '100%',
+        width: isExpanded ? "initial" : 100,
+        height: isExpanded ? 'initial' : '100%',
         padding: isExpanded ? 2 : 0,
         backgroundColor: isExpanded ? 'white' : 'inherit',
         borderRadius: isExpanded ? '8px' : '0',
-        cursor: isExpanded ? 'default' : 'pointer',
         "&:hover": {
           backgroundColor: isExpanded ? 'inherit' : (theme) => theme.palette.action.hover,
         },
       }}
-      onClick={openMenu}
     >
-
-      
-   
-
       {isExpanded ? (
         <Box>
-   <div style={{ 
-  display: "flex",
-  alignItems: 'center',
-  rowGap: '16px' // Applying row gap of 16px
-}}>
-  <Avatar sx={{ width: isExpanded ? 48 : 32, height: isExpanded ? 48 : 32 }}>
-    <PersonIcon />
-  </Avatar>
-  <div style={{ marginLeft: '16px' }}> {/* Adjusting marginLeft to create space between Avatar and text */}
-    <ParagraphText>
-      <strong>
-        {user.firstName} {user.lastName}
-      </strong>
-    </ParagraphText>
-    <ParagraphText>
-      {user.email ? user.email : "example@gmail.com"}
-    </ParagraphText>
-  </div>
-</div>
-
+          <div style={{ display: "flex", alignItems: 'center', rowGap: '16px' }}>
+            <Avatar sx={{ width: isExpanded ? 48 : 32, height: isExpanded ? 48 : 32 }}>
+              <PersonIcon />
+            </Avatar>
+            <div style={{ marginLeft: '16px' }}>
+              <ParagraphText>
+                <strong>{user.firstName} {user.lastName}</strong>
+              </ParagraphText>
+              <ParagraphText>
+                {user.email ? user.email : "example@gmail.com"}
+              </ParagraphText>
+            </div>
+          </div>
 
           <Box
             sx={{
@@ -84,7 +88,6 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({ user, isExpanded = fa
             }}
           >
             {menuOptions.map((option, index) => (
-           
               <Box
                 key={index}
                 sx={{
@@ -97,35 +100,32 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({ user, isExpanded = fa
                 onClick={option.onClick}
               >
                 {option.startIcon}
-                <ParagraphText  sx={{ fontSize: '16px', fontWeight: 400 }}>
+                <ParagraphText sx={{ fontSize: '16px', fontWeight: 400 }}>
                   {option.text}
                 </ParagraphText>
               </Box>
             ))}
           </Box>
         </Box>
-      ): (
+      ) : (
         <>
-          <Avatar sx={{ width: isExpanded ? 48 : 32, height: isExpanded ? 48 : 32 }}>
-    <PersonIcon />
-  </Avatar>
-          <ArrowDropDown />
+          <IconButton onClick={openMenu} sx={{ display: 'flex', alignItems: 'center', width: 100 }}>
+            <Avatar sx={{ width: isExpanded ? 48 : 32, height: isExpanded ? 48 : 32 }}>
+              <PersonIcon />
+            </Avatar>
+            <ArrowDropDown />
+          </IconButton>
+
           <Menu
             anchorEl={menuAnchorEl}
             open={Boolean(menuAnchorEl)}
             onClose={closeMenu}
           >
             <Box sx={{ padding: 2, width: '250px' }}>
-              <ParagraphText >
-                <strong>
-                {user.firstName} {user.lastName}
-                </strong>
+              <ParagraphText>
+                <strong>{user.firstName} {user.lastName}</strong>
               </ParagraphText>
-              <ParagraphText 
-                sx={{ 
-                  color: "#212529"
-                 }}
-              >
+              <ParagraphText sx={{ color: "#212529" }}>
                 {user.email ? user.email : "example@gmail.com"}
               </ParagraphText>
             </Box>

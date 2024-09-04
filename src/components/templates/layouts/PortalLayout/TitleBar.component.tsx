@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppBar, Toolbar, Box, Avatar, Menu, MenuItem } from "@mui/material";
+import { AppBar, Toolbar, Box, Avatar, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import TitleText from "@/components/atoms/typography/TitleText";
 import { BarProps } from "./PortalLayout.types";
@@ -11,6 +11,7 @@ interface TitleBarProps extends Partial<BarProps> {}
 const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
   const theme = useTheme();
 
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <AppBar
@@ -20,7 +21,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
         backgroundColor: "transparent",
         padding: 0,
         borderWidth: 1,
-        borderColor: "blue",
+        borderColor: "transparent"
       }}
     >
       <Toolbar
@@ -54,7 +55,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
             {title}
           </TitleText>
  
-          
+          {isMobile? null:
             <UserProfileMenu
             user={user as any}
             menuOptions={[
@@ -67,7 +68,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
                     : console.log("no existing logout function"),
               },
             ]}
-            />
+            />}
         </Box>
       </Toolbar>
     </AppBar>

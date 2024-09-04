@@ -44,7 +44,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
   useEffect(() => {
     if (desktopBarRef.current) {
       const desktopBarHeight = desktopBarRef.current.offsetHeight;
-      setLayoutContentHeight(`calc(100vh - ${desktopBarHeight}px)`);
+      setLayoutContentHeight(`calc(100vh)`);
     }
   }, []);
 
@@ -80,6 +80,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
              }}>
 
             <IconButton
+              
               edge="end"
               color="inherit"
               sx={{
@@ -104,7 +105,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
         </div>
       </Toolbar>
     );
-  }, [isMobile, logoProps]);
+  }, [isMobile, logoProps, handleDrawerToggle]);
 
   return (
     <Box

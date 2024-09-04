@@ -28,7 +28,7 @@ export interface HeaderProps {
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ height: '100%', maxWidth: 928, alignItems: 'center',borderWidth: 1, borderColor: 'blue'  }}>
+        <Toolbar disableGutters sx={{ height: '100%', maxWidth: 928, alignItems: 'center',borderWidth: 1, borderColor: 'transparent' }}>
           <div style={{ display: 'flex', alignItems: 'center', width: '100%', height: '100%' }}>
             <LinkComponent href={linkProps.href}>
             <Image

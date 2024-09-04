@@ -409,7 +409,7 @@ export const RECOMMENDATION_FORM_DEFINITION: FormidableForm = {
             name: "blog_address",
 
             type: "url",
-            label: "What is your blog web address",
+            label: "What is your blog web address?",
             order: 3,
             hidden: false,
             add_more: false,

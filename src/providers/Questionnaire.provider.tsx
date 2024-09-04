@@ -16,6 +16,7 @@ import {
   useState,
 } from "react";
 import { useErrors } from "./Errors.provider";
+import { FieldInformationService } from "@/services/fields.service";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -188,20 +189,36 @@ export const QuestionnaireProvider = ({
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
       if (!validityState?.valid) {
-        let message = "Please fix any errors";
+        let message = "Please fix errors";
         // Check each type of validity error
         if (validityState?.valueMissing) {
-          message = "Input is required.";
+          message = "This field is required";
         } else if (validityState?.typeMismatch) {
-          message = "Input type is incorrect.";
+          message = "Input type is incorrect";
         } else if (validityState?.patternMismatch) {
           message =
             field.pattern?.message ??
             "Input does not match the required pattern";
+        } else if (validityState?.rangeOverflow) {
+          message = `Value must be below ${field.max}`;
+        } else if (validityState?.rangeUnderflow) {
+          message = `Value must be above ${field.min}`;
+        } else if (validityState?.tooLong) {
+          message = `Too many characters (max ${field.max_length})`;
+        } else if (validityState?.tooShort) {
+          message = `Not enough characters (min ${field.min_length})`;
+        } else if (validityState?.stepMismatch) {
+          message = `Not a valid step value`;
         }
+
+        console.log(message);
 
         setFieldErrorsByName((prev) => {
           return { ...prev, [field.name]: message };
+        });
+      } else {
+        setFieldErrorsByName((prev) => {
+          return { ...prev, [field.name]: "" };
         });
       }
       return !!validityState?.valid;
@@ -209,7 +226,9 @@ export const QuestionnaireProvider = ({
   };
 
   const handleCheckPageValidity = () => {
-    return !!page?.fields.every((field) => handleCheckFieldValidity(field));
+    return !!page?.fields
+      .map((field) => handleCheckFieldValidity(field))
+      .every(Boolean);
   };
 
   // DOM

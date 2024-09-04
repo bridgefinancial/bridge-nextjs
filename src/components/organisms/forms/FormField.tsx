@@ -1,12 +1,13 @@
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import { FieldInformationService } from "@/services/fields.service";
-import { FormField as FieldType } from "@/types/forms.types";
+import { FormField as Field } from "@/types/forms.types";
+import { TextField } from "@mui/material";
 import clsx from "clsx";
 import React, { forwardRef } from "react";
 
 type FormFieldProps = {
-  formField: FieldType;
+  formField: Field;
   defaultValue: any;
   error?: string;
 };
@@ -18,15 +19,23 @@ const FormField = forwardRef(
   ) => {
     // CALCULATED
     const defaultPlaceholder = "";
+    const { fieldRefsByName } = useQuestionnaire();
 
     // DOM
     return (
-      <div className={clsx("fmd-form-field", { hidden: formField.hidden })}>
+      <div
+        className={clsx("fmd-form-field flex flex-col", {
+          hidden: formField.hidden,
+        })}
+      >
         {/* Label and Hint */}
         {formField.type !== "hidden" &&
           formField.label &&
           formField.label.length > 0 && (
-            <label htmlFor={formField.name} className="fmd-label">
+            <label
+              htmlFor={formField.name}
+              className={clsx("fmd-label text-lg")}
+            >
               {formField.label}
               {formField.hint && (
                 <span title={formField.hint} className="fmd-icon fmd-hint">
@@ -42,8 +51,15 @@ const FormField = forwardRef(
         )}
 
         {FieldInformationService.isShortText(formField.type) && (
-          <input
-            ref={ref}
+          <TextField
+            fullWidth={false}
+            inputRef={ref}
+            inputProps={{
+              min: formField.min,
+              minLength: formField.min_length,
+              max: formField.max,
+              maxLength: formField.max_length,
+            }}
             required={formField.required}
             id={formField.name}
             name={formField.name}
@@ -54,8 +70,15 @@ const FormField = forwardRef(
         )}
 
         {FieldInformationService.isNumber(formField.type) && (
-          <input
-            ref={ref}
+          <TextField
+            fullWidth={false}
+            inputRef={ref}
+            inputProps={{
+              min: formField.min,
+              minLength: formField.min_length,
+              max: formField.max,
+              maxLength: formField.max_length,
+            }}
             required={formField.required}
             id={formField.name}
             name={formField.name}
@@ -128,14 +151,20 @@ const FormField = forwardRef(
       )} */}
 
         {FieldInformationService.isLongText(formField.type) && (
-          <textarea
+          <TextField
+            component="textarea"
             id={formField.name}
+            inputProps={{
+              min: formField.min,
+              minLength: formField.min_length,
+              max: formField.max,
+              maxLength: formField.max_length,
+            }}
             name={formField.name}
             placeholder={formField.placeholder || defaultPlaceholder}
             className="fmd-input"
-            cols={80}
             rows={4}
-          ></textarea>
+          ></TextField>
         )}
 
         {FieldInformationService.isDropdown(formField.type) && (
@@ -192,6 +221,7 @@ const FormField = forwardRef(
                       value={option.value}
                       type="checkbox"
                       onChange={() => {}}
+                      className="opacity-0 absolute pointer-events-none"
                     />
                     <span className="fmd-checkmark"></span>
                   </label>
@@ -202,8 +232,11 @@ const FormField = forwardRef(
         )}
 
         {FieldInformationService.isRadio(formField.type) && (
-          <div className="fmd-radio">
-            {formField.enum?.map((option, index) => (
+          <div className="fmd-radio-parent flex flex-col gap-3">
+            {(
+              FieldInformationService.radios[formField.type]?.data ??
+              formField.enum
+            )?.map((option, index) => (
               <div key={index} className="fmd-radio">
                 <label className="fmd-radio-label">
                   {option.label}
@@ -215,6 +248,7 @@ const FormField = forwardRef(
                     value={option.value}
                     type="radio"
                     onChange={() => {}}
+                    className="opacity-0 absolute pointer-events-none"
                   />
                   <span className="fmd-radio-circle"></span>
                 </label>
@@ -278,7 +312,11 @@ const FormField = forwardRef(
                   {formField.enum?.map((option, index) => (
                     <td key={index} className="fmd-likert-option">
                       <input
-                        ref={ref}
+                        ref={(el: HTMLInputElement) => {
+                          if (fieldRefsByName) {
+                            fieldRefsByName.current[field.name] = el;
+                          }
+                        }}
                         required={formField.required}
                         id={field.name}
                         name={field.name}

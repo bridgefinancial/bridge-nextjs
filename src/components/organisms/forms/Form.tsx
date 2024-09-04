@@ -1,6 +1,5 @@
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import { FormidableForm, Page } from "@/types/forms.types";
-import React, { FormEventHandler, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import FormPage from "./FormPage";
 import FormAction, { FormActionConfig } from "./FormAction";
 import clsx from "clsx";
@@ -34,7 +33,7 @@ const Form = forwardRef(
         {form.definition.pages.map((page, index) => (
           <div
             key={page.name}
-            className={clsx({ hidden: index !== pageIndex })}
+            className={clsx("px-6 pb-32", { hidden: index !== pageIndex })}
           >
             <FormPage
               pageIndex={index}
@@ -44,7 +43,7 @@ const Form = forwardRef(
           </div>
         ))}
 
-        <div className="fmd-form-actions">
+        <div className="fmd-form-actions flex items-center justify-end gap-4">
           {/* Previous */}
           <FormAction {...previousButtonConfig} />
 

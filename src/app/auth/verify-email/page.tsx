@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Container } from '@mui/material';
-import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
-import CardWithTitle from '@/components/design-system/molecules/cards/CardWithTitle';
-import ParagraphText from '@/components/design-system/atoms/typography/ParagraphText';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import Link from 'next/link';
 import { routePaths } from '@/types/routes.enum';
 

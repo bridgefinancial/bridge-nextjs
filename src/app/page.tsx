@@ -1,10 +1,10 @@
 "use client"
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation"; // Import the useRouter from next/navigation for app router
-import LoadingSpinner from "@/components/design-system/atoms/loaders/LoadingSpinner";
-import LandingLayout from "@/components/design-system/templates/layouts/LandingLayout";
+import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
+import LandingLayout from "@/components/layouts/LandingLayout";
 import { Box } from "@mui/material";
-import CardWithTitle from "@/components/design-system/molecules/cards/CardWithTitle";
+import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
 import { useAuth } from "@/providers/Auth.provider";
 import { routePaths } from "@/types/routes.enum";
 

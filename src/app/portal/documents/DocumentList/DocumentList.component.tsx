@@ -5,9 +5,9 @@ import { Box, Button, IconButton, Paper, Typography, Grid, Avatar } from '@mui/m
 import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
-import UploadDialog from '@/components/design-system/molecules/dialogs/UploadDialog';
-import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
-import ListItemWithActions from '@/components/design-system/molecules/lists/ListItemWithActions';
+import UploadDialog from '@/components/molecules/dialogs/UploadDialog';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ListItemWithActions from '@/components/molecules/lists/ListItemWithActions';
 
 
 

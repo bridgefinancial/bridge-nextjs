@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
-import ContainedButton from '@/components/design-system/atoms/buttons/ContainedButton';
-import TextInputGroup from '@/components/design-system/molecules/forms/TextInputGroup';
-import ParagraphText from '@/components/design-system/atoms/typography/ParagraphText';
-import CardWithTitle from '@/components/design-system/molecules/cards/CardWithTitle';
-import SecureTextInputGroup from '@/components/design-system/molecules/forms/SecureTextInputGroup';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
 import { routePaths } from '@/types/routes.enum';
 import Link from 'next/link';
 import { LoginDto, useAuth } from '@/providers/Auth.provider';

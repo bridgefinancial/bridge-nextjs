@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   useMemo,
 } from "react";
-import ToastNotification from "@/components/design-system/molecules/feedback/ToastNotification";
+import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 import { isEmpty } from "lodash";
 
 /**

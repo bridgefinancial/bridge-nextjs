@@ -11,7 +11,7 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import PortalLayout from "@/components/design-system/templates/layouts/PortalLayout";
+import PortalLayout from "@/components/layouts/PortalLayout";
 import { routePaths } from "@/types/routes.enum";
 import { useAuth } from "@/providers/Auth.provider";
 import { usePathname } from "next/navigation"; // Import the usePathname hook

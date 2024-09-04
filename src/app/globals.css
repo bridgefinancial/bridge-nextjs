@@ -109,3 +109,235 @@ a {
     color-scheme: dark;
   }
 }
+
+/* FORMIDABLE STYLES */
+
+select.fmd-input,
+.fmd-input:has(datalist) {
+  max-width: 400px;
+  padding-right: 2rem;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.18179 6.18181C4.35753 6.00608 4.64245 6.00608 4.81819 6.18181L7.49999 8.86362L10.1818 6.18181C10.3575 6.00608 10.6424 6.00608 10.8182 6.18181C10.9939 6.35755 10.9939 6.64247 10.8182 6.81821L7.81819 9.81821C7.73379 9.9026 7.61934 9.95001 7.49999 9.95001C7.38064 9.95001 7.26618 9.9026 7.18179 9.81821L4.18179 6.81821C4.00605 6.64247 4.00605 6.35755 4.18179 6.18181Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 20px;
+}
+
+.submitting-form {
+  .fmd-button {
+    opacity: 0.5;
+    pointer-events: none !important;
+  }
+}
+
+.fmd-form > *:not(:last-child) {
+  display: block;
+
+  & > * {
+    width: 100%;
+  }
+
+  @media screen and (min-width: 100px) {
+    padding: 0px 24px;
+  }
+  @media screen and (min-width: 1200px) {
+    padding: 0px 60px;
+  }
+}
+
+.fmd-form > :nth-last-child(2) {
+  padding-bottom: 128px;
+}
+
+.fmd-complex:not(:has(.fmd-duplicate)) {
+  @media screen and (min-width: 600px) {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: start;
+    justify-content: start;
+
+    *:not(:empty) {
+      flex: 1;
+    }
+  }
+
+  width: 100%;
+}
+
+.fmd-form {
+  margin: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  .fmd-form-field:has(label):not(:has(.fmd-form-field)) {
+    margin-top: 3rem;
+
+    div:has(> .fmd-radio) {
+      display: flex;
+    }
+  }
+}
+
+.fmd-label {
+  gap: 4px;
+  margin: 0 0 0.75rem;
+}
+
+.fmd-checkbox,
+.fmd-radio {
+  position: relative;
+  cursor: pointer;
+  margin-right: 12px;
+  border: solid gray 1px;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  max-width: max-content;
+  padding: 0;
+}
+
+.fmd-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fmd-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fmd-checkbox-label,
+.fmd-radio-label {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  margin: 0px !important;
+  span {
+    display: none;
+  }
+}
+
+.fmd-checkbox:has(:checked),
+.fmd-radio:has(:checked),
+.fmd-radio:hover {
+  border: solid #6a5ace 1px; /* Change this to the highlight color you prefer */
+  color: #6a5ace;
+}
+
+.fmd-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px; /* Adjust this value according to your design */
+  width: 20px; /* Adjust this value according to your design */
+  background-color: transparent;
+  border: 2px solid #000; /* Adjust border properties */
+}
+
+label[for="complex"] {
+  font-size: 20px;
+}
+
+.fmd-complex .fmd-form-field .fmd-label {
+  font-size: 16px !important;
+}
+
+.fmd-form-field:has(.fmd-likert) {
+  overflow-x: auto;
+}
+
+.fmd-form-actions {
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: content-box;
+  padding: 24px 64px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.fmd-checkbox div .fmd-option-textbox,
+.fmd-radio div .fmd-option-textbox {
+  display: none;
+}
+
+.fmd-likert {
+  margin: 0;
+  table-layout: fixed;
+  overflow-x: auto;
+  min-width: 800px;
+
+  table:first-child {
+    position: sticky;
+    top: 0;
+  }
+
+  td:first-child {
+    width: 100%;
+    max-width: 40%;
+  }
+
+  td:not(:first-child) {
+    width: fit-content;
+    min-width: min-content;
+    white-space: wrap;
+  }
+
+  thead {
+    background-color: white;
+
+    tr {
+      border-bottom: 1px solid #f1f3f5;
+
+      td {
+        padding: 1rem 0;
+        font-weight: 600;
+      }
+    }
+  }
+  tbody {
+    background-color: white;
+
+    tr {
+      border-bottom: none;
+
+      td:first-child {
+        padding: 1.5rem;
+        font-weight: normal;
+      }
+      &:nth-child(2n) {
+        background-color: rgba(#f1f3f5, 0.7);
+      }
+      .fmd-likert-label {
+        text-align: left;
+      }
+    }
+  }
+
+  .fmd-likert-label {
+    font-size: 14px;
+  }
+
+  input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+}
+
+.fmd-error {
+  color: #fa5252;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}

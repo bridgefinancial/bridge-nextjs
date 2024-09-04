@@ -16,21 +16,23 @@ const FormPage = ({ page, defaultValues }: PageProps) => {
       <h1>{page.header}</h1>
 
       {/* Form inputs */}
-      {page.fields.map((formField, index) =>
-        !formField.hidden ? (
-          <FormField
-            key={index}
-            ref={(el: HTMLInputElement) => {
-              if (fieldRefsByName) {
-                fieldRefsByName.current[formField.name] = el;
-              }
-            }}
-            formField={formField}
-            defaultValue={defaultValues?.[page.name]?.[formField.name]}
-            error={fieldErrorsByName[formField.name]}
-          />
-        ) : null
-      )}
+      <div className="flex flex-col gap-8 py-8">
+        {page.fields.map((formField, index) =>
+          !formField.hidden ? (
+            <FormField
+              key={index}
+              ref={(el: HTMLInputElement) => {
+                if (fieldRefsByName) {
+                  fieldRefsByName.current[formField.name] = el;
+                }
+              }}
+              formField={formField}
+              defaultValue={defaultValues?.[page.name]?.[formField.name]}
+              error={fieldErrorsByName[formField.name]}
+            />
+          ) : null
+        )}
+      </div>
     </>
   );
 };

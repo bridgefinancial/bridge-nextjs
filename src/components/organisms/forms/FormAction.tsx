@@ -29,6 +29,7 @@ const FormAction = ({
       isLoading={isLoading}
       type={type ?? "button"}
       text={text}
+      backgroundColor="#6a5ace"
     />
   );
 };

@@ -187,22 +187,25 @@ export class FieldInformationService {
       },
     ];
 
-  static radios: { name: string; data: { value: any; label: string }[] }[] = [
-    {
+  static radios: Record<
+    string,
+    { name: string; data: { value: any; label: string }[] }
+  > = {
+    [FieldType.TrueFalse]: {
       name: "true_false",
       data: [
         { value: true, label: "True" },
         { value: false, label: "False" },
       ],
     },
-    {
+    [FieldType.YesNo]: {
       name: "yes_no",
       data: [
         { value: "yes", label: "Yes" },
         { value: "no", label: "No" },
       ],
     },
-  ];
+  };
 
   static complexData: { name: string; data: FormField[] }[] = [
     {

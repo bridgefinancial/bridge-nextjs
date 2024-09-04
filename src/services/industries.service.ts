@@ -1,0 +1,19 @@
+export const fetchIndustries = async () => {
+  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
+  const url = new URL(`${baseUrl}/api/industries/`);
+  url.searchParams.append("page_size", "1000");
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+};

@@ -39,6 +39,6 @@ const ParagraphText: FC<BaseTypographyProps> = ({ children, className = '', sx =
       {children}
     </Typography>
   );
-}
+};
 
 export default ParagraphText;

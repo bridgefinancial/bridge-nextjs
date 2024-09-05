@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
-import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
-import TitleText from '@/components/atoms/typography/TitleText';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
-import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
-import { routePaths } from '@/types/routes.enum';
-import Link from 'next/link';
+import React, { useState, ChangeEvent, FormEvent, MouseEvent } from "react";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
+import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
+import { routePaths } from "@/types/routes.enum";
+import Link from "next/link";
+import { useLoginUser } from "@/services/users.service";
 
 // Define types for form values and errors
 interface FormValues {
@@ -18,23 +17,27 @@ interface FormValues {
 }
 
 interface FormErrors {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 }
 
 const LoginForm: React.FC = () => {
+  // STATE
   const [formValues, setFormValues] = useState<FormValues>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isPasswordTextSecure, setIsPasswordTextSecure] = useState<boolean>(true); // State to manage secure text visibility
+  const [isPasswordTextSecure, setIsPasswordTextSecure] =
+    useState<boolean>(true); // State to manage secure text visibility
+
+  // MUTATIONS
+  const { mutateAsync: loginUser, isPending } = useLoginUser();
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,19 +60,16 @@ const LoginForm: React.FC = () => {
 
   // Validate form fields
   const validate = (): boolean => {
-    let errors: FormErrors = {
-      email: '',
-      password: '',
-    };
+    let errors: FormErrors = {};
 
     if (!formValues.email) {
-      errors.email = 'Email is required';
+      errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      errors.email = 'Invalid email address';
+      errors.email = "Invalid email address";
     }
 
     if (!formValues.password) {
-      errors.password = 'Password is required';
+      errors.password = "Password is required";
     }
 
     setFormErrors(errors);
@@ -80,13 +80,14 @@ const LoginForm: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
-      setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        console.log(formValues);
-        setIsLoading(false);
-        // Handle form submission logic here
-      }, 2000);
+      const formElement = e.target as HTMLFormElement;
+
+      // Create a FormData object from the form element
+      const formData = new FormData(formElement);
+      loginUser({
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+      });
     }
   };
 
@@ -99,7 +100,7 @@ const LoginForm: React.FC = () => {
           fullWidth
           margin="normal"
           name="email"
-          disabled={isLoading}
+          disabled={isPending}
           value={formValues.email}
           onChange={handleChange}
           error={Boolean(formErrors.email)}
@@ -111,7 +112,7 @@ const LoginForm: React.FC = () => {
           margin={"normal"}
           name="password"
           value={formValues.password}
-          disabled={isLoading}
+          disabled={isPending}
           onChange={handleChange}
           error={Boolean(formErrors.password)}
           helperText={formErrors.password}
@@ -121,16 +122,21 @@ const LoginForm: React.FC = () => {
         />
 
         <ParagraphText variant="body2" align="left" sx={{ mt: 3, mb: 3 }}>
-          <Link  href={routePaths.PASSWORD_RESET} color="primary">
+          <Link href={routePaths.PASSWORD_RESET} color="primary">
             Forgot my password
           </Link>
         </ParagraphText>
 
-        <ContainedButton isLoading={isLoading} fullWidth text={"Login"} />
+        <ContainedButton
+          isLoading={isPending}
+          fullWidth
+          text={"Login"}
+          type="submit"
+        />
       </form>
 
       <ParagraphText variant="body2" align="center" sx={{ mt: 2 }}>
-        Don't have an account?{' '}
+        Don't have an account?{" "}
         <Link href={routePaths.SIGN_UP} color="primary">
           Sign Up
         </Link>

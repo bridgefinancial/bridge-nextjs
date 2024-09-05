@@ -1,22 +1,19 @@
 "use client";
 
-import {
-  FormField,
-  FormidableForm,
-  FormSubmission,
-  Page,
-} from "@/types/forms.types";
+import { FormField, FormidableForm, Page } from "@/types/forms.types";
 import {
   createContext,
   MutableRefObject,
   ReactNode,
   useContext,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import { useErrors } from "./Errors.provider";
-import { FieldInformationService } from "@/services/fields.service";
+import {
+  useFormSubmission,
+  useSubmitForm,
+} from "@/services/form-submissions.service";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -25,8 +22,9 @@ export const QuestionnaireContext = createContext<{
   pageIndex: number;
   formIndex: number;
   formsCount: number;
-  defaultValues?: Object;
+  defaultValues?: Record<string, any>;
   isSubmitting: boolean;
+  isLoading: boolean;
   fieldRefsByName?: MutableRefObject<Record<string, HTMLInputElement | null>>;
   fieldErrorsByName: Record<string, string>;
   goTo: ({
@@ -46,6 +44,7 @@ export const QuestionnaireContext = createContext<{
   formsCount: 0,
   defaultValues: undefined,
   isSubmitting: false,
+  isLoading: true,
   fieldRefsByName: undefined,
   fieldErrorsByName: {},
   goTo: () => {},
@@ -65,12 +64,9 @@ export const QuestionnaireProvider = ({
   children,
   forms,
 }: QuestionnaireProviderProps) => {
-  // TODO: Fetch defaultValues
-  // TODO: Add authentication
   // STATE
   const [formIndex, setFormIndex] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [completionPercent, setCompletionPercent] = useState(0);
   const [fieldErrorsByName, setFieldErrorsByName] = useState<
     Record<string, string>
@@ -82,7 +78,11 @@ export const QuestionnaireProvider = ({
 
   // HOOKS
   const fieldRefsByName = useRef<Record<string, HTMLInputElement | null>>({});
-  const { setToastOpen, setErrorsFunc, state } = useErrors();
+  const { setErrorsFunc } = useErrors();
+  const { data: formSubmission, isLoading } = useFormSubmission({
+    formId: form.id,
+  });
+  const { mutateAsync: submitForm, isPending: isSubmitting } = useSubmitForm();
 
   // HANDLERS
   const handleComplete = (data: any) => {
@@ -112,7 +112,6 @@ export const QuestionnaireProvider = ({
     if (!form || !handleCheckPageValidity()) {
       return;
     }
-    setIsSubmitting(true);
     // Prevent the default form submission behavior
     event.preventDefault();
 
@@ -128,54 +127,31 @@ export const QuestionnaireProvider = ({
       formDataObject[key] = value;
     });
 
-    try {
-      // Get the form ID from the environment or a default value
-      const apiUrl = `${
-        process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-      }/api/submit-form/${form.id}/`;
-
-      // Send a POST request to the server with the form data
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Assuming the server expects JSON
-          Accept: "application/json",
+    submitForm(
+      {
+        formId: form.id,
+        formData: { data: formDataObject },
+      },
+      {
+        onSuccess: (responseData) => {
+          if (formIndex === forms.length - 1) {
+            handleComplete(responseData);
+          } else {
+            goTo({ pageIndex: 0, formIndex: formIndex + 1 });
+          }
         },
-        body: JSON.stringify(formDataObject),
-      });
-
-      if (!response.ok) {
-        // Handle HTTP errors
-        const errorText = await response.text();
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
-        );
+        onError: (error) => {
+          setErrorsFunc(
+            { Error: `Something went wrong: ${error}` },
+            undefined,
+            true
+          );
+          setTimeout(() => {
+            setErrorsFunc({});
+          }, 5000);
+        },
       }
-
-      // Handle success
-      const responseData = await response.json();
-      if (formIndex === forms.length - 1) {
-        handleComplete(responseData);
-      } else {
-        goTo({ pageIndex: 0, formIndex: formIndex + 1 });
-      }
-
-      // You can redirect or show a success message here
-      // For example: window.location.href = '/success-page';
-    } catch (error) {
-      // Handle errors
-      console.log("error");
-      setErrorsFunc(
-        { Error: `Something went wrong: ${error}` },
-        undefined,
-        true
-      );
-      setTimeout(() => {
-        setErrorsFunc({});
-      }, 5000);
-    } finally {
-      setIsSubmitting(false);
-    }
+    );
   };
 
   const handleCheckFieldValidity: (field: FormField) => boolean = (
@@ -231,6 +207,7 @@ export const QuestionnaireProvider = ({
       .every(Boolean);
   };
 
+  console.log(flattenObject(formSubmission?.json_blob));
   // DOM
 
   return (
@@ -244,6 +221,8 @@ export const QuestionnaireProvider = ({
         isSubmitting,
         fieldRefsByName,
         fieldErrorsByName,
+        defaultValues: flattenObject(formSubmission?.json_blob),
+        isLoading,
         goTo,
         submit: handleSubmit,
         checkPageValidity: handleCheckPageValidity,
@@ -264,3 +243,22 @@ export const useQuestionnaire = () => {
   }
   return context;
 };
+
+function flattenObject(obj: any, result: any = {}): any {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (
+        typeof obj[key] === "object" &&
+        obj[key] !== null &&
+        !Array.isArray(obj[key])
+      ) {
+        // Recursively call flattenObject for nested objects
+        flattenObject(obj[key], result);
+      } else {
+        // If it's a primitive value or an array, add the leaf key-value to the result
+        result[key] = obj[key];
+      }
+    }
+  }
+  return result;
+}

@@ -23,10 +23,9 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     textColor = "white",
     backgroundColor = "#212121",
     text,
-    onClick = () => console.log("onclick inside of contained button"),
+    onClick,
     isLoading,
     disabled,
-    type = "button",
     sx = {},
     ...rest
   } = props;
@@ -59,7 +58,6 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       disableElevation
       disabled={isLoading || disabled}
       {...rest}
-      type={type}
     >
       {isLoading ? <CircularProgress size={20} /> : text}
     </Button>

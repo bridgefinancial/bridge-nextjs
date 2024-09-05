@@ -4,8 +4,8 @@ import Portal from './PortalLayout.component';
 describe('Portal Component', () => {
   test('renders the logo', () => {
     const { getByAltText } = render(<Portal tabs={[]} user={{ 
-      first_name: "Landon",
-      last_name: "Johnson",
+      firstName: "Landon",
+      lastName: "Johnson",
       email: "myemail@gmail.com"
      }} logout={() => {}} />);
     const logoElement = getByAltText(/Bridge Financial logo/i);

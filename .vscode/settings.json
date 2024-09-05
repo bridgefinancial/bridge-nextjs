@@ -1,6 +1,6 @@
 {
     "cSpell.words": [
-        "formik"
-    ],
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "formik",
+        "testid"
+    ]
 }

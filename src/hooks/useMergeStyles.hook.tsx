@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { CSSProperties, useMemo } from 'react';
 import merge from 'lodash.merge';
 
 // Define types for style objects
 type StyleObject = {
-  [key: string]: string | number | StyleObject | undefined;
+  [key: string]: string | number | StyleObject | undefined | CSSProperties
 };
 
 /**

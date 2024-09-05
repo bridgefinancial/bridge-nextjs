@@ -1,5 +1,3 @@
-"use client";
-
 import React, {
   createContext,
   useContext,
@@ -34,6 +32,9 @@ type ErrorsAction =
   | {
       type: 'SET_TOAST_OPEN';
       payload: boolean;
+    }
+  | {
+      type: 'CLEAR_ERRORS';
     };
 
 /**
@@ -70,6 +71,14 @@ const errorsReducer = (state: ErrorsState, action: ErrorsAction): ErrorsState =>
         ...state,
         openToast: action.payload,
       };
+    case 'CLEAR_ERRORS':
+      return {
+        ...state,
+        errors: {},
+        methodName: undefined,
+        errorsIsEmpty: true,
+        openToast: false
+      };
     default:
       return state;
   }
@@ -80,19 +89,18 @@ const ErrorsContext = createContext<{
   state: ErrorsState;
   setErrorsFunc: (errors: Record<string, any>, methodName?: string, openToast?: boolean) => void;
   setToastOpen: (open: boolean) => void;
+  clearErrors: () => void;
 }>({
   state: initialState,
   setErrorsFunc: () => {},
   setToastOpen: () => {},
+  clearErrors: () => {},
 });
 
 // Provider component
 export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(errorsReducer, initialState);
 
-  /**
-   * Sets error state and optionally triggers a toast notification.
-   */
   const setErrorsFunc = (errors: Record<string, any>, methodName?: string, openToast?: boolean) => {
     dispatch({
       type: 'SET_ERRORS',
@@ -100,9 +108,6 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     });
   };
 
-  /**
-   * Sets the visibility of the toast notification.
-   */
   const setToastOpen = (open: boolean) => {
     dispatch({
       type: 'SET_TOAST_OPEN',
@@ -110,7 +115,10 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     });
   };
 
-  // Effect to handle showing toast in development mode if there are errors
+  const clearErrors = () => {
+    dispatch({ type: 'CLEAR_ERRORS' });
+  };
+
   useEffect(() => {
     if (process.env.NODE_ENV === 'development' && !state.errorsIsEmpty && state.openToast) {
       setToastOpen(true);
@@ -118,19 +126,14 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   }, [state.errors, state.errorsIsEmpty, state.openToast]);
 
   const messageForToast = useMemo(
-    () =>
-      Object.keys(state.errors).length > 0
-        ? `<ul>${Object.keys(state.errors)
-            .map((item) => {
-              return `<li>${item}: <b>${state.errors[item]}</b></li>`;
-            })
-            .join('')}</ul>`
+    () => Object.keys(state.errors).length > 0
+        ? `<ul>${Object.keys(state.errors).map(item => `<li>${item}: <b>${state.errors[item]}</b></li>`).join('')}</ul>`
         : "",
     [state.openToast, state.errors]
   );
 
   return (
-    <ErrorsContext.Provider value={{ state, setErrorsFunc, setToastOpen }}>
+    <ErrorsContext.Provider value={{ state, setErrorsFunc, setToastOpen, clearErrors }}>
       {!state.errorsIsEmpty && state.openToast && (
         <ToastNotification
           message={messageForToast}
@@ -144,5 +147,4 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   );
 };
 
-// Custom hook for using the ErrorsContext
 export const useErrors = () => useContext(ErrorsContext);

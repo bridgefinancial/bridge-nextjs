@@ -1,1 +1,1 @@
-export {default} from './ImageBackground.component.tsx'
+export {default} from './ImageBackground.component'

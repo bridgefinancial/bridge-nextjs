@@ -32,6 +32,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@types/node": "^22.3.0",
     "@types/react": "^18",

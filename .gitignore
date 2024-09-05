@@ -4,6 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
+
+# yarn-related files
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.yarn/cache/
 .yarn/install-state.gz
 
 # testing

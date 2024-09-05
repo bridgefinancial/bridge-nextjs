@@ -1,10 +1,10 @@
 import TitleText from "@/components/atoms/typography/TitleText";
-import { TitleTextProps } from "@/components/atoms/typography/TitleText/TitleText.component";
 import { Box } from "@mui/material";
 import React, { FC, useMemo } from "react";
 import merge from 'lodash.merge'; // Import lodash's merge utility
+import { BaseTypographyProps } from "@/types/base-typography-props.interface";
 
-interface TitleProps extends TitleTextProps {
+interface TitleProps extends BaseTypographyProps {
   text: string;
 }
 

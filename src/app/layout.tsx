@@ -11,6 +11,7 @@ import "../scss/typography.scss";
 import "../scss/open-color.scss";
 import "../scss/material-theme.scss";
 import MainProvider from "@/providers/Main.provider";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <MainProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <Providers>{children}</Providers>
+          </ThemeProvider>
         </MainProvider>
       </body>
     </html>

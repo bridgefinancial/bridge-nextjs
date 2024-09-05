@@ -1,8 +1,10 @@
+import { fetchWithAuth } from "./authorized-request.service";
+
 export const getCompanyFiles = async () => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/company-files/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +28,7 @@ export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/company-files/${fileId}`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +65,7 @@ export const handleUploadDocuments = async ({
     formData.append("description", file.name); // Using file name as description
 
     try {
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method: "POST",
         body: formData,
         // Note: FormData automatically sets Content-Type to multipart/form-data

@@ -15,6 +15,8 @@ const Questionnaire = () => {
     goTo,
     checkPageValidity,
     isSubmitting,
+    defaultValues,
+    isLoading,
   } = useQuestionnaire();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -65,6 +67,10 @@ const Questionnaire = () => {
 
   // DOM
 
+  if (isLoading) {
+    return <div className="bg-gray-200 animate-pulse w-full rounded-xl h-20" />;
+  }
+
   if (!form) {
     return <></>;
   }
@@ -72,6 +78,7 @@ const Questionnaire = () => {
   return (
     <Form
       ref={formRef}
+      defaults={defaultValues}
       nextButtonConfig={nextButtonConfig}
       previousButtonConfig={previousButtonConfig}
       submitButtonConfig={submitButtonConfig}

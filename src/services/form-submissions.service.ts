@@ -1,7 +1,9 @@
 import { FormSubmission } from "@/types/forms.types";
+import { fetchWithAuth } from "./authorized-request.service";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 type GetFormSubmissionVariables = {
-  formId: string;
+  formId: number;
 };
 
 export const getFormSubmission: (
@@ -12,7 +14,7 @@ export const getFormSubmission: (
   const url = `${
     process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
   }/api/form-submission/${formId}/`;
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetchWithAuth(url, { cache: "no-store" });
 
   if (!response.ok) {
     throw new Error(`Response status: ${response.status}`);
@@ -22,21 +24,25 @@ export const getFormSubmission: (
   return responseBody;
 };
 
+export const useFormSubmission = (variables: GetFormSubmissionVariables) => {
+  return useQuery({
+    queryKey: ["form-submission", variables.formId],
+    queryFn: () => getFormSubmission(variables),
+  });
+};
+
 type SubmitFormVariables = {
-  formId: string;
+  formId: number;
   formData: Record<string, any>;
 };
 
 export const submitForm: (
   variables: SubmitFormVariables
-) => Promise<FormSubmission> = async ({
-  formId,
-  formData,
-}: SubmitFormVariables) => {
+) => Promise<void> = async ({ formId, formData }: SubmitFormVariables) => {
   const url = `${
     process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
   }/api/submit-form/${formId}/`;
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     body: JSON.stringify(formData),
   });
@@ -45,6 +51,11 @@ export const submitForm: (
     throw new Error(`Response status: ${response.status}`);
   }
 
-  const responseBody = (await response.json()) as FormSubmission;
-  return responseBody;
+  return;
+};
+
+export const useSubmitForm = () => {
+  return useMutation({
+    mutationFn: submitForm,
+  });
 };

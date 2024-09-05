@@ -103,8 +103,8 @@ const LoginForm: React.FC = () => {
           disabled={isPending}
           value={formValues.email}
           onChange={handleChange}
-          error={Boolean(errors && errors.email)}
-          helperText={errors?.email}
+          error={Boolean(formErrors && formErrors.email)}
+          helperText={formErrors?.email}
         />
         <SecureTextInputGroup
           label="Password"
@@ -114,8 +114,8 @@ const LoginForm: React.FC = () => {
           value={formValues.password}
           disabled={isPending}
           onChange={handleChange}
-          error={Boolean(errors && errors.password)}
-          helperText={errors?.password}
+          error={Boolean(formErrors && formErrors.password)}
+          helperText={formErrors?.password}
           isSecure={isPasswordTextSecure}
           securePressOnChange={handleSecurePressOnChange}
           handleOnMouseDown={handleOnMouseDown}

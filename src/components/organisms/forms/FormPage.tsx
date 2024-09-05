@@ -27,7 +27,7 @@ const FormPage = ({ page, defaultValues }: PageProps) => {
                 }
               }}
               formField={formField}
-              defaultValue={defaultValues?.[page.name]?.[formField.name]}
+              defaultValue={defaultValues?.[formField.name]}
               error={fieldErrorsByName[formField.name]}
             />
           ) : null

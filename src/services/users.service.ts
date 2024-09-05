@@ -1,10 +1,12 @@
 import { User } from "@/types/users.types";
+import { useMutation } from "@tanstack/react-query";
+import { fetchWithAuth } from "./authorized-request.service";
 
 export const fetchSession: () => Promise<User> = async () => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/session/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -28,7 +30,7 @@ export const loginUser = async ({ email, password }: LoginRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/login/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,11 +50,17 @@ export const loginUser = async ({ email, password }: LoginRequest) => {
   return data;
 };
 
+export const useLoginUser = () => {
+  return useMutation({
+    mutationFn: loginUser,
+  });
+};
+
 export const logoutUser = async () => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/logout/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -84,7 +92,7 @@ export const signUp = async (requestBody: SignUpRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/users/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -110,7 +118,7 @@ export const verifyEmail = async ({ token, uid }: VerifyEmailRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/verify-email/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -138,7 +146,7 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/password-reset/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -173,7 +181,7 @@ export const passwordResetConfirm = async ({
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/password-reset-confirm/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -204,7 +212,7 @@ export const updateUser = async ({ attributes, id }: UpdateUserRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/users/${id}/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -235,7 +243,7 @@ export const changePassword = async ({
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/password-change/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -268,7 +276,7 @@ export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/users/${userId}/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "PATCH",
     body: formData,
     // Note: FormData sets Content-Type to multipart/form-data automatically
@@ -290,7 +298,7 @@ export const clearUserImage = async ({ userId }: ClearUserImageRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/users/${userId}/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

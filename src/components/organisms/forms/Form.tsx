@@ -9,6 +9,7 @@ type FormProps = {
   previousButtonConfig: FormActionConfig;
   nextButtonConfig: FormActionConfig;
   submitButtonConfig: FormActionConfig;
+  defaults?: Record<string, any>;
 };
 
 const Form = forwardRef(

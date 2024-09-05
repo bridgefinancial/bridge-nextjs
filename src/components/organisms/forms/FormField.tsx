@@ -8,7 +8,7 @@ import React, { forwardRef } from "react";
 
 type FormFieldProps = {
   formField: Field;
-  defaultValue: any;
+  defaultValue?: any;
   error?: string;
 };
 
@@ -19,7 +19,7 @@ const FormField = forwardRef(
   ) => {
     // CALCULATED
     const defaultPlaceholder = "";
-    const { fieldRefsByName } = useQuestionnaire();
+    const { fieldRefsByName, defaultValues } = useQuestionnaire();
 
     // DOM
     return (
@@ -59,6 +59,7 @@ const FormField = forwardRef(
               minLength: formField.min_length,
               max: formField.max,
               maxLength: formField.max_length,
+              defaultValue: defaultValue,
             }}
             required={formField.required}
             id={formField.name}
@@ -78,6 +79,7 @@ const FormField = forwardRef(
               minLength: formField.min_length,
               max: formField.max,
               maxLength: formField.max_length,
+              defaultValue: defaultValue,
             }}
             required={formField.required}
             id={formField.name}
@@ -159,6 +161,7 @@ const FormField = forwardRef(
               minLength: formField.min_length,
               max: formField.max,
               maxLength: formField.max_length,
+              defaultValue: defaultValue,
             }}
             name={formField.name}
             placeholder={formField.placeholder || defaultPlaceholder}
@@ -172,6 +175,7 @@ const FormField = forwardRef(
             id={formField.name}
             name={formField.name}
             className="fmd-input"
+            defaultValue={defaultValue}
           >
             {formField.placeholder && (
               <option value="" disabled selected>
@@ -202,6 +206,7 @@ const FormField = forwardRef(
               autoComplete="on"
               className="fmd-input"
               list="suggestions"
+              defaultValue={defaultValue}
             />
           </div>
         )}
@@ -222,6 +227,7 @@ const FormField = forwardRef(
                       type="checkbox"
                       onChange={() => {}}
                       className="opacity-0 absolute pointer-events-none"
+                      defaultChecked={!!defaultValue}
                     />
                     <span className="fmd-checkmark"></span>
                   </label>
@@ -249,6 +255,7 @@ const FormField = forwardRef(
                     type="radio"
                     onChange={() => {}}
                     className="opacity-0 absolute pointer-events-none"
+                    defaultChecked={defaultValue === option.value}
                   />
                   <span className="fmd-radio-circle"></span>
                 </label>
@@ -263,7 +270,7 @@ const FormField = forwardRef(
               <FormField
                 key={index}
                 formField={field}
-                defaultValue={defaultValue?.[field.name]}
+                defaultValue={defaultValues?.[field.name]}
               />
             ))}
           </div>
@@ -323,6 +330,7 @@ const FormField = forwardRef(
                         value={option.value}
                         type="radio"
                         onChange={() => {}}
+                        defaultValue={defaultValues?.[field.name]}
                       />
                       <span className="fmd-likert-circle"></span>
                     </td>

@@ -1,4 +1,5 @@
 import { Company } from "@/types/users.types";
+import { fetchWithAuth } from "./authorized-request.service";
 
 type UpdateCompanyRequest = {
   attributes: Partial<Company>;
@@ -12,7 +13,7 @@ export const updateCompany = async ({
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/companies/${id}/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +42,7 @@ export const createCompany = async ({
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/companies/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

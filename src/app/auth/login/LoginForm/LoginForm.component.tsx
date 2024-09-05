@@ -1,25 +1,43 @@
 "use client";
 
-import React, { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
-import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
-import { routePaths } from '@/types/routes.enum';
-import Link from 'next/link';
-import { LoginDto, useAuth } from '@/providers/Auth.provider';
+import React, { useState, ChangeEvent, FormEvent, MouseEvent } from "react";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
+import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
+import { routePaths } from "@/types/routes.enum";
+import Link from "next/link";
+import { useLoginUser } from "@/services/users.service";
+
+// Define types for form values and errors
+interface FormValues {
+  email: string;
+  password: string;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+}
 
 const LoginForm: React.FC = () => {
-  const { state: userState, login } = useAuth();
-  const { loading, errors } = userState;
-  
-  const [formValues, setFormValues] = useState<LoginDto>({
-    email: '',
-    password: '',
+  // STATE
+  const [formValues, setFormValues] = useState<FormValues>({
+    email: "",
+    password: "",
   });
 
-  const [isPasswordTextSecure, setIsPasswordTextSecure] = useState<boolean>(true); // State to manage secure text visibility
+  const [formErrors, setFormErrors] = useState<FormErrors>({
+    email: "",
+    password: "",
+  });
+
+  const [isPasswordTextSecure, setIsPasswordTextSecure] =
+    useState<boolean>(true); // State to manage secure text visibility
+
+  // MUTATIONS
+  const { mutateAsync: loginUser, isPending } = useLoginUser();
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,13 +58,37 @@ const LoginForm: React.FC = () => {
     event.preventDefault(); // Prevent the button from gaining focus
   };
 
+  // Validate form fields
+  const validate = (): boolean => {
+    let errors: FormErrors = {};
+
+    if (!formValues.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
+      errors.email = "Invalid email address";
+    }
+
+    if (!formValues.password) {
+      errors.password = "Password is required";
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
-    login(formValues, () => {
-      // callback logic here, 
-      // could be a redirect
-    });
+    e.preventDefault();
+    if (validate()) {
+      const formElement = e.target as HTMLFormElement;
+
+      // Create a FormData object from the form element
+      const formData = new FormData(formElement);
+      loginUser({
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+      });
+    }
   };
 
   return (
@@ -58,7 +100,7 @@ const LoginForm: React.FC = () => {
           fullWidth
           margin="normal"
           name="email"
-          disabled={loading}
+          disabled={isPending}
           value={formValues.email}
           onChange={handleChange}
           error={Boolean(errors && errors.email)}
@@ -70,7 +112,7 @@ const LoginForm: React.FC = () => {
           margin={"normal"}
           name="password"
           value={formValues.password}
-          disabled={loading}
+          disabled={isPending}
           onChange={handleChange}
           error={Boolean(errors && errors.password)}
           helperText={errors?.password}
@@ -85,11 +127,16 @@ const LoginForm: React.FC = () => {
           </Link>
         </ParagraphText>
 
-        <ContainedButton type={"submit"} isLoading={loading} fullWidth text={"Login"} />
+        <ContainedButton
+          isLoading={isPending}
+          fullWidth
+          text={"Login"}
+          type="submit"
+        />
       </form>
 
       <ParagraphText variant="body2" align="center" sx={{ mt: 2 }}>
-        Don't have an account?{' '}
+        Don't have an account?{" "}
         <Link href={routePaths.SIGN_UP} color="primary">
           Sign Up
         </Link>

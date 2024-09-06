@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
 
 export const getNextActionRecommendations = async () => {
@@ -18,6 +19,13 @@ export const getNextActionRecommendations = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const useNextRecommendation = () => {
+  return useQuery({
+    queryFn: getNextActionRecommendations,
+    queryKey: ["next-action-recommendation"],
+  });
 };
 
 // Function to fetchWithAuth improvement areas

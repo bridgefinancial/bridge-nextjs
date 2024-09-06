@@ -1,0 +1,9 @@
+@import "../../../../../scss/variables";
+
+.vertical-purple-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    $bridge-light-purple,
+    $bridge-dark-purple
+  );
+}

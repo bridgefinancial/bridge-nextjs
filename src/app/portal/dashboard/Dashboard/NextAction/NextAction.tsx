@@ -6,33 +6,34 @@ import React from "react";
 import "./NextAction.scss";
 
 type NextActionProps = {
-  recommendation: Recommendation;
+  recommendations?: Recommendation[];
 };
 
-const NextAction = ({ recommendation }: NextActionProps) => {
+const NextAction = ({ recommendations = [] }: NextActionProps) => {
   // HOOKS
   const router = useRouter();
 
   return (
     <div className="vertical-purple-gradient relative flex h-full w-full items-stretch justify-between rounded-[20px]">
-      <div className="flex shrink grow-0 basis-[550px] flex-col justify-between gap-8 py-6 pl-6 pr-28">
-        {recommendation ? (
+      <div className="flex shrink grow-0 basis-[550px] flex-col justify-between gap-8 py-6 pl-6 pr-28 z-10">
+        {recommendations.length > 0 ? (
           <>
             <div className="space-y-1">
               <h3 className="text-white">
-                {recommendation.service_category.action_header}
+                {recommendations[0].service_category.action_header}
               </h3>
               <p className="text-sm text-white">
-                {recommendation.service_category.action_description}
+                {recommendations[0].service_category.action_description}
               </p>
             </div>
             <ContainedButton
               text="Learn more"
               onClick={() => {
                 router.push(
-                  `${routePaths.PORTAL}/${recommendation.service_category.action_header}`
+                  `${routePaths.PORTAL}/${recommendations[0].improvement_area}`
                 );
               }}
+              disabled={false}
             ></ContainedButton>
           </>
         ) : (

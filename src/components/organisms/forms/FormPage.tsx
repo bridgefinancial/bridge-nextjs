@@ -6,10 +6,9 @@ import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 type PageProps = {
   page: Page;
   pageIndex: number;
-  defaultValues?: Record<string, any>;
 };
 
-const FormPage = ({ page, defaultValues }: PageProps) => {
+const FormPage = ({ page }: PageProps) => {
   const { fieldRefsByName, fieldErrorsByName } = useQuestionnaire();
   return (
     <>
@@ -27,7 +26,6 @@ const FormPage = ({ page, defaultValues }: PageProps) => {
                 }
               }}
               formField={formField}
-              defaultValue={defaultValues?.[formField.name]}
               error={fieldErrorsByName[formField.name]}
             />
           ) : null

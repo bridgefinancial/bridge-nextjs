@@ -43,6 +43,7 @@ export enum PortalRoutes {
   BLUEPRINT = "/portal/blueprint",
   DOCUMENTS = "/portal/documents",
   SETTINGS = "/portal/settings",
+  BUSINESS_HEALTH = "/portal/business-health",
 }
 
 /**

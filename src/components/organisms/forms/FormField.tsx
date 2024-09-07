@@ -4,22 +4,25 @@ import { FieldInformationService } from "@/services/fields.service";
 import { FormField as Field } from "@/types/forms.types";
 import { TextField } from "@mui/material";
 import clsx from "clsx";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 
 type FormFieldProps = {
   formField: Field;
-  defaultValue?: any;
   error?: string;
 };
 
 const FormField = forwardRef(
   (
-    { formField, defaultValue, error }: FormFieldProps,
+    { formField, error }: FormFieldProps,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
     // CALCULATED
     const defaultPlaceholder = "";
     const { fieldRefsByName, defaultValues } = useQuestionnaire();
+
+    useEffect(() => {}, []);
+
+    const defaultValue = defaultValues?.[formField.name];
 
     // DOM
     return (
@@ -238,12 +241,12 @@ const FormField = forwardRef(
         )}
 
         {FieldInformationService.isRadio(formField.type) && (
-          <div className="fmd-radio-parent flex flex-col gap-3">
+          <div className="fmd-radio-parent flex flex-wrap gap-2">
             {(
               FieldInformationService.radios[formField.type]?.data ??
               formField.enum
             )?.map((option, index) => (
-              <div key={index} className="fmd-radio">
+              <div key={index} className="fmd-radio box-border">
                 <label className="fmd-radio-label">
                   {option.label}
                   <input
@@ -267,11 +270,7 @@ const FormField = forwardRef(
         {FieldInformationService.isComplex(formField.type) && (
           <div id={formField.name} className="fmd-complex">
             {formField.internal_fields?.map((field, index) => (
-              <FormField
-                key={index}
-                formField={field}
-                defaultValue={defaultValues?.[field.name]}
-              />
+              <FormField key={index} formField={field} />
             ))}
           </div>
         )}
@@ -330,7 +329,9 @@ const FormField = forwardRef(
                         value={option.value}
                         type="radio"
                         onChange={() => {}}
-                        defaultValue={defaultValues?.[field.name]}
+                        defaultChecked={
+                          defaultValues?.[field.name] === option.value
+                        }
                       />
                       <span className="fmd-likert-circle"></span>
                     </td>

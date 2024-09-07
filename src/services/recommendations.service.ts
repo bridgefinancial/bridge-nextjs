@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
+import {
+  ImprovementCategory,
+  Recommendation,
+} from "@/types/recommendations.types";
 
-export const getNextActionRecommendations = async () => {
+export const getNextActionRecommendations = async (): Promise<
+  Recommendation[]
+> => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/service-category-recommendations/get_next_action/`;
 
@@ -21,7 +27,7 @@ export const getNextActionRecommendations = async () => {
   return data;
 };
 
-export const useNextRecommendation = () => {
+export const useNextRecommendations = () => {
   return useQuery({
     queryFn: getNextActionRecommendations,
     queryKey: ["next-action-recommendation"],
@@ -77,7 +83,7 @@ const getImprovementArea = async ({ id }: GetImprovementAreaRequest) => {
 };
 
 // Function to fetchWithAuth improvement categories
-const getImprovementCategories = async () => {
+const getImprovementCategories = async (): Promise<ImprovementCategory[]> => {
   const url = `${
     process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
   }/api/improvement-categories/`;
@@ -96,6 +102,13 @@ const getImprovementCategories = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const useImprovementCategories = () => {
+  return useQuery({
+    queryFn: getImprovementCategories,
+    queryKey: ["improvement-categories"],
+  });
 };
 
 // Function to fetchWithAuth services

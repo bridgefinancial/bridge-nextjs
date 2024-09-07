@@ -24,10 +24,21 @@ export const getFormSubmission: (
   return responseBody;
 };
 
-export const useFormSubmission = (variables: GetFormSubmissionVariables) => {
+export const useFormSubmission = (
+  variables: GetFormSubmissionVariables,
+  options?: { onError?: () => void }
+) => {
   return useQuery({
     queryKey: ["form-submission", variables.formId],
     queryFn: () => getFormSubmission(variables),
+    retry: (_, error) => {
+      console.log(error);
+      if (error.message.includes("404")) {
+        return false;
+      }
+      return true;
+    },
+    ...options,
   });
 };
 

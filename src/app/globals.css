@@ -191,8 +191,7 @@ select.fmd-input,
 .fmd-radio {
   position: relative;
   cursor: pointer;
-  margin-right: 12px;
-  border: solid gray 1px;
+  border: solid gray 2px;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   max-width: max-content;
@@ -227,8 +226,9 @@ select.fmd-input,
 .fmd-checkbox:has(:checked),
 .fmd-radio:has(:checked),
 .fmd-radio:hover {
-  border: solid #6a5ace 1px; /* Change this to the highlight color you prefer */
+  border: solid #6a5ace 2px; /* Change this to the highlight color you prefer */
   color: #6a5ace;
+  box-shadow: rgba(0, 0, 0, 0.16);
 }
 
 .fmd-checkmark {

@@ -1,7 +1,9 @@
-import React from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
-import { BaseTypographyProps } from '@/types/base-typography-props.interface';
-import useMergeStyles from '@/hooks/useMergeStyles.hook';
+import React from "react";
+import { Box, Typography, IconButton, Grid } from "@mui/material";
+import { BaseTypographyProps } from "@/types/base-typography-props.interface";
+import useMergeStyles from "@/hooks/useMergeStyles.hook";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import Image from "next/image";
 
 /**
  * Props for the `ListItemWithStatus` component.
@@ -10,7 +12,6 @@ export interface ListItemWithStatusProps {
   /**
    * Optional icon to represent the file or item.
    */
-  fileIcon?: React.ReactNode;
 
   /**
    * Main title text for the list item.
@@ -155,45 +156,53 @@ export interface ListItemWithStatusProps {
  */
 const ListItemWithStatus: React.FC<ListItemWithStatusProps> = (props) => {
   const {
-    fileIcon,
     title,
     subtitle,
     status,
-    statusColor = 'green',
+    statusColor = "green",
     actionIcon,
     onAction,
     sx,
   } = props;
 
   const defaultStyles = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    border: '1px solid #000',
-    borderRadius: '12px',
-    padding: '8px',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "1px solid #000",
+    borderRadius: "12px",
+    padding: "8px",
   };
 
   const mergedStyles = useMergeStyles(defaultStyles, sx);
 
   return (
     <Box sx={mergedStyles}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        {fileIcon && <Box>{fileIcon}</Box>}
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box>
+          <Image
+            alt="PDF Icon"
+            width={20}
+            height={20}
+            src={"/assets/images/pdf-file-icon.png"}
+          />
+        </Box>
         <Box sx={{ marginLeft: 2 }}>
-          <Typography variant="subtitle1">{title}</Typography>
-          {subtitle && <Typography variant="caption">{subtitle}</Typography>}
+          <ParagraphText>{title}</ParagraphText>
+          <Grid container spacing={1}>
+            <Grid item>
+              {subtitle && <ParagraphText>{subtitle}</ParagraphText>}
+            </Grid>
+            <Grid item>
+              <ParagraphText sx={{ color: statusColor, marginRight: 2 }}>
+                {status}
+              </ParagraphText>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography sx={{ color: statusColor, marginRight: 2 }}>
-          {status}
-        </Typography>
-        {actionIcon && (
-          <IconButton onClick={onAction}>
-            {actionIcon}
-          </IconButton>
-        )}
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {actionIcon && <IconButton onClick={onAction}>{actionIcon}</IconButton>}
       </Box>
     </Box>
   );

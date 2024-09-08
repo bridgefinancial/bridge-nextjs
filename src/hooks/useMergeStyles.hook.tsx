@@ -1,9 +1,10 @@
 import { CSSProperties, useMemo } from 'react';
 import merge from 'lodash.merge';
+import { SxProps, Theme } from '@mui/material';
 
 // Define types for style objects
 type StyleObject = {
-  [key: string]: string | number | StyleObject | undefined | CSSProperties
+  [key: string]: string | number | StyleObject | undefined | CSSProperties 
 };
 
 /**

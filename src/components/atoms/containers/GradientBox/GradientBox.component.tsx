@@ -4,7 +4,7 @@ import React from 'react';
 
 export interface GradientBoxProps {
   colors?: string[];
-  direction?: 'to right' | 'to left' | 'to top' | 'to bottom';
+  direction?: 'to right' | 'to left' | 'to top' | 'to bottom' | string,
   containerStyle?: React.CSSProperties;
   children?: React.ReactNode;
 }    

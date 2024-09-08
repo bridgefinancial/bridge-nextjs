@@ -1,6 +1,5 @@
-import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box } from '@mui/material';
-import TitleText from '@/components/atoms/typography/TitleText';
+import React, { useMemo } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Box, SxProps, Theme } from '@mui/material';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import { BaseTypographyProps } from '@/types/base-typography-props.interface';
 
@@ -9,12 +8,14 @@ export interface BaseDialogProps {
   onClose: () => void;
   children: React.ReactNode;
   actions?: React.ReactNode;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number; // Allow custom pixel values as well
   fullWidth?: boolean;
   titleProps?: {
-    titleText: string,
-    titleStyles?: BaseTypographyProps
-  }
+    titleText: string;
+    titleStyles?: BaseTypographyProps;
+  };
+  paperStyles?: SxProps<Theme>;
+  ariaDescribedBy: string; // Required ID for `aria-labelledby`
 }
 
 const BaseDialog: React.FC<BaseDialogProps> = ({
@@ -23,42 +24,49 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   children,
   actions,
   titleProps = {
-    titleText: "",
+    titleText: '',
     titleStyles: {
       fontWeight: 400,
-    }
+    },
   },
+  paperStyles = {},
   maxWidth = 'sm',
-  fullWidth = true,
+  fullWidth = false,
+  ariaDescribedBy,
 }) => {
-  const {
-    titleText,
-    titleStyles,
-  } = titleProps
+  const { titleText, titleStyles } = titleProps;
+  const memoizedMaxWidth = useMemo(
+    () => (typeof maxWidth === 'number' ? `${maxWidth}px` : undefined),
+    [maxWidth]
+  );
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth={maxWidth}
+      maxWidth={typeof maxWidth === 'number' ? false : maxWidth}
+      PaperProps={{
+        sx: {
+          borderRadius: '20px', // Correctly applying border-radius here
+          maxWidth: memoizedMaxWidth,
+          ...paperStyles, // Apply any additional styles passed in props
+        },
+      }}
       fullWidth={fullWidth}
-      aria-labelledby="base-dialog-title"
-      aria-describedby="base-dialog-description"
+      aria-labelledby={`base-dialog-title-${ariaDescribedBy}`}
+      aria-describedby={`base-dialog-description-${ariaDescribedBy}`}
     >
-      <DialogTitle id="base-dialog-title">
-        <ParagraphText
-          sx={titleStyles}
-        >
-
-        {titleText? titleText: ""}        
-        </ParagraphText>
-
+      {titleText && (
+        <DialogTitle id={`base-dialog-title-${ariaDescribedBy}`}>
+          <ParagraphText sx={titleStyles}>{titleText}</ParagraphText>
         </DialogTitle>
+      )}
       <DialogContent dividers>
-        <Box id="base-dialog-description" sx={{ pt: 2 }}>
+        <Box id={`base-dialog-description-${ariaDescribedBy}`} sx={{ p: 0.5 }}>
           {children}
         </Box>
       </DialogContent>
-      {actions? <DialogActions>{actions}</DialogActions>:null}
+      {actions && <DialogActions>{actions}</DialogActions>}
     </Dialog>
   );
 };

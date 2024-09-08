@@ -1,9 +1,10 @@
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import { BaseButtonProps } from "@/types/base-button-props.interface";
 import React from "react";
 
 export type FormActionConfig = {
   hidden: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onClick: BaseButtonProps['onClick']
   disabled: boolean;
   isLoading: boolean;
   text: string;

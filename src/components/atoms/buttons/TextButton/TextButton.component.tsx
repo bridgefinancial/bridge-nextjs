@@ -3,12 +3,12 @@ import Button, { ButtonProps } from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import merge from 'lodash.merge'; // Import lodash's merge utility
 import { BaseButtonProps } from '@/types/base-button-props.interface';
+import ParagraphText from '../../typography/ParagraphText';
 
 export interface TextButtonProps extends BaseButtonProps {
     fullWidth?: boolean;
     textColor?: string;
     backgroundColor?: string;
-    text?: string;
     isLoading?: boolean;
     disabled?: boolean;
     onClick?: () => void;
@@ -27,7 +27,14 @@ const TextButton: FC<TextButtonProps> = (props) => {
         onClick = () => console.log('onclick inside of contained button'),
         isLoading,
         disabled,
+        textProps = {
+            sx: {
+              color: "#212121",
+              fontWeight: "bold"
+            }
+        }, // Add default empty textStyle
         type ='button',
+        textComponent: TextComponent = ParagraphText, // Default to ParagraphText
         sx = {},
         ...rest
     } = props
@@ -57,8 +64,9 @@ const TextButton: FC<TextButtonProps> = (props) => {
             {...rest}
             type={type}
         >
-            {isLoading ? <CircularProgress size={20} /> : text}
-        </Button>
+   {isLoading ? <CircularProgress size={20} /> : (
+        <TextComponent {...textProps}>{text}</TextComponent>
+      )}        </Button>
     );
 };
 

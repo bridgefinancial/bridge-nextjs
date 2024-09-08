@@ -1,6 +1,15 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
+import {
+  ImprovementArea,
+  ImprovementCategory,
+  Recommendation,
+} from "@/types/recommendations.types";
+import { PaginatedResponse } from "@/types/api.types";
 
-export const getNextActionRecommendations = async () => {
+export const getNextActionRecommendations = async (): Promise<
+  Recommendation[]
+> => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `${baseUrl}/api/service-category-recommendations/get_next_action/`;
 
@@ -18,6 +27,13 @@ export const getNextActionRecommendations = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const useNextRecommendations = () => {
+  return useQuery({
+    queryFn: getNextActionRecommendations,
+    queryKey: ["next-action-recommendation"],
+  });
 };
 
 // Function to fetchWithAuth improvement areas
@@ -47,7 +63,9 @@ type GetImprovementAreaRequest = {
 };
 
 // Function to fetchWithAuth improvement area by ID
-const getImprovementArea = async ({ id }: GetImprovementAreaRequest) => {
+const getImprovementArea = async ({
+  id,
+}: GetImprovementAreaRequest): Promise<ImprovementArea> => {
   const url = `${
     process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
   }/api/improvement-areas/${id}`;
@@ -68,8 +86,15 @@ const getImprovementArea = async ({ id }: GetImprovementAreaRequest) => {
   return data;
 };
 
+export const useImprovementArea = (variables: GetImprovementAreaRequest) => {
+  return useQuery({
+    queryFn: () => getImprovementArea(variables),
+    queryKey: ["improvement-area", variables],
+  });
+};
+
 // Function to fetchWithAuth improvement categories
-const getImprovementCategories = async () => {
+const getImprovementCategories = async (): Promise<ImprovementCategory[]> => {
   const url = `${
     process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
   }/api/improvement-categories/`;
@@ -88,6 +113,13 @@ const getImprovementCategories = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const useImprovementCategories = () => {
+  return useQuery({
+    queryFn: getImprovementCategories,
+    queryKey: ["improvement-categories"],
+  });
 };
 
 // Function to fetchWithAuth services
@@ -156,11 +188,21 @@ const getServiceProviders = async () => {
   return data;
 };
 
+type GetServiceCategoryRecommendationsRequest = {
+  improvement_area?: string;
+};
+
+type GetServiceCategoryRecommendationsResponse =
+  PaginatedResponse<Recommendation>;
+
 // Function to fetchWithAuth service category recommendations
-const getServiceCategoryRecommendations = async () => {
+const getServiceCategoryRecommendations = async (
+  variables: GetServiceCategoryRecommendationsRequest
+): Promise<GetServiceCategoryRecommendationsResponse> => {
+  const searchParams = new URLSearchParams(variables);
   const url = `${
     process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/service-category-recommendations/`;
+  }/api/service-category-recommendations/?${searchParams.toString()}`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -176,6 +218,54 @@ const getServiceCategoryRecommendations = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const useServiceCategoryRecommendations = (
+  variables: GetServiceCategoryRecommendationsRequest
+) => {
+  return useQuery({
+    queryFn: () => getServiceCategoryRecommendations(variables),
+    queryKey: ["service-category-recommendations", variables],
+  });
+};
+
+type UpdateRecommendationCompletionVariables = {
+  recommendationId: number;
+};
+
+export const toggleRecommendationCompletion = async ({
+  recommendationId,
+}: UpdateRecommendationCompletionVariables): Promise<Recommendation> => {
+  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
+  const url = `${baseUrl}/api/service-category-recommendations/${recommendationId}/toggle_complete/`;
+
+  const response = await fetchWithAuth(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // Include other headers if needed, like Authorization
+    },
+    body: JSON.stringify({}),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const useToggleRecommendationCompletion = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: toggleRecommendationCompletion,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["service-category-recommendations"],
+      });
+    },
+  });
 };
 
 export {

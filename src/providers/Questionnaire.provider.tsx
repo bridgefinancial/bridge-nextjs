@@ -207,7 +207,6 @@ export const QuestionnaireProvider = ({
       .every(Boolean);
   };
 
-  console.log(flattenObject(formSubmission?.json_blob));
   // DOM
 
   return (
@@ -221,8 +220,8 @@ export const QuestionnaireProvider = ({
         isSubmitting,
         fieldRefsByName,
         fieldErrorsByName,
-        defaultValues: flattenObject(formSubmission?.json_blob),
-        isLoading,
+        defaultValues: flattenObject(formSubmission?.json_blob ?? {}),
+        isLoading: isLoading,
         goTo,
         submit: handleSubmit,
         checkPageValidity: handleCheckPageValidity,

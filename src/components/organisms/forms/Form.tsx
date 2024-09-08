@@ -4,6 +4,7 @@ import FormPage from "./FormPage";
 import FormAction, { FormActionConfig } from "./FormAction";
 import clsx from "clsx";
 import { environment } from "../../../../environments/environment";
+import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
 
 type FormProps = {
   previousButtonConfig: FormActionConfig;
@@ -17,32 +18,42 @@ const Form = forwardRef(
     { previousButtonConfig, nextButtonConfig, submitButtonConfig }: FormProps,
     ref: React.ForwardedRef<HTMLFormElement>
   ) => {
-    const { form, pageIndex, defaultValues, submit } = useQuestionnaire();
+    const { form, pageIndex, submit, isLoading } = useQuestionnaire();
+
+    if (isLoading) {
+      return (
+        <div className="w-full h-full">
+          <LoadingSpinner />
+        </div>
+      );
+    }
 
     if (!form) {
       return <></>;
     }
 
     return (
-      <form
-        action={`${
-          environment["DJANGO_API_BASE_URL"] ?? "http://localhost:8000"
-        }/api/submit-form/${form.id}/`}
-        onSubmit={submit}
-        ref={ref}
-      >
-        {form.definition.pages.map((page, index) => (
-          <div
-            key={page.name}
-            className={clsx("px-6 pb-32", { hidden: index !== pageIndex })}
-          >
-            <FormPage
-              pageIndex={index}
-              page={page}
-              defaultValues={defaultValues}
-            />
-          </div>
-        ))}
+      <form onSubmit={submit} ref={ref}>
+        <div className="px-6">
+          {isLoading ? (
+            <div className="flex flex-col gap-4">
+              <div className="bg-gray-200 animate-pulse w-full rounded-xl h-20" />
+              <div className="bg-gray-200 animate-pulse w-1/2 rounded-xl h-20" />
+              <div className="bg-gray-200 animate-pulse w-1/2 rounded-xl h-10" />
+            </div>
+          ) : (
+            <>
+              {form.definition.pages.map((page, index) => (
+                <div
+                  key={page.name}
+                  className={clsx("pb-32", { hidden: index !== pageIndex })}
+                >
+                  <FormPage pageIndex={index} page={page} />
+                </div>
+              ))}
+            </>
+          )}
+        </div>
 
         <div className="fmd-form-actions flex items-center justify-end gap-4">
           {/* Previous */}

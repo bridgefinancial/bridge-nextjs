@@ -1,20 +1,20 @@
-import React, { FC, useMemo } from 'react';
-import Button, { ButtonProps } from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import merge from 'lodash.merge'; // Import lodash's merge utility
+import React, { FC, useMemo } from "react";
+import Button, { ButtonProps } from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import merge from "lodash.merge"; // Import lodash's merge utility
 
 interface ContainedButtonProps {
-    fullWidth?: boolean;
-    textColor?: string;
-    backgroundColor?: string;
-    text?: string;
-    isLoading?: boolean;
-    disabled?: boolean;
-    onClick?: () => void;
-    type?: ButtonProps['type']
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
-    sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
+  fullWidth?: boolean;
+  textColor?: string;
+  backgroundColor?: string;
+  text?: string;
+  isLoading?: boolean;
+  disabled?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  type?: ButtonProps["type"];
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
 }
 
 const ContainedButton: FC<ContainedButtonProps> = (props) => {
@@ -57,6 +57,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       fullWidth={fullWidth}
       disableElevation
       disabled={isLoading || disabled}
+      type="button"
       {...rest}
     >
       {isLoading ? <CircularProgress size={20} /> : text}

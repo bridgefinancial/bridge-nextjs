@@ -1,5 +1,5 @@
 import { User } from "@/types/users.types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
 
 export const fetchSession: () => Promise<User> = async () => {
@@ -19,6 +19,13 @@ export const fetchSession: () => Promise<User> = async () => {
 
   const data = (await response.json()) as User;
   return data;
+};
+
+export const useSessionUser = () => {
+  return useQuery({
+    queryFn: fetchSession,
+    queryKey: ["session"],
+  });
 };
 
 type LoginRequest = {

@@ -1,0 +1,13 @@
+@import "../../../../scss/variables";
+
+.gradient-border {
+  background-image: linear-gradient(
+    234.13deg,
+    $bridge-orange 5.37%,
+    $bridge-light-purple 30.76%,
+    $bridge-dark-blue 69.06%,
+    $bridge-light-green 91.78%
+  );
+  border-radius: 20px;
+  background-clip: padding-box, border-box;
+}

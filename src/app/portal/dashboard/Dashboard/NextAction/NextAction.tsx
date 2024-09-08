@@ -4,6 +4,7 @@ import { routePaths } from "@/types/routes.enum";
 import { useRouter } from "next/navigation";
 import React from "react";
 import "./NextAction.scss";
+import { colors } from "@/theme/theme";
 
 type NextActionProps = {
   recommendations?: Recommendation[];
@@ -30,10 +31,12 @@ const NextAction = ({ recommendations = [] }: NextActionProps) => {
               text="Learn more"
               onClick={() => {
                 router.push(
-                  `${routePaths.PORTAL}/${recommendations[0].improvement_area}`
+                  `${routePaths.BUSINESS_HEALTH}/${recommendations[0].service_category?.improvement_area}`
                 );
               }}
               disabled={false}
+              backgroundColor="white"
+              textColor={colors.bridgeDarkPurple}
             ></ContainedButton>
           </>
         ) : (

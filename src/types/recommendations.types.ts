@@ -7,7 +7,6 @@ export type Recommendation = {
   difficulty_rating: number;
   dt_done: string | null;
   id: number;
-  improvement_area: number;
   is_internal: boolean;
   name: string;
   priority: number;

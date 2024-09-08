@@ -7,7 +7,6 @@ import { cookies } from "next/headers";
 
 export async function middleware(request: NextRequest) {
   let session: User | undefined;
-  return NextResponse.next(); 
   try {
     const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
     const url = `${baseUrl}/api/session/`;

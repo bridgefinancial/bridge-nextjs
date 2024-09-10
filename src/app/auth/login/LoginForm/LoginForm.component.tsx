@@ -9,6 +9,7 @@ import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGr
 import { routePaths } from "@/types/routes.enum";
 import Link from "next/link";
 import { useLoginUser } from "@/services/users.service";
+import { useAuth } from "@/providers/Auth.provider";
 
 // Define types for form values and errors
 interface FormValues {
@@ -35,6 +36,8 @@ const LoginForm: React.FC = () => {
 
   const [isPasswordTextSecure, setIsPasswordTextSecure] =
     useState<boolean>(true); // State to manage secure text visibility
+
+  const {} = useAuth();
 
   // MUTATIONS
   const { mutateAsync: loginUser, isPending } = useLoginUser();

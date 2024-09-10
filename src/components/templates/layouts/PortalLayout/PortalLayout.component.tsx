@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -18,18 +20,26 @@ import Link from "next/link";
 import UserProfileMenu from "./UserProfileMenu.component";
 import PortalLogo, { DefaultLogoProps } from "./PortalLogo.component";
 import { CloseSharp, LogoutRounded } from "@mui/icons-material";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import { useLogoutUser, useSessionUser } from "@/services/users.service";
+import { useAuth } from "@/providers/Auth.provider";
 
 const PortalLayout: React.FC<PortalLayoutProps> = ({
   window,
   logoProps = DefaultLogoProps,
   LinkComponent = Link,
   tabs = [],
-  user,
-  logout,
   children,
 }) => {
+  // STATE
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // QUERIES
+  const { data: user } = useSessionUser();
+
+  // HOOKS
+  const { mutateAsync: logout } = useLogoutUser();
+  const pathname = usePathname();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const desktopBarRef = useRef<HTMLDivElement>(null);
@@ -176,11 +186,11 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
                 menuOptions={[
                   {
                     startIcon: <LogoutRounded />,
-                    text: "logout",
-                    onClick: () =>
-                      typeof logout === "function"
-                        ? logout()
-                        : console.log("no existing logout function"),
+                    text: "Log out",
+                    onClick: () => {
+                      console.log("logging out");
+                      logout();
+                    },
                   },
                 ]}
                 user={user}
@@ -203,7 +213,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
                   LinkComponent={LinkComponent}
                   text={tab.label || ""}
                   href={tab.linkProps?.href || ""}
-                  active={tab.active}
+                  active={pathname === tab.linkProps?.href}
                   icon={tab.icon}
                 />
               ))}

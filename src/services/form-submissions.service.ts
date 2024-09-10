@@ -11,9 +11,7 @@ export const getFormSubmission: (
 ) => Promise<FormSubmission> = async ({
   formId,
 }: GetFormSubmissionVariables) => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/form-submission/${formId}/`;
+  const url = `/api/form-submission/${formId}/`;
   const response = await fetchWithAuth(url, { cache: "no-store" });
 
   if (!response.ok) {
@@ -32,7 +30,6 @@ export const useFormSubmission = (
     queryKey: ["form-submission", variables.formId],
     queryFn: () => getFormSubmission(variables),
     retry: (_, error) => {
-      console.log(error);
       if (error.message.includes("404")) {
         return false;
       }
@@ -50,9 +47,7 @@ type SubmitFormVariables = {
 export const submitForm: (
   variables: SubmitFormVariables
 ) => Promise<void> = async ({ formId, formData }: SubmitFormVariables) => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/submit-form/${formId}/`;
+  const url = `/api/submit-form/${formId}/`;
   const response = await fetchWithAuth(url, {
     method: "POST",
     body: JSON.stringify(formData),

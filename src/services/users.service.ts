@@ -1,10 +1,10 @@
 import { User } from "@/types/users.types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const fetchSession: () => Promise<User> = async () => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/session/`;
+  const url = `/api/session/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -25,6 +25,9 @@ export const useSessionUser = () => {
   return useQuery({
     queryFn: fetchSession,
     queryKey: ["session"],
+    retry: () => {
+      return false;
+    },
   });
 };
 
@@ -34,8 +37,7 @@ type LoginRequest = {
 };
 
 export const loginUser = async ({ email, password }: LoginRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/login/`;
+  const url = `/api/login/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -58,14 +60,21 @@ export const loginUser = async ({ email, password }: LoginRequest) => {
 };
 
 export const useLoginUser = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   return useMutation({
     mutationFn: loginUser,
+    onSuccess: () => {
+      const landingUrl = decodeURIComponent(
+        searchParams.get("navigateTo") ?? ""
+      );
+      router.replace(landingUrl ?? "/");
+    },
   });
 };
 
 export const logoutUser = async () => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/logout/`;
+  const url = `/api/logout/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -80,9 +89,19 @@ export const logoutUser = async () => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  // Optionally handle any response data if needed
-  const data = await response.json();
-  return data;
+  return;
+};
+
+export const useLogoutUser = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  return useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["session"] });
+      router.push("/");
+    },
+  });
 };
 
 type SignUpRequest = {
@@ -97,7 +116,7 @@ type SignUpRequest = {
 
 export const signUp = async (requestBody: SignUpRequest) => {
   const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/users/`;
+  const url = `/api/users/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -122,8 +141,7 @@ type VerifyEmailRequest = {
 };
 
 export const verifyEmail = async ({ token, uid }: VerifyEmailRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/verify-email/`;
+  const url = `/api/verify-email/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -150,8 +168,7 @@ type PasswordResetRequest = {
 };
 
 export const passwordReset = async ({ email }: PasswordResetRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/password-reset/`;
+  const url = `/api/password-reset/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -185,8 +202,7 @@ export const passwordResetConfirm = async ({
   token,
   uid,
 }: PasswordResetConfirmRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/password-reset-confirm/`;
+  const url = `/api/password-reset-confirm/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -216,8 +232,7 @@ type UpdateUserRequest = {
 };
 
 export const updateUser = async ({ attributes, id }: UpdateUserRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/users/${id}/`;
+  const url = `/api/users/${id}/`;
 
   const response = await fetchWithAuth(url, {
     method: "PATCH",
@@ -247,8 +262,7 @@ export const changePassword = async ({
   newPassword1,
   newPassword2,
 }: ChangePasswordRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/password-change/`;
+  const url = `/api/password-change/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -280,8 +294,7 @@ export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
   const formData = new FormData();
   formData.append("image", image);
 
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/users/${userId}/`;
+  const url = `/api/users/${userId}/`;
 
   const response = await fetchWithAuth(url, {
     method: "PATCH",
@@ -302,8 +315,7 @@ type ClearUserImageRequest = {
 };
 
 export const clearUserImage = async ({ userId }: ClearUserImageRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/users/${userId}/`;
+  const url = `/api/users/${userId}/`;
 
   const response = await fetchWithAuth(url, {
     method: "PATCH",

@@ -1,3 +1,5 @@
+const BASE_URL = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
+
 // Utility function to get a specific cookie by name
 export const getCookie = (
   cookieString: string,
@@ -40,7 +42,7 @@ export const fetchWithAuth = async (
   }
 
   // Perform the fetch request
-  const response = await fetch(url, {
+  const response = await fetch(`${BASE_URL}${url}`, {
     method: "GET",
     credentials: "include", // To send cookies with requests
     cache: "no-store",

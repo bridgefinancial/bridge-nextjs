@@ -10,8 +10,7 @@ import { PaginatedResponse } from "@/types/api.types";
 export const getNextActionRecommendations = async (): Promise<
   Recommendation[]
 > => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/service-category-recommendations/get_next_action/`;
+  const url = `/api/service-category-recommendations/get_next_action/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -38,9 +37,7 @@ export const useNextRecommendations = () => {
 
 // Function to fetchWithAuth improvement areas
 const getImprovementAreas = async () => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/improvement-areas/`;
+  const url = `/api/improvement-areas/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -66,9 +63,7 @@ type GetImprovementAreaRequest = {
 const getImprovementArea = async ({
   id,
 }: GetImprovementAreaRequest): Promise<ImprovementArea> => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/improvement-areas/${id}`;
+  const url = `/api/improvement-areas/${id}`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -95,9 +90,7 @@ export const useImprovementArea = (variables: GetImprovementAreaRequest) => {
 
 // Function to fetchWithAuth improvement categories
 const getImprovementCategories = async (): Promise<ImprovementCategory[]> => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/improvement-categories/`;
+  const url = `/api/improvement-categories/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -124,9 +117,7 @@ export const useImprovementCategories = () => {
 
 // Function to fetchWithAuth services
 const getServices = async () => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/services/`;
+  const url = `/api/services/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -146,9 +137,7 @@ const getServices = async () => {
 
 // Function to fetchWithAuth service categories
 const getServiceCategories = async () => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/service-categories/`;
+  const url = `/api/service-categories/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -168,9 +157,7 @@ const getServiceCategories = async () => {
 
 // Function to fetchWithAuth service providers
 const getServiceProviders = async () => {
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/service-providers/`;
+  const url = `/api/service-providers/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -200,9 +187,7 @@ const getServiceCategoryRecommendations = async (
   variables: GetServiceCategoryRecommendationsRequest
 ): Promise<GetServiceCategoryRecommendationsResponse> => {
   const searchParams = new URLSearchParams(variables);
-  const url = `${
-    process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000"
-  }/api/service-category-recommendations/?${searchParams.toString()}`;
+  const url = `/api/service-category-recommendations/?${searchParams.toString()}`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -236,8 +221,7 @@ type UpdateRecommendationCompletionVariables = {
 export const toggleRecommendationCompletion = async ({
   recommendationId,
 }: UpdateRecommendationCompletionVariables): Promise<Recommendation> => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/service-category-recommendations/${recommendationId}/toggle_complete/`;
+  const url = `/api/service-category-recommendations/${recommendationId}/toggle_complete/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",

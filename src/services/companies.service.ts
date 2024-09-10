@@ -10,8 +10,7 @@ export const updateCompany = async ({
   attributes,
   id,
 }: UpdateCompanyRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/companies/${id}/`;
+  const url = `/api/companies/${id}/`;
 
   const response = await fetchWithAuth(url, {
     method: "PATCH",
@@ -39,8 +38,7 @@ export const createCompany = async ({
   name,
   industry,
 }: CreateCompanyRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/companies/`;
+  const url = `/api/companies/`;
 
   const response = await fetchWithAuth(url, {
     method: "POST",

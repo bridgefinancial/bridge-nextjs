@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-import { AppBar, Toolbar, Box, Avatar, Menu, MenuItem, useMediaQuery } from "@mui/material";
+import React from "react";
+import { AppBar, Toolbar, Box, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import TitleText from "@/components/atoms/typography/TitleText";
 import { BarProps } from "./PortalLayout.types";
-import { ArrowDropDown, LogoutRounded } from "@mui/icons-material";
+import { LogoutRounded } from "@mui/icons-material";
 import UserProfileMenu from "./UserProfileMenu.component";
+import { useLogoutUser } from "@/services/users.service";
 
 interface TitleBarProps extends Partial<BarProps> {}
 
-const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
+const TitleBar: React.FC<TitleBarProps> = ({ title, user }) => {
   const theme = useTheme();
-
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { mutateAsync: logout } = useLogoutUser();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <AppBar
@@ -21,7 +22,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
         backgroundColor: "transparent",
         padding: 0,
         borderWidth: 1,
-        borderColor: "transparent"
+        borderColor: "transparent",
       }}
     >
       <Toolbar
@@ -54,21 +55,22 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user, logout }) => {
           >
             {title}
           </TitleText>
- 
-          {isMobile? null:
+
+          {isMobile ? null : (
             <UserProfileMenu
-            user={user as any}
-            menuOptions={[
-              {
-                startIcon: <LogoutRounded />,
-                text: "Log Out",
-                onClick: () =>
-                  typeof logout === "function"
-                    ? logout()
-                    : console.log("no existing logout function"),
-              },
-            ]}
-            />}
+              user={user as any}
+              menuOptions={[
+                {
+                  startIcon: <LogoutRounded />,
+                  text: "Log Out",
+                  onClick: () => {
+                    console.log("logging out");
+                    logout();
+                  },
+                },
+              ]}
+            />
+          )}
         </Box>
       </Toolbar>
     </AppBar>

@@ -8,8 +8,7 @@ import { cookies } from "next/headers";
 export async function middleware(request: NextRequest) {
   let session: User | undefined;
   try {
-    const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-    const url = `${baseUrl}/api/session/`;
+    const url = "/api/session/";
 
     const response = await fetchWithAuth(
       url,
@@ -28,7 +27,6 @@ export async function middleware(request: NextRequest) {
     }
     session = (await response.json()) as User;
   } catch (error) {
-    console.log(error);
     session = undefined;
   }
   const pathname = request.nextUrl.pathname;

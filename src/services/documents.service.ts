@@ -1,8 +1,7 @@
 import { fetchWithAuth } from "./authorized-request.service";
 
 export const getCompanyFiles = async () => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/company-files/`;
+  const url = `/api/company-files/`;
 
   const response = await fetchWithAuth(url, {
     method: "GET",
@@ -25,8 +24,7 @@ type DeleteFileRequest = {
 };
 
 export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/company-files/${fileId}`;
+  const url = `/api/company-files/${fileId}`;
 
   const response = await fetchWithAuth(url, {
     method: "DELETE",
@@ -52,8 +50,7 @@ type UploadDocumentsRequest = {
 export const handleUploadDocuments = async ({
   files,
 }: UploadDocumentsRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
-  const url = `${baseUrl}/api/company-files/`;
+  const url = `/api/company-files/`;
 
   // Create a container to hold responses and errors
   const responses = [];

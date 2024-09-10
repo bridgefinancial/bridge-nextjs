@@ -159,8 +159,13 @@ export const verifyEmail = async ({ token, uid }: VerifyEmailRequest) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const data = await response.json();
-  return data;
+  return;
+};
+
+export const useVerifyEmail = () => {
+  return useMutation({
+    mutationFn: verifyEmail,
+  });
 };
 
 type PasswordResetRequest = {
@@ -185,8 +190,13 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const data = await response.json();
-  return data;
+  return;
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: passwordReset,
+  });
 };
 
 type PasswordResetConfirmRequest = {
@@ -222,8 +232,13 @@ export const passwordResetConfirm = async ({
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const data = await response.json();
-  return data;
+  return;
+};
+
+export const usePasswordResetConfirm = () => {
+  return useMutation({
+    mutationFn: passwordResetConfirm,
+  });
 };
 
 type UpdateUserRequest = {

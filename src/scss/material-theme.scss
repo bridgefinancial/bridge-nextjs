@@ -1,6 +1,4 @@
-
-
-@import './variables';
+@import "./variables";
 
 /* Define color palettes */
 $purple-palette: (
@@ -13,7 +11,7 @@ $purple-palette: (
   600: #4736b5,
   700: #36298a,
   800: #231b5a,
-  900: #120e2f
+  900: #120e2f,
 );
 
 $black-palette: (
@@ -26,7 +24,7 @@ $black-palette: (
   600: #1a1a1a,
   700: #141414,
   800: #0d0d0d,
-  900: #080808
+  900: #080808,
 );
 
 /* Define theme variables */
@@ -35,7 +33,7 @@ $black-palette: (
   --primary-color-contrast: white;
   --accent-color: map-get($black-palette, 500);
   --accent-color-contrast: white;
-  --font-family: 'Manrope', sans-serif;
+  --font-family: "Manrope", sans-serif;
 
   /* Define CSS variables for various components */
   --button-height: 54px;
@@ -47,16 +45,10 @@ $black-palette: (
   --circular-progress-indicator-color: #f0f0f0;
 }
 
-/* Button styles */
-button {
-  height: var(--button-height);
-  border-radius: var(--button-border-radius);
-  font-family: var(--font-family);
-}
-
 /* Tab header styles */
 .mat-tab-header {
-  border-bottom: var(--tab-header-divider-height) solid var(--tab-header-divider-color);
+  border-bottom: var(--tab-header-divider-height) solid
+    var(--tab-header-divider-color);
 }
 
 /* Text field styles */
@@ -71,5 +63,7 @@ button {
 
 /* Circular progress styles */
 .mat-accent {
-  --mdc-circular-progress-active-indicator-color: var(--circular-progress-indicator-color);
+  --mdc-circular-progress-active-indicator-color: var(
+    --circular-progress-indicator-color
+  );
 }

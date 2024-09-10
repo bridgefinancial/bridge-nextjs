@@ -9,7 +9,9 @@ import { routePaths } from "@/types/routes.enum";
 import {
   ArrowBack,
   ArrowDropDown,
+  ArrowForward,
   ArrowRight,
+  ExpandMore,
   InfoOutlined,
 } from "@mui/icons-material";
 import {
@@ -19,12 +21,15 @@ import {
   Button,
   Checkbox,
   IconButton,
+  Typography,
 } from "@mui/material";
 import Link from "next/link";
 import React, { useState } from "react";
 import "./ImprovementArea.scss";
 import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
 import ImprovementAreaDialog from "@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import { colors } from "@/theme/theme";
 
 type ImprovementAreaProps = {
   improvementAreaId: number;
@@ -80,11 +85,14 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
     <>
       <div>
         <div className="improvementArea__pageHeader">
-          <Link href={routePaths.DASHBOARD}>
-            <Button variant="text" startIcon={<ArrowBack />}>
-              Back to Dashboard
-            </Button>
-          </Link>
+          <Button
+            variant="text"
+            startIcon={<ArrowBack />}
+            LinkComponent={Link}
+            href={routePaths.DASHBOARD}
+          >
+            Back to Dashboard
+          </Button>
         </div>
         {isLoadingImprovementArea ? (
           <LoadingSpinner />
@@ -183,15 +191,17 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                   <p className="serviceProvider__status__note">
                     *Mark complete when done
                   </p>
-                  <Checkbox
-                    color="primary"
-                    checked={!!recommendation.dt_done}
-                    onChange={() =>
-                      toggleComplete({ recommendationId: recommendation.id })
-                    }
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                  Completed {recommendation.name}
+                  <div className="flex items-center">
+                    <Checkbox
+                      color="primary"
+                      checked={!!recommendation.dt_done}
+                      onChange={() =>
+                        toggleComplete({ recommendationId: recommendation.id })
+                      }
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <Typography>Completed {recommendation.name}</Typography>
+                  </div>
                 </div>
               </div>
             </div>
@@ -218,24 +228,30 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                             {service.paragraph}
                           </p>
                         </div>
-                        <Accordion>
+                        <div>
                           {service.why_choose && (
-                            <AccordionSummary>
-                              <h4>Why choose {service.name}</h4>
-                            </AccordionSummary>
+                            <Accordion>
+                              <AccordionSummary expandIcon={<ExpandMore />}>
+                                <h4>Why choose {service.name}</h4>
+                              </AccordionSummary>
+
+                              <AccordionDetails>
+                                <p>{service.why_choose}</p>
+                              </AccordionDetails>
+                            </Accordion>
                           )}
-                          <AccordionDetails>
-                            <p>{service.why_choose}</p>
-                          </AccordionDetails>
                           {service.pros_and_cons && (
-                            <AccordionSummary>
-                              <h4>Pros & Cons</h4>
-                            </AccordionSummary>
+                            <Accordion>
+                              <AccordionSummary expandIcon={<ExpandMore />}>
+                                <h4>Pros & Cons</h4>
+                              </AccordionSummary>
+
+                              <AccordionDetails>
+                                <p>{service.pros_and_cons}</p>
+                              </AccordionDetails>
+                            </Accordion>
                           )}
-                          <AccordionDetails>
-                            <p>{service.pros_and_cons}</p>
-                          </AccordionDetails>
-                        </Accordion>
+                        </div>
                       </div>
                       <div className="serviceProvider__right">
                         {service.provider?.logo && (
@@ -245,14 +261,14 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                             alt={service.name}
                           />
                         )}
-                        <Button
-                          variant="contained"
+                        <ContainedButton
                           href={service.button_url}
                           target="_blank"
-                        >
-                          {service.button_text}
-                          <ArrowRight />
-                        </Button>
+                          text={service.button_text}
+                          endIcon={<ArrowForward />}
+                          backgroundColor={colors.bridgeDarkPurple}
+                          fullWidth
+                        ></ContainedButton>
                       </div>
                     </div>
                   )

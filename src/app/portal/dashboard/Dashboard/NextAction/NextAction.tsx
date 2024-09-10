@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import "./NextAction.scss";
 import { colors } from "@/theme/theme";
+import { ArrowForward } from "@mui/icons-material";
 
 type NextActionProps = {
   recommendations?: Recommendation[];
@@ -29,14 +30,11 @@ const NextAction = ({ recommendations = [] }: NextActionProps) => {
             </div>
             <ContainedButton
               text="Learn more"
-              onClick={() => {
-                router.push(
-                  `${routePaths.BUSINESS_HEALTH}/${recommendations[0].service_category?.improvement_area}`
-                );
-              }}
+              href={`${routePaths.BUSINESS_HEALTH}/${recommendations[0].service_category?.improvement_area}`}
               disabled={false}
               backgroundColor="white"
               textColor={colors.bridgeDarkPurple}
+              endIcon={<ArrowForward />}
             ></ContainedButton>
           </>
         ) : (

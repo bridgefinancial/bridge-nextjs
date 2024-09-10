@@ -4,6 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import merge from "lodash.merge"; // Import lodash's merge utility
 import ParagraphText from "../../typography/ParagraphText";
 import { BaseButtonProps } from "@/types/base-button-props.interface";
+import Link from "next/link";
 
 interface ContainedButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
@@ -29,10 +30,9 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     isLoading,
     disabled,
     textProps = {
-        sx: {
-          color: "white",
-          fontWeight: "bold"
-        }
+      sx: {
+        color: textColor ?? "white",
+      },
     }, // Add default empty textStyle
     sx = {},
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
@@ -59,8 +59,6 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     [sx, defaultStyles]
   );
 
-
-
   return (
     <Button
       sx={mergedStyles}
@@ -72,8 +70,12 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       type="button"
       {...rest}
     >
-      {isLoading ? <CircularProgress size={20} /> : (
-        <TextComponent {...textProps}>{text}</TextComponent>
+      {isLoading ? (
+        <CircularProgress size={20} />
+      ) : (
+        <TextComponent fontSize={14} {...textProps}>
+          {text}
+        </TextComponent>
       )}
     </Button>
   );

@@ -100,6 +100,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          height: "54px",
+          borderRadius: "12px",
+        },
+      },
+    },
   },
 });
 

@@ -57,7 +57,7 @@ const PortalListItem: React.FC<PortalListItemProps> = ({
                 justifyContent: "center",
               }}
             >
-              <svg width={17} height={17}>
+              <svg width={17} height={17} style={{ color: active ? theme.palette.text.primary : theme.palette.text.secondary}}>
                 <use href={`/assets/icons/${icon}.svg#${icon}`} />
               </svg>
             </Box>

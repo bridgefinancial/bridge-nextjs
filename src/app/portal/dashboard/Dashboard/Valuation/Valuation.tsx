@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useSessionUser } from "@/services/users.service";
 import { routePaths } from "@/types/routes.enum";
 import "./Valuation.scss";
+import Link from "next/link";
 
 const Valuation = () => {
   // HOOKS
@@ -14,16 +15,6 @@ const Valuation = () => {
   // CALCULATED
   const valuation = user?.company.valuation;
   const industry = user?.company.industry;
-
-  // HANDLERS
-
-  const handleEditRevenueClick = () => {
-    router.push(routePaths.VALUATION);
-  };
-
-  const handleEditIndustryClick = () => {
-    router.push(routePaths.SETTINGS);
-  };
 
   return (
     <div className="flex h-full flex-col items-start justify-between gap-6 rounded-[20px] border border-solid border-bridge-gray-border bg-white p-6">
@@ -49,18 +40,18 @@ const Valuation = () => {
         </p>
         <div className="quadruple-gradient h-1 w-full rounded-full"></div>
         <span className="flex items-center gap-6">
-          <a
+          <Link
             className="cursor-pointer text-sm font-semibold text-bridge-dark-purple"
-            onClick={handleEditRevenueClick}
+            href={routePaths.VALUATION}
           >
             Edit revenue
-          </a>
-          <a
+          </Link>
+          <Link
             className="cursor-pointer text-sm font-semibold text-bridge-dark-purple"
-            onClick={handleEditIndustryClick}
+            href={routePaths.SETTINGS}
           >
             Edit industry
-          </a>
+          </Link>
         </span>
       </div>
     </div>

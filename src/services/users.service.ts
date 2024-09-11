@@ -2,6 +2,7 @@ import { User } from "@/types/users.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
 import { useRouter, useSearchParams } from "next/navigation";
+import { routePaths } from "@/types/routes.enum";
 
 export const fetchSession: () => Promise<User> = async () => {
   const url = `/api/session/`;
@@ -68,7 +69,8 @@ export const useLoginUser = () => {
       const landingUrl = decodeURIComponent(
         searchParams.get("navigateTo") ?? ""
       );
-      router.replace(landingUrl ?? "/");
+      console.log(landingUrl || routePaths.ROOT);
+      router.replace(landingUrl || routePaths.ROOT);
     },
   });
 };
@@ -99,24 +101,29 @@ export const useLogoutUser = () => {
     mutationFn: logoutUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["session"] });
-      router.push("/");
+      router.push(routePaths.LOGIN);
     },
   });
 };
 
-type SignUpRequest = {
+export type SignUpRequest = {
   first_name: string;
   last_name: string;
   company_name: string;
   industry: string;
   email: string;
-  password1: string;
-  password2: string;
+  password: string;
+  terms: boolean;
 };
 
 export const signUp = async (requestBody: SignUpRequest) => {
-  const baseUrl = process.env.DJANGO_API_BASE_URL ?? "http://localhost:8000";
   const url = `/api/users/`;
+
+  const transformedRequestBody = {
+    ...requestBody,
+    password1: requestBody.password,
+    password2: requestBody.password,
+  };
 
   const response = await fetchWithAuth(url, {
     method: "POST",
@@ -124,15 +131,24 @@ export const signUp = async (requestBody: SignUpRequest) => {
       "Content-Type": "application/json",
       // Include other headers if needed
     },
-    body: JSON.stringify(requestBody),
+    body: JSON.stringify(transformedRequestBody),
   });
 
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const data = await response.json();
-  return data;
+  return;
+};
+
+export const useSignUp = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: signUp,
+    onSuccess: () => {
+      router.push(routePaths.VERIFY_EMAIL_SENT);
+    },
+  });
 };
 
 type VerifyEmailRequest = {

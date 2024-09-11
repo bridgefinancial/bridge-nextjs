@@ -29,7 +29,7 @@ export enum AuthRoutes {
   SIGN_UP = "/auth/sign-up",
   PASSWORD_RESET = "/auth/password-reset",
   VERIFY_EMAIL = "/auth/verify-email",
-  VERIFY_EMAIL_SENT = "/auth/email-verification-sent",
+  VERIFY_EMAIL_SENT = "/auth/verify-email-sent",
 }
 
 /**

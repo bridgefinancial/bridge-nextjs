@@ -14,6 +14,8 @@ import {
   useFormSubmission,
   useSubmitForm,
 } from "@/services/form-submissions.service";
+import { useRouter } from "next/navigation";
+import { routePaths } from "@/types/routes.enum";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -77,6 +79,7 @@ export const QuestionnaireProvider = ({
   const page = forms[formIndex].definition.pages[pageIndex];
 
   // HOOKS
+  const router = useRouter();
   const fieldRefsByName = useRef<Record<string, HTMLInputElement | null>>({});
   const { setErrorsFunc } = useErrors();
   const { data: formSubmission, isLoading } = useFormSubmission({
@@ -87,6 +90,7 @@ export const QuestionnaireProvider = ({
   // HANDLERS
   const handleComplete = (data: any) => {
     console.log("form complete!");
+    router.replace(`${routePaths.DASHBOARD}?celebrate=t`);
   };
 
   const goTo = ({

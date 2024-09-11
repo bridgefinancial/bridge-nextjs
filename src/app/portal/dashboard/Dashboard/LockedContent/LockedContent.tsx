@@ -5,6 +5,8 @@ import clsx from "clsx";
 import "./LockedContent.css";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { colors } from "@/theme/theme";
+import { ArrowForward } from "@mui/icons-material";
 
 type LockedContentProps = {
   buttonLabel?: string;
@@ -42,6 +44,8 @@ const LockedContent = ({
             <ContainedButton
               onClick={onButtonClick}
               text={buttonLabel}
+              backgroundColor={colors.bridgeDarkPurple}
+              endIcon={<ArrowForward />}
             ></ContainedButton>
           </div>
         </div>

@@ -3,7 +3,6 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -20,9 +19,14 @@ import Link from "next/link";
 import UserProfileMenu from "./UserProfileMenu.component";
 import PortalLogo, { DefaultLogoProps } from "./PortalLogo.component";
 import { CloseSharp, LogoutRounded } from "@mui/icons-material";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+  useSelectedLayoutSegment,
+} from "next/navigation";
 import { useLogoutUser, useSessionUser } from "@/services/users.service";
-import { useAuth } from "@/providers/Auth.provider";
+import confetti from "canvas-confetti";
 
 const PortalLayout: React.FC<PortalLayoutProps> = ({
   window,
@@ -33,6 +37,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
 }) => {
   // STATE
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [layoutContentHeight, setLayoutContentHeight] = useState("100vh");
 
   // QUERIES
   const { data: user } = useSessionUser();
@@ -45,18 +50,38 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
   const desktopBarRef = useRef<HTMLDivElement>(null);
   const mobileBarRef = useRef<HTMLDivElement>(null);
   const segment = useSelectedLayoutSegment();
-
-  const [layoutContentHeight, setLayoutContentHeight] = useState("100vh");
+  const params = useSearchParams();
+  const router = useRouter();
   const handleDrawerToggle = () => {
     if (isMobile) {
       setMobileOpen(!mobileOpen);
     }
   };
 
+  // HADNLERS
+  const celebrate = () => {
+    const duration = 3000; // in milliseconds
+
+    confetti({
+      particleCount: 100,
+      spread: 160,
+    });
+
+    // Clear confetti after a certain duration
+    setTimeout(() => confetti.reset(), duration);
+  };
+
   useEffect(() => {
     if (desktopBarRef.current) {
       const desktopBarHeight = desktopBarRef.current.offsetHeight;
       setLayoutContentHeight(`calc(100vh)`);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!!params.get("celebrate")) {
+      celebrate();
+      router.replace(pathname);
     }
   }, []);
 

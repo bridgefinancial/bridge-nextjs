@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from "react";
 import { Box, Container } from "@mui/material";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
@@ -34,6 +36,7 @@ const VerifyEmailPage: React.FC = () => {
             },
           }}
           component={"p"}
+          className="text-center"
         >
           Your Account email has been verified.{" "}
           <Link href={routePaths.LOGIN}>Click Here</Link> to login

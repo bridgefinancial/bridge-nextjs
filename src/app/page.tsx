@@ -1,16 +1,36 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/navigation"; // Import the useRouter from next/navigation for app router
 import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
 import LandingLayout from "@/components/templates/layouts/LandingLayout";
-import { Box } from "@mui/material";
-import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
-import { useAuth } from "@/providers/Auth.provider";
 import { routePaths } from "@/types/routes.enum";
-import { redirect } from "next/navigation";
+import { useSessionUser } from "@/services/users.service";
+import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
 
 export default function Home() {
-  return redirect(routePaths.DASHBOARD);
+  const { data: user, isLoading } = useSessionUser();
+  const router = useRouter();
+
+  if (user) {
+    if (user.company.has_finished_onboarding) {
+      router.push(routePaths.DASHBOARD);
+    } else {
+      router.push(routePaths.VALUATION);
+    }
+  } else if (!isLoading) {
+    router.push(routePaths.LOGIN);
+  }
+
+  return (
+    <LandingLayout>
+      <CardWithTitle titleProps={{ text: "" }}>
+        <div className="w-full h-full flex items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      </CardWithTitle>
+    </LandingLayout>
+  );
+
   // const router = useRouter();
   // // auth example
   // const {state: authState} = useAuth()

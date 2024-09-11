@@ -2,8 +2,10 @@
 
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import { routePaths } from "@/types/routes.enum";
 import { Check, Circle } from "@mui/icons-material";
 import clsx from "clsx";
+import Link from "next/link";
 import React, { ReactNode } from "react";
 
 type QuestionnaireLayoutProps = {
@@ -22,13 +24,13 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
             <div>{/* Add any button or icon here if needed */}</div>
             {/* CENTER MOBILE HEADER */}
             <div className="flex items-center justify-center">
-              <a href="/">
+              <Link href={routePaths.DASHBOARD}>
                 <img
                   className="max-w-[100px]"
                   alt="Bridge Financial logo"
                   src="/assets/images/Bridge-logo.png"
                 />
-              </a>
+              </Link>
             </div>
             {/* RIGHT MOBILE HEADER */}
             <div></div>
@@ -38,13 +40,13 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
 
         {/* DESKTOP NAV */}
         <div className="h-full grow-0 hidden md:flex flex-col basis-[422px] box-border py-6 pl-4 pr-4 bg-white border-0 border-r border-solid border-gray-300 z-10">
-          <a className="mb-8" href="/">
+          <Link className="mb-8" href={routePaths.DASHBOARD}>
             <img
               className="max-w-[120px]"
               alt="Bridge logo"
               src="/assets/images/Bridge-logo.png"
             />
-          </a>
+          </Link>
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-6 items-center">
               <ParagraphText sx={{ fontWeight: "600" }}>

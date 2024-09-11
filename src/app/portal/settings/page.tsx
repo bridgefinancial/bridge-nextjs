@@ -1,8 +1,10 @@
-import React from 'react'
-import SettingsTabs from './SettingTabs'
+import React, { Suspense } from "react";
+import SettingsTabs from "./SettingTabs";
 
 export default function SettingsPage() {
   return (
-    <SettingsTabs />
-  )
+    <Suspense>
+      <SettingsTabs />
+    </Suspense>
+  );
 }

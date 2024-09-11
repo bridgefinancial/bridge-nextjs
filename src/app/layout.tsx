@@ -23,11 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MainProvider>
-          <ThemeProvider theme={theme}>
-            <Providers>{children}</Providers>
-          </ThemeProvider>
-        </MainProvider>
+        <Providers>
+          <MainProvider>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </MainProvider>
+        </Providers>
       </body>
     </html>
   );

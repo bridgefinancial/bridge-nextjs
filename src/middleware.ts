@@ -14,9 +14,6 @@ export async function middleware(request: NextRequest) {
       url,
       {
         method: "GET",
-        headers: {
-          Cookie: cookies().toString(),
-        },
       },
       cookies().toString()
     );
@@ -26,6 +23,7 @@ export async function middleware(request: NextRequest) {
     }
     session = (await response.json()) as User;
   } catch (error) {
+    console.log(error);
     session = undefined;
   }
   const pathname = request.nextUrl.pathname;

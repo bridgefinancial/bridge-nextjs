@@ -1,16 +1,9 @@
 // components/Layout.tsx
 
 import React, { ReactNode } from "react";
-import {
-  Container,
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Link,
-} from "@mui/material";
+import { Container, Box } from "@mui/material";
 import MainHeader from "@/components/organisms/headers/MainHeader";
-import ImageBackground from "@/components/atoms/containers/ImageBackground";
+import GradientBox from "@/components/atoms/containers/GradientBox";
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,30 +13,27 @@ interface LayoutProps {
 const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
   const { children, pathForHome = "/" } = props;
   return (
-    <ImageBackground
-      src="/assets/images/gradient.png"
-      alt="Bridge Financial Gradient"
-    >
-      <Box>
-        <MainHeader
-          linkProps={{
-            href: pathForHome,
-          }}
-        />
+    <div className="w-full bg-white h-screen flex flex-col">
+      <MainHeader
+        linkProps={{
+          href: pathForHome,
+        }}
+      />
+      <GradientBox containerStyle={{ height: "4px" }} />
 
-        <Box
-          sx={{
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 1,
-          }}
-        >
-          <Container maxWidth="md">{children}</Container>
-        </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 1,
+          overflow: "auto",
+          flexGrow: 1,
+        }}
+      >
+        {children}
       </Box>
-    </ImageBackground>
+    </div>
   );
 };
 

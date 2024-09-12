@@ -69,8 +69,7 @@ export const useLoginUser = () => {
       const landingUrl = decodeURIComponent(
         searchParams.get("navigateTo") ?? ""
       );
-      console.log(landingUrl || routePaths.ROOT);
-      router.replace(landingUrl || routePaths.ROOT);
+      router.push(landingUrl || routePaths.ROOT);
     },
   });
 };

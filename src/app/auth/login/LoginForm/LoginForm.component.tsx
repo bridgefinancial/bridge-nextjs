@@ -8,8 +8,9 @@ import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
 import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
 import { routePaths } from "@/types/routes.enum";
 import Link from "next/link";
-import { useLoginUser } from "@/services/users.service";
+import { useLoginUser, useSessionUser } from "@/services/users.service";
 import { useAuth } from "@/providers/Auth.provider";
+import { useRouter } from "next/navigation";
 
 // Define types for form values and errors
 interface FormValues {
@@ -41,6 +42,8 @@ const LoginForm: React.FC = () => {
 
   // MUTATIONS
   const { mutateAsync: loginUser, isPending } = useLoginUser();
+
+  const { data: user } = useSessionUser();
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -31,6 +31,7 @@ export const fetchWithAuth = async (
 ): Promise<Response> => {
   const headers = new Headers({
     "Content-Type": "application/json",
+    Cookie: cookieString,
     ...options.headers,
   });
 
@@ -46,7 +47,7 @@ export const fetchWithAuth = async (
   const response = await fetch(`${BASE_URL}${url}`, {
     method: "GET",
     credentials: "include", // To send cookies with requests
-    cache: "no-store",
+    cache: "no-cache",
     ...options,
     headers: headers,
   });

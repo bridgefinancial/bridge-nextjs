@@ -21,9 +21,8 @@ export async function middleware(request: NextRequest) {
       cookies().toString()
     );
     if (!response.ok) {
-      response.text().then((text) => {
-        throw new Error(`Error: ${text}, Status: ${response.status}`);
-      });
+      const text = await response.text();
+      throw new Error(`Error: ${text}, Status: ${response.status}`);
     }
     session = (await response.json()) as User;
   } catch (error) {

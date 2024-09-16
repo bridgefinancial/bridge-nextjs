@@ -1,12 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import { Box } from '@mui/material';
+import useMergeStyles from '@/hooks/useMergeStyles.hook';
 
 interface ImageBackgroundProps {
   src: string;
   alt: string;
   children: React.ReactNode;
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  containerStyle?: Record<any, any>
 }
 
 const ImageBackground: React.FC<ImageBackgroundProps> = ({
@@ -14,18 +16,22 @@ const ImageBackground: React.FC<ImageBackgroundProps> = ({
   alt,
   children,
   objectFit = 'cover',
+  containerStyle = {}
 }) => {
+  const mergedStyles = useMergeStyles(containerStyle, {
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  })
+
+
   return (
     <Box
-      sx={{
-        position: 'relative',
-        height: '100%',
-        width: '100%',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      sx={mergedStyles}
     >
       <Image
         src={src}

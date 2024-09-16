@@ -23,8 +23,15 @@ interface FormErrors {
   password?: string;
 }
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  title?: string;
+  cardContainerStyles?: Record<any, any>
+}
+
   // STATE
+
+  export const LoginForm: React.FC<LoginFormProps> = ({ title, cardContainerStyles = {} }) => {
+    // STATE
   const [formValues, setFormValues] = useState<FormValues>({
     email: "",
     password: "",
@@ -98,7 +105,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <CardWithTitle titleProps={{ text: "Login" }}>
+    <CardWithTitle containerStyle={cardContainerStyles} titleProps={{ text: "Login" }}>
       <form onSubmit={handleSubmit}>
         <TextInputGroup
           label="Email"

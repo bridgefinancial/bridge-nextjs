@@ -18,6 +18,8 @@ export enum BaseRoutes {
   PORTAL = "/portal",
 }
 
+
+
 /**
  * Enum defining the authentication-related routes.
  * These routes are specific to user authentication processes like login, signup, password reset, etc.
@@ -26,7 +28,7 @@ export enum BaseRoutes {
  */
 export enum AuthRoutes {
   LOGIN = "/auth/login",
-  SIGN_UP = "/auth/sign-up",
+  SIGN_UP = "/auth/sign-up/",
   PASSWORD_RESET = "/auth/password-reset",
   VERIFY_EMAIL = "/auth/verify-email",
   VERIFY_EMAIL_SENT = "/auth/verify-email-sent",
@@ -46,6 +48,8 @@ export enum PortalRoutes {
   BUSINESS_HEALTH = "/portal/business-health",
 }
 
+
+
 /**
  * Enum defining the questionnaire routes.
  */
@@ -53,6 +57,18 @@ export enum QuestionnaireRoutes {
   VALUATION = "/q/valuation",
   RECOMMENDATION = "/q/recommendations",
 }
+
+/**
+ * Enum defining the survey onboarding routes.
+ */
+export enum SurveyRoutes {
+  SURVEY_WELCOME = "/survey/welcome",
+  SURVEY_LOCATION_AND_OPERATIONS = "/survey/location-and-operations",
+  SURVEY_FINANCIAL_INFORMATION = "/survey/financial-information",
+  SURVEY_DEBT_AND_OBLIGATIONS = "/survey/debt-and-obligations",
+  SURVEY_VALUATION = "/survey/valuation-estimate"
+}
+
 
 /**
  * Object combining all the route paths from BaseRoutes, AuthRoutes, and PortalRoutes.

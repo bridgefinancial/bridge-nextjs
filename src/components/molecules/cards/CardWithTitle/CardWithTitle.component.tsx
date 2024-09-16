@@ -12,9 +12,12 @@ interface CardWithTitleProps {
   sx?: Record<string, any>; // Define `sx` as optional and improve type
   titleProps: TitleProps;
   children: React.ReactNode | React.ReactNode[];
+  containerStyle?: Record<any, any>
 }
 
-const CardWithTitle: FC<CardWithTitleProps> = ({ sx = {}, children, titleProps }) => {
+const CardWithTitle: FC<CardWithTitleProps> = (props: CardWithTitleProps) => {
+ const  { sx = {}, children, titleProps } = props;
+  const {containerStyle} = props;
   const { text, ...titleTextProps } = titleProps;
 
   // Define default styles for the outer Box component
@@ -23,13 +26,12 @@ const CardWithTitle: FC<CardWithTitleProps> = ({ sx = {}, children, titleProps }
     maxWidth: 580,
     margin: "auto",
     mt: 4,
-    backgroundColor: "white",
-    boxShadow: 3, // Optional: add shadow for better visual appeal
+    // backgroundColor: "white",
+    // boxShadow: 3, // Optional: add shadow for better visual appeal
   }), []);
 
   // Merge default styles with custom styles
-  const mergedOuterStyles = useMemo(() => merge({}, defaultOuterStyles, sx), [sx, defaultOuterStyles]);
-
+  const mergedOuterStyles = useMemo(() => merge(containerStyle, defaultOuterStyles, sx), [sx, defaultOuterStyles, containerStyle]);
   return (
     <Box sx={mergedOuterStyles}>
       <Box

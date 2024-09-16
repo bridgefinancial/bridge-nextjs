@@ -140,12 +140,13 @@ export const signUp = async (requestBody: SignUpRequest) => {
   return;
 };
 
-export const useSignUp = () => {
-  const router = useRouter();
+export const useSignUp = (onSuccessCallback?: () => void) => {
   return useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      router.push(routePaths.VERIFY_EMAIL_SENT);
+      if(onSuccessCallback && typeof onSuccessCallback === "function"){
+        onSuccessCallback()
+      }
     },
   });
 };

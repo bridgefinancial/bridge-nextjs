@@ -13,7 +13,7 @@ type QuestionnaireLayoutProps = {
 };
 
 const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
-  const { form, pageIndex, defaultValues, goTo } = useQuestionnaire();
+  const { form, pageIndex, goTo } = useQuestionnaire();
   return (
     <>
       <div className="h-screen w-screen flex flex-col md:flex-row items-stretch justify-stretch">
@@ -58,11 +58,11 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
                 <div
                   key={j}
                   className={clsx("flex flex-row items-center gap-4", {
-                    "cursor-not-allowed": j > pageIndex && !defaultValues,
-                    "cursor-pointer": j < pageIndex || !!defaultValues,
+                    "cursor-not-allowed": j > pageIndex,
+                    "cursor-pointer": j < pageIndex,
                   })}
                   onClick={() => {
-                    if (j < pageIndex || !!defaultValues) {
+                    if (j < pageIndex) {
                       goTo({ pageIndex: j });
                     }
                   }}

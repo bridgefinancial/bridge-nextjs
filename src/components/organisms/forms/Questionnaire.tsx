@@ -15,7 +15,6 @@ const Questionnaire = () => {
     goTo,
     checkPageValidity,
     isSubmitting,
-    defaultValues,
   } = useQuestionnaire();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -73,7 +72,6 @@ const Questionnaire = () => {
   return (
     <Form
       ref={formRef}
-      defaults={defaultValues}
       nextButtonConfig={nextButtonConfig}
       previousButtonConfig={previousButtonConfig}
       submitButtonConfig={submitButtonConfig}

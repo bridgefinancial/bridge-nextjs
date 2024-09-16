@@ -18,17 +18,14 @@ const FormField = forwardRef(
   ) => {
     // CALCULATED
     const defaultPlaceholder = "";
-    const { fieldRefsByName, defaultValues } = useQuestionnaire();
-
-    useEffect(() => {}, []);
-
-    const defaultValue = defaultValues?.[formField.name];
+    const { fieldRefsByName, formValues, handleChange, checkConditions } =
+      useQuestionnaire();
 
     // DOM
     return (
       <div
-        className={clsx("fmd-form-field flex flex-col", {
-          hidden: formField.hidden,
+        className={clsx("fmd-form-field flex flex-col transition-all", {
+          hidden: formField.hidden || !checkConditions(formField.conditions),
         })}
       >
         {/* Label and Hint */}
@@ -62,7 +59,6 @@ const FormField = forwardRef(
               minLength: formField.min_length,
               max: formField.max,
               maxLength: formField.max_length,
-              defaultValue: defaultValue,
             }}
             required={formField.required}
             id={formField.name}
@@ -70,6 +66,10 @@ const FormField = forwardRef(
             placeholder={formField.placeholder || defaultPlaceholder}
             className="fmd-input"
             type="text"
+            value={formValues[formField.name]}
+            onChange={(e) => {
+              handleChange(formField.name, e.target.value);
+            }}
           />
         )}
 
@@ -82,7 +82,6 @@ const FormField = forwardRef(
               minLength: formField.min_length,
               max: formField.max,
               maxLength: formField.max_length,
-              defaultValue: defaultValue,
             }}
             required={formField.required}
             id={formField.name}
@@ -90,6 +89,10 @@ const FormField = forwardRef(
             placeholder={formField.placeholder || defaultPlaceholder}
             className="fmd-input"
             type="number"
+            value={formValues[formField.name]}
+            onChange={(e) => {
+              handleChange(formField.name, e.target.value);
+            }}
           />
         )}
 
@@ -157,19 +160,22 @@ const FormField = forwardRef(
 
         {FieldInformationService.isLongText(formField.type) && (
           <TextField
-            component="textarea"
             id={formField.name}
             inputProps={{
               min: formField.min,
               minLength: formField.min_length,
               max: formField.max,
               maxLength: formField.max_length,
-              defaultValue: defaultValue,
             }}
             name={formField.name}
             placeholder={formField.placeholder || defaultPlaceholder}
             className="fmd-input"
             rows={4}
+            multiline
+            value={formValues[formField.name]}
+            onChange={(e) => {
+              handleChange(formField.name, e.target.value);
+            }}
           ></TextField>
         )}
 
@@ -178,7 +184,6 @@ const FormField = forwardRef(
             id={formField.name}
             name={formField.name}
             className="fmd-input"
-            defaultValue={defaultValue}
           >
             {formField.placeholder && (
               <option value="" disabled selected>
@@ -209,7 +214,6 @@ const FormField = forwardRef(
               autoComplete="on"
               className="fmd-input"
               list="suggestions"
-              defaultValue={defaultValue}
             />
           </div>
         )}
@@ -228,9 +232,11 @@ const FormField = forwardRef(
                       name={formField.name}
                       value={option.value}
                       type="checkbox"
-                      onChange={() => {}}
                       className="opacity-0 absolute pointer-events-none"
-                      defaultChecked={!!defaultValue}
+                      checked={formValues[formField.name] === option.value}
+                      onChange={() => {
+                        handleChange(formField.name, option.value);
+                      }}
                     />
                     <span className="fmd-checkmark"></span>
                   </label>
@@ -256,9 +262,11 @@ const FormField = forwardRef(
                     name={formField.name}
                     value={option.value}
                     type="radio"
-                    onChange={() => {}}
+                    checked={formValues[formField.name] === option.value}
+                    onChange={() => {
+                      handleChange(formField.name, option.value);
+                    }}
                     className="opacity-0 absolute pointer-events-none"
-                    defaultChecked={defaultValue === option.value}
                   />
                   <span className="fmd-radio-circle"></span>
                 </label>
@@ -328,10 +336,10 @@ const FormField = forwardRef(
                         name={field.name}
                         value={option.value}
                         type="radio"
-                        onChange={() => {}}
-                        defaultChecked={
-                          defaultValues?.[field.name] === option.value
-                        }
+                        checked={formValues[field.name] === option.value}
+                        onChange={() => {
+                          handleChange(field.name, option.value);
+                        }}
                       />
                       <span className="fmd-likert-circle"></span>
                     </td>

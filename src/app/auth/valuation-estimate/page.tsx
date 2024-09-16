@@ -54,7 +54,7 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({ industry =
               <TitleText sx={{ fontSize: "60px", lineHeight: "75px" }} component={"h2"}>
                 ${valuation.toLocaleString()} {/* Convert number to currency format */}
               </TitleText>
-              <ParagraphText sx={{ fontWeight: 600, fontSize: "16px", lineHeight: "21px", maxWidth: 300 , textAlign: 'center', margin: 'auto' }}>
+              <ParagraphText sx={{ fontWeight: 600, fontSize: "16px", lineHeight: "21px", maxWidth: 300 , textAlign: 'center', margin: 'auto', color: "#757575" }}>
                 This valuation is based on your reported 
                 revenue and industry multiple of {industryMultiple}
               </ParagraphText>
@@ -65,12 +65,12 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({ industry =
 
       {/* Call to Action Box */}
       <Box sx={{ 
-        maxWidth: '450px'
+        maxWidth: '500px'
        }} className="flex flex-col items-center text-center gap-4">
-        <TitleText sx={{ fontSize: "24px" }}>
+        <TitleText sx={{ fontSize: "24px", fontWeight: 600, }}>
           Ready to increase your valuation?
         </TitleText>
-        <ParagraphText sx={{ marginBottom: 0.5 }}>
+        <ParagraphText sx={{ marginBottom: 0.5,  color: "#757575",  fontSize: "16px", lineHeight: "21px", }}>
           Schedule a meeting with one of our business advisors who specializes in the chiropractic market.
         </ParagraphText>
         <a

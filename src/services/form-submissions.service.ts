@@ -24,7 +24,10 @@ export const getFormSubmission: (
 
 export const useFormSubmission = (
   variables: GetFormSubmissionVariables,
-  options?: { onError?: () => void }
+  options?: {
+    onSuccess?: (submission: FormSubmission) => void;
+    onError?: () => void;
+  }
 ) => {
   return useQuery({
     queryKey: ["form-submission", variables.formId],

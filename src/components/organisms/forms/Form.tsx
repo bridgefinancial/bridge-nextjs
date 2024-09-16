@@ -10,7 +10,6 @@ type FormProps = {
   previousButtonConfig: FormActionConfig;
   nextButtonConfig: FormActionConfig;
   submitButtonConfig: FormActionConfig;
-  defaults?: Record<string, any>;
 };
 
 const Form = forwardRef(
@@ -33,7 +32,13 @@ const Form = forwardRef(
     }
 
     return (
-      <form onSubmit={submit} ref={ref}>
+      <form
+        onSubmit={submit}
+        ref={ref}
+        onChange={(e) => {
+          // force rerender each time a form input value changes
+        }}
+      >
         <div className="px-6">
           {isLoading ? (
             <div className="flex flex-col gap-4">

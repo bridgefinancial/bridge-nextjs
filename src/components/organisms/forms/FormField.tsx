@@ -2,9 +2,9 @@ import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import { FieldInformationService } from "@/services/fields.service";
 import { FormField as Field } from "@/types/forms.types";
-import { InputAdornment, TextField } from "@mui/material";
+import { Checkbox, InputAdornment, TextField } from "@mui/material";
 import clsx from "clsx";
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 
 type FormFieldProps = {
   formField: Field;
@@ -16,6 +16,8 @@ const FormField = forwardRef(
     { formField, error }: FormFieldProps,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
+    // STATE
+    const [notSure, setNotSure] = useState<boolean>(false);
     // CALCULATED
     const defaultPlaceholder = "";
     const { fieldRefsByName, formValues, handleChange, checkConditions } =
@@ -50,76 +52,81 @@ const FormField = forwardRef(
           <ParagraphText>{formField.value}</ParagraphText>
         )}
 
-        {FieldInformationService.isShortText(formField.type) && (
-          <TextField
-            fullWidth={false}
-            inputRef={ref}
-            inputProps={{
-              min: formField.min,
-              minLength: formField.min_length,
-              max: formField.max,
-              maxLength: formField.max_length,
-            }}
-            required={formField.required}
-            id={formField.name}
-            name={formField.name}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            type="text"
-            value={formValues[formField.name]}
-            onChange={(e) => {
-              handleChange(formField.name, e.target.value);
-            }}
-          />
-        )}
+        <div className="flex items-center gap-6">
+          {FieldInformationService.isShortText(formField.type) && (
+            <TextField
+              fullWidth={false}
+              inputRef={ref}
+              inputProps={{
+                min: formField.min,
+                minLength: formField.min_length,
+                max: formField.max,
+                maxLength: formField.max_length,
+              }}
+              required={formField.required}
+              id={formField.name}
+              name={formField.name}
+              placeholder={formField.placeholder || defaultPlaceholder}
+              className="fmd-input"
+              type="text"
+              value={formValues[formField.name]}
+              onChange={(e) => {
+                handleChange(formField.name, e.target.value);
+              }}
+              disabled={notSure}
+            />
+          )}
 
-        {FieldInformationService.isNumber(formField.type) && (
-          <TextField
-            fullWidth={false}
-            inputRef={ref}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  {FieldInformationService.getStartInputAdornment(
-                    formField.type
-                  )}
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  {FieldInformationService.getEndInputAdornment(formField.type)}
-                </InputAdornment>
-              ),
-            }}
-            inputProps={{
-              min: formField.min,
-              minLength: formField.min_length,
-              max: formField.max,
-              maxLength: formField.max_length,
-            }}
-            required={formField.required}
-            id={formField.name}
-            name={formField.name}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            value={formValues[formField.name]}
-            onChange={(e) => {
-              if (
-                FieldInformationService.isValidUserInput(
-                  formField.type,
-                  e.target.value
-                )
-              ) {
-                handleChange(
-                  formField.name,
-                  FieldInformationService.formatNumberInput(e.target.value)
-                );
-              }
-            }}
-          />
-        )}
+          {FieldInformationService.isNumber(formField.type) && (
+            <TextField
+              fullWidth={false}
+              inputRef={ref}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    {FieldInformationService.getStartInputAdornment(
+                      formField.type
+                    )}
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {FieldInformationService.getEndInputAdornment(
+                      formField.type
+                    )}
+                  </InputAdornment>
+                ),
+              }}
+              inputProps={{
+                min: formField.min,
+                minLength: formField.min_length,
+                max: formField.max,
+                maxLength: formField.max_length,
+              }}
+              required={formField.required}
+              id={formField.name}
+              name={formField.name}
+              placeholder={formField.placeholder || defaultPlaceholder}
+              className="fmd-input"
+              value={formValues[formField.name]}
+              onChange={(e) => {
+                if (
+                  FieldInformationService.isValidUserInput(
+                    formField.type,
+                    e.target.value
+                  )
+                ) {
+                  handleChange(
+                    formField.name,
+                    FieldInformationService.formatNumberInput(e.target.value)
+                  );
+                }
+              }}
+              disabled={notSure}
+            />
+          )}
 
-        {/* {FieldInformationService.isDate(formField.type) && (
+          {/* {FieldInformationService.isDate(formField.type) && (
         <div className="fmd-date-container">
           <input ref={ref} required={formField.required}
             id={formField.name}
@@ -139,7 +146,7 @@ const FormField = forwardRef(
         </div>
       )} */}
 
-        {/* {FieldInformationService.isTime(formField.type) && (
+          {/* {FieldInformationService.isTime(formField.type) && (
         <div className="fmd-date-container">
           <input ref={ref} required={formField.required}
             id={formField.name}
@@ -160,7 +167,7 @@ const FormField = forwardRef(
         </div>
       )} */}
 
-        {/* {FieldInformationService.isDatetime(formField.type) && (
+          {/* {FieldInformationService.isDatetime(formField.type) && (
         <div className="fmd-date-container">
           <input ref={ref} required={formField.required}
             id={formField.name}
@@ -181,26 +188,45 @@ const FormField = forwardRef(
         </div>
       )} */}
 
-        {FieldInformationService.isLongText(formField.type) && (
-          <TextField
-            id={formField.name}
-            inputProps={{
-              min: formField.min,
-              minLength: formField.min_length,
-              max: formField.max,
-              maxLength: formField.max_length,
-            }}
-            name={formField.name}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            rows={4}
-            multiline
-            value={formValues[formField.name]}
-            onChange={(e) => {
-              handleChange(formField.name, e.target.value);
-            }}
-          ></TextField>
-        )}
+          {FieldInformationService.isLongText(formField.type) && (
+            <TextField
+              id={formField.name}
+              inputProps={{
+                min: formField.min,
+                minLength: formField.min_length,
+                max: formField.max,
+                maxLength: formField.max_length,
+              }}
+              name={formField.name}
+              placeholder={formField.placeholder || defaultPlaceholder}
+              className="fmd-input"
+              rows={4}
+              multiline
+              value={formValues[formField.name]}
+              onChange={(e) => {
+                handleChange(formField.name, e.target.value);
+              }}
+              disabled={notSure}
+            ></TextField>
+          )}
+          {/* Not sure option */}
+          {!!formField.not_sure && (
+            <div className="flex items-center justify-start">
+              <Checkbox
+                checked={notSure}
+                onChange={(e) => {
+                  setNotSure(e.target.checked);
+                  if (e.target.checked) {
+                    handleChange(formField.name, "Not sure");
+                  } else {
+                    handleChange(formField.name, "");
+                  }
+                }}
+              />
+              <ParagraphText fontWeight={700}>Not sure</ParagraphText>
+            </div>
+          )}
+        </div>
 
         {FieldInformationService.isDropdown(formField.type) && (
           <select

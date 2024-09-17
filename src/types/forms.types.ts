@@ -226,6 +226,7 @@ export type FormField = {
   validator?: CustomValidator; // unsupported
   clean?: CleanType[] | string[]; // unsupported
   add_more?: boolean;
+  not_sure?: boolean;
   accepted_file_types?: string;
 
   // Deprecate in favor of conditions

@@ -1,10 +1,11 @@
 "use client";
 
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Form from "./Form";
 import { FormActionConfig } from "./FormAction";
 import { ArrowForward } from "@mui/icons-material";
+import FormIntro from "./FormIntro";
 
 const Questionnaire = () => {
   // HOOKS
@@ -18,6 +19,11 @@ const Questionnaire = () => {
     checkPageValidity,
     isSubmitting,
   } = useQuestionnaire();
+
+  // STATE
+  const [showIntro, setShowIntro] = useState(!!form?.intro);
+
+  // REFS
   const formRef = useRef<HTMLFormElement>(null);
 
   // CALCULATED
@@ -71,6 +77,17 @@ const Questionnaire = () => {
 
   if (!form) {
     return <></>;
+  }
+
+  if (!!form.intro && showIntro) {
+    return (
+      <FormIntro
+        {...form.intro}
+        onClick={() => {
+          setShowIntro(false);
+        }}
+      />
+    );
   }
 
   return (

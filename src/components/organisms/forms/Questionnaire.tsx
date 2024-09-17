@@ -4,6 +4,7 @@ import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import React, { useRef } from "react";
 import Form from "./Form";
 import { FormActionConfig } from "./FormAction";
+import { ArrowForward } from "@mui/icons-material";
 
 const Questionnaire = () => {
   // HOOKS
@@ -35,13 +36,14 @@ const Questionnaire = () => {
         goTo({ pageIndex: pageIndex + 1 });
       }
     },
+    endIcon: <ArrowForward />,
   };
 
   const previousButtonConfig: FormActionConfig = {
-    hidden: isFirstPage && isFirstForm,
-    disabled: isSubmitting,
+    hidden: false,
+    disabled: isSubmitting || (isFirstPage && isFirstForm),
     isLoading: false,
-    text: "Previous",
+    text: "Back",
     onClick: () => {
       if (pageIndex === 0 && !isFirstForm) {
         goTo({ formIndex: formIndex - 1, pageIndex: pageIndex - 1 });
@@ -49,6 +51,7 @@ const Questionnaire = () => {
         goTo({ pageIndex: pageIndex - 1 });
       }
     },
+    variant: "text",
   };
 
   const submitButtonConfig: FormActionConfig = {

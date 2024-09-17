@@ -10,6 +10,7 @@ const Questionnaire = () => {
   const {
     formsCount,
     form,
+    page,
     formIndex,
     pageIndex,
     goTo,
@@ -30,7 +31,7 @@ const Questionnaire = () => {
     isLoading: false,
     text: "Next",
     onClick: () => {
-      if (checkPageValidity()) {
+      if (checkPageValidity(page)) {
         goTo({ pageIndex: pageIndex + 1 });
       }
     },

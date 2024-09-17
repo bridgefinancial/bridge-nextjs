@@ -193,7 +193,7 @@ export type FormField = {
   id: number;
   name: string;
   label: string;
-  type: FieldType | string;
+  type: FieldType;
   required?: boolean;
   order?: number;
   readonly?: boolean;

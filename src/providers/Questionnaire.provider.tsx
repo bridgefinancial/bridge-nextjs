@@ -23,6 +23,7 @@ import {
 } from "@/services/form-submissions.service";
 import { useRouter } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
+import { FieldInformationService } from "@/services/fields.service";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -44,7 +45,7 @@ export const QuestionnaireContext = createContext<{
     formIndex?: number;
   }) => void;
   submit: React.FormEventHandler;
-  checkPageValidity: () => boolean;
+  checkPageValidity: (page?: Page) => boolean;
   checkConditions: (conditions?: Condition[]) => boolean;
   handleChange: (name: string, value: any) => void;
 }>({
@@ -140,22 +141,22 @@ export const QuestionnaireProvider = ({
     // Prevent the default form submission behavior
     event.preventDefault();
 
-    // Get the form element from the event
-    const formElement = event.target as HTMLFormElement;
+    const formDataValues: Record<string, any> = formValues;
 
-    // Create a FormData object from the form element
-    const formData = new FormData(formElement);
-
-    // Convert the FormData object to a plain object
-    const formDataObject: Record<string, any> = {};
-    formData.forEach((value, key) => {
-      formDataObject[key] = value;
+    form.definition.pages.forEach((page) => {
+      page.fields.forEach((field) => {
+        if (FieldInformationService.isNumber(field.type)) {
+          formDataValues[field.name] = parseFloat(
+            formValues[field.name].replaceAll(",", "")
+          );
+        }
+      });
     });
 
     submitForm(
       {
         formId: form.id,
-        formData: { data: formDataObject },
+        formData: { data: formDataValues },
       },
       {
         onSuccess: (responseData) => {
@@ -233,8 +234,9 @@ export const QuestionnaireProvider = ({
     }
   };
 
-  const handleCheckPageValidity = () => {
-    return !!page?.fields
+  const handleCheckPageValidity = (pageToCheck?: Page) => {
+    const correctPage = pageToCheck ?? page;
+    return !!correctPage?.fields
       .map((field) => handleCheckFieldValidity(field))
       .every(Boolean);
   };

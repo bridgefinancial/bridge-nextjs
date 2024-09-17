@@ -2,7 +2,7 @@ import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import { FieldInformationService } from "@/services/fields.service";
 import { FormField as Field } from "@/types/forms.types";
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import clsx from "clsx";
 import React, { forwardRef, useEffect } from "react";
 
@@ -77,6 +77,20 @@ const FormField = forwardRef(
           <TextField
             fullWidth={false}
             inputRef={ref}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  {FieldInformationService.getStartInputAdornment(
+                    formField.type
+                  )}
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  {FieldInformationService.getEndInputAdornment(formField.type)}
+                </InputAdornment>
+              ),
+            }}
             inputProps={{
               min: formField.min,
               minLength: formField.min_length,
@@ -88,10 +102,19 @@ const FormField = forwardRef(
             name={formField.name}
             placeholder={formField.placeholder || defaultPlaceholder}
             className="fmd-input"
-            type="number"
             value={formValues[formField.name]}
             onChange={(e) => {
-              handleChange(formField.name, e.target.value);
+              if (
+                FieldInformationService.isValidUserInput(
+                  formField.type,
+                  e.target.value
+                )
+              ) {
+                handleChange(
+                  formField.name,
+                  FieldInformationService.formatNumberInput(e.target.value)
+                );
+              }
             }}
           />
         )}

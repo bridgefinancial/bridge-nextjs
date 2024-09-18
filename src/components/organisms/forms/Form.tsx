@@ -66,6 +66,7 @@ const Form = forwardRef(
             {form.definition.pages.map((_, index) => {
               return (
                 <div
+                  key={`page-indicator-${index}`}
                   className={clsx("basis-0 shrink grow rounded-full h-2", {
                     "bg-bridge-dark-purple": index < pageIndex,
                     "bg-gray-300": index >= pageIndex,

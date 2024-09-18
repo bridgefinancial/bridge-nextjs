@@ -1,19 +1,14 @@
-import React, { useState, useMemo, useRef } from 'react';
-import {
-  Box,
-  Typography,
-  List,
-  Grid,
-} from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import BaseDialog from '../BaseDialog';
-import { BaseDialogProps } from '../BaseDialog/BaseDialog.component';
-import { BaseTypographyProps } from '../../../../types/base-typography-props.interface';
-import ListItemWithStatus from '../../lists/ListItemWithStatus';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import { colors } from '@/theme/theme';
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import TextButton from '@/components/atoms/buttons/TextButton/TextButton.component';
+import React, { useState, useMemo, useRef } from "react";
+import { Box, Typography, List, Grid } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import BaseDialog from "../BaseDialog";
+import { BaseDialogProps } from "../BaseDialog/BaseDialog.component";
+import { BaseTypographyProps } from "../../../../types/base-typography-props.interface";
+import ListItemWithStatus from "../../lists/ListItemWithStatus";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { colors } from "@/theme/theme";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import TextButton from "@/components/atoms/buttons/TextButton/TextButton.component";
 
 interface UploadDialogProps extends Partial<BaseDialogProps> {
   open: boolean;
@@ -36,16 +31,16 @@ interface UploadDialogProps extends Partial<BaseDialogProps> {
 const UploadDialog: React.FC<UploadDialogProps> = ({
   open = false,
   onClose = () => {},
-  dropzoneText = 'Drag and drop your documents here',
-  supportedFormats = ['pdf', 'docx', 'csv'], // default formats
-  completeText = 'Complete',
-  cancelText = 'Cancel',
-  saveText = 'Save',
+  dropzoneText = "Drag and drop your documents here",
+  supportedFormats = ["pdf", "docx", "csv"], // default formats
+  completeText = "Complete",
+  cancelText = "Cancel",
+  saveText = "Save",
   handleSave,
   isSaving = false,
   ariaDescribedBy,
   titleProps = {
-    titleText: 'Upload files',
+    titleText: "Upload files",
     titleStyles: {
       fontSize: 18,
       fontWeight: 600,
@@ -56,19 +51,21 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Generate the accept attribute based on supported formats
-  const acceptFormats = supportedFormats.map((format) => `.${format}`).join(',');
+  const acceptFormats = supportedFormats
+    .map((format) => `.${format}`)
+    .join(",");
 
   // Handle file drop event
   const handleFileDrop = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files);
       const validFiles = files.filter((file) => {
-        const fileExtension = file.name.split('.').pop()?.toLowerCase();
-        return supportedFormats.includes(fileExtension || '');
+        const fileExtension = file.name.split(".").pop()?.toLowerCase();
+        return supportedFormats.includes(fileExtension || "");
       });
 
       if (validFiles.length !== files.length) {
-        alert('Some files are not in the supported format.');
+        alert("Some files are not in the supported format.");
       }
 
       setUploadedFiles(validFiles); // Update internal state with valid files only
@@ -81,7 +78,10 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   };
 
   // Check if there are no files uploaded
-  const noFilesAvailable = useMemo(() => uploadedFiles.length === 0, [uploadedFiles.length]);
+  const noFilesAvailable = useMemo(
+    () => uploadedFiles.length === 0,
+    [uploadedFiles.length],
+  );
 
   // Handle save operation
   const submitDocs = async () => {
@@ -90,7 +90,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         await handleSave(uploadedFiles); // Call the passed handleSave function with uploaded files
         setUploadedFiles([]); // Clear the uploaded files after saving
       } catch (error) {
-        console.error('Error while saving files:', error);
+        console.error("Error while saving files:", error);
       }
     }
   };
@@ -104,39 +104,43 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
       open={open}
       onClose={onClose}
       actions={
-        noFilesAvailable
-          ? null
-          : (
-            <Grid container style={{ 
-              width: '100%',
-             }} >
-              <Grid item xs={4}>
-              <TextButton       sx={{ width: '100%' }} text={cancelText} onClick={onClose} disabled={isSaving} />
-              </Grid>
-
-              <Grid xs={4}>
-
-              </Grid>
-              <Grid item xs={4}>
-                <ContainedButton
-                backgroundColor={colors.bridgeDarkPurple}
-                  sx={{ width: '100%' }}
-                  text={saveText}
-                  onClick={submitDocs} // Use submitDocs to handle the file submission
-                  disabled={isSaving}
-                />
-              </Grid>
+        noFilesAvailable ? null : (
+          <Grid
+            container={true}
+            style={{
+              width: "100%",
+            }}
+          >
+            <Grid item={true} xs={4}>
+              <TextButton
+                sx={{ width: "100%" }}
+                text={cancelText}
+                onClick={onClose}
+                disabled={isSaving}
+              />
             </Grid>
-          )
+
+            <Grid xs={4} />
+            <Grid item={true} xs={4}>
+              <ContainedButton
+                backgroundColor={colors.bridgeDarkPurple}
+                sx={{ width: "100%" }}
+                text={saveText}
+                onClick={submitDocs} // Use submitDocs to handle the file submission
+                disabled={isSaving}
+              />
+            </Grid>
+          </Grid>
+        )
       }
     >
       <Box className="space-y-2">
         {/* Hidden File Input */}
         <input
           type="file"
-          multiple
+          multiple={true}
           accept={acceptFormats} // Only allow supported file types
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           ref={fileInputRef} // Connect the ref to the file input
           onChange={handleFileDrop} // Handle file input change
         />
@@ -146,19 +150,17 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
           component="label"
           className="flex flex-col items-center justify-center w-full"
           sx={{
-            border: '2px dashed #ddd',
-            borderRadius: '12px',
-            padding: '16px',
-            cursor: 'pointer',
-            '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
+            border: "2px dashed #ddd",
+            borderRadius: "12px",
+            padding: "16px",
+            cursor: "pointer",
+            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
           }}
           onClick={() => fileInputRef.current?.click()} // Trigger file input on click
         >
           <Box className="flex flex-col sm:flex-row items-center justify-center gap-2 w-full">
             <CloudUploadIcon color="primary" />
-            <ParagraphText
-              sx={{ color: 'rgba(0, 0, 0, 0.6)' }}
-            >
+            <ParagraphText sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
               {dropzoneText}
             </ParagraphText>
           </Box>
@@ -167,11 +169,13 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
           </ParagraphText>
         </Box>
 
-        <ParagraphText sx={{ 
-          color: "rgba(0, 0, 0, 0.6)",
-          fontSize: 13
-         }}>
-          Supported formats: {supportedFormats.join(', ')}
+        <ParagraphText
+          sx={{
+            color: "rgba(0, 0, 0, 0.6)",
+            fontSize: 13,
+          }}
+        >
+          Supported formats: {supportedFormats.join(", ")}
         </ParagraphText>
 
         {/* List of Uploaded Files */}

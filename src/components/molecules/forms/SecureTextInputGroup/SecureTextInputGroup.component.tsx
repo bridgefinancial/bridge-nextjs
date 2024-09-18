@@ -1,20 +1,26 @@
-import React from 'react';
-import { TextField, InputAdornment, IconButton, TextFieldProps } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { colors } from '@/theme/theme';
-import useMergeStyles from '@/hooks/useMergeStyles.hook';
+import React from "react";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  TextFieldProps,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { colors } from "@/theme/theme";
+import useMergeStyles from "@/hooks/useMergeStyles.hook";
 
 // Define the types for icon components
 export type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
-export interface SecureTextInputGroupProps extends Omit<TextFieldProps, 'variant' | 'type'> {
+export interface SecureTextInputGroupProps
+  extends Omit<TextFieldProps, "variant" | "type"> {
   isSecure?: boolean;
   securePressOnChange: () => void;
   handleOnMouseDown: (event: React.MouseEvent<HTMLButtonElement>) => void;
   SecureTextOnIcon?: IconComponent;
   SecureTextOffIcon?: IconComponent;
-  sx?: TextFieldProps['sx'];
+  sx?: TextFieldProps["sx"];
 }
 
 /**
@@ -70,25 +76,27 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
   sx = {},
   ...rest
 }) => {
-
-  const mergedStyles = useMergeStyles({
-    '& .MuiFilledInput-underline:before': {
-      borderBottomColor: "rgba(0, 0, 0, .5)"
+  const mergedStyles = useMergeStyles(
+    {
+      "& .MuiFilledInput-underline:before": {
+        borderBottomColor: "rgba(0, 0, 0, .5)",
+      },
+      "& .MuiFilledInput-underline:hover:before": {
+        borderBottomColor: colors.bridgeLightPurple, // Color on hover
+      },
+      "& .MuiFilledInput-underline:after": {
+        borderBottomColor: colors.bridgeDarkPurple, // Color when focused
+      },
+      // Styles for the label
+      "& .MuiFormLabel-root": {
+        color: "rgba(0, 0, 0, .4)",
+      },
+      "& .MuiFormLabel-root.Mui-focused": {
+        color: colors.bridgeDarkPurple, // Label color when focused
+      },
     },
-    '& .MuiFilledInput-underline:hover:before': {
-      borderBottomColor: colors.bridgeLightPurple // Color on hover
-    },
-    '& .MuiFilledInput-underline:after': {
-      borderBottomColor: colors.bridgeDarkPurple // Color when focused
-    },
-    // Styles for the label
-    '& .MuiFormLabel-root': {
-      color: "rgba(0, 0, 0, .4)"
-    },
-    '& .MuiFormLabel-root.Mui-focused': {
-      color: colors.bridgeDarkPurple // Label color when focused
-    }
-  }, {});
+    {},
+  );
 
   return (
     <TextField
@@ -113,10 +121,10 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
               onMouseDown={handleOnMouseDown}
               edge="end"
               sx={{
-                width: '36px',        // Set width to create a square button
-                height: '36px',       // Set height to match the width
-                borderRadius: '50%',  // Ensure the button is a circle
-                padding: '6px',       // Optional: Adjust padding as needed to ensure the icon fits nicely
+                width: "36px", // Set width to create a square button
+                height: "36px", // Set height to match the width
+                borderRadius: "50%", // Ensure the button is a circle
+                padding: "6px", // Optional: Adjust padding as needed to ensure the icon fits nicely
               }}
             >
               {isSecure ? <SecureTextOnIcon /> : <SecureTextOffIcon />}

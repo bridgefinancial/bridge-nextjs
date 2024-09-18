@@ -137,7 +137,7 @@ export const QuestionnaireProvider = ({
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    event
+    event,
   ) => {
     if (!form || !handleCheckPageValidity()) {
       return;
@@ -177,18 +177,18 @@ export const QuestionnaireProvider = ({
           setErrorsFunc(
             { Error: `Something went wrong: ${error}` },
             undefined,
-            true
+            true,
           );
           setTimeout(() => {
             setErrorsFunc({});
           }, 5000);
         },
-      }
+      },
     );
   };
 
   const handleCheckFieldValidity: (field: FormField) => boolean = (
-    field: FormField
+    field: FormField,
   ) => {
     // If the form field's conditions are hiding the field, ski[]
     if (!handleCheckConditions(field.conditions)) {
@@ -323,7 +323,7 @@ export const useQuestionnaire = () => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
     throw new Error(
-      "useQuestionnaire must be used within a QuestionnaireProvider"
+      "useQuestionnaire must be used within a QuestionnaireProvider",
     );
   }
   return context;

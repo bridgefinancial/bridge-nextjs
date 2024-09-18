@@ -28,7 +28,7 @@ const Dashboard = () => {
       <div className="flex flex-col lg:flex-row items-stretch gap-6 w-full">
         <div className="grow shrink basis-0">
           {isLoadingUser ? (
-            <div className="bg-gray-200 animate-pulse h-60 rounded-[20px]"></div>
+            <div className="bg-gray-200 animate-pulse h-60 rounded-[20px]" />
           ) : (
             <LockedContent
               body="Estimate the value of your business!"
@@ -45,7 +45,7 @@ const Dashboard = () => {
 
         <div className="grow shrink basis-0">
           {isLoadingNextAction ? (
-            <div className="bg-gray-200 animate-pulse h-60 rounded-[20px]"></div>
+            <div className="bg-gray-200 animate-pulse h-60 rounded-[20px]" />
           ) : (
             <LockedContent
               body="Get personalized next steps for your business by completing your business profile!"
@@ -62,7 +62,7 @@ const Dashboard = () => {
       </div>
 
       {isLoadingUser ? (
-        <div className="bg-gray-200 animate-pulse h-60 rounded-[20px] w-full"></div>
+        <div className="bg-gray-200 animate-pulse h-60 rounded-[20px] w-full" />
       ) : (
         <LockedContent
           body="Access your business roadmap and recommendations by completing your business profile!"

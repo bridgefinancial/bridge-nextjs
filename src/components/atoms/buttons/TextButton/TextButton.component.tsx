@@ -51,13 +51,13 @@ const TextButton: FC<TextButtonProps> = (props) => {
         backgroundColor: backgroundColor,
       },
     }),
-    [backgroundColor, textColor]
+    [backgroundColor, textColor],
   );
 
   // Merge default styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
-    [sx, defaultStyles]
+    [sx, defaultStyles],
   );
 
   return (
@@ -66,7 +66,7 @@ const TextButton: FC<TextButtonProps> = (props) => {
       variant="text"
       onClick={onClick}
       fullWidth={fullWidth}
-      disableElevation
+      disableElevation={true}
       disabled={isLoading || disabled}
       {...rest}
       type={type}

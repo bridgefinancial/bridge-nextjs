@@ -1,14 +1,22 @@
-import React, { useMemo } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Box, SxProps, Theme } from '@mui/material';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import { BaseTypographyProps } from '@/types/base-typography-props.interface';
+import React, { useMemo } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+  SxProps,
+  Theme,
+} from "@mui/material";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { BaseTypographyProps } from "@/types/base-typography-props.interface";
 
 export interface BaseDialogProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
   actions?: React.ReactNode;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number; // Allow custom pixel values as well
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number; // Allow custom pixel values as well
   fullWidth?: boolean;
   titleProps?: {
     titleText: string;
@@ -24,30 +32,30 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   children,
   actions,
   titleProps = {
-    titleText: '',
+    titleText: "",
     titleStyles: {
       fontWeight: 400,
     },
   },
   paperStyles = {},
-  maxWidth = 'sm',
+  maxWidth = "sm",
   fullWidth = false,
   ariaDescribedBy,
 }) => {
   const { titleText, titleStyles } = titleProps;
   const memoizedMaxWidth = useMemo(
-    () => (typeof maxWidth === 'number' ? `${maxWidth}px` : undefined),
-    [maxWidth]
+    () => (typeof maxWidth === "number" ? `${maxWidth}px` : undefined),
+    [maxWidth],
   );
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth={typeof maxWidth === 'number' ? false : maxWidth}
+      maxWidth={typeof maxWidth === "number" ? false : maxWidth}
       PaperProps={{
         sx: {
-          borderRadius: '20px', // Correctly applying border-radius here
+          borderRadius: "20px", // Correctly applying border-radius here
           maxWidth: memoizedMaxWidth,
           ...paperStyles, // Apply any additional styles passed in props
         },
@@ -61,7 +69,7 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
           <ParagraphText sx={titleStyles}>{titleText}</ParagraphText>
         </DialogTitle>
       )}
-      <DialogContent dividers>
+      <DialogContent dividers={true}>
         <Box id={`base-dialog-description-${ariaDescribedBy}`} sx={{ p: 0.5 }}>
           {children}
         </Box>

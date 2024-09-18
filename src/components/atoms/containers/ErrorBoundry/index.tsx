@@ -1,1 +1,1 @@
-export {default} from './ErrorBoundry.component'
+export { default } from "./ErrorBoundry.component";

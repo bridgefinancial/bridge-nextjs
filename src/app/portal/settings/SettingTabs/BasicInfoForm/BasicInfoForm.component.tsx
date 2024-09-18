@@ -39,7 +39,7 @@ const BasicInfoForm = () => {
             height: 64,
             borderRadius: "50%",
             objectFit: "contain",
-            backgroundColor: "#f9fafb"
+            backgroundColor: "#f9fafb",
             // backgroundColor: "rgb(249, 250, 251)"
           }}
         >
@@ -50,9 +50,12 @@ const BasicInfoForm = () => {
               style={{ width: "100%", height: "100%", borderRadius: "50%" }}
             />
           ) : (
-            <PersonIcon sx={{ 
-              color: '#212121'
-             }} fontSize="medium" />
+            <PersonIcon
+              sx={{
+                color: "#212121",
+              }}
+              fontSize="medium"
+            />
           )}
         </Avatar>
         <Box sx={{ display: "flex", gap: 2 }}>
@@ -61,7 +64,7 @@ const BasicInfoForm = () => {
               sx: {
                 color: "white",
                 fontWeight: "bold",
-                fontSize: 14
+                fontSize: 14,
               },
             }}
             text={<strong>{image ? "Change picture" : "Add picture"}</strong>}
@@ -69,11 +72,11 @@ const BasicInfoForm = () => {
             onClick={() => document.getElementById("avatar-input")?.click()}
           />
           <TextButton
-            textProps={{ 
+            textProps={{
               sx: {
-                fontSize: 14
-              }
-             }}
+                fontSize: 14,
+              },
+            }}
             onClick={handleDeleteAvatar}
             startIcon={<DeleteIcon />}
             text={<strong>Delete</strong>}
@@ -82,7 +85,7 @@ const BasicInfoForm = () => {
           <input
             type="file"
             id="avatar-input"
-            hidden
+            hidden={true}
             accept="image/*"
             onChange={handlePhotoChange}
           />

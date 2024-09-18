@@ -10,7 +10,6 @@ import { routePaths } from "@/types/routes.enum";
 import Link from "next/link";
 import { useLoginUser, useSessionUser } from "@/services/users.service";
 import { useAuth } from "@/providers/Auth.provider";
-import { useRouter } from "next/navigation";
 
 // Define types for form values and errors
 interface FormValues {
@@ -23,7 +22,17 @@ interface FormErrors {
   password?: string;
 }
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  title?: string;
+  cardContainerStyles?: Record<any, any>;
+}
+
+// STATE
+
+export const LoginForm: React.FC<LoginFormProps> = ({
+  title,
+  cardContainerStyles = {},
+}) => {
   // STATE
   const [formValues, setFormValues] = useState<FormValues>({
     email: "",
@@ -66,7 +75,7 @@ const LoginForm: React.FC = () => {
 
   // Validate form fields
   const validate = (): boolean => {
-    let errors: FormErrors = {};
+    const errors: FormErrors = {};
 
     if (!formValues.email) {
       errors.email = "Email is required";
@@ -98,12 +107,15 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <CardWithTitle titleProps={{ text: "Login" }}>
+    <CardWithTitle
+      containerStyle={cardContainerStyles}
+      titleProps={{ text: "Login" }}
+    >
       <form onSubmit={handleSubmit}>
         <TextInputGroup
           label="Email"
           type="email"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="email"
           disabled={isPending}
@@ -114,7 +126,7 @@ const LoginForm: React.FC = () => {
         />
         <SecureTextInputGroup
           label="Password"
-          fullWidth
+          fullWidth={true}
           margin={"normal"}
           name="password"
           value={formValues.password}
@@ -135,7 +147,7 @@ const LoginForm: React.FC = () => {
 
         <ContainedButton
           isLoading={isPending}
-          fullWidth
+          fullWidth={true}
           text={"Login"}
           type="submit"
         />

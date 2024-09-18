@@ -76,7 +76,7 @@ const ChangePasswordForm: React.FC = () => {
 
   // Validate form fields
   const validate = (): boolean => {
-    let errors: FormErrors = {};
+    const errors: FormErrors = {};
 
     if (!state.formValues.password) {
       errors.password = "Current password is required";
@@ -112,7 +112,14 @@ const ChangePasswordForm: React.FC = () => {
       }}
     >
       {/* Personal Info Header */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5, marginBottom: 0.1, }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+          marginBottom: 0.1,
+        }}
+      >
         <TitleText sx={{ fontSize: 20 }} component="h3">
           Change Password
         </TitleText>
@@ -125,7 +132,7 @@ const ChangePasswordForm: React.FC = () => {
       <TextInputGroup
         label="Current password"
         type="password"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="password"
         value={state.formValues.password}
@@ -138,7 +145,7 @@ const ChangePasswordForm: React.FC = () => {
       <TextInputGroup
         label="New password"
         type="password"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="password1"
         value={state.formValues.password1}
@@ -151,7 +158,7 @@ const ChangePasswordForm: React.FC = () => {
       <TextInputGroup
         label="Confirm password"
         type="password"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="password2"
         value={state.formValues.password2}
@@ -163,14 +170,14 @@ const ChangePasswordForm: React.FC = () => {
       {/* Save Changes Button */}
       <Box sx={{ alignSelf: "flex-end" }}>
         <ContainedButton
-          textProps={{ 
+          textProps={{
             sx: {
-              fontWeight: 'bold',
+              fontWeight: "bold",
               color: "white",
-              fontSize: 14
-            }
-           }}
-          fullWidth
+              fontSize: 14,
+            },
+          }}
+          fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
           text={<strong>Save Changes</strong>}
           type="submit"

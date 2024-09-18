@@ -18,7 +18,7 @@ const GradientBox: React.FC<GradientBoxProps> = ({
   const gradient = `linear-gradient(${direction}, ${colors.join(", ")})`;
   const styles = useMergeStyles(
     { backgroundImage: gradient },
-    containerStyle as any
+    containerStyle as any,
   );
   return (
     <div

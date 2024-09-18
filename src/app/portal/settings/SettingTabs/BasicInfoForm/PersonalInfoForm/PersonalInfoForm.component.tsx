@@ -80,7 +80,7 @@ const PersonalInfoForm: React.FC = () => {
 
   // Validate form fields
   const validate = (): boolean => {
-    let errors: FormErrors = {};
+    const errors: FormErrors = {};
 
     if (!state.formValues.email) {
       errors.email = "Email is required";
@@ -113,15 +113,27 @@ const PersonalInfoForm: React.FC = () => {
       }}
     >
       {/* Personal Info Header */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5, marginBottom: 0.1, }}>
-        <TitleText  sx={{ 
-          fontSize: 20
-         }} component="h3">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+          marginBottom: 0.1,
+        }}
+      >
+        <TitleText
+          sx={{
+            fontSize: 20,
+          }}
+          component="h3"
+        >
           Personal Info
         </TitleText>
-        <ParagraphText sx={{ 
-          fontWeight: 600
-         }}  >
+        <ParagraphText
+          sx={{
+            fontWeight: 600,
+          }}
+        >
           Only name and image will be displayed publicly.
         </ParagraphText>
       </Box>
@@ -130,7 +142,7 @@ const PersonalInfoForm: React.FC = () => {
       <TextInputGroup
         label="First name"
         type="text"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="firstName"
         value={state.formValues.firstName}
@@ -143,7 +155,7 @@ const PersonalInfoForm: React.FC = () => {
       <TextInputGroup
         label="Last name"
         type="text"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="lastName"
         value={state.formValues.lastName}
@@ -156,7 +168,7 @@ const PersonalInfoForm: React.FC = () => {
       <TextInputGroup
         label="Email"
         type="email"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="email"
         value={state.formValues.email}
@@ -169,7 +181,7 @@ const PersonalInfoForm: React.FC = () => {
       <TextInputGroup
         label="Phone number"
         type="text"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="phoneNumber"
         value={state.formValues.phoneNumber}
@@ -178,18 +190,17 @@ const PersonalInfoForm: React.FC = () => {
         helperText={state.formErrors?.phoneNumber}
       />
 
-    
       {/* Save Changes Button */}
       <Box sx={{ alignSelf: "flex-end" }}>
         <ContainedButton
-          textProps={{ 
+          textProps={{
             sx: {
-              fontWeight: 'bold',
+              fontWeight: "bold",
               color: "white",
-              fontSize: 14
-            }
-           }}
-          fullWidth
+              fontSize: 14,
+            },
+          }}
+          fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
           text={<strong>Save Changes</strong>}
           type="submit"

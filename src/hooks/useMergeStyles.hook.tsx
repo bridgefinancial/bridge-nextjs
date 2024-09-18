@@ -1,10 +1,10 @@
-import { CSSProperties, useMemo } from 'react';
-import merge from 'lodash.merge';
-import { SxProps, Theme } from '@mui/material';
+import { CSSProperties, useMemo } from "react";
+import merge from "lodash.merge";
+import { SxProps, Theme } from "@mui/material";
 
 // Define types for style objects
 type StyleObject = {
-  [key: string]: string | number | StyleObject | undefined | CSSProperties 
+  [key: string]: string | number | StyleObject | undefined | CSSProperties;
 };
 
 /**
@@ -25,7 +25,7 @@ type StyleObject = {
  *     },
  *   },
  * };
- * 
+ *
  * const customStyles = {
  *   container: {
  *     backgroundColor: 'white', // Override default backgroundColor
@@ -52,9 +52,15 @@ type StyleObject = {
  * This hook simplifies the process of managing and applying complex nested styles by merging default and custom styles.
  * It ensures that styles are applied consistently and allows for easy customization and overrides.
  */
-function useMergeStyles(defaultStyles: StyleObject, customStyles: StyleObject): StyleObject {
+function useMergeStyles(
+  defaultStyles: StyleObject,
+  customStyles: StyleObject,
+): StyleObject {
   // Memoize the merged styles to avoid unnecessary recalculations on re-renders
-  const mergedStyles = useMemo(() => merge({}, defaultStyles, customStyles), [defaultStyles, customStyles]);
+  const mergedStyles = useMemo(
+    () => merge({}, defaultStyles, customStyles),
+    [defaultStyles, customStyles],
+  );
 
   return mergedStyles;
 }

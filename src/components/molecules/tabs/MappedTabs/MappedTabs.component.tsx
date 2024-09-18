@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, FC } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import { colors } from '@/theme/theme';
+import React, { useState, FC } from "react";
+import { Tabs, Tab, Box } from "@mui/material";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { colors } from "@/theme/theme";
 
 interface TabItem {
   label: string;
@@ -38,24 +38,23 @@ const MappedTabs: FC<MappedTabsProps> = ({ tabs }) => {
               <ParagraphText
                 sx={{
                   fontSize: 16,
-                  color: activeTab === index ? colors.bridgeDarkPurple : 'inherit',
-                  fontWeight: activeTab === index ? 'bold' : 'normal',
+                  color:
+                    activeTab === index ? colors.bridgeDarkPurple : "inherit",
+                  fontWeight: activeTab === index ? "bold" : "normal",
                 }}
               >
                 {tab.label}
               </ParagraphText>
             }
             sx={{
-              textTransform: 'none', // Disable uppercase text
+              textTransform: "none", // Disable uppercase text
             }}
           />
         ))}
       </Tabs>
 
       {/* Conditional rendering of the active tab's content */}
-      <Box>
-        {tabs[activeTab] && tabs[activeTab].content}
-      </Box>
+      <Box>{tabs[activeTab] && tabs[activeTab].content}</Box>
     </Box>
   );
 };

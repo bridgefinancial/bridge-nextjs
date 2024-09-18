@@ -1,7 +1,7 @@
 import TitleText from "@/components/atoms/typography/TitleText";
 import { Box } from "@mui/material";
 import React, { FC, useMemo } from "react";
-import merge from 'lodash.merge'; // Import lodash's merge utility
+import merge from "lodash.merge"; // Import lodash's merge utility
 import { BaseTypographyProps } from "@/types/base-typography-props.interface";
 
 interface TitleProps extends BaseTypographyProps {
@@ -12,24 +12,32 @@ interface CardWithTitleProps {
   sx?: Record<string, any>; // Define `sx` as optional and improve type
   titleProps: TitleProps;
   children: React.ReactNode | React.ReactNode[];
+  containerStyle?: Record<any, any>;
 }
 
-const CardWithTitle: FC<CardWithTitleProps> = ({ sx = {}, children, titleProps }) => {
+const CardWithTitle: FC<CardWithTitleProps> = (props: CardWithTitleProps) => {
+  const { sx = {}, children, titleProps } = props;
+  const { containerStyle } = props;
   const { text, ...titleTextProps } = titleProps;
 
   // Define default styles for the outer Box component
-  const defaultOuterStyles = useMemo(() => ({
-    borderRadius: 4, // 20px border-radius
-    maxWidth: 580,
-    margin: "auto",
-    mt: 4,
-    backgroundColor: "white",
-    boxShadow: 3, // Optional: add shadow for better visual appeal
-  }), []);
+  const defaultOuterStyles = useMemo(
+    () => ({
+      borderRadius: 4, // 20px border-radius
+      maxWidth: 580,
+      margin: "auto",
+      mt: 4,
+      // backgroundColor: "white",
+      // boxShadow: 3, // Optional: add shadow for better visual appeal
+    }),
+    [],
+  );
 
   // Merge default styles with custom styles
-  const mergedOuterStyles = useMemo(() => merge({}, defaultOuterStyles, sx), [sx, defaultOuterStyles]);
-
+  const mergedOuterStyles = useMemo(
+    () => merge(containerStyle, defaultOuterStyles, sx),
+    [sx, defaultOuterStyles, containerStyle],
+  );
   return (
     <Box sx={mergedOuterStyles}>
       <Box
@@ -44,7 +52,7 @@ const CardWithTitle: FC<CardWithTitleProps> = ({ sx = {}, children, titleProps }
           <TitleText
             variant={titleTextProps.variant || "h1"}
             component={titleTextProps.component || "h1"}
-            gutterBottom
+            gutterBottom={true}
             textAlign={titleTextProps.textAlign || "center"}
             {...titleTextProps}
           >

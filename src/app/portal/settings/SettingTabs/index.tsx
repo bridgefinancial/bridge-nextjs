@@ -1,1 +1,1 @@
-export {default} from './SettingsTabs.component'
+export { default } from "./SettingsTabs.component";

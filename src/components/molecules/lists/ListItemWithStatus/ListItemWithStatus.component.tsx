@@ -189,11 +189,11 @@ const ListItemWithStatus: React.FC<ListItemWithStatusProps> = (props) => {
         </Box>
         <Box sx={{ marginLeft: 2 }}>
           <ParagraphText>{title}</ParagraphText>
-          <Grid container spacing={1}>
-            <Grid item>
+          <Grid container={true} spacing={1}>
+            <Grid item={true}>
               {subtitle && <ParagraphText>{subtitle}</ParagraphText>}
             </Grid>
-            <Grid item>
+            <Grid item={true}>
               <ParagraphText sx={{ color: statusColor, marginRight: 2 }}>
                 {status}
               </ParagraphText>

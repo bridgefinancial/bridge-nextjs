@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
@@ -18,12 +18,23 @@ import {
 import { SignUpRequest, useSignUp } from "@/services/users.service";
 import { useIndustries } from "@/services/industries.service";
 import { Industry } from "@/types/industries.types";
+import { colors } from "@/theme/theme";
 
 interface SignUpFormProps {
   title?: string;
+  cardContainerStyles?: Record<any, any>;
+  industryName?: string;
+  handleRedirectAfterSignUp?: () => void;
 }
 
-export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
+export const SignUpForm: React.FC<SignUpFormProps> = ({
+  title,
+  cardContainerStyles = {},
+  handleRedirectAfterSignUp = () =>
+    console.log("handleRedirectAfterSignUp prop is empty in SignUpForm"),
+  industryName = null,
+}) => {
+  console.log(industryName, "this is industry name");
   // STATE
   const [formValues, setFormValues] = useState<SignUpRequest>({
     first_name: "",
@@ -43,9 +54,10 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
 
   // QUERIES
   const { data: industries } = useIndustries();
-
   // MUTATIONS
-  const { mutateAsync: signUp, isPending } = useSignUp();
+  const { mutateAsync: signUp, isPending } = useSignUp(
+    handleRedirectAfterSignUp,
+  );
 
   // HANDLERS
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +74,27 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
       return { ...prev, [name]: "" };
     });
   };
+
+  useEffect(() => {
+    if (industryName && industries?.results?.length) {
+      // Find the industry that matches the industryName (case insensitive)
+      const existingIndustry = industries.results.find(
+        (industry) =>
+          industry.name.toLowerCase() === industryName.toLowerCase(),
+      );
+
+      // If the industry is found and it's different from the selected one, update the selectedIndustry
+      if (
+        existingIndustry &&
+        (!selectedIndustry || selectedIndustry.name !== existingIndustry.name)
+      ) {
+        setSelectedIndustry(existingIndustry);
+        setFormValues((prev: any) => {
+          return { ...prev, industry: existingIndustry.id.toString() };
+        });
+      }
+    }
+  }, [industryName, selectedIndustry, industries]);
 
   const checkFormValidity = () => {
     const newErrors: Record<string, string> = {};
@@ -125,12 +158,41 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
   };
 
   return (
-    <CardWithTitle titleProps={{ text: "Sign Up" }}>
+    <CardWithTitle
+      containerStyle={cardContainerStyles}
+      titleProps={{
+        text: "Create an Account",
+        sx: {
+          textAlign: "left",
+        },
+      }}
+    >
+      <ParagraphText
+        align="left"
+        sx={{
+          marginTop: 0,
+          "& a": {
+            color: colors.bridgeDarkPurple,
+          },
+        }}
+      >
+        Already have an account?{" "}
+        <span
+          style={{
+            color: colors.bridgeDarkPurple,
+          }}
+        >
+          <Link href={routePaths.LOGIN} color="primary">
+            Sign In
+          </Link>{" "}
+        </span>
+        here
+      </ParagraphText>
       <form onSubmit={handleSubmit}>
         <TextInputGroup
           label="First Name"
           variant="filled"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="first_name"
           value={formValues.first_name}
@@ -142,7 +204,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
         <TextInputGroup
           label="Last Name"
           variant="filled"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="last_name"
           value={formValues.last_name}
@@ -154,7 +216,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
         <TextInputGroup
           label="Business Name"
           variant="filled"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="company_name"
           value={formValues.company_name}
@@ -164,21 +226,23 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
           onBlur={handleBlur}
         />
         <Autocomplete
-          options={industries?.results ?? []}
-          getOptionLabel={(industry) => industry.name}
-          disableClearable
-          value={selectedIndustry}
+          options={industries?.results ?? []} // Provide the industry options
+          getOptionLabel={(industry) => industry.name} // Display the name of the industry
+          disabled={!!industryName} // Disable Autocomplete if industryName is provided
+          value={selectedIndustry || null} // Ensure null is passed when selectedIndustry is undefined
           onChange={(e, value) => {
-            setFormValues((prev) => {
-              return { ...prev, industry: value.id.toString() };
+            // Update selectedIndustry and form values when a new industry is selected
+            setSelectedIndustry(value || undefined);
+            setFormValues((prev: any) => {
+              return { ...prev, industry: value ? value.id.toString() : "" };
             });
           }}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Industry"
-              variant="filled"
-              fullWidth
+              label="Industry" // Set the label for the input
+              variant="filled" // Set the variant
+              fullWidth={true}
               margin="normal"
               name="industry"
               onChange={handleChange}
@@ -189,11 +253,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
             />
           )}
         />
+
         <TextInputGroup
           label="Email"
           type="email"
           variant="filled"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="email"
           value={formValues.email}
@@ -204,7 +269,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
         />
         <SecureTextInputGroup
           label="Password"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="password"
           value={formValues.password}
@@ -223,13 +288,22 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
               name="terms"
               checked={formValues.terms}
               onChange={handleChange}
-              color="primary"
+              sx={{
+                "&.Mui-checked": {
+                  color: "#77CE80", // green when checked
+                },
+              }}
             />
           }
           label={
             <ParagraphText
               component="p"
-              sx={{ fontSize: { xs: 14, md: 14, lg: 14 } }}
+              sx={{
+                fontSize: { xs: 14, md: 14, lg: 14 },
+                "& a": {
+                  color: colors.bridgeDarkPurple,
+                },
+              }}
             >
               I accept the Bridge{" "}
               <Link
@@ -256,18 +330,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ title }) => {
           <ContainedButton
             type={"submit"}
             text="Sign Up"
-            fullWidth
+            fullWidth={true}
             sx={{ padding: 1.5 }}
             isLoading={isPending}
           />
         </Box>
       </form>
-      <ParagraphText align="center" sx={{ marginTop: 3 }}>
-        Already have an account?{" "}
-        <Link href={routePaths.LOGIN} color="primary">
-          Log In
-        </Link>
-      </ParagraphText>
     </CardWithTitle>
   );
 };

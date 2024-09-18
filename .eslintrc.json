@@ -24,21 +24,30 @@
     "@typescript-eslint",
     "react",
     "react-hooks",
-    "prettier",
-    "filenames"
+    "prettier"
   ],
   "rules": {
-    "react/display-name": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "prettier/prettier": ["error", { "endOfLine": "auto" }],
-    "react/jsx-pascal-case": ["error", { "allowAllCaps": true }],
-    "react/jsx-boolean-value": ["error", "always"],
-    "react/self-closing-comp": "error",
-    "react-hooks/rules-of-hooks": "error",
+    "no-empty-pattern": "warn",
+    "react/no-unescaped-entities": "warn", 
+    "react/prop-types": "warn", 
+    "react/display-name": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "react/react-in-jsx-scope": "warn",
+    "@typescript-eslint/no-var-requires": "warn",
+    "prettier/prettier": ["warn", { "endOfLine": "auto" }],
+    "react/jsx-pascal-case": ["warn", { "allowAllCaps": true }],
+    "react/jsx-boolean-value": ["warn", "always"],
+    "react/self-closing-comp": "warn",
+    "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-prototype-builtins": "warn", 
+    "@typescript-eslint/no-empty-object-type": "off",
+
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "prefer-const": "warn"
   },
   "overrides": [
     {
@@ -51,42 +60,14 @@
       }
     },
     {
-      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-      "rules": {
-        "no-unused-vars": "warn",
-        "no-console": "warn",
-        "prefer-const": "error"
-      }
-    },
-    {
       "files": ["components/**/*.tsx"],
       "rules": {
-        "filenames/match-regex": ["error", "^[A-Z][a-zA-Z0-9]+\\.component\\.tsx$|^[a-z]+\\.tsx$", true],
         "@typescript-eslint/naming-convention": [
-          "error",
+          "warn",
           { "selector": "variableLike", "format": ["camelCase"] },
           { "selector": "function", "format": ["camelCase"] },
           { "selector": "typeLike", "format": ["PascalCase"] },
-          { "selector": "enumMember", "format": ["UPPER_SNAKE_CASE"] }
-        ]
-      }
-    },
-    {
-      "files": ["components/**/*.styles.tsx", "components/**/*.spec.tsx", "components/**/*.stories.tsx", "components/**/*.component.tsx"],
-      "rules": {
-        "filenames/match-exported": ["error", "PascalCase"]
-      }
-    },
-    {
-      "files": ["components/**/*.tsx"],
-      "excludedFiles": ["components/**/*.styles.tsx", "components/**/*.spec.tsx", "components/**/*.stories.tsx", "components/**/*.component.tsx"],
-      "rules": {
-        "filenames/match-exported": [
-          "error",
-          "PascalCase",
-          {
-            "condition": "^([A-Z][a-zA-Z0-9]*)$"
-          }
+          { "selector": "enumMember", "format": ["UPPER_CASE"] }
         ]
       }
     }

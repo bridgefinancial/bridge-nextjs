@@ -35,7 +35,7 @@ const NextAction = ({ recommendations = [] }: NextActionProps) => {
               backgroundColor="white"
               textColor={colors.bridgeDarkPurple}
               endIcon={<ArrowForward />}
-            ></ContainedButton>
+            />
           </>
         ) : (
           <div className="space-y-1">
@@ -44,7 +44,7 @@ const NextAction = ({ recommendations = [] }: NextActionProps) => {
           </div>
         )}
       </div>
-      <div className="absolute right-0 top-0 h-full w-full bg-[url('/assets/images/transparent-cards.png')] bg-contain bg-right bg-no-repeat"></div>
+      <div className="absolute right-0 top-0 h-full w-full bg-[url('/assets/images/transparent-cards.png')] bg-contain bg-right bg-no-repeat" />
     </div>
   );
 };

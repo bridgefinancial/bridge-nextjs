@@ -28,13 +28,13 @@ const PasswordResetConfirmForm: React.FC = () => {
   // HANDLERS
 
   const handleNewPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setNewPassword(event.target.value);
   };
 
   const handleConfirmPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setConfirmPassword(event.target.value);
   };
@@ -63,7 +63,7 @@ const PasswordResetConfirmForm: React.FC = () => {
         onError: (error) => {
           setError(error.message);
         },
-      }
+      },
     );
   };
 
@@ -83,7 +83,7 @@ const PasswordResetConfirmForm: React.FC = () => {
             onChange={handleNewPasswordChange}
             error={Boolean(error && newPassword === "")}
             helperText={error && newPassword === "" ? error : ""}
-            fullWidth
+            fullWidth={true}
             securePressOnChange={() => setNewPassword("")}
             handleOnMouseDown={(event) => event.preventDefault()}
           />
@@ -94,7 +94,7 @@ const PasswordResetConfirmForm: React.FC = () => {
             onChange={handleConfirmPasswordChange}
             error={Boolean(error && confirmPassword === "")}
             helperText={error && confirmPassword === "" ? error : ""}
-            fullWidth
+            fullWidth={true}
             securePressOnChange={() => setConfirmPassword("")}
             handleOnMouseDown={(event) => event.preventDefault()}
           />
@@ -107,7 +107,7 @@ const PasswordResetConfirmForm: React.FC = () => {
             <ContainedButton
               type="submit"
               text={"Reset Password"}
-              fullWidth
+              fullWidth={true}
               isLoading={isPending}
             />
           </Box>

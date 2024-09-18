@@ -66,19 +66,14 @@ const ListItemWithActions: React.FC<ListItemWithActionsProps> = (props) => {
           src="/assets/images/pdf-file-icon.png"
           alt="PDF Icon"
         />
-        <Grid container spacing={isMobile ? 0 : 2} alignItems="center">
-          <Grid item xs={12} sm={6}>
+        <Grid container={true} spacing={isMobile ? 0 : 2} alignItems="center">
+          <Grid item={true} xs={12} sm={6}>
             <ParagraphText>
               <strong>{title}</strong>
             </ParagraphText>
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            sm={4}
-         
-          >
+          <Grid item={true} xs={12} sm={4}>
             <ParagraphText>{subTitle}</ParagraphText>
           </Grid>
         </Grid>
@@ -99,7 +94,7 @@ interface ListItemActionButtonProps {
 }
 
 export const ListItemActionButton: React.FC<ListItemActionButtonProps> = (
-  props
+  props,
 ) => {
   const { sx = {}, onClick = () => {}, children } = props;
 

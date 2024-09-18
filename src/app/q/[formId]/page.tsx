@@ -16,7 +16,7 @@ const Page = ({ params }: { params: { formId: string } }) => {
   return (
     <QuestionnaireProvider questionnaire={questionnaire}>
       <QuestionnaireLayoutV2>
-        <Questionnaire></Questionnaire>
+        <Questionnaire />
       </QuestionnaireLayoutV2>
     </QuestionnaireProvider>
   );

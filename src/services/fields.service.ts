@@ -107,7 +107,7 @@ export class FieldInformationService {
     | undefined {
     // radio
     if (FieldInformationService.isRadio(field.type)) {
-      let defaultOptions = FieldInformationService.radios[field.type]?.data;
+      const defaultOptions = FieldInformationService.radios[field.type]?.data;
       if (!field.enum) {
         return defaultOptions ? defaultOptions : undefined;
       } else {
@@ -116,8 +116,8 @@ export class FieldInformationService {
     }
     // dropdown
     if (FieldInformationService.isDropdown(field.type)) {
-      let defaultOptions = FieldInformationService.dropdowns.find(
-        (listing) => listing.name === field.type
+      const defaultOptions = FieldInformationService.dropdowns.find(
+        (listing) => listing.name === field.type,
       )?.data;
       if (!field.enum) {
         return defaultOptions ? defaultOptions : undefined;
@@ -129,8 +129,8 @@ export class FieldInformationService {
   }
 
   static getDefaultInternalFields(field: FormField): FormField[] | undefined {
-    let defaultFields = FieldInformationService.complexData.find(
-      (listing) => listing.name === field.type
+    const defaultFields = FieldInformationService.complexData.find(
+      (listing) => listing.name === field.type,
     )?.data;
     if (!field.internal_fields) {
       return defaultFields ? defaultFields : undefined;

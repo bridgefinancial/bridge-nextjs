@@ -1,1 +1,1 @@
-export {default} from './ListItemWithStatus.component'
+export { default } from "./ListItemWithStatus.component";

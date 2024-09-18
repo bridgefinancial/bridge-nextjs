@@ -1,1 +1,1 @@
-export {default} from './SelectInputGroup.component'
+export { default } from "./SelectInputGroup.component";

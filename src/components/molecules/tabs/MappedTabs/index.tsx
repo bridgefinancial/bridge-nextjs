@@ -1,1 +1,1 @@
-export {default} from './MappedTabs.component'
+export { default } from "./MappedTabs.component";

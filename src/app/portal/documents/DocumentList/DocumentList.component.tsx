@@ -33,11 +33,12 @@ type DialogState = {
   documentName: string;
 };
 
-type DialogAction =
-  | { type: "OPEN"; payload: string }
-  | { type: "CLOSE" };
+type DialogAction = { type: "OPEN"; payload: string } | { type: "CLOSE" };
 
-const dialogReducer = (state: DialogState, action: DialogAction): DialogState => {
+const dialogReducer = (
+  state: DialogState,
+  action: DialogAction,
+): DialogState => {
   switch (action.type) {
     case "OPEN":
       return { open: true, documentName: action.payload };
@@ -105,7 +106,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
       <ListItemWithActions
         key={index}
         title={document.filename}
-        subTitle={new Date(document.date).toLocaleDateString("en-US") }
+        subTitle={new Date(document.date).toLocaleDateString("en-US")}
         actions={[
           <ListItemActionButton key="download">
             <DownloadIcon onClick={() => handleDownload(document)} />
@@ -125,9 +126,9 @@ const DocumentList: React.FC<DocumentListProps> = ({
     <>
       <ConfirmationDialog
         onClose={() => dispatch({ type: "CLOSE" })}
-        titleProps={{ 
+        titleProps={{
           titleText: "Are you sure?",
-          titleStyles: { textAlign: "center" }
+          titleStyles: { textAlign: "center" },
         }}
         open={confirmDialogState.open}
         messageText={`Are you sure you want to delete ${confirmDialogState.documentName}?`}
@@ -171,14 +172,14 @@ const DocumentList: React.FC<DocumentListProps> = ({
         >
           <ListHeader
             columns={[
-              { text: "Filename", sx: { width: '40%' }, xs: 12, sm: 5.8 },
+              { text: "Filename", sx: { width: "40%" }, xs: 12, sm: 5.8 },
               {
                 text: "Date Uploaded",
-                sx: { paddingLeft: "0px", width: '40%' },
+                sx: { paddingLeft: "0px", width: "40%" },
                 xs: 12,
                 sm: 4,
               },
-              { text: "", sx: { width: '20%' }, xs: 1, sm: 1 },
+              { text: "", sx: { width: "20%" }, xs: 1, sm: 1 },
             ]}
           />
 
@@ -186,7 +187,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
         </Paper>
 
         <UploadDialog
-        ariaDescribedBy={"document-list"}
+          ariaDescribedBy={"document-list"}
           open={uploadDialogOpen}
           onClose={handleCloseUpload}
           handleSave={(d) => new Promise(d as any)}

@@ -1,1 +1,1 @@
-export {default} from './PersonalInfoForm.component'
+export { default } from "./PersonalInfoForm.component";

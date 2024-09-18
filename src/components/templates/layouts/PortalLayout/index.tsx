@@ -1,1 +1,1 @@
-export {default} from './PortalLayout.component'
+export { default } from "./PortalLayout.component";

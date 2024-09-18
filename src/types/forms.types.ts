@@ -270,3 +270,8 @@ export enum CleanType {
   Lowercase = "lowercase",
   Capitalize = "capitalize",
 }
+
+export type Questionnaire = {
+  forms: FormidableForm[];
+  onComplete?: (data: Record<string, any>) => void;
+};

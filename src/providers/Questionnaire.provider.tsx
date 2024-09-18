@@ -5,6 +5,7 @@ import {
   FormField,
   FormidableForm,
   Page,
+  Questionnaire,
 } from "@/types/forms.types";
 import {
   createContext,
@@ -72,18 +73,17 @@ export const QuestionnaireContext = createContext<{
 
 type QuestionnaireProviderProps = {
   children: ReactNode;
-  forms: FormidableForm[];
+  questionnaire: Questionnaire;
 };
 
 // Define the context provider
 export const QuestionnaireProvider = ({
   children,
-  forms,
+  questionnaire,
 }: QuestionnaireProviderProps) => {
   // STATE
   const [formIndex, setFormIndex] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
-  const [completionPercent, setCompletionPercent] = useState(0);
   const [fieldErrorsByName, setFieldErrorsByName] = useState<
     Record<string, string>
   >({});
@@ -91,6 +91,7 @@ export const QuestionnaireProvider = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // CALCULATED
+  const { forms, onComplete } = questionnaire;
   const form = forms[formIndex];
   const page = forms[formIndex].definition.pages[pageIndex];
 
@@ -110,9 +111,12 @@ export const QuestionnaireProvider = ({
     });
   };
 
-  const handleComplete = (data: any) => {
-    console.log("form complete!");
-    router.replace(`${routePaths.DASHBOARD}?celebrate=t`);
+  const handleComplete = (data: Record<string, any>) => {
+    if (onComplete) {
+      onComplete(data);
+    } else {
+      router.replace(`${routePaths.DASHBOARD}?celebrate=t`);
+    }
   };
 
   const goTo = ({
@@ -145,9 +149,12 @@ export const QuestionnaireProvider = ({
 
     form.definition.pages.forEach((page) => {
       page.fields.forEach((field) => {
-        if (FieldInformationService.isNumber(field.type)) {
+        if (
+          handleCheckConditions(field.conditions) &&
+          FieldInformationService.isNumber(field.type)
+        ) {
           formDataValues[field.name] = parseFloat(
-            formValues[field.name].replaceAll(",", "")
+            formValues[field.name]?.replaceAll(",", "") ?? ""
           );
         }
       });
@@ -159,9 +166,9 @@ export const QuestionnaireProvider = ({
         formData: { data: formDataValues },
       },
       {
-        onSuccess: (responseData) => {
+        onSuccess: () => {
           if (formIndex === forms.length - 1) {
-            handleComplete(responseData);
+            handleComplete(formDataValues);
           } else {
             goTo({ pageIndex: 0, formIndex: formIndex + 1 });
           }
@@ -265,7 +272,7 @@ export const QuestionnaireProvider = ({
         const submissionValues = flattenObject(submission.json_blob);
         Object.keys(submissionValues).forEach((key) => {
           if (formValues[key] === undefined) {
-            defaultValues[key] = submissionValues[key];
+            defaultValues[key] = submissionValues[key]?.toString();
           }
         });
 

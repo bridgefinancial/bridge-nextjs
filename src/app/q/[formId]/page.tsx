@@ -1,4 +1,3 @@
-import QuestionnaireLayout from "@/components/templates/layouts/QuestionnaireLayout/QuestionnaireLayout";
 import { QuestionnaireProvider } from "@/providers/Questionnaire.provider";
 import { QUESTIONNAIRE_BY_SLUG } from "@/services/questionnaires.service";
 import React from "react";
@@ -8,13 +7,14 @@ import QuestionnaireLayoutV2 from "@/components/templates/layouts/QuestionnaireL
 
 const Page = ({ params }: { params: { formId: string } }) => {
   const questionnaireId = params.formId;
+  const questionnaire = QUESTIONNAIRE_BY_SLUG[questionnaireId];
 
-  if (!QUESTIONNAIRE_BY_SLUG[questionnaireId]) {
+  if (!questionnaire) {
     notFound();
   }
 
   return (
-    <QuestionnaireProvider forms={QUESTIONNAIRE_BY_SLUG[questionnaireId]}>
+    <QuestionnaireProvider questionnaire={questionnaire}>
       <QuestionnaireLayoutV2>
         <Questionnaire></Questionnaire>
       </QuestionnaireLayoutV2>

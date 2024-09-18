@@ -15,7 +15,7 @@ type FormProps = {
 const Form = forwardRef(
   (
     { previousButtonConfig, nextButtonConfig, submitButtonConfig }: FormProps,
-    ref: React.ForwardedRef<HTMLFormElement>,
+    ref: React.ForwardedRef<HTMLFormElement>
   ) => {
     const { form, pageIndex, submit, isLoading } = useQuestionnaire();
 
@@ -66,6 +66,7 @@ const Form = forwardRef(
             {form.definition.pages.map((_, index) => {
               return (
                 <div
+                  key={`page-indicator-${index}`}
                   className={clsx("basis-0 shrink grow rounded-full h-2", {
                     "bg-bridge-dark-purple": index < pageIndex,
                     "bg-gray-300": index >= pageIndex,
@@ -87,7 +88,7 @@ const Form = forwardRef(
         </div>
       </form>
     );
-  },
+  }
 );
 
 export default Form;

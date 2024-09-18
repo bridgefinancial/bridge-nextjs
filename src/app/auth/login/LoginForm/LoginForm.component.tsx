@@ -10,7 +10,6 @@ import { routePaths } from "@/types/routes.enum";
 import Link from "next/link";
 import { useLoginUser, useSessionUser } from "@/services/users.service";
 import { useAuth } from "@/providers/Auth.provider";
-import { useRouter } from "next/navigation";
 
 // Define types for form values and errors
 interface FormValues {

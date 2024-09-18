@@ -67,7 +67,7 @@ export const useLoginUser = () => {
     mutationFn: loginUser,
     onSuccess: () => {
       const landingUrl = decodeURIComponent(
-        searchParams.get("navigateTo") ?? "",
+        searchParams.get("navigateTo") ?? ""
       );
       router.push(landingUrl || routePaths.ROOT);
     },
@@ -140,14 +140,9 @@ export const signUp = async (requestBody: SignUpRequest) => {
   return;
 };
 
-export const useSignUp = (onSuccessCallback?: () => void) => {
+export const useSignUp = () => {
   return useMutation({
     mutationFn: signUp,
-    onSuccess: () => {
-      if (onSuccessCallback && typeof onSuccessCallback === "function") {
-        onSuccessCallback();
-      }
-    },
   });
 };
 

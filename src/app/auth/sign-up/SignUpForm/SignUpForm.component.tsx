@@ -24,7 +24,7 @@ interface SignUpFormProps {
   title?: string;
   cardContainerStyles?: Record<any, any>;
   industryName?: string;
-  handleRedirectAfterSignUp?: () => void;
+  handleRedirectAfterSignUp?: (formValues: SignUpRequest) => void;
 }
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({
@@ -55,9 +55,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   // QUERIES
   const { data: industries } = useIndustries();
   // MUTATIONS
-  const { mutateAsync: signUp, isPending } = useSignUp(
-    handleRedirectAfterSignUp,
-  );
+  const { mutateAsync: signUp, isPending } = useSignUp();
 
   // HANDLERS
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,8 +77,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     if (industryName && industries?.results?.length) {
       // Find the industry that matches the industryName (case insensitive)
       const existingIndustry = industries.results.find(
-        (industry) =>
-          industry.name.toLowerCase() === industryName.toLowerCase(),
+        (industry) => industry.name.toLowerCase() === industryName.toLowerCase()
       );
 
       // If the industry is found and it's different from the selected one, update the selectedIndustry
@@ -137,7 +134,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     }
     if (checkFormValidity()) {
       signUp(formValues, {
-        onSuccess: () => {},
+        onSuccess: () => {
+          handleRedirectAfterSignUp(formValues);
+        },
         onError: (err) => {
           setErrors((prev) => {
             return { ...prev, submit: err.message };

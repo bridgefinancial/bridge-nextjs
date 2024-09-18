@@ -1,3 +1,4 @@
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { FieldType } from "./forms.enum";
 
 export type FormDefinition = {
@@ -273,5 +274,5 @@ export enum CleanType {
 
 export type Questionnaire = {
   forms: FormidableForm[];
-  onComplete?: (data: Record<string, any>) => void;
+  redirectPath?: string;
 };

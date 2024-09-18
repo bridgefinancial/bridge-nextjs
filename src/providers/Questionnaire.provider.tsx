@@ -25,6 +25,7 @@ import {
 import { useRouter } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
 import { FieldInformationService } from "@/services/fields.service";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -91,7 +92,7 @@ export const QuestionnaireProvider = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // CALCULATED
-  const { forms, onComplete } = questionnaire;
+  const { forms, redirectPath } = questionnaire;
   const form = forms[formIndex];
   const page = forms[formIndex].definition.pages[pageIndex];
 
@@ -111,12 +112,8 @@ export const QuestionnaireProvider = ({
     });
   };
 
-  const handleComplete = (data: Record<string, any>) => {
-    if (onComplete) {
-      onComplete(data);
-    } else {
-      router.replace(`${routePaths.DASHBOARD}?celebrate=t`);
-    }
+  const handleComplete = () => {
+    router.replace(redirectPath ?? `${routePaths.DASHBOARD}?celebrate=t`);
   };
 
   const goTo = ({
@@ -137,7 +134,7 @@ export const QuestionnaireProvider = ({
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    event,
+    event
   ) => {
     if (!form || !handleCheckPageValidity()) {
       return;
@@ -168,7 +165,7 @@ export const QuestionnaireProvider = ({
       {
         onSuccess: () => {
           if (formIndex === forms.length - 1) {
-            handleComplete(formDataValues);
+            handleComplete();
           } else {
             goTo({ pageIndex: 0, formIndex: formIndex + 1 });
           }
@@ -177,18 +174,18 @@ export const QuestionnaireProvider = ({
           setErrorsFunc(
             { Error: `Something went wrong: ${error}` },
             undefined,
-            true,
+            true
           );
           setTimeout(() => {
             setErrorsFunc({});
           }, 5000);
         },
-      },
+      }
     );
   };
 
   const handleCheckFieldValidity: (field: FormField) => boolean = (
-    field: FormField,
+    field: FormField
   ) => {
     // If the form field's conditions are hiding the field, ski[]
     if (!handleCheckConditions(field.conditions)) {
@@ -323,7 +320,7 @@ export const useQuestionnaire = () => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
     throw new Error(
-      "useQuestionnaire must be used within a QuestionnaireProvider",
+      "useQuestionnaire must be used within a QuestionnaireProvider"
     );
   }
   return context;

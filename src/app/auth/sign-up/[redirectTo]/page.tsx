@@ -7,8 +7,8 @@ import { QuestionnaireRoutes, SurveyRoutes } from "@/types/routes.enum";
 
 // Define your enums
 enum SignUpRedirectTypes {
-  q = "q",
-  survey = "survey",
+  Q = "q",
+  SURVEY = "survey",
 }
 
 const SignUpPage = ({ params }: { params: { redirectTo: string } }) => {
@@ -18,10 +18,10 @@ const SignUpPage = ({ params }: { params: { redirectTo: string } }) => {
   const { redirectTo } = params;
 
   const handleRedirectAfterSignUp = () => {
-    if (redirectTo === SignUpRedirectTypes.q) {
+    if (redirectTo === SignUpRedirectTypes.Q) {
       // Redirect to VALUATION route
       router.push(QuestionnaireRoutes.VALUATION);
-    } else if (redirectTo === SignUpRedirectTypes.survey) {
+    } else if (redirectTo === SignUpRedirectTypes.SURVEY) {
       // Redirect to SURVEY_WELCOME route
       router.push(SurveyRoutes.SURVEY_WELCOME);
     } else if (industry) {

@@ -10,7 +10,6 @@ type FormProps = {
   previousButtonConfig: FormActionConfig;
   nextButtonConfig: FormActionConfig;
   submitButtonConfig: FormActionConfig;
-  defaults?: Record<string, any>;
 };
 
 const Form = forwardRef(
@@ -33,8 +32,14 @@ const Form = forwardRef(
     }
 
     return (
-      <form onSubmit={submit} ref={ref}>
-        <div className="px-6">
+      <form
+        onSubmit={submit}
+        ref={ref}
+        onChange={(e) => {
+          // force rerender each time a form input value changes
+        }}
+      >
+        <div className="px-6 mx-auto max-w-xl">
           {isLoading ? (
             <div className="flex flex-col gap-4">
               <div className="bg-gray-200 animate-pulse w-full rounded-xl h-20" />
@@ -55,15 +60,30 @@ const Form = forwardRef(
           )}
         </div>
 
-        <div className="fmd-form-actions flex items-center justify-end gap-4">
-          {/* Previous */}
-          <FormAction {...previousButtonConfig} />
+        <div className="w-full absolute bottom-0">
+          {/* Progress */}
+          <div className="w-full flex items-center justify-center gap-2">
+            {form.definition.pages.map((_, index) => {
+              return (
+                <div
+                  className={clsx("basis-0 shrink grow rounded-full h-2", {
+                    "bg-bridge-dark-purple": index < pageIndex,
+                    "bg-gray-300": index >= pageIndex,
+                  })}
+                ></div>
+              );
+            })}
+          </div>
+          <div className="w-full flex items-center justify-between bg-white py-6 px-16">
+            {/* Previous */}
+            <FormAction {...previousButtonConfig} />
 
-          {/* Next Page */}
-          <FormAction {...nextButtonConfig} />
+            {/* Next Page */}
+            <FormAction {...nextButtonConfig} />
 
-          {/* Submit */}
-          <FormAction {...submitButtonConfig} />
+            {/* Submit */}
+            <FormAction {...submitButtonConfig} />
+          </div>
         </div>
       </form>
     );

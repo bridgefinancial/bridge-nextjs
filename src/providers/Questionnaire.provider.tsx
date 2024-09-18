@@ -1,21 +1,30 @@
 "use client";
 
-import { FormField, FormidableForm, Page } from "@/types/forms.types";
+import {
+  Condition,
+  FormField,
+  FormidableForm,
+  Page,
+  Questionnaire,
+} from "@/types/forms.types";
 import {
   createContext,
   MutableRefObject,
   ReactNode,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
 import { useErrors } from "./Errors.provider";
 import {
+  getFormSubmission,
   useFormSubmission,
   useSubmitForm,
 } from "@/services/form-submissions.service";
 import { useRouter } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
+import { FieldInformationService } from "@/services/fields.service";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -24,11 +33,11 @@ export const QuestionnaireContext = createContext<{
   pageIndex: number;
   formIndex: number;
   formsCount: number;
-  defaultValues?: Record<string, any>;
   isSubmitting: boolean;
   isLoading: boolean;
   fieldRefsByName?: MutableRefObject<Record<string, HTMLInputElement | null>>;
   fieldErrorsByName: Record<string, string>;
+  formValues: Record<string, any>;
   goTo: ({
     pageIndex,
     formIndex,
@@ -37,44 +46,52 @@ export const QuestionnaireContext = createContext<{
     formIndex?: number;
   }) => void;
   submit: React.FormEventHandler;
-  checkPageValidity: () => boolean;
+  checkPageValidity: (page?: Page) => boolean;
+  checkConditions: (conditions?: Condition[]) => boolean;
+  handleChange: (name: string, value: any) => void;
 }>({
   form: undefined,
   page: undefined,
   pageIndex: -1,
   formIndex: -1,
   formsCount: 0,
-  defaultValues: undefined,
   isSubmitting: false,
   isLoading: true,
   fieldRefsByName: undefined,
   fieldErrorsByName: {},
+  formValues: {},
   goTo: () => {},
   submit: () => {},
   checkPageValidity: () => {
     return false;
   },
+  checkConditions: () => {
+    return false;
+  },
+  handleChange: () => {},
 });
 
 type QuestionnaireProviderProps = {
   children: ReactNode;
-  forms: FormidableForm[];
+  questionnaire: Questionnaire;
 };
 
 // Define the context provider
 export const QuestionnaireProvider = ({
   children,
-  forms,
+  questionnaire,
 }: QuestionnaireProviderProps) => {
   // STATE
   const [formIndex, setFormIndex] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
-  const [completionPercent, setCompletionPercent] = useState(0);
   const [fieldErrorsByName, setFieldErrorsByName] = useState<
     Record<string, string>
   >({});
+  const [formValues, setFormValues] = useState<Record<string, any>>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // CALCULATED
+  const { forms, onComplete } = questionnaire;
   const form = forms[formIndex];
   const page = forms[formIndex].definition.pages[pageIndex];
 
@@ -82,15 +99,24 @@ export const QuestionnaireProvider = ({
   const router = useRouter();
   const fieldRefsByName = useRef<Record<string, HTMLInputElement | null>>({});
   const { setErrorsFunc } = useErrors();
-  const { data: formSubmission, isLoading } = useFormSubmission({
-    formId: form.id,
-  });
   const { mutateAsync: submitForm, isPending: isSubmitting } = useSubmitForm();
 
   // HANDLERS
-  const handleComplete = (data: any) => {
-    console.log("form complete!");
-    router.replace(`${routePaths.DASHBOARD}?celebrate=t`);
+  const handleChange = (name: string, value: any) => {
+    setFormValues((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleComplete = (data: Record<string, any>) => {
+    if (onComplete) {
+      onComplete(data);
+    } else {
+      router.replace(`${routePaths.DASHBOARD}?celebrate=t`);
+    }
   };
 
   const goTo = ({
@@ -119,27 +145,30 @@ export const QuestionnaireProvider = ({
     // Prevent the default form submission behavior
     event.preventDefault();
 
-    // Get the form element from the event
-    const formElement = event.target as HTMLFormElement;
+    const formDataValues: Record<string, any> = formValues;
 
-    // Create a FormData object from the form element
-    const formData = new FormData(formElement);
-
-    // Convert the FormData object to a plain object
-    const formDataObject: Record<string, any> = {};
-    formData.forEach((value, key) => {
-      formDataObject[key] = value;
+    form.definition.pages.forEach((page) => {
+      page.fields.forEach((field) => {
+        if (
+          handleCheckConditions(field.conditions) &&
+          FieldInformationService.isNumber(field.type)
+        ) {
+          formDataValues[field.name] = parseFloat(
+            formValues[field.name]?.replaceAll(",", "") ?? ""
+          );
+        }
+      });
     });
 
     submitForm(
       {
         formId: form.id,
-        formData: { data: formDataObject },
+        formData: { data: formDataValues },
       },
       {
-        onSuccess: (responseData) => {
+        onSuccess: () => {
           if (formIndex === forms.length - 1) {
-            handleComplete(responseData);
+            handleComplete(formDataValues);
           } else {
             goTo({ pageIndex: 0, formIndex: formIndex + 1 });
           }
@@ -161,10 +190,17 @@ export const QuestionnaireProvider = ({
   const handleCheckFieldValidity: (field: FormField) => boolean = (
     field: FormField,
   ) => {
+    // If the form field's conditions are hiding the field, ski[]
+    if (!handleCheckConditions(field.conditions)) {
+      return true;
+    }
+
+    // check internal fields if those exist
     if ((field.internal_fields?.length ?? 0) > 0) {
-      return !!field.internal_fields?.every((internal) =>
-        handleCheckFieldValidity(internal),
+      const validity = field.internal_fields?.map((internal) =>
+        handleCheckFieldValidity(internal)
       );
+      return !!validity?.every(Boolean);
     } else {
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
@@ -205,11 +241,55 @@ export const QuestionnaireProvider = ({
     }
   };
 
-  const handleCheckPageValidity = () => {
-    return !!page?.fields
+  const handleCheckPageValidity = (pageToCheck?: Page) => {
+    const correctPage = pageToCheck ?? page;
+    return !!correctPage?.fields
       .map((field) => handleCheckFieldValidity(field))
       .every(Boolean);
   };
+
+  const handleCheckConditions = (conditions?: Condition[]) => {
+    if (!conditions || conditions.length === 0) {
+      return true;
+    }
+
+    return conditions.every((condition) => handleCheckCondition(condition));
+  };
+
+  const handleCheckCondition = (condition: Condition) => {
+    if (condition.operator === "equal") {
+      return formValues[condition.dependant_on.name] === condition.value;
+    }
+    return false;
+  };
+
+  // EFFECTS
+  useEffect(() => {
+    setIsLoading(true);
+    getFormSubmission({ formId: form.id })
+      .then((submission) => {
+        const defaultValues: Record<string, any> = {};
+        const submissionValues = flattenObject(submission.json_blob);
+        Object.keys(submissionValues).forEach((key) => {
+          if (formValues[key] === undefined) {
+            defaultValues[key] = submissionValues[key]?.toString();
+          }
+        });
+
+        setFormValues((prev) => {
+          return {
+            ...prev,
+            ...defaultValues,
+          };
+        });
+      })
+      .catch(() => {
+        console.log("no form submission found");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   // DOM
 
@@ -224,11 +304,13 @@ export const QuestionnaireProvider = ({
         isSubmitting,
         fieldRefsByName,
         fieldErrorsByName,
-        defaultValues: flattenObject(formSubmission?.json_blob ?? {}),
         isLoading: isLoading,
+        formValues,
         goTo,
         submit: handleSubmit,
         checkPageValidity: handleCheckPageValidity,
+        checkConditions: handleCheckConditions,
+        handleChange,
       }}
     >
       {children}

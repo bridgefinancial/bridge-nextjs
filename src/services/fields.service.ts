@@ -14,6 +14,10 @@ export class FieldInformationService {
     return FieldInformationService.numberFieldTypes.includes(field);
   }
 
+  static isInteger(field: FieldType) {
+    return FieldInformationService.integerFieldTypes.includes(field);
+  }
+
   static isDropdown(type: FieldType | string) {
     return FieldInformationService.dropdownTypes.includes(type);
   }
@@ -43,6 +47,54 @@ export class FieldInformationService {
 
   static isLikert(field: FieldType | string) {
     return FieldInformationService.likertFieldTypes.includes(field);
+  }
+
+  static isValidUserInput(field: FieldType, input: string) {
+    if (FieldInformationService.isNumber(field)) {
+      // Regular expression to match numbers with optional commas and decimals
+      let regex = /^[\d,]*\.?[\d]*$/;
+      if (FieldInformationService.isInteger(field)) {
+        regex = /^[\d,]*$/;
+      }
+
+      // Test the input against the regex
+      return regex.test(input);
+    } else {
+      return true;
+    }
+  }
+
+  static formatNumberInput(input: string) {
+    if (input === "") {
+      return "";
+    }
+    const sections = input.split(".");
+    const stripped = sections[0].replaceAll(",", "");
+    const int = parseInt(stripped);
+
+    let formatted = int.toLocaleString("en-us");
+
+    if ((sections[1]?.length ?? 0) > 0) {
+      formatted += `.${sections[1].substring(0, 2)}`;
+    } else if (input.endsWith(".")) {
+      formatted += ".";
+    }
+
+    return formatted;
+  }
+
+  static getStartInputAdornment(field: FieldType) {
+    if (field === FieldType.USD) {
+      return "$";
+    }
+    return "";
+  }
+
+  static getEndInputAdornment(field: FieldType) {
+    if (field === FieldType.Percent) {
+      return "%";
+    }
+    return "";
   }
 
   static getDefaultSelections(field: FormField):
@@ -104,6 +156,12 @@ export class FieldInformationService {
 
   static numberFieldTypes: string[] = [
     FieldType.Decimal,
+    FieldType.Integer,
+    FieldType.PositiveInteger,
+    FieldType.USD,
+  ];
+
+  static integerFieldTypes: FieldType[] = [
     FieldType.Integer,
     FieldType.PositiveInteger,
   ];
@@ -214,7 +272,7 @@ export class FieldInformationService {
           label: "",
           placeholder: "Line 1",
           name: "line1",
-          type: "text",
+          type: FieldType.Text,
         },
         {
           id: 2,
@@ -222,27 +280,27 @@ export class FieldInformationService {
           placeholder: "Line 2 (optional)",
           required: false,
           name: "line2",
-          type: "text",
+          type: FieldType.Text,
         },
         {
           id: 3,
           label: "",
           placeholder: "City",
           name: "city",
-          type: "text",
+          type: FieldType.Text,
         },
         {
           id: 4,
           label: "",
           name: "state",
-          type: "usa_states_dropdown",
+          type: FieldType.USAStatesDropdown,
         },
         {
           id: 5,
           label: "",
           placeholder: "Zip Code",
           name: "zip",
-          type: "zip",
+          type: FieldType.Zip,
         },
       ],
     },
@@ -253,13 +311,13 @@ export class FieldInformationService {
           id: 1,
           label: "Start Date",
           name: "start",
-          type: "date",
+          type: FieldType.Date,
         },
         {
           id: 2,
           label: "End Date",
           name: "end",
-          type: "date",
+          type: FieldType.Date,
         },
       ],
     },

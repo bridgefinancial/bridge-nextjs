@@ -9,15 +9,25 @@ type PageProps = {
 };
 
 const FormPage = ({ page }: PageProps) => {
-  const { fieldRefsByName, fieldErrorsByName } = useQuestionnaire();
+  const { fieldRefsByName, fieldErrorsByName, checkConditions } =
+    useQuestionnaire();
+
+  if (!checkConditions(page.conditions)) {
+    return null;
+  }
+
   return (
     <>
       <h1>{page.header}</h1>
 
       {/* Form inputs */}
       <div className="flex flex-col gap-8 py-8">
-        {page.fields.map((formField, index) =>
-          !formField.hidden ? (
+        {page.fields.map((formField, index) => {
+          if (formField.hidden) {
+            return null;
+          }
+
+          return (
             <FormField
               key={index}
               ref={(el: HTMLInputElement) => {
@@ -28,8 +38,8 @@ const FormPage = ({ page }: PageProps) => {
               formField={formField}
               error={fieldErrorsByName[formField.name]}
             />
-          ) : null,
-        )}
+          );
+        })}
       </div>
     </>
   );

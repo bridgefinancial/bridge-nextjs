@@ -1,22 +1,29 @@
 "use client";
 
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Form from "./Form";
 import { FormActionConfig } from "./FormAction";
+import { ArrowForward } from "@mui/icons-material";
+import FormIntro from "./FormIntro";
 
 const Questionnaire = () => {
   // HOOKS
   const {
     formsCount,
     form,
+    page,
     formIndex,
     pageIndex,
     goTo,
     checkPageValidity,
     isSubmitting,
-    defaultValues,
   } = useQuestionnaire();
+
+  // STATE
+  const [showIntro, setShowIntro] = useState(!!form?.intro);
+
+  // REFS
   const formRef = useRef<HTMLFormElement>(null);
 
   // CALCULATED
@@ -31,17 +38,18 @@ const Questionnaire = () => {
     isLoading: false,
     text: "Next",
     onClick: () => {
-      if (checkPageValidity()) {
+      if (checkPageValidity(page)) {
         goTo({ pageIndex: pageIndex + 1 });
       }
     },
+    endIcon: <ArrowForward />,
   };
 
   const previousButtonConfig: FormActionConfig = {
-    hidden: isFirstPage && isFirstForm,
-    disabled: isSubmitting,
+    hidden: false,
+    disabled: isSubmitting || (isFirstPage && isFirstForm),
     isLoading: false,
-    text: "Previous",
+    text: "Back",
     onClick: () => {
       if (pageIndex === 0 && !isFirstForm) {
         goTo({ formIndex: formIndex - 1, pageIndex: pageIndex - 1 });
@@ -49,6 +57,7 @@ const Questionnaire = () => {
         goTo({ pageIndex: pageIndex - 1 });
       }
     },
+    variant: "text",
   };
 
   const submitButtonConfig: FormActionConfig = {
@@ -70,10 +79,20 @@ const Questionnaire = () => {
     return <></>;
   }
 
+  if (!!form.intro && showIntro) {
+    return (
+      <FormIntro
+        {...form.intro}
+        onClick={() => {
+          setShowIntro(false);
+        }}
+      />
+    );
+  }
+
   return (
     <Form
       ref={formRef}
-      defaults={defaultValues}
       nextButtonConfig={nextButtonConfig}
       previousButtonConfig={previousButtonConfig}
       submitButtonConfig={submitButtonConfig}

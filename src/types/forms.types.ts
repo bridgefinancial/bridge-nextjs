@@ -144,6 +144,15 @@ export type FormsResponse = {
   results: FormidableForm[];
 };
 
+export type FormIntro = {
+  imageSrc: string;
+  welcomeHeading?: string;
+  heading: string;
+  subheading: string;
+  buttonText?: string;
+  timeEstimate?: string;
+};
+
 export type FormidableForm = {
   id: number;
   created_at: string;
@@ -152,6 +161,7 @@ export type FormidableForm = {
   slug: string;
   review: boolean;
   definition: FormDefinition;
+  intro?: FormIntro;
 };
 
 export type ConditionOperator =
@@ -193,7 +203,7 @@ export type FormField = {
   id: number;
   name: string;
   label: string;
-  type: FieldType | string;
+  type: FieldType;
   required?: boolean;
   order?: number;
   readonly?: boolean;
@@ -226,6 +236,7 @@ export type FormField = {
   validator?: CustomValidator; // unsupported
   clean?: CleanType[] | string[]; // unsupported
   add_more?: boolean;
+  not_sure?: boolean;
   accepted_file_types?: string;
 
   // Deprecate in favor of conditions
@@ -259,3 +270,8 @@ export enum CleanType {
   Lowercase = "lowercase",
   Capitalize = "capitalize",
 }
+
+export type Questionnaire = {
+  forms: FormidableForm[];
+  onComplete?: (data: Record<string, any>) => void;
+};

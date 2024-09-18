@@ -1,9 +1,10 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, MouseEventHandler, useMemo } from "react";
 import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import merge from "lodash.merge"; // Import lodash's merge utility
 import { BaseButtonProps } from "@/types/base-button-props.interface";
 import ParagraphText from "../../typography/ParagraphText";
+import { colors } from "@/theme/theme";
 
 export interface TextButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
@@ -11,7 +12,7 @@ export interface TextButtonProps extends BaseButtonProps {
   backgroundColor?: string;
   isLoading?: boolean;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: ButtonProps["type"];
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
@@ -29,8 +30,9 @@ const TextButton: FC<TextButtonProps> = (props) => {
     disabled,
     textProps = {
       sx: {
-        color: "#212121",
+        color: disabled ? colors.gray600 : (textColor ?? "#212121"),
         fontWeight: "bold",
+        backgroundOpacity: disabled ? 60 : undefined,
       },
     }, // Add default empty textStyle
     type = "button",

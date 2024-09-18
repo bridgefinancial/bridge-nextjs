@@ -1,6 +1,6 @@
 import { FormSubmission } from "@/types/forms.types";
 import { fetchWithAuth } from "./authorized-request.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 type GetFormSubmissionVariables = {
   formId: number;
@@ -64,7 +64,18 @@ export const submitForm: (
 };
 
 export const useSubmitForm = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: submitForm,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["form-submission"] });
+      queryClient.invalidateQueries({ queryKey: ["session"] });
+      queryClient.invalidateQueries({
+        queryKey: ["next-action-recommendation"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["improvement-categories"],
+      });
+    },
   });
 };

@@ -144,6 +144,15 @@ export type FormsResponse = {
   results: FormidableForm[];
 };
 
+export type FormIntro = {
+  imageSrc: string;
+  welcomeHeading?: string;
+  heading: string;
+  subheading: string;
+  buttonText?: string;
+  timeEstimate?: string;
+};
+
 export type FormidableForm = {
   id: number;
   created_at: string;
@@ -152,6 +161,7 @@ export type FormidableForm = {
   slug: string;
   review: boolean;
   definition: FormDefinition;
+  intro?: FormIntro;
 };
 
 export type ConditionOperator =
@@ -260,3 +270,8 @@ export enum CleanType {
   Lowercase = "lowercase",
   Capitalize = "capitalize",
 }
+
+export type Questionnaire = {
+  forms: FormidableForm[];
+  onComplete?: (data: Record<string, any>) => void;
+};

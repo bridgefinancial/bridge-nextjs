@@ -8,6 +8,15 @@ export const CHIROPRACTOR_VALUATION_FORM_DEFINITION: FormidableForm = {
   name: "Chiropractic Valuation",
   slug: "chiropractic-valuation",
   review: false,
+  intro: {
+    imageSrc: "/assets/images/man-at-computer.png",
+    heading: "Let's determine your business's value",
+    subheading:
+      "First, we have some basic questions to ask first related to your operations and finances.",
+    welcomeHeading: "Welcome",
+    timeEstimate: "3-5 minutes",
+    buttonText: "Get started",
+  },
   definition: {
     id: 8,
     name: "Chiropractic Valuation",

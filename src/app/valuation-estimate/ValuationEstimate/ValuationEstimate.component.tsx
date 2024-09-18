@@ -21,14 +21,18 @@ const defaultIndustry: Industry = {
 // Define the component props interface
 interface ValuationEstimateProps {
   industry?: Industry;
+  companyValuation?: number;
+  isLoading?: boolean;
 }
 
 // Define the Valuation Estimate Component
 export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
   industry = defaultIndustry,
-}) => {
+  companyValuation,
+  isLoading,
+}: ValuationEstimateProps) => {
   // Calculate the valuation based on the industry multiples
-  const valuation = industry.median_sale_price * industry.revenue_multiple;
+  const valuation = companyValuation;
   const industryMultiple = industry.revenue_multiple.toFixed(2);
 
   return (
@@ -54,13 +58,21 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
               >
                 We estimate your business is worth
               </TitleText>
-              <TitleText
-                sx={{ fontSize: "60px", lineHeight: "75px" }}
-                component={"h2"}
-              >
-                ${valuation.toLocaleString()}{" "}
-                {/* Convert number to currency format */}
-              </TitleText>
+              {isLoading ? (
+                <div className="bg-gray-300 animate-pulse w-60 h-20 mx-auto rounded-lg" />
+              ) : (
+                <TitleText
+                  sx={{ fontSize: "60px", lineHeight: "75px" }}
+                  component={"h2"}
+                >
+                  {valuation?.toLocaleString("en-us", {
+                    currency: "USD",
+                    style: "currency",
+                    maximumFractionDigits: 0,
+                  })}{" "}
+                  {/* Convert number to currency format */}
+                </TitleText>
+              )}
               <ParagraphText
                 sx={{
                   fontWeight: 600,

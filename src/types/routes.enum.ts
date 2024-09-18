@@ -16,6 +16,7 @@ export enum BaseRoutes {
   ROOT = "/",
   AUTH = "/auth",
   PORTAL = "/portal",
+  VALUATION_ESTIMATE = "/valuation-estimate",
 }
 
 /**
@@ -58,11 +59,7 @@ export enum QuestionnaireRoutes {
  * Enum defining the survey onboarding routes.
  */
 export enum SurveyRoutes {
-  SURVEY_WELCOME = "/survey/welcome",
-  SURVEY_LOCATION_AND_OPERATIONS = "/survey/location-and-operations",
-  SURVEY_FINANCIAL_INFORMATION = "/survey/financial-information",
-  SURVEY_DEBT_AND_OBLIGATIONS = "/survey/debt-and-obligations",
-  SURVEY_VALUATION = "/survey/valuation-estimate",
+  CHIROPRACTOR_SURVEY = `/q/chiropractor-valuation`,
 }
 
 /**

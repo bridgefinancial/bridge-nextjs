@@ -51,8 +51,8 @@ export enum PortalRoutes {
  * Enum defining the questionnaire routes.
  */
 export enum QuestionnaireRoutes {
-  VALUATION = `/q/valuation`,
-  RECOMMENDATION = `/q/recommendation`,
+  VALUATION = "/q/valuation",
+  RECOMMENDATION = "/q/recommendations",
 }
 
 /**

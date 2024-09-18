@@ -33,9 +33,9 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
               </Link>
             </div>
             {/* RIGHT MOBILE HEADER */}
-            <div></div>
+            <div />
           </div>
-          <div className="w-full h-[3px] linear-gradient-orange-purple-blue"></div>
+          <div className="w-full h-[3px] linear-gradient-orange-purple-blue" />
         </div>
 
         {/* DESKTOP NAV */}

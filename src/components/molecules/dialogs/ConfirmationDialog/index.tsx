@@ -1,1 +1,1 @@
-export {default} from './ConfirmationDialog.component'
+export { default } from "./ConfirmationDialog.component";

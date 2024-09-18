@@ -73,10 +73,13 @@ const ImprovementAreaDialog = ({
                     </h4>
                   </div>
                   <div className="flex flex-col gap-1">
-                    {sentences.map((sentence) => {
+                    {sentences.map((sentence, index) => {
                       return (
-                        <div className="bg-gray-100 rounded-xl p-2 px-4 flex items-center justify-start gap-4">
-                          <div className="bg-bridge-dark-purple w-2 h-2 rounded-full shrink-0"></div>
+                        <div
+                          key={index}
+                          className="bg-gray-100 rounded-xl p-2 px-4 flex items-center justify-start gap-4"
+                        >
+                          <div className="bg-bridge-dark-purple w-2 h-2 rounded-full shrink-0" />
                           <p className="text-xs">{sentence}</p>
                         </div>
                       );

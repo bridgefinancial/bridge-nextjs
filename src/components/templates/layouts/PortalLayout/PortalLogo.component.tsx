@@ -10,8 +10,13 @@ export const DefaultLogoProps: LogoProps = {
 };
 
 const PortalLogo: React.FC<PortalLogoProps> = (props) => {
-
-    const {src, alt, width, height, containerStyle = {}} = {...DefaultLogoProps, ...props};
+  const {
+    src,
+    alt,
+    width,
+    height,
+    containerStyle = {},
+  } = { ...DefaultLogoProps, ...props };
   return (
     <div style={containerStyle}>
       <Image
@@ -19,7 +24,6 @@ const PortalLogo: React.FC<PortalLogoProps> = (props) => {
         alt={alt || DefaultLogoProps.alt}
         height={height || DefaultLogoProps.height}
         width={width || DefaultLogoProps.width}
-    
       />
     </div>
   );

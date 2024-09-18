@@ -7,7 +7,7 @@ type GetFormSubmissionVariables = {
 };
 
 export const getFormSubmission: (
-  variables: GetFormSubmissionVariables
+  variables: GetFormSubmissionVariables,
 ) => Promise<FormSubmission> = async ({
   formId,
 }: GetFormSubmissionVariables) => {
@@ -24,7 +24,7 @@ export const getFormSubmission: (
 
 export const useFormSubmission = (
   variables: GetFormSubmissionVariables,
-  options?: { onError?: () => void }
+  options?: { onError?: () => void },
 ) => {
   return useQuery({
     queryKey: ["form-submission", variables.formId],
@@ -45,7 +45,7 @@ type SubmitFormVariables = {
 };
 
 export const submitForm: (
-  variables: SubmitFormVariables
+  variables: SubmitFormVariables,
 ) => Promise<void> = async ({ formId, formData }: SubmitFormVariables) => {
   const url = `/api/submit-form/${formId}/`;
   const response = await fetchWithAuth(url, {

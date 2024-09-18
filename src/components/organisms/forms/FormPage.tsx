@@ -28,7 +28,7 @@ const FormPage = ({ page }: PageProps) => {
               formField={formField}
               error={fieldErrorsByName[formField.name]}
             />
-          ) : null
+          ) : null,
         )}
       </div>
     </>

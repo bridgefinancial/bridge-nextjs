@@ -859,7 +859,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/canvas-confetti@npm:^1.6.4":
+"@types/canvas-confetti@npm:1.6.4":
   version: 1.6.4
   resolution: "@types/canvas-confetti@npm:1.6.4"
   checksum: 0452e1f381e5d59471578be1b83f2908f0906ba0fddfe16f941a07e070f4ad91ceaf1a68bd84d84bb5e81214c95ef00137677d9d61d81119051425ca5ce307ba
@@ -1022,7 +1022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.4.2 || ^6.0.0 || 7.0.0 - 7.2.0":
+"@typescript-eslint/eslint-plugin@npm:7.2.0, @typescript-eslint/eslint-plugin@npm:^5.4.2 || ^6.0.0 || 7.0.0 - 7.2.0":
   version: 7.2.0
   resolution: "@typescript-eslint/eslint-plugin@npm:7.2.0"
   dependencies:
@@ -1047,7 +1047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.4.2 || ^6.0.0 || 7.0.0 - 7.2.0":
+"@typescript-eslint/parser@npm:7.2.0, @typescript-eslint/parser@npm:^5.4.2 || ^6.0.0 || 7.0.0 - 7.2.0":
   version: 7.2.0
   resolution: "@typescript-eslint/parser@npm:7.2.0"
   dependencies:
@@ -1528,14 +1528,16 @@ __metadata:
     "@testing-library/dom": 10.4.0
     "@testing-library/jest-dom": 6.5.0
     "@testing-library/react": 16.0.1
-    "@types/canvas-confetti": ^1.6.4
+    "@types/canvas-confetti": 1.6.4
     "@types/jest": 29.5.12
     "@types/lodash.merge": 4.6.9
     "@types/node": 22.5.4
     "@types/react": 18.3.5
     "@types/react-dom": 18.3.0
+    "@typescript-eslint/eslint-plugin": 7.2.0
+    "@typescript-eslint/parser": 7.2.0
     autoprefixer: 10.4.20
-    canvas-confetti: ^1.9.3
+    canvas-confetti: 1.9.3
     clsx: 2.1.1
     eslint: 8.57.0
     eslint-config-next: 14.2.8
@@ -1546,8 +1548,8 @@ __metadata:
     lodash.merge: 4.6.2
     next: 14.2.5
     prettier: 3.3.3
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
+    react: 18.3.1
+    react-dom: 18.3.1
     sass: 1.78.0
     tailwindcss: 3.4.10
     typescript: 5.5.4
@@ -1635,7 +1637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"canvas-confetti@npm:^1.9.3":
+"canvas-confetti@npm:1.9.3":
   version: 1.9.3
   resolution: "canvas-confetti@npm:1.9.3"
   checksum: db044a9c9ca0e58eafd115f7dfc2f9ecc377be34d8a5dd75901dae0dafd4fb0b75fbbf8edd48bbefad2468653c5838348f0e768b79727a924259a9ada343ea30
@@ -4520,7 +4522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^17.0.0 || ^18.0.0":
+"react-dom@npm:18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
   dependencies:
@@ -4575,7 +4577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.0 || ^18.0.0":
+"react@npm:18.3.1":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
   dependencies:

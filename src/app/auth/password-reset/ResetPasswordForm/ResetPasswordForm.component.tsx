@@ -47,7 +47,7 @@ const ResetPasswordForm: React.FC = () => {
         onError: (error) => {
           setError(error.message);
         },
-      }
+      },
     );
   };
 
@@ -62,7 +62,7 @@ const ResetPasswordForm: React.FC = () => {
           <TextInputGroup
             label="Email"
             type="email"
-            fullWidth
+            fullWidth={true}
             margin="normal"
             value={email}
             onChange={handleChange}
@@ -73,7 +73,7 @@ const ResetPasswordForm: React.FC = () => {
             <ContainedButton
               type="submit"
               text={"Send Recovery Link"}
-              fullWidth
+              fullWidth={true}
               isLoading={isPending}
             />
           </Box>

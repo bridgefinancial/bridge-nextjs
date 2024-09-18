@@ -1,9 +1,12 @@
 // src/components/atoms/containers/ErrorBoundary.tsx
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
-  FallbackComponent: React.ComponentType<{ error: Error; resetErrorBoundary: () => void }>;
+  FallbackComponent: React.ComponentType<{
+    error: Error;
+    resetErrorBoundary: () => void;
+  }>;
 }
 
 interface ErrorBoundaryState {
@@ -37,7 +40,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     if (hasError && error) {
       // Render the custom fallback component
-      return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
+      return (
+        <FallbackComponent
+          error={error}
+          resetErrorBoundary={this.resetErrorBoundary}
+        />
+      );
     }
 
     return children;

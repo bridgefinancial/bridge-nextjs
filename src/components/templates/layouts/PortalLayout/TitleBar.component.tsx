@@ -26,7 +26,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user }) => {
       }}
     >
       <Toolbar
-        disableGutters
+        disableGutters={true}
         sx={{ height: 80, padding: 0, backgroundColor: "inherit" }}
       >
         <Box

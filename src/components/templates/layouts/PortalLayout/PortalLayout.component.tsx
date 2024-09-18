@@ -79,7 +79,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!!params.get("celebrate")) {
+    if (params.get("celebrate")) {
       celebrate();
       router.replace(pathname);
     }

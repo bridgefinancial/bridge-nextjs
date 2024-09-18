@@ -39,10 +39,10 @@ export interface HeaderProps {
  * MainHeader is a functional component that displays a logo and optional
  * header actions such as buttons. It uses Material-UI's AppBar and Toolbar components
  * for layout structure and styling.
- * 
+ *
  * @example
  * // Example usage of MainHeader with buttons in HeaderActions
- * 
+ *
  * function ExampleHeaderUsage() {
  *   return (
  *     <MainHeader
@@ -86,7 +86,7 @@ function MainHeader(props: HeaderProps) {
     >
       <Container maxWidth="xl">
         <Toolbar
-          disableGutters
+          disableGutters={true}
           sx={{
             height: "100%",
             maxWidth: 928,

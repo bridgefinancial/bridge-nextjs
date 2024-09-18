@@ -36,7 +36,7 @@ const BusinessHealthRoadmap = ({
         (areaAcc: number, area: any) => {
           return areaAcc + area.total;
         },
-        0
+        0,
       );
       map[category.id] = total;
     });
@@ -50,7 +50,7 @@ const BusinessHealthRoadmap = ({
         (areaAcc: number, area: any) => {
           return areaAcc + area.completed;
         },
-        0
+        0,
       );
       map[category.id] = total;
     });
@@ -75,14 +75,14 @@ const BusinessHealthRoadmap = ({
   const totalSteps = useMemo(() => {
     return Object.values(totalStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0
+      0,
     );
   }, [totalStepsByCategory]);
 
   const completedSteps = useMemo(() => {
     return Object.values(completedStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0
+      0,
     );
   }, [completedStepsByCategory]);
 
@@ -126,7 +126,7 @@ const BusinessHealthRoadmap = ({
                       {healthGrade(completionPercentage)}
                     </h2>
                   ) : (
-                    <div className="h-8 w-24 animate-pulse bg-gray-300 rounded-full"></div>
+                    <div className="h-8 w-24 animate-pulse bg-gray-300 rounded-full" />
                   )}
                   <p>Business Health Score</p>
                 </div>
@@ -146,8 +146,8 @@ const BusinessHealthRoadmap = ({
                     </>
                   ) : (
                     <>
-                      <div className="h-3 w-full animate-pulse bg-gray-300 rounded-full"></div>
-                      <div className="h-3 w-1/2 animate-pulse bg-gray-300 rounded-full"></div>
+                      <div className="h-3 w-full animate-pulse bg-gray-300 rounded-full" />
+                      <div className="h-3 w-1/2 animate-pulse bg-gray-300 rounded-full" />
                     </>
                   )}
                 </div>
@@ -164,7 +164,7 @@ const BusinessHealthRoadmap = ({
                   {!isLoading ? (
                     <h2 className="text-[32px]">{completionPercentage}%</h2>
                   ) : (
-                    <div className="h-8 w-24 animate-pulse bg-gray-300 rounded-full"></div>
+                    <div className="h-8 w-24 animate-pulse bg-gray-300 rounded-full" />
                   )}
                   <p>Overall Progress</p>
                 </div>
@@ -188,7 +188,7 @@ const BusinessHealthRoadmap = ({
                                 completionPercentageByCategory[category.id]
                               }%`,
                             }}
-                          ></div>
+                          />
                         </div>
                         <p className="text-xs min-w-[32px]">
                           {completionPercentageByCategory[category.id]}%
@@ -197,8 +197,8 @@ const BusinessHealthRoadmap = ({
                     ))
                   ) : (
                     <>
-                      <div className="h-4 w-full animate-pulse bg-gray-300 rounded-full"></div>
-                      <div className="h-4 w-full animate-pulse bg-gray-300 rounded-full"></div>
+                      <div className="h-4 w-full animate-pulse bg-gray-300 rounded-full" />
+                      <div className="h-4 w-full animate-pulse bg-gray-300 rounded-full" />
                     </>
                   )}
                 </div>
@@ -229,20 +229,20 @@ const BusinessHealthRoadmap = ({
                                 i === category.improvement_areas.length - 1,
 
                               "bg-[#F8FCED]": area.completed === area.total,
-                            }
+                            },
                           )}
                           onClick={() => {
                             router.push(
-                              `${routePaths.BUSINESS_HEALTH}/${area.id}`
+                              `${routePaths.BUSINESS_HEALTH}/${area.id}`,
                             );
                           }}
                         >
                           {area.completed === area.total ? (
                             <div className="w-8 h-8 shrink-0 flex items-center justify-center bg-[#5DBF6D] rounded-full">
-                              <Check className="text-white"></Check>
+                              <Check className="text-white" />
                             </div>
                           ) : (
-                            <div className="w-8 h-8 border-2 border-bridge-gray-border rounded-full"></div>
+                            <div className="w-8 h-8 border-2 border-bridge-gray-border rounded-full" />
                           )}
                           <div className="flex flex-col lg:flex-row gap-2 grow">
                             <div className="lg:w-2/3">
@@ -255,7 +255,7 @@ const BusinessHealthRoadmap = ({
                                       e.stopPropagation();
                                       setOpenImprovementAreaDialogId(area.id);
                                     }}
-                                  ></InfoOutlined>
+                                  />
                                 </div>
                                 {!area.completed && (
                                   <div
@@ -267,7 +267,7 @@ const BusinessHealthRoadmap = ({
                                           area.priority > 0 &&
                                           area.priority <= 0.5,
                                         "bg-[#EDF8F2]": area.priority === 0,
-                                      }
+                                      },
                                     )}
                                   >
                                     <p
@@ -283,8 +283,8 @@ const BusinessHealthRoadmap = ({
                                       {area.priority > 0.5
                                         ? "High"
                                         : area.priority > 0
-                                        ? "Medium"
-                                        : "Low"}
+                                          ? "Medium"
+                                          : "Low"}
                                     </p>
                                   </div>
                                 )}
@@ -307,14 +307,14 @@ const BusinessHealthRoadmap = ({
                                             recommendation.dt_done,
                                           "bg-[#F0F0F0]":
                                             !recommendation.dt_done,
-                                        }
+                                        },
                                       )}
                                     >
                                       {recommendation.dt_done && (
                                         <Check
                                           className="text-white text-[16px]"
                                           fontSize="inherit"
-                                        ></Check>
+                                        />
                                       )}
                                       <p
                                         className={clsx("text-xs", {
@@ -324,7 +324,7 @@ const BusinessHealthRoadmap = ({
                                         {recommendation.service_category.name}
                                       </p>
                                     </div>
-                                  )
+                                  ),
                                 )}
                               </div>
                             </div>
@@ -339,8 +339,8 @@ const BusinessHealthRoadmap = ({
                 ))
               ) : (
                 <div className="flex flex-col gap-10 py-4">
-                  <div className="h-20 w-full animate-pulse bg-gray-300 rounded-full"></div>
-                  <div className="h-20 w-full animate-pulse bg-gray-300 rounded-full"></div>
+                  <div className="h-20 w-full animate-pulse bg-gray-300 rounded-full" />
+                  <div className="h-20 w-full animate-pulse bg-gray-300 rounded-full" />
                 </div>
               )}
             </div>

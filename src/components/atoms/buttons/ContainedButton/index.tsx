@@ -1,1 +1,1 @@
-export {default} from './ContainedButton.component'
+export { default } from "./ContainedButton.component";

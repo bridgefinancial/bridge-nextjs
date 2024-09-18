@@ -22,7 +22,7 @@ export interface ErrorMessages {
  */
 type ErrorsAction =
   | {
-      type: 'SET_ERRORS';
+      type: "SET_ERRORS";
       payload: {
         errors: Record<string, any>;
         methodName?: string;
@@ -30,11 +30,11 @@ type ErrorsAction =
       };
     }
   | {
-      type: 'SET_TOAST_OPEN';
+      type: "SET_TOAST_OPEN";
       payload: boolean;
     }
   | {
-      type: 'CLEAR_ERRORS';
+      type: "CLEAR_ERRORS";
     };
 
 /**
@@ -56,9 +56,12 @@ const initialState: ErrorsState = {
 };
 
 // Reducer function
-const errorsReducer = (state: ErrorsState, action: ErrorsAction): ErrorsState => {
+const errorsReducer = (
+  state: ErrorsState,
+  action: ErrorsAction,
+): ErrorsState => {
   switch (action.type) {
-    case 'SET_ERRORS':
+    case "SET_ERRORS":
       return {
         ...state,
         errors: action.payload.errors,
@@ -66,18 +69,18 @@ const errorsReducer = (state: ErrorsState, action: ErrorsAction): ErrorsState =>
         errorsIsEmpty: isEmpty(action.payload.errors),
         openToast: action.payload.openToast ?? state.openToast,
       };
-    case 'SET_TOAST_OPEN':
+    case "SET_TOAST_OPEN":
       return {
         ...state,
         openToast: action.payload,
       };
-    case 'CLEAR_ERRORS':
+    case "CLEAR_ERRORS":
       return {
         ...state,
         errors: {},
         methodName: undefined,
         errorsIsEmpty: true,
-        openToast: false
+        openToast: false,
       };
     default:
       return state;
@@ -87,7 +90,11 @@ const errorsReducer = (state: ErrorsState, action: ErrorsAction): ErrorsState =>
 // Context definition
 const ErrorsContext = createContext<{
   state: ErrorsState;
-  setErrorsFunc: (errors: Record<string, any>, methodName?: string, openToast?: boolean) => void;
+  setErrorsFunc: (
+    errors: Record<string, any>,
+    methodName?: string,
+    openToast?: boolean,
+  ) => void;
   setToastOpen: (open: boolean) => void;
   clearErrors: () => void;
 }>({
@@ -98,42 +105,57 @@ const ErrorsContext = createContext<{
 });
 
 // Provider component
-export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(errorsReducer, initialState);
 
-  const setErrorsFunc = (errors: Record<string, any>, methodName?: string, openToast?: boolean) => {
+  const setErrorsFunc = (
+    errors: Record<string, any>,
+    methodName?: string,
+    openToast?: boolean,
+  ) => {
     dispatch({
-      type: 'SET_ERRORS',
+      type: "SET_ERRORS",
       payload: { errors, methodName, openToast },
     });
   };
 
   const setToastOpen = (open: boolean) => {
     dispatch({
-      type: 'SET_TOAST_OPEN',
+      type: "SET_TOAST_OPEN",
       payload: open,
     });
   };
 
   const clearErrors = () => {
-    dispatch({ type: 'CLEAR_ERRORS' });
+    dispatch({ type: "CLEAR_ERRORS" });
   };
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development' && !state.errorsIsEmpty && state.openToast) {
+    if (
+      process.env.NODE_ENV === "development" &&
+      !state.errorsIsEmpty &&
+      state.openToast
+    ) {
       setToastOpen(true);
     }
   }, [state.errors, state.errorsIsEmpty, state.openToast]);
 
   const messageForToast = useMemo(
-    () => Object.keys(state.errors).length > 0
-        ? `<ul>${Object.keys(state.errors).map(item => `<li>${item}: <b>${state.errors[item]}</b></li>`).join('')}</ul>`
+    () =>
+      Object.keys(state.errors).length > 0
+        ? `<ul>${Object.keys(state.errors)
+            .map((item) => `<li>${item}: <b>${state.errors[item]}</b></li>`)
+            .join("")}</ul>`
         : "",
-    [state.openToast, state.errors]
+    [state.openToast, state.errors],
   );
 
   return (
-    <ErrorsContext.Provider value={{ state, setErrorsFunc, setToastOpen, clearErrors }}>
+    <ErrorsContext.Provider
+      value={{ state, setErrorsFunc, setToastOpen, clearErrors }}
+    >
       {!state.errorsIsEmpty && state.openToast && (
         <ToastNotification
           message={messageForToast}

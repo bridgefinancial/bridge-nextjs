@@ -14,7 +14,7 @@ type FormFieldProps = {
 const FormField = forwardRef(
   (
     { formField, error }: FormFieldProps,
-    ref: React.ForwardedRef<HTMLInputElement>
+    ref: React.ForwardedRef<HTMLInputElement>,
   ) => {
     // CALCULATED
     const defaultPlaceholder = "";
@@ -170,7 +170,7 @@ const FormField = forwardRef(
             placeholder={formField.placeholder || defaultPlaceholder}
             className="fmd-input"
             rows={4}
-          ></TextField>
+          />
         )}
 
         {FieldInformationService.isDropdown(formField.type) && (
@@ -181,7 +181,7 @@ const FormField = forwardRef(
             defaultValue={defaultValue}
           >
             {formField.placeholder && (
-              <option value="" disabled selected>
+              <option value="" disabled={true} selected={true}>
                 {formField.placeholder}
               </option>
             )}
@@ -232,7 +232,7 @@ const FormField = forwardRef(
                       className="opacity-0 absolute pointer-events-none"
                       defaultChecked={!!defaultValue}
                     />
-                    <span className="fmd-checkmark"></span>
+                    <span className="fmd-checkmark" />
                   </label>
                 )}
               </div>
@@ -260,7 +260,7 @@ const FormField = forwardRef(
                     className="opacity-0 absolute pointer-events-none"
                     defaultChecked={defaultValue === option.value}
                   />
-                  <span className="fmd-radio-circle"></span>
+                  <span className="fmd-radio-circle" />
                 </label>
               </div>
             ))}
@@ -303,7 +303,7 @@ const FormField = forwardRef(
           <table className="fmd-likert">
             <thead className="fmd-likert-row">
               <tr>
-                <td className="fmd-likert-empty"></td>
+                <td className="fmd-likert-empty" />
                 {formField.enum?.map((option, index) => (
                   <td key={index} className="fmd-likert-label">
                     {option.label}
@@ -333,7 +333,7 @@ const FormField = forwardRef(
                           defaultValues?.[field.name] === option.value
                         }
                       />
-                      <span className="fmd-likert-circle"></span>
+                      <span className="fmd-likert-circle" />
                     </td>
                   ))}
                 </tr>
@@ -357,7 +357,7 @@ const FormField = forwardRef(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default FormField;

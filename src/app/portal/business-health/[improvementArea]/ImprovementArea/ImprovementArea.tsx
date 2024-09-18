@@ -60,7 +60,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
   // CALCULATED
   const recommendations = recommendationsResponse?.results;
   const completedRecommendationsLength = recommendations?.filter(
-    (r) => !!r.dt_done
+    (r) => !!r.dt_done,
   ).length;
   const completedRecommendationsPercent =
     completedRecommendationsLength && recommendations
@@ -72,7 +72,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
   // HANDLERS
   const toggleCollapseRecommendation = (
     shouldCollapse: boolean,
-    recommendation: Recommendation
+    recommendation: Recommendation,
   ) => {
     if (shouldCollapse) {
       setExpandedRecommendationId(undefined);
@@ -114,7 +114,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
           </div>
         )}
         {isLoading ? (
-          <div className="w-2/3 mx-auto my-4 rounded-lg bg-gray-200 animate-pulse h-12"></div>
+          <div className="w-2/3 mx-auto my-4 rounded-lg bg-gray-200 animate-pulse h-12" />
         ) : (
           <div>
             <div className="improvementArea__progressBar mb-6">
@@ -126,18 +126,18 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                 recommendations done
               </p>
               <div className="improvementArea__progressBar__bar">
-                <div className="improvementArea__progressBar__bar__full"></div>
+                <div className="improvementArea__progressBar__bar__full" />
                 <div
                   className="improvementArea__progressBar__bar__current"
                   style={{
                     width: `${completedRecommendationsPercent}%`,
                   }}
-                ></div>
+                />
               </div>
             </div>
           </div>
         )}
-        <div className="quadruple-gradient mb-12 mt-16 h-1 rounded-full"></div>
+        <div className="quadruple-gradient mb-12 mt-16 h-1 rounded-full" />
 
         {recommendations?.map((recommendation) => (
           <div
@@ -160,7 +160,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                   onClick={() =>
                     toggleCollapseRecommendation(
                       expandedRecommendationId === recommendation.id,
-                      recommendation
+                      recommendation,
                     )
                   }
                 >
@@ -267,11 +267,11 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                           text={service.button_text}
                           endIcon={<ArrowForward />}
                           backgroundColor={colors.bridgeDarkPurple}
-                          fullWidth
-                        ></ContainedButton>
+                          fullWidth={true}
+                        />
                       </div>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             )}

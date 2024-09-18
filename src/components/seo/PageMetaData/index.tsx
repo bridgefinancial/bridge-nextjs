@@ -1,1 +1,1 @@
-export {default} from './PageMetaData.component'
+export { default } from "./PageMetaData.component";

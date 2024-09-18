@@ -4,7 +4,7 @@ import React from "react";
 
 export type FormActionConfig = {
   hidden: boolean;
-  onClick: BaseButtonProps['onClick']
+  onClick: BaseButtonProps["onClick"];
   disabled: boolean;
   isLoading: boolean;
   text: string;

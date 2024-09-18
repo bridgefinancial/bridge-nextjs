@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import GradientBox from "@/components/atoms/containers/GradientBox";
@@ -30,12 +30,19 @@ const BluePrintCard = () => {
               className="w-[120px] h-[120px]"
             />
             <div className="flex flex-col gap-4 text-center max-w-[512px]">
-              <TitleText sx={{ 
-                fontSize: 24
-               }} component={"h2"}>A blueprint made just for you.</TitleText>
-              <ParagraphText sx={{ 
-                fontWeight: 600
-               }}>
+              <TitleText
+                sx={{
+                  fontSize: 24,
+                }}
+                component={"h2"}
+              >
+                A blueprint made just for you.
+              </TitleText>
+              <ParagraphText
+                sx={{
+                  fontWeight: 600,
+                }}
+              >
                 Take a look at your completed blueprint. This is made to help
                 guide you see the gaps and strengths in your business, and then
                 attack them with strategy that is backed by years of experience.

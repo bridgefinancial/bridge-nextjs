@@ -1,14 +1,22 @@
 import React from "react";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, FormHelperText, SelectProps } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  FormHelperText,
+  SelectProps,
+} from "@mui/material";
 import { colors } from "@/theme/theme";
 
-interface SelectInputProps extends Omit<SelectProps, 'onChange' | 'margin'> {
+interface SelectInputProps extends Omit<SelectProps, "onChange" | "margin"> {
   options: { value: string | number; label: string }[];
   label: string;
   helperText?: string;
   error?: boolean;
-  margin?: "none" | "dense" | "normal";  // Add "normal" here
-  onChange: (event: SelectChangeEvent<unknown>) => void;  // Use SelectChangeEvent<unknown>
+  margin?: "none" | "dense" | "normal"; // Add "normal" here
+  onChange: (event: SelectChangeEvent<unknown>) => void; // Use SelectChangeEvent<unknown>
 }
 
 const SelectInputGroup: React.FC<SelectInputProps> = ({
@@ -18,7 +26,7 @@ const SelectInputGroup: React.FC<SelectInputProps> = ({
   onChange,
   error,
   fullWidth = false,
-  margin = "normal",  // Default to "normal" as you intended
+  margin = "normal", // Default to "normal" as you intended
   options,
   helperText,
   ...otherProps

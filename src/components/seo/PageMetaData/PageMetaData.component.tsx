@@ -1,5 +1,5 @@
-import React from 'react';
-import Head from 'next/head';
+import React from "react";
+import Head from "next/head";
 
 interface PageMetaDataProps {
   companyName?: string;
@@ -25,15 +25,18 @@ export function PageMetaData(props: PageMetaDataProps) {
     ogDescription,
     ogImage,
     ogUrl,
-    twitterCard
+    twitterCard,
   } = props;
 
   // Combine companyName and pageName to create the title
-  const combinedTitle = `${companyName}${pageName ? ` - ${pageName}` : ''}`;
+  const combinedTitle = `${companyName}${pageName ? ` - ${pageName}` : ""}`;
 
   // Limit description length
-  const truncatedDescription = description.length > 160 ? `${description.substring(0, 157)}...` : description;
-console.log(combinedTitle, truncatedDescription)
+  const truncatedDescription =
+    description.length > 160
+      ? `${description.substring(0, 157)}...`
+      : description;
+  console.log(combinedTitle, truncatedDescription);
   return (
     <Head>
       <title>{combinedTitle}</title>
@@ -41,7 +44,9 @@ console.log(combinedTitle, truncatedDescription)
       {keywords && <meta name="keywords" content={keywords} />}
       {author && <meta name="author" content={author} />}
       {ogTitle && <meta property="og:title" content={ogTitle} />}
-      {ogDescription && <meta property="og:description" content={ogDescription} />}
+      {ogDescription && (
+        <meta property="og:description" content={ogDescription} />
+      )}
       {ogImage && <meta property="og:image" content={ogImage} />}
       {ogUrl && <meta property="og:url" content={ogUrl} />}
       {twitterCard && <meta name="twitter:card" content={twitterCard} />}

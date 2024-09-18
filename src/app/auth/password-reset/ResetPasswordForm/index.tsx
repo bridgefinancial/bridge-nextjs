@@ -1,1 +1,1 @@
-export { default} from "./ResetPasswordForm.component"
+export { default } from "./ResetPasswordForm.component";

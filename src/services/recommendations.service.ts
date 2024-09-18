@@ -184,7 +184,7 @@ type GetServiceCategoryRecommendationsResponse =
 
 // Function to fetchWithAuth service category recommendations
 const getServiceCategoryRecommendations = async (
-  variables: GetServiceCategoryRecommendationsRequest
+  variables: GetServiceCategoryRecommendationsRequest,
 ): Promise<GetServiceCategoryRecommendationsResponse> => {
   const searchParams = new URLSearchParams(variables);
   const url = `/api/service-category-recommendations/?${searchParams.toString()}`;
@@ -206,7 +206,7 @@ const getServiceCategoryRecommendations = async (
 };
 
 export const useServiceCategoryRecommendations = (
-  variables: GetServiceCategoryRecommendationsRequest
+  variables: GetServiceCategoryRecommendationsRequest,
 ) => {
   return useQuery({
     queryFn: () => getServiceCategoryRecommendations(variables),

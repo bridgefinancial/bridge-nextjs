@@ -25,13 +25,16 @@ interface FormErrors {
 
 interface LoginFormProps {
   title?: string;
-  cardContainerStyles?: Record<any, any>
+  cardContainerStyles?: Record<any, any>;
 }
 
-  // STATE
+// STATE
 
-  export const LoginForm: React.FC<LoginFormProps> = ({ title, cardContainerStyles = {} }) => {
-    // STATE
+export const LoginForm: React.FC<LoginFormProps> = ({
+  title,
+  cardContainerStyles = {},
+}) => {
+  // STATE
   const [formValues, setFormValues] = useState<FormValues>({
     email: "",
     password: "",
@@ -73,7 +76,7 @@ interface LoginFormProps {
 
   // Validate form fields
   const validate = (): boolean => {
-    let errors: FormErrors = {};
+    const errors: FormErrors = {};
 
     if (!formValues.email) {
       errors.email = "Email is required";
@@ -105,12 +108,15 @@ interface LoginFormProps {
   };
 
   return (
-    <CardWithTitle containerStyle={cardContainerStyles} titleProps={{ text: "Login" }}>
+    <CardWithTitle
+      containerStyle={cardContainerStyles}
+      titleProps={{ text: "Login" }}
+    >
       <form onSubmit={handleSubmit}>
         <TextInputGroup
           label="Email"
           type="email"
-          fullWidth
+          fullWidth={true}
           margin="normal"
           name="email"
           disabled={isPending}
@@ -121,7 +127,7 @@ interface LoginFormProps {
         />
         <SecureTextInputGroup
           label="Password"
-          fullWidth
+          fullWidth={true}
           margin={"normal"}
           name="password"
           value={formValues.password}
@@ -142,7 +148,7 @@ interface LoginFormProps {
 
         <ContainedButton
           isLoading={isPending}
-          fullWidth
+          fullWidth={true}
           text={"Login"}
           type="submit"
         />

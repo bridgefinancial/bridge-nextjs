@@ -97,7 +97,7 @@ const CompanyInfoForm: React.FC = () => {
 
   // Validate form fields
   const validate = (): boolean => {
-    let errors: FormErrors = {};
+    const errors: FormErrors = {};
 
     if (!state.formValues.businessName) {
       errors.businessName = "Business name is required";
@@ -147,7 +147,7 @@ const CompanyInfoForm: React.FC = () => {
       <TextInputGroup
         label="Business Name"
         type="text"
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="businessName"
         value={state.formValues.businessName}
@@ -167,7 +167,6 @@ const CompanyInfoForm: React.FC = () => {
         helperText={state.formErrors.industry}
       />
 
-
       {/* Save Changes Button */}
       <Box sx={{ alignSelf: "flex-end" }}>
         <ContainedButton
@@ -178,7 +177,7 @@ const CompanyInfoForm: React.FC = () => {
               fontSize: 14,
             },
           }}
-          fullWidth
+          fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
           text={<strong>Save Changes</strong>}
           type="submit"

@@ -73,7 +73,7 @@ export const PortalDrawerContent = styled("div")<PortalDrawerContentProps>(
     marginLeft: "auto",
     marginRight: "auto",
     paddingTop: theme.spacing(1),
-  })
+  }),
 );
 
 export const PortalDivider = styled(Divider)(({ theme }) => ({

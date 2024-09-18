@@ -1,27 +1,33 @@
-import { CircularProgress, CircularProgressProps } from '@mui/material';
-import React, { CSSProperties, useMemo } from 'react';
+import { CircularProgress, CircularProgressProps } from "@mui/material";
+import React, { CSSProperties, useMemo } from "react";
 
 export interface LoadingSpinnerProps extends CircularProgressProps {
   centered?: boolean;
   testId?: string;
-  containerStyle?: CSSProperties; 
+  containerStyle?: CSSProperties;
   spinnerProps?: CircularProgressProps;
 }
 
 const LoadingSpinner = (props: LoadingSpinnerProps) => {
-  const { centered = true, testId = 'loading-spinner', containerStyle, spinnerProps = {
-    size: 40, color: 'primary'
-  } } = props;
+  const {
+    centered = true,
+    testId = "loading-spinner",
+    containerStyle,
+    spinnerProps = {
+      size: 40,
+      color: "primary",
+    },
+  } = props;
   const { size, color, ...restSpinnerProps } = spinnerProps;
 
   const spinnerStyle: CSSProperties = useMemo(() => {
     return centered
-      ? { 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          flexDirection: 'column',
-          alignContent: 'center'
+      ? {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          alignContent: "center",
         }
       : {};
   }, [centered]);

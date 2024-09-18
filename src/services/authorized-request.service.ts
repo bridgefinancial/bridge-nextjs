@@ -4,7 +4,7 @@ const BASE_URL =
 // Utility function to get a specific cookie by name
 export const getCookie = (
   cookieString: string,
-  name: string
+  name: string,
 ): string | null => {
   let cookieValue: string | null = null;
   if (cookieString && cookieString !== "") {
@@ -27,7 +27,7 @@ export interface FetchOptions extends RequestInit {
 export const fetchWithAuth = async (
   url: string,
   options: FetchOptions = {},
-  cookieString = document.cookie
+  cookieString = document.cookie,
 ): Promise<Response> => {
   const headers = new Headers({
     "Content-Type": "application/json",

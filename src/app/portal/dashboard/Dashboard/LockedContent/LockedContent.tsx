@@ -46,7 +46,7 @@ const LockedContent = ({
               text={buttonLabel}
               backgroundColor={colors.bridgeDarkPurple}
               endIcon={<ArrowForward />}
-            ></ContainedButton>
+            />
           </div>
         </div>
       )}

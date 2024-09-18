@@ -1,1 +1,1 @@
-export {default} from './SecureTextInputGroup.component'
+export { default } from "./SecureTextInputGroup.component";

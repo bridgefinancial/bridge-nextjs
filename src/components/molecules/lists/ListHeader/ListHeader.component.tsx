@@ -11,7 +11,6 @@ interface Column {
   xs?: any;
 }
 
-
 /**
  * Props for the `ListHeader` component.
  */
@@ -30,15 +29,14 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const renderColumns = useMemo(() => {
-
-    if(isMobile){
-        return
+    if (isMobile) {
+      return;
     }
     return columns?.map((column, index) => {
       const { text, sx, xs, sm } = column;
 
       return (
-        <Grid sx={sx} key={index} item xs={xs} sm={sm}>
+        <Grid sx={sx} key={index} item={true} xs={xs} sm={sm}>
           <ParagraphText>{text}</ParagraphText>
         </Grid>
       );
@@ -48,9 +46,9 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
   return (
     <Grid
       sx={{
-        padding: isMobile? 0: "16px",
+        padding: isMobile ? 0 : "16px",
       }}
-      container
+      container={true}
       alignItems="center"
     >
       {renderColumns}

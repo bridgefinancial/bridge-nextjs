@@ -1,1 +1,1 @@
-export {default} from './BluePrintCard.component'
+export { default } from "./BluePrintCard.component";

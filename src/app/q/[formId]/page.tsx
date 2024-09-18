@@ -15,7 +15,7 @@ const Page = ({ params }: { params: { formId: string } }) => {
   return (
     <QuestionnaireProvider forms={QUESTIONNAIRE_BY_SLUG[questionnaireId]}>
       <QuestionnaireLayout>
-        <Questionnaire></Questionnaire>
+        <Questionnaire />
       </QuestionnaireLayout>
     </QuestionnaireProvider>
   );

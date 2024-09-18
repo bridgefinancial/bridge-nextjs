@@ -1,1 +1,1 @@
-export {default} from './ListHeader.component'
+export { default } from "./ListHeader.component";

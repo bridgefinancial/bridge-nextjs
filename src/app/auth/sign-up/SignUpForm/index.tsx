@@ -1,1 +1,1 @@
-export {SignUpForm as default} from "./SignUpForm.component"
+export { SignUpForm as default } from "./SignUpForm.component";

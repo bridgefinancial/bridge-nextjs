@@ -22,14 +22,14 @@ export interface ConfirmationDialog {
   onCancelButtonProps: BaseButtonProps;
   onConfirmButtonProps: BaseButtonProps;
   messageText: string;
-  ariaDescribedBy?: BaseDialogProps["ariaDescribedBy"]
+  ariaDescribedBy?: BaseDialogProps["ariaDescribedBy"];
   maxWidth?: BaseDialogProps["maxWidth"];
   fullWidth?: BaseDialogProps["fullWidth"];
   titleProps: BaseDialogProps["titleProps"];
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialog> = (
-  props: ConfirmationDialog
+  props: ConfirmationDialog,
 ) => {
   const {
     titleProps = {
@@ -38,7 +38,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialog> = (
         fontWeight: 400,
       },
     },
-    ariaDescribedBy="cd", 
+    ariaDescribedBy = "cd",
     onConfirmButtonProps = {
       text: "Save",
     },
@@ -54,14 +54,14 @@ const ConfirmationDialog: React.FC<ConfirmationDialog> = (
 
   return (
     <BaseDialog
-    ariaDescribedBy={`confirmation-${ariaDescribedBy}`}
+      ariaDescribedBy={`confirmation-${ariaDescribedBy}`}
       open={open}
       fullWidth={fullWidth}
       onClose={onClose}
       maxWidth={maxWidth}
       actions={[
-        <ContainedButton {...onConfirmButtonProps} />,
-        <ContainedButton {...onCancelButtonProps} />,
+        <ContainedButton key={1} {...onConfirmButtonProps} />,
+        <ContainedButton key={2} {...onCancelButtonProps} />,
       ]}
       titleProps={titleProps}
     >

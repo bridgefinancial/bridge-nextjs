@@ -9,7 +9,7 @@ interface MainProviderProps {
 }
 
 const MainProvider: React.FC<MainProviderProps> = (
-  props: MainProviderProps
+  props: MainProviderProps,
 ) => {
   const { children } = props;
   return (

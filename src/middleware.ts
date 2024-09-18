@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
       {
         method: "GET",
       },
-      cookies().toString()
+      cookies().toString(),
     );
     if (!response.ok) {
       const text = await response.text();

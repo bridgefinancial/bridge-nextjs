@@ -38,7 +38,7 @@ const Valuation = () => {
           * based on reported revenue and an industry multiple of{" "}
           {industry?.revenue_multiple} ({industry?.name?.toLowerCase()})
         </p>
-        <div className="quadruple-gradient h-1 w-full rounded-full"></div>
+        <div className="quadruple-gradient h-1 w-full rounded-full" />
         <span className="flex items-center gap-6">
           <Link
             className="cursor-pointer text-sm font-semibold text-bridge-dark-purple"

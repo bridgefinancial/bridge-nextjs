@@ -27,19 +27,22 @@
     "prettier"
   ],
   "rules": {
-    "react/display-name": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-var-requires": "off",
+    "react/display-name": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "react/react-in-jsx-scope": "warn",
+    "@typescript-eslint/no-var-requires": "warn",
     "prettier/prettier": ["warn", { "endOfLine": "auto" }],
     "react/jsx-pascal-case": ["warn", { "allowAllCaps": true }],
     "react/jsx-boolean-value": ["warn", "always"],
     "react/self-closing-comp": "warn",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
-    "no-prototype-builtins": "warn"  // Changed to warn
+    "no-prototype-builtins": "warn",  // Changed to warn
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "prefer-const": "warn"
   },
   "overrides": [
     {
@@ -49,14 +52,6 @@
       "files": ["*.js"],
       "parserOptions": {
         "sourceType": "script"
-      }
-    },
-    {
-      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-      "rules": {
-        "no-unused-vars": "warn",
-        "no-console": "warn",
-        "prefer-const": "warn"
       }
     },
     {

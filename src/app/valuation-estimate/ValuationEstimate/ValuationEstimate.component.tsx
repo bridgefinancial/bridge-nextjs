@@ -6,6 +6,7 @@ import { Industry } from "@/types/industries.types";
 import { Box } from "@mui/material";
 import GradientBox from "@/components/atoms/containers/GradientBox";
 import { colors } from "@/theme/theme";
+import { useLogoutUser } from "@/services/users.service";
 
 // Define the default props for the industry valuation
 const defaultIndustry: Industry = {
@@ -34,7 +35,7 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
   // Calculate the valuation based on the industry multiples
   const valuation = companyValuation;
   const industryMultiple = industry.revenue_multiple.toFixed(2);
-
+  const {mutate: logout, isPending: isLoggingOut} = useLogoutUser()
   return (
     <div className="w-full flex items-center justify-center pt-16 flex-col gap-16">
       {/* Valuation Box */}
@@ -113,8 +114,16 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
           Schedule a meeting with one of our business advisors who specializes
           in the chiropractic market.
         </ParagraphText>
+
+        <Box 
+      display="flex" 
+      justifyContent="space-between" 
+      alignItems="center"
+      gap={2} 
+    >
+
         <a
-          href="https://bridge.financial/contact-us/"
+          href="https://calendly.com/jimmy-choi-bridge"
           className="mat-flat-button text-white bg-primary px-4 py-2 rounded-md flex items-center gap-2"
         >
           <ContainedButton
@@ -123,6 +132,14 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
             endIcon={<ArrowForward />}
           />
         </a>
+        <ContainedButton 
+          text={"Done"}
+          disabled={isLoggingOut}
+          onClick={() => logout()}
+          backgroundColor={colors.bridgeLightGray}
+          textColor="black"
+        />
+        </Box>
       </Box>
     </div>
   );

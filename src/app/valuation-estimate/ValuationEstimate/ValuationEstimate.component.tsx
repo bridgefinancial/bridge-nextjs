@@ -123,7 +123,7 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
     >
 
         <a
-          href="https://bridge.financial/contact-us/"
+          href="https://calendly.com/jimmy-choi-bridge"
           className="mat-flat-button text-white bg-primary px-4 py-2 rounded-md flex items-center gap-2"
         >
           <ContainedButton

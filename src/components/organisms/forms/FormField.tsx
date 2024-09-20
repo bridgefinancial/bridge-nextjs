@@ -191,7 +191,6 @@ const FormField = forwardRef(
 
           {FieldInformationService.isLongText(formField.type) && (
             <TextField
-              inputRef={ref}
               id={formField.name}
               inputProps={{
                 min: formField.min,

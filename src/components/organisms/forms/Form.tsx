@@ -3,7 +3,6 @@ import React, { forwardRef } from "react";
 import FormPage from "./FormPage";
 import FormAction, { FormActionConfig } from "./FormAction";
 import clsx from "clsx";
-import { environment } from "../../../../environments/environment";
 import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
 
 type FormProps = {

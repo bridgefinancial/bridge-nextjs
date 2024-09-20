@@ -1,10 +1,11 @@
+/* eslint-disable react/display-name */
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import { FieldInformationService } from "@/services/fields.service";
 import { FormField as Field } from "@/types/forms.types";
 import { Checkbox, InputAdornment, TextField } from "@mui/material";
 import clsx from "clsx";
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useState } from "react";
 
 type FormFieldProps = {
   formField: Field;
@@ -85,14 +86,14 @@ const FormField = forwardRef(
                 startAdornment: (
                   <InputAdornment position="start">
                     {FieldInformationService.getStartInputAdornment(
-                      formField.type
+                      formField.type,
                     )}
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     {FieldInformationService.getEndInputAdornment(
-                      formField.type
+                      formField.type,
                     )}
                   </InputAdornment>
                 ),
@@ -113,12 +114,12 @@ const FormField = forwardRef(
                 if (
                   FieldInformationService.isValidUserInput(
                     formField.type,
-                    e.target.value
+                    e.target.value,
                   )
                 ) {
                   handleChange(
                     formField.name,
-                    FieldInformationService.formatNumberInput(e.target.value)
+                    FieldInformationService.formatNumberInput(e.target.value),
                   );
                 }
               }}
@@ -190,6 +191,7 @@ const FormField = forwardRef(
 
           {FieldInformationService.isLongText(formField.type) && (
             <TextField
+              inputRef={ref}
               id={formField.name}
               inputProps={{
                 min: formField.min,
@@ -201,13 +203,13 @@ const FormField = forwardRef(
               placeholder={formField.placeholder || defaultPlaceholder}
               className="fmd-input"
               rows={4}
-              multiline
+              multiline={true}
               value={formValues[formField.name]}
               onChange={(e) => {
                 handleChange(formField.name, e.target.value);
               }}
               disabled={notSure}
-             />
+            />
           )}
           {/* Not sure option */}
           {!!formField.not_sure && (

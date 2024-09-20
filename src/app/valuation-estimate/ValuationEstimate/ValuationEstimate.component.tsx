@@ -7,7 +7,9 @@ import { Box } from "@mui/material";
 import GradientBox from "@/components/atoms/containers/GradientBox";
 import { colors } from "@/theme/theme";
 import { useLogoutUser } from "@/services/users.service";
-
+import { useRouter } from "next/navigation";
+import { routePaths } from "@/types/routes.enum";
+import React from 'react'
 // Define the default props for the industry valuation
 const defaultIndustry: Industry = {
   id: "1",
@@ -32,10 +34,22 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
   companyValuation,
   isLoading,
 }: ValuationEstimateProps) => {
+  const router = useRouter();
   // Calculate the valuation based on the industry multiples
   const valuation = companyValuation;
   const industryMultiple = industry.revenue_multiple.toFixed(2);
-  const {mutate: logout, isPending: isLoggingOut} = useLogoutUser()
+  const result = useLogoutUser();
+  const { mutate: logout, isPending: isLoggingOut } = result;
+
+  const handleLogout = () => {
+    logout({} as any, {
+      onSuccess: () => {
+        const { name } = industry;
+        router.push(`${routePaths.SIGN_UP}/${name}?redirectTo=survey`);
+      },
+    });
+  };
+
   return (
     <div className="w-full flex items-center justify-center pt-16 flex-col gap-16">
       {/* Valuation Box */}
@@ -115,30 +129,31 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
           in the chiropractic market.
         </ParagraphText>
 
-        <Box 
-      display="flex" 
-      justifyContent="space-between" 
-      alignItems="center"
-      gap={2} 
-    >
-
-        <a
-          href="https://calendly.com/jimmy-choi-bridge"
-          className="mat-flat-button text-white bg-primary px-4 py-2 rounded-md flex items-center gap-2"
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          gap={2}
         >
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://calendly.com/jimmy-choi-bridge"
+            className="mat-flat-button text-white bg-primary px-4 py-2 rounded-md flex items-center gap-2"
+          >
+            <ContainedButton
+              text={"Schedule Meeting"}
+              backgroundColor={colors.bridgeDarkPurple}
+              endIcon={<ArrowForward />}
+            />
+          </a>
           <ContainedButton
-            text={"Schedule Meeting"}
-            backgroundColor={colors.bridgeDarkPurple}
-            endIcon={<ArrowForward />}
+            text={"Done"}
+            disabled={isLoggingOut}
+            onClick={() => handleLogout()}
+            backgroundColor={colors.bridgeLightGray}
+            textColor="black"
           />
-        </a>
-        <ContainedButton 
-          text={"Done"}
-          disabled={isLoggingOut}
-          onClick={() => logout()}
-          backgroundColor={colors.bridgeLightGray}
-          textColor="black"
-        />
         </Box>
       </Box>
     </div>

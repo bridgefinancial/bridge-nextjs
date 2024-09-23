@@ -18,6 +18,7 @@ interface ContainedButtonProps extends BaseButtonProps {
   endIcon?: React.ReactNode;
   sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
   textComponent?: React.ElementType; // Allow dynamic text component
+  href?: string;
 }
 
 const ContainedButton: FC<ContainedButtonProps> = (props) => {
@@ -50,13 +51,13 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
         backgroundColor: backgroundColor,
       },
     }),
-    [backgroundColor, textColor],
+    [backgroundColor, textColor]
   );
 
   // Merge default styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
-    [sx, defaultStyles],
+    [sx, defaultStyles]
   );
 
   return (
@@ -68,6 +69,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       disableElevation={true}
       disabled={isLoading || disabled}
       type="button"
+      LinkComponent={Link}
       {...rest}
     >
       {isLoading ? (

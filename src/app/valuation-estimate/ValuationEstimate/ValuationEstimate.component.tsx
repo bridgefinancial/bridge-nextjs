@@ -9,7 +9,9 @@ import { colors } from "@/theme/theme";
 import { useLogoutUser } from "@/services/users.service";
 import { useRouter } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
-import React from 'react'
+import React, { useEffect } from "react";
+import confetti from "canvas-confetti";
+
 // Define the default props for the industry valuation
 const defaultIndustry: Industry = {
   id: "1",
@@ -41,6 +43,7 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
   const result = useLogoutUser();
   const { mutate: logout, isPending: isLoggingOut } = result;
 
+  // HANDLERS
   const handleLogout = () => {
     logout({} as any, {
       onSuccess: () => {
@@ -49,6 +52,22 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
       },
     });
   };
+
+  const celebrate = () => {
+    const duration = 3000; // in milliseconds
+
+    confetti({
+      particleCount: 100,
+      spread: 160,
+    });
+
+    // Clear confetti after a certain duration
+    setTimeout(() => confetti.reset(), duration);
+  };
+
+  useEffect(() => {
+    celebrate();
+  }, []);
 
   return (
     <div className="w-full flex items-center justify-center pt-16 flex-col gap-16">

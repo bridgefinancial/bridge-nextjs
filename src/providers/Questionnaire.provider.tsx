@@ -13,19 +13,20 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { useErrors } from "./Errors.provider";
 import {
   getFormSubmission,
-  useFormSubmission,
   useSubmitForm,
 } from "@/services/form-submissions.service";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
 import { FieldInformationService } from "@/services/fields.service";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
+const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = "redirectTo";
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -91,16 +92,27 @@ export const QuestionnaireProvider = ({
   const [formValues, setFormValues] = useState<Record<string, any>>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // CALCULATED
-  const { forms, redirectPath } = questionnaire;
-  const form = forms[formIndex];
-  const page = forms[formIndex].definition.pages[pageIndex];
-
   // HOOKS
   const router = useRouter();
   const fieldRefsByName = useRef<Record<string, HTMLInputElement | null>>({});
   const { setErrorsFunc } = useErrors();
   const { mutateAsync: submitForm, isPending: isSubmitting } = useSubmitForm();
+  const searchParams = useSearchParams();
+
+  // CALCULATED
+  const { forms, redirectPath } = questionnaire;
+  const form = forms[formIndex];
+  const page = forms[formIndex].definition.pages[pageIndex];
+  const redirectTo = useMemo(() => {
+    const redirectParam = searchParams.get(
+      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM
+    );
+    if (redirectParam) {
+      const decoded = decodeURIComponent(redirectParam);
+      return `${decoded.startsWith("/") ? "" : "/"}${decodeURIComponent(redirectParam)}`;
+    }
+    return redirectPath ?? `${routePaths.DASHBOARD}?celebrate=t`;
+  }, [redirectPath, searchParams]);
 
   // HANDLERS
   const handleChange = (name: string, value: any) => {
@@ -113,7 +125,7 @@ export const QuestionnaireProvider = ({
   };
 
   const handleComplete = () => {
-    router.replace(redirectPath ?? `${routePaths.DASHBOARD}?celebrate=t`);
+    router.push(redirectTo);
   };
 
   const goTo = ({

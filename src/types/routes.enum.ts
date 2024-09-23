@@ -56,13 +56,6 @@ export enum QuestionnaireRoutes {
 }
 
 /**
- * Enum defining the survey onboarding routes.
- */
-export enum SurveyRoutes {
-  CHIROPRACTOR_SURVEY = `/q/chiropractor-valuation`,
-}
-
-/**
  * Object combining all the route paths from BaseRoutes, AuthRoutes, and PortalRoutes.
  * This consolidated object provides a single source of truth for all route paths in the application.
  *

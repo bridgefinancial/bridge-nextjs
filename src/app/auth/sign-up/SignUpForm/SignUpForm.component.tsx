@@ -24,17 +24,14 @@ interface SignUpFormProps {
   title?: string;
   cardContainerStyles?: Record<any, any>;
   industryName?: string;
-  handleRedirectAfterSignUp?: (formValues: SignUpRequest) => void;
+  onSignUp?: (formValues: SignUpRequest) => void;
 }
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({
-  title,
   cardContainerStyles = {},
-  handleRedirectAfterSignUp = () =>
-    console.log("handleRedirectAfterSignUp prop is empty in SignUpForm"),
+  onSignUp,
   industryName = null,
 }) => {
-  console.log(industryName, "this is industry name");
   // STATE
   const [formValues, setFormValues] = useState<SignUpRequest>({
     first_name: "",
@@ -135,7 +132,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     if (checkFormValidity()) {
       signUp(formValues, {
         onSuccess: () => {
-          handleRedirectAfterSignUp(formValues);
+          onSignUp?.(formValues);
         },
         onError: (err) => {
           setErrors((prev) => {

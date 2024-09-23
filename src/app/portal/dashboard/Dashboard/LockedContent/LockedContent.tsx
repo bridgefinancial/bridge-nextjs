@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import "./LockedContent.css";
@@ -13,11 +12,13 @@ type LockedContentProps = {
   children?: React.ReactNode;
   body?: string;
   blurred: boolean;
-  onAction: () => void;
+  buttonHref?: string;
+  onAction?: () => void;
 };
 
 const LockedContent = ({
   buttonLabel = "Complete Profile",
+  buttonHref,
   children,
   body,
   blurred = true,
@@ -43,6 +44,7 @@ const LockedContent = ({
             <ParagraphText className="p-4">{body}</ParagraphText>
             <ContainedButton
               onClick={onButtonClick}
+              href={buttonHref}
               text={buttonLabel}
               backgroundColor={colors.bridgeDarkPurple}
               endIcon={<ArrowForward />}

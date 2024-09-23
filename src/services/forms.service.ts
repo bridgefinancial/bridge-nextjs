@@ -1,7 +1,7 @@
 import { FieldType } from "@/types/forms.enum";
 import { FormidableForm } from "@/types/forms.types";
 
-export const CHIROPRACTOR_VALUATION_FORM_DEFINITION: FormidableForm = {
+export const VALUATION_FORM_DEFINITION: FormidableForm = {
   id: 8,
   created_at: "2024-09-14T11:21:59.524282-06:00",
   updated_at: "2024-09-15T23:11:04.635250-06:00",
@@ -271,136 +271,6 @@ export const CHIROPRACTOR_VALUATION_FORM_DEFINITION: FormidableForm = {
           },
         ],
         header: "Debt & Obligations",
-      },
-    ],
-    review: false,
-  },
-};
-
-export const VALUATION_FORM_DEFINITION: FormidableForm = {
-  id: 7,
-  created_at: "2024-08-12T11:54:20.415132-06:00",
-  updated_at: "2024-08-12T12:13:51.696793-06:00",
-  name: "Valuation Estimate",
-  slug: "valuation-estimate",
-  review: false,
-  definition: {
-    id: 7,
-    name: "Valuation Estimate",
-    pages: [
-      {
-        name: "business_information",
-        fields: [
-          {
-            id: 67,
-            min: 1000,
-            name: "annual_revenue",
-            type: FieldType.USD,
-            label:
-              "What is your estimated yearly revenue? (Estimate to the nearest $1,000)",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-        ],
-        header: "Business Info",
-      },
-      {
-        name: "intent_to_sell",
-        fields: [
-          {
-            id: 121,
-            enum: [
-              {
-                label: "0-6 months",
-                value: "next_6_months",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "6-12 months",
-                value: "6_to_12_months",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "1-3 years",
-                value: "1_to_3_years",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "3+ years",
-                value: "more_than_3_years",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "I don't want to sell, I just want my valuation.",
-                value: "not_selling",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "business_sale_timeline",
-            type: FieldType.Radio,
-            label: "When do you hope to sell your business?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-          {
-            id: 122,
-            enum: [
-              {
-                label: "Planning for retirement",
-                value: "retire",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Found a new opportunity",
-                value: "new_opportunity",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Consolidating my assets",
-                value: "consolidating_assets",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Transferring ownership to a trusted employee/partner",
-                value: "transferring_ownership",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Looking for a profitable exit",
-                value: "profitable_exit",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "business_sale_reason",
-            type: FieldType.Radio,
-            label: "Why do you want to sell your business?",
-            order: 1,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-          },
-        ],
-        header: "Business Sale",
       },
     ],
     review: false,

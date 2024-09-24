@@ -8,7 +8,9 @@ interface ImageBackgroundProps {
   alt: string;
   children: React.ReactNode;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
-  containerStyle?: Record<any, any>;
+  containerStyle?: Record<string, any>;
+  innerContainerStyle?: Record<string, any>;
+  imageStyle?: React.CSSProperties;
 }
 
 const ImageBackground: React.FC<ImageBackgroundProps> = ({
@@ -17,6 +19,8 @@ const ImageBackground: React.FC<ImageBackgroundProps> = ({
   children,
   objectFit = "cover",
   containerStyle = {},
+  innerContainerStyle = {},
+  imageStyle = {},
 }) => {
   const mergedStyles = useMergeStyles(containerStyle, {
     position: "relative",
@@ -28,21 +32,28 @@ const ImageBackground: React.FC<ImageBackgroundProps> = ({
     alignItems: "center",
   });
 
+  const mergedInnerStyles = useMergeStyles(innerContainerStyle, {
+    position: "relative",
+    zIndex: 1,
+    width: "100%",
+    height: "100%",
+  });
+
+  const mergedImageStyles = useMergeStyles(imageStyle as any, {
+    zIndex: -1,
+  });
+
   return (
     <Box sx={mergedStyles}>
       <Image
         src={src}
         alt={alt}
-        layout="fill"
+        fill
         objectFit={objectFit}
         quality={100}
-        style={{ zIndex: -1 }}
+        style={mergedImageStyles}
       />
-      <Box
-        sx={{ position: "relative", zIndex: 1, width: "100%", height: "100%" }}
-      >
-        {children}
-      </Box>
+      <Box sx={mergedInnerStyles}>{children}</Box>
     </Box>
   );
 };

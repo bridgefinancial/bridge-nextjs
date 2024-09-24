@@ -5,15 +5,11 @@ import Valuation from "./Valuation/Valuation";
 import NextAction from "./NextAction/NextAction";
 import BusinessHealthRoadmap from "./BusinessHealthRoadmap/BusinessHealthRoadmap";
 import LockedContent from "./LockedContent/LockedContent";
-import { useRouter } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
 import { useSessionUser } from "@/services/users.service";
 import { useNextRecommendations } from "@/services/recommendations.service";
 
 const Dashboard = () => {
-  // HOOKS
-  const router = useRouter();
-
   // QUERIES
   const { data: user, isLoading: isLoadingUser } = useSessionUser();
   const { data: nextActions, isLoading: isLoadingNextAction } =
@@ -34,9 +30,7 @@ const Dashboard = () => {
               body="Estimate the value of your business!"
               buttonLabel="Finish Valuation"
               blurred={!hasValuation}
-              onAction={() => {
-                router.push(routePaths.VALUATION);
-              }}
+              buttonHref={routePaths.VALUATION}
             >
               <Valuation />
             </LockedContent>
@@ -51,9 +45,7 @@ const Dashboard = () => {
               body="Get personalized next steps for your business by completing your business profile!"
               buttonLabel="Complete Profile"
               blurred={!hasCompletedOnboarding}
-              onAction={() => {
-                router.push(routePaths.RECOMMENDATION);
-              }}
+              buttonHref={routePaths.RECOMMENDATION}
             >
               <NextAction recommendations={nextActions} />
             </LockedContent>
@@ -67,9 +59,7 @@ const Dashboard = () => {
         <LockedContent
           body="Access your business roadmap and recommendations by completing your business profile!"
           blurred={!hasCompletedOnboarding}
-          onAction={() => {
-            router.push(routePaths.RECOMMENDATION);
-          }}
+          buttonHref={routePaths.RECOMMENDATION}
         >
           <BusinessHealthRoadmap
             hasCompletedOnboarding={hasCompletedOnboarding}

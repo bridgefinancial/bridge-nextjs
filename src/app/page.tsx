@@ -14,6 +14,8 @@ export default function Home() {
   if (user) {
     if (user.company.has_finished_onboarding) {
       router.push(routePaths.DASHBOARD);
+    } else if (user.company.valuation) {
+      router.push(routePaths.RECOMMENDATION);
     } else {
       router.push(routePaths.VALUATION);
     }

@@ -10,6 +10,7 @@ import TextButton from "@/components/atoms/buttons/TextButton/TextButton.compone
 
 const BasicInfoForm = () => {
   const [image, setImage] = useState<string | null>(null);
+  const { data: user, isLoading: isLoadingUser } = useSessionUser();
 
   // Handle photo change
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +94,7 @@ const BasicInfoForm = () => {
       </Box>
 
       {/* Personal and Company Info Forms */}
-      <PersonalInfoForm />
+      <PersonalInfoForm  />
       <CompanyInfoForm />
 
       {/* Edit Survey Responses Section */}

@@ -315,7 +315,19 @@ type UpdatePhotoRequest = {
   image: File;
   userId: number;
 };
-
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: changePassword,
+    onSuccess: (data) => {
+      // Perform any additional actions on success, like showing a success message
+      console.log("Password changed successfully:", data);
+    },
+    onError: (error) => {
+      // Handle any errors, like showing an error message
+      console.error("Error changing password:", error);
+    },
+  });
+};
 export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
   const formData = new FormData();
   formData.append("image", image);

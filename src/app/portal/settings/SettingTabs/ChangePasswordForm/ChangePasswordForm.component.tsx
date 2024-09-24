@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useReducer, ChangeEvent, FormEvent } from "react";
+import React, { useReducer, ChangeEvent, FormEvent, useState } from "react";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import TitleText from "@/components/atoms/typography/TitleText";
 import { colors } from "@/theme/theme";
+import { useChangePassword, useSessionUser } from "@/services/users.service";
 
 // Interfaces for form values and errors
 interface FormValues {
@@ -66,7 +67,31 @@ function reducer(state: State, action: Action): State {
 }
 
 const ChangePasswordForm: React.FC = () => {
+  const { data: user, isLoading: isLoadingUser } = useSessionUser();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [success, setSuccess] = useState(false);
+
+  const { mutate: changePassword, isLoading, error } = useChangePassword({
+    onSuccess: () => {
+      setSuccess(true); // Set success state to true when password is successfully changed
+      // Clear form values after success
+      dispatch({
+        type: "SET_FIELD",
+        field: "password",
+        value: "",
+      });
+      dispatch({
+        type: "SET_FIELD",
+        field: "password1",
+        value: "",
+      });
+      dispatch({
+        type: "SET_FIELD",
+        field: "password2",
+        value: "",
+      });
+    },
+  });
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -95,8 +120,13 @@ const ChangePasswordForm: React.FC = () => {
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSuccess(false); // Reset success state before new submission
     if (validate()) {
-      // Process the form
+      changePassword({
+        oldPassword: state.formValues.password,
+        newPassword1: state.formValues.password1,
+        newPassword2: state.formValues.password2,
+      });
     }
   };
 
@@ -181,8 +211,23 @@ const ChangePasswordForm: React.FC = () => {
           backgroundColor={colors.bridgeDarkPurple}
           text={<strong>Save Changes</strong>}
           type="submit"
+          disabled={isLoading}
         />
       </Box>
+
+      {/* Error message */}
+      {error && (
+        <ParagraphText sx={{ color: "red" }}>
+          An error occurred: {error.message}
+        </ParagraphText>
+      )}
+
+      {/* Success message */}
+      {success && (
+        <ParagraphText sx={{ color: "green" }}>
+          Password changed successfully!
+        </ParagraphText>
+      )}
     </Box>
   );
 };

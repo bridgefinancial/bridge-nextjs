@@ -8,6 +8,7 @@ import { colors } from "@/theme/theme";
 import PersonIcon from "@mui/icons-material/Person";
 import TextButton from "@/components/atoms/buttons/TextButton/TextButton.component";
 import { useSessionUser } from "@/services/users.service";
+import Image from "next/image";
 
 const BasicInfoForm = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -18,9 +19,7 @@ const BasicInfoForm = () => {
     isFetched: userIsFetched,
   } = useSessionUser();
 
-
-
-  console.log(user, 'this is user data')
+  console.log(user, "this is user data");
 
   // Handle photo change
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,10 +53,10 @@ const BasicInfoForm = () => {
             // backgroundColor: "rgb(249, 250, 251)"
           }}
         >
-          {image ? (
-            <img
+          {image && user?.id && user.last_name && user.first_name ? (
+            <Image
               src={image}
-              alt="Avatar"
+              alt={`${Avatar}-${user.first_name} ${user.last_name} avatar`}
               style={{ width: "100%", height: "100%", borderRadius: "50%" }}
             />
           ) : (
@@ -116,14 +115,18 @@ const BasicInfoForm = () => {
           phoneNumber: userIsFetched && user && user.phone ? user.phone : "",
         }}
       />
-   <CompanyInfoForm 
-  refetchCompany={() => refetchUser()} // Corrected prop name for refetching the company
-  currentCompanyId={user?.company.id}
-  initialCompanyState={user && user.company.id ? {
-    businessName: user.company.name,
-    industry: user.company.industry.id.toString(), // Pass the industry ID as a string
-  } : {}}
-/>
+      <CompanyInfoForm
+        refetchCompany={() => refetchUser()} // Corrected prop name for refetching the company
+        currentCompanyId={user?.company.id}
+        initialCompanyState={
+          user && user.company.id
+            ? {
+                businessName: user.company.name,
+                industry: user.company.industry.id.toString(), // Pass the industry ID as a string
+              }
+            : {}
+        }
+      />
 
       {/* Edit Survey Responses Section */}
       <Box sx={{ mt: 4 }}>
@@ -143,4 +146,3 @@ const BasicInfoForm = () => {
 };
 
 export default BasicInfoForm;
-

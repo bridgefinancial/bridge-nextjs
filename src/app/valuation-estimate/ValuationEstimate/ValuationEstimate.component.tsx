@@ -47,6 +47,8 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
   const handleLogout = () => {
     logout({} as any, {
       onSuccess: () => {
+
+        
         const { name } = industry;
         router.push(`${routePaths.SIGN_UP}/${name}?redirectTo=survey`);
       },

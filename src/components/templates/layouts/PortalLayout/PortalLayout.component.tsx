@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -52,11 +52,11 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
   const segment = useSelectedLayoutSegment();
   const params = useSearchParams();
   const router = useRouter();
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = useCallback(() => {
     if (isMobile) {
       setMobileOpen(!mobileOpen);
     }
-  };
+  }, [isMobile, mobileOpen]);
 
   // HADNLERS
   const celebrate = () => {
@@ -73,7 +73,6 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
 
   useEffect(() => {
     if (desktopBarRef.current) {
-      const desktopBarHeight = desktopBarRef.current.offsetHeight;
       setLayoutContentHeight(`calc(100vh)`);
     }
   }, []);
@@ -83,7 +82,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
       celebrate();
       router.replace(pathname);
     }
-  }, []);
+  }, [params, pathname, router]);
 
   const activeTabLabel = useMemo(() => {
     const activeTab = tabs.find((tab) => tab.active);
@@ -96,7 +95,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
       );
     }
     return "";
-  }, [tabs]);
+  }, [segment, tabs]);
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -150,7 +149,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
         </div>
       </Toolbar>
     );
-  }, [isMobile, logoProps, handleDrawerToggle]);
+  }, [isMobile, logoProps, theme.palette.common.white, theme.palette.grey, handleDrawerToggle]);
 
   return (
     <Box

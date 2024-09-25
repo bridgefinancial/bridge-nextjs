@@ -1,11 +1,12 @@
 import React, { Suspense } from "react";
 import SettingsTabs from "./SettingTabs";
 
-export default function SettingsPage() {
-  
+const SettingsPage = (): React.JSX.Element => {
   return (
     <Suspense>
       <SettingsTabs />
     </Suspense>
   );
-}
+};
+
+export default SettingsPage;

@@ -257,6 +257,15 @@ type UpdateUserRequest = {
   id: string;
 };
 
+// Hook to use for updating the user
+export const useUpdateUser = () => {
+
+  return useMutation({
+    mutationFn: updateUser,
+
+  });
+};
+
 export const updateUser = async ({ attributes, id }: UpdateUserRequest) => {
   const url = `/api/users/${id}/`;
 
@@ -317,15 +326,7 @@ type UpdatePhotoRequest = {
 };
 export const useChangePassword = () => {
   return useMutation({
-    mutationFn: changePassword,
-    onSuccess: (data) => {
-      // Perform any additional actions on success, like showing a success message
-      console.log("Password changed successfully:", data);
-    },
-    onError: (error) => {
-      // Handle any errors, like showing an error message
-      console.error("Error changing password:", error);
-    },
+    mutationFn: changePassword
   });
 };
 export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
@@ -346,6 +347,12 @@ export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
 
   const data = await response.json();
   return data;
+};
+
+export const useChangeUserAvatar = () => {
+  return useMutation({
+    mutationFn: updatePhoto
+  });
 };
 
 type ClearUserImageRequest = {
@@ -370,4 +377,10 @@ export const clearUserImage = async ({ userId }: ClearUserImageRequest) => {
 
   const data = await response.json();
   return data;
+};
+
+export const useRemoveUserAvatar = () => {
+  return useMutation({
+    mutationFn: clearUserImage
+  });
 };

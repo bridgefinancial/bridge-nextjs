@@ -8,6 +8,7 @@ import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import TitleText from "@/components/atoms/typography/TitleText";
 import { colors } from "@/theme/theme";
 import { useChangePassword, useSessionUser } from "@/services/users.service";
+import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 
 // Interfaces for form values and errors
 interface FormValues {
@@ -38,11 +39,7 @@ const initialState: State = {
     password1: "",
     password2: "",
   },
-  formErrors: {
-    password: "",
-    password1: "",
-    password2: "",
-  },
+  formErrors: {},
 };
 
 // Reducer function to manage form state
@@ -67,31 +64,20 @@ function reducer(state: State, action: Action): State {
 }
 
 const ChangePasswordForm: React.FC = () => {
-  const { data: user, isLoading: isLoadingUser } = useSessionUser();
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [success, setSuccess] = useState(false);
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    refetch: refetchUser,
+  } = useSessionUser();
 
-  const { mutate: changePassword, isLoading, error } = useChangePassword({
-    onSuccess: () => {
-      setSuccess(true); // Set success state to true when password is successfully changed
-      // Clear form values after success
-      dispatch({
-        type: "SET_FIELD",
-        field: "password",
-        value: "",
-      });
-      dispatch({
-        type: "SET_FIELD",
-        field: "password1",
-        value: "",
-      });
-      dispatch({
-        type: "SET_FIELD",
-        field: "password2",
-        value: "",
-      });
-    },
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [toastOpen, setToastOpen] = useState(false);
+  const {
+    mutate: changePassword,
+    isSuccess,
+    isError,
+    error,
+  } = useChangePassword();
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -120,13 +106,27 @@ const ChangePasswordForm: React.FC = () => {
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSuccess(false); // Reset success state before new submission
     if (validate()) {
-      changePassword({
-        oldPassword: state.formValues.password,
-        newPassword1: state.formValues.password1,
-        newPassword2: state.formValues.password2,
-      });
+      changePassword(
+        {
+          oldPassword: state.formValues.password,
+          newPassword1: state.formValues.password1,
+          newPassword2: state.formValues.password2,
+        },
+        {
+          onSuccess: () => {
+            refetchUser(); // Refetch user data after successful password change
+            dispatch({ type: "SET_FIELD", field: "password", value: "" });
+            dispatch({ type: "SET_FIELD", field: "password1", value: "" });
+            dispatch({ type: "SET_FIELD", field: "password2", value: "" });
+          },
+          onSettled: () => {
+            setToastOpen(true); // Open success toast notification
+
+          }
+        },
+        
+      );
     }
   };
 
@@ -147,7 +147,7 @@ const ChangePasswordForm: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           gap: 0.5,
-          marginBottom: 0.1,
+          marginBottom: 1,
         }}
       >
         <TitleText sx={{ fontSize: 20 }} component="h3">
@@ -167,7 +167,7 @@ const ChangePasswordForm: React.FC = () => {
         name="password"
         value={state.formValues.password}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.password)}
+        error={Boolean(state.formErrors.password)}
         helperText={state.formErrors?.password}
       />
 
@@ -180,7 +180,7 @@ const ChangePasswordForm: React.FC = () => {
         name="password1"
         value={state.formValues.password1}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.password1)}
+        error={Boolean(state.formErrors.password1)}
         helperText={state.formErrors?.password1}
       />
 
@@ -193,7 +193,7 @@ const ChangePasswordForm: React.FC = () => {
         name="password2"
         value={state.formValues.password2}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.password2)}
+        error={Boolean(state.formErrors.password2)}
         helperText={state.formErrors?.password2}
       />
 
@@ -211,23 +211,24 @@ const ChangePasswordForm: React.FC = () => {
           backgroundColor={colors.bridgeDarkPurple}
           text={<strong>Save Changes</strong>}
           type="submit"
-          disabled={isLoading}
+          disabled={isLoadingUser}
         />
       </Box>
 
-      {/* Error message */}
-      {error && (
-        <ParagraphText sx={{ color: "red" }}>
-          An error occurred: {error.message}
-        </ParagraphText>
-      )}
 
-      {/* Success message */}
-      {success && (
-        <ParagraphText sx={{ color: "green" }}>
-          Password changed successfully!
-        </ParagraphText>
-      )}
+      {/* Toast Notification */}
+      <ToastNotification
+        setOpen={setToastOpen}
+        open={toastOpen}
+        severity={isSuccess ? "success" : isError ? "error" : "info"}
+        message={
+          isSuccess
+            ? "Password Updated Successfully"
+            : isError
+              ? "Failed to update password."
+              : "Updating..."
+        }
+      />
     </Box>
   );
 };

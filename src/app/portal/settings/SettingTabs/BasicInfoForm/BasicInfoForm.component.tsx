@@ -7,10 +7,20 @@ import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import { colors } from "@/theme/theme";
 import PersonIcon from "@mui/icons-material/Person";
 import TextButton from "@/components/atoms/buttons/TextButton/TextButton.component";
+import { useSessionUser } from "@/services/users.service";
 
 const BasicInfoForm = () => {
   const [image, setImage] = useState<string | null>(null);
-  const { data: user, isLoading: isLoadingUser } = useSessionUser();
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    refetch: refetchUser,
+    isFetched: userIsFetched,
+  } = useSessionUser();
+
+
+
+  console.log(user, 'this is user data')
 
   // Handle photo change
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,8 +104,26 @@ const BasicInfoForm = () => {
       </Box>
 
       {/* Personal and Company Info Forms */}
-      <PersonalInfoForm  />
-      <CompanyInfoForm />
+      <PersonalInfoForm
+        currentUserId={user?.id}
+        refetchUser={() => refetchUser()}
+        initialUserState={{
+          firstName:
+            userIsFetched && user && user.first_name ? user.first_name : "",
+          lastName:
+            userIsFetched && user && user.last_name ? user.last_name : "",
+          email: userIsFetched && user && user.email ? user.email : "",
+          phoneNumber: userIsFetched && user && user.phone ? user.phone : "",
+        }}
+      />
+   <CompanyInfoForm 
+  refetchCompany={() => refetchUser()} // Corrected prop name for refetching the company
+  currentCompanyId={user?.company.id}
+  initialCompanyState={user && user.company.id ? {
+    businessName: user.company.name,
+    industry: user.company.industry.id.toString(), // Pass the industry ID as a string
+  } : {}}
+/>
 
       {/* Edit Survey Responses Section */}
       <Box sx={{ mt: 4 }}>
@@ -115,3 +143,4 @@ const BasicInfoForm = () => {
 };
 
 export default BasicInfoForm;
+

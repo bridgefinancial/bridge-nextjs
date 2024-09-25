@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useReducer, ChangeEvent, FormEvent } from "react";
+import React, { useReducer, ChangeEvent, FormEvent, useState } from "react";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { Box, Typography, Alert } from "@mui/material";
+import { Box } from "@mui/material";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import TitleText from "@/components/atoms/typography/TitleText";
 import { colors } from "@/theme/theme";
+import { useSessionUser, useUpdateUser } from "@/services/users.service";
+import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 
 // Interfaces for form values and errors
 interface FormValues {
@@ -25,7 +27,7 @@ interface FormErrors {
 
 // Action types for reducer
 type Action =
-  | { type: "SET_FIELD"; field: string; value: string }
+  | { type: "SET_FIELD"; field: keyof FormValues; value: string }
   | { type: "SET_ERRORS"; errors: FormErrors };
 
 interface State {
@@ -40,12 +42,7 @@ const initialState: State = {
     lastName: "",
     phoneNumber: "",
   },
-  formErrors: {
-    email: "",
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-  },
+  formErrors: {},
 };
 
 // Reducer function to manage form state
@@ -69,13 +66,41 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-const PersonalInfoForm: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+interface PersonalInfoFormProps {
+  initialUserState?: Partial<FormValues>; // Allow partial input
+  currentUserId?: number | string;
+  refetchUser: () => void | any;
+}
 
+const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
+  initialUserState,
+  currentUserId,
+  refetchUser,
+}) => {
+  // Merge default initialState with provided initialUserState to ensure no undefined values
+  const initialFormValues: FormValues = {
+    email: initialUserState?.email || "",
+    firstName: initialUserState?.firstName || "",
+    lastName: initialUserState?.lastName || "",
+    phoneNumber: initialUserState?.phoneNumber || "",
+  };
+
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    formValues: initialFormValues,
+  });
+
+  const [toastOpen, setToastOpen] = useState(false);
+  const {
+    mutate: submitChanges,
+    isSuccess,
+    isError,
+    isPending,
+  } = useUpdateUser();
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch({ type: "SET_FIELD", field: name, value });
+    dispatch({ type: "SET_FIELD", field: name as keyof FormValues, value });
   };
 
   // Validate form fields
@@ -95,8 +120,26 @@ const PersonalInfoForm: React.FC = () => {
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validate()) {
-      // Process the form
+    if (validate() && currentUserId !== undefined) {
+      submitChanges(
+        {
+          attributes: {
+            first_name: state.formValues.firstName,
+            last_name: state.formValues.lastName,
+            phone: state.formValues.phoneNumber,
+            email: state.formValues.email,
+          },
+          id: currentUserId as string,
+        },
+        {
+          onSuccess: () => {
+            refetchUser();
+          },
+          onSettled: () => {
+            setToastOpen(true);
+          },
+        }
+      );
     }
   };
 
@@ -142,51 +185,63 @@ const PersonalInfoForm: React.FC = () => {
       <TextInputGroup
         label="First name"
         type="text"
-        fullWidth={true}
+        shrinkLabel={true}
+        fullWidth
         margin="normal"
         name="firstName"
+        placeholder={initialUserState?.firstName || "Enter first name"}
         value={state.formValues.firstName}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.firstName)}
+        error={Boolean(state.formErrors.firstName)}
         helperText={state.formErrors?.firstName}
+        disabled={isPending}
       />
 
       {/* Last Name Input */}
       <TextInputGroup
         label="Last name"
         type="text"
-        fullWidth={true}
+        fullWidth
+        shrinkLabel={true}
         margin="normal"
         name="lastName"
+        placeholder={initialUserState?.lastName || "Enter last name"}
         value={state.formValues.lastName}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.lastName)}
+        error={Boolean(state.formErrors.lastName)}
         helperText={state.formErrors?.lastName}
+        disabled={isPending}
       />
 
       {/* Email Input */}
       <TextInputGroup
         label="Email"
         type="email"
-        fullWidth={true}
+        shrinkLabel={true}
+        fullWidth
         margin="normal"
         name="email"
+        placeholder={initialUserState?.email || "Enter email"}
         value={state.formValues.email}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.email)}
+        error={Boolean(state.formErrors.email)}
         helperText={state.formErrors?.email}
+        disabled={isPending}
       />
 
       {/* Phone Number Input */}
       <TextInputGroup
         label="Phone number"
         type="text"
-        fullWidth={true}
+        fullWidth
+        shrinkLabel={true}
         margin="normal"
+        disabled={isPending}
         name="phoneNumber"
+        placeholder={initialUserState?.phoneNumber || "Enter phone number"}
         value={state.formValues.phoneNumber}
         onChange={handleChange}
-        error={Boolean(state.formErrors && state.formErrors.phoneNumber)}
+        error={Boolean(state.formErrors.phoneNumber)}
         helperText={state.formErrors?.phoneNumber}
       />
 
@@ -200,12 +255,27 @@ const PersonalInfoForm: React.FC = () => {
               fontSize: 14,
             },
           }}
-          fullWidth={true}
+          disabled={isPending}
+          fullWidth
           backgroundColor={colors.bridgeDarkPurple}
-          text={<strong>Save Changes</strong>}
+          text={<strong>Save Chang{isPending ? "ing" : "e"}</strong>}
           type="submit"
         />
       </Box>
+
+      {/* Toast Notification */}
+      <ToastNotification
+        setOpen={setToastOpen}
+        open={toastOpen}
+        severity={isSuccess ? "success" : isError ? "error" : "info"}
+        message={
+          isSuccess
+            ? "Profile Updated Successfully"
+            : isError
+              ? "Failed to update profile."
+              : "Updating..."
+        }
+      />
     </Box>
   );
 };

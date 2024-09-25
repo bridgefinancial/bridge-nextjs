@@ -1,34 +1,24 @@
 "use client";
 
-import React, { useReducer, ChangeEvent, FormEvent } from "react";
+import React, { useReducer, ChangeEvent, FormEvent, useState } from "react";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import SelectInputGroup from "@/components/molecules/forms/SelectInputGroup";
-import { SelectChangeEvent, Box, Typography, Alert } from "@mui/material";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import {
+  Autocomplete,
+  Box,
+  TextField,
+} from "@mui/material";
 import TitleText from "@/components/atoms/typography/TitleText";
 import { colors } from "@/theme/theme";
-
-// Industries data
-const industries = {
-  count: 130,
-  results: [
-    { id: 49, name: "Accounting and Tax Practices" },
-    { id: 108, name: "Architecture and Engineering Firms" },
-    { id: 42, name: "Art Galleries" },
-    // Add more industries as needed...
-  ],
-};
-
-// Extract the industry names into an array for the select options
-const industryOptions = industries.results.map((industry) => ({
-  value: industry.id,
-  label: industry.name,
-}));
+import { useIndustries } from "@/services/industries.service";
+import { Industry } from "@/types/industries.types";
+import { useUpdateCompany } from "@/services/companies.service";
+import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 
 interface FormValues {
   businessName?: string;
-  industry?: string;
+  [key: string]: any,
+  industry?: string; // Stores the industry ID as a string
 }
 
 interface FormErrors {
@@ -37,7 +27,7 @@ interface FormErrors {
 }
 
 type Action =
-  | { type: "SET_FIELD"; field: string; value: string }
+  | { type: "SET_FIELD"; field: keyof FormValues; value: string }
   | { type: "SET_ERRORS"; errors: FormErrors };
 
 interface State {
@@ -50,10 +40,7 @@ const initialState: State = {
     businessName: "",
     industry: "",
   },
-  formErrors: {
-    businessName: "",
-    industry: "",
-  },
+  formErrors: {},
 };
 
 function reducer(state: State, action: Action): State {
@@ -76,23 +63,44 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-const CompanyInfoForm: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+interface CompanyInfoProps {
+  initialCompanyState?: Partial<FormValues>; // Allow partial input
+  currentCompanyId?: number | string;
+  refetchCompany: () => void | any;
+}
+
+const CompanyInfoForm: React.FC<CompanyInfoProps> = ({
+  initialCompanyState,
+  currentCompanyId,
+  refetchCompany,
+}: CompanyInfoProps) => {
+  const initialFormValues: FormValues = {
+    businessName: initialCompanyState?.businessName || "",
+    industry: initialCompanyState?.industry || "",
+  };
+
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    formValues: initialFormValues,
+  });
+
+  const [toastOpen, setToastOpen] = useState(false);
+  const { data: industries } = useIndustries();
+  const [selectedIndustry, setSelectedIndustry] = useState<Industry | undefined>(
+    industries?.results.find(industry => industry.id.toString() === state.formValues.industry) || undefined
+  );
+
+  const {
+    mutate: submitChanges,
+    isSuccess,
+    isError,
+    isPending,
+  } = useUpdateCompany();
 
   // Handle change for text inputs
   const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch({ type: "SET_FIELD", field: name, value });
-  };
-
-  // Handle change for select inputs
-  const handleSelectChange = (e: SelectChangeEvent<unknown>) => {
-    const { name, value } = e.target;
-    dispatch({
-      type: "SET_FIELD",
-      field: name as string,
-      value: value as string,
-    });
+    dispatch({ type: "SET_FIELD", field: name as keyof FormValues, value });
   };
 
   // Validate form fields
@@ -114,8 +122,29 @@ const CompanyInfoForm: React.FC = () => {
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validate()) {
-      // Process the form
+    if (validate() && currentCompanyId !== undefined) {
+      const updatedValues = {
+        ...state.formValues,
+        industry: selectedIndustry, // Ensure the industry is passed as an object (Industry) not just the id
+      };
+
+      submitChanges(
+        {
+          attributes: {
+            name: updatedValues.businessName,
+            industry: updatedValues.industry
+          },
+          id: currentCompanyId as any,
+        },
+        {
+          onSuccess: () => {
+            refetchCompany();
+          },
+          onSettled: () => {
+            setToastOpen(true);
+          },
+        }
+      );
     }
   };
 
@@ -147,24 +176,42 @@ const CompanyInfoForm: React.FC = () => {
       <TextInputGroup
         label="Business Name"
         type="text"
-        fullWidth={true}
+        fullWidth
         margin="normal"
         name="businessName"
         value={state.formValues.businessName}
-        onChange={handleTextInputChange} // Handles text input changes
+        onChange={handleTextInputChange}
         error={Boolean(state.formErrors.businessName)}
         helperText={state.formErrors.businessName}
+        disabled={isPending}
       />
 
-      {/* Industry Selection Input */}
-      <SelectInputGroup
-        label="Industry"
-        name="industry"
-        value={state.formValues.industry}
-        onChange={handleSelectChange} // Handles select input changes
-        options={industryOptions}
-        error={Boolean(state.formErrors.industry)}
-        helperText={state.formErrors.industry}
+      {/* Industry Autocomplete */}
+      <Autocomplete
+        options={industries?.results ?? []}
+        getOptionLabel={(industry) => industry.name}
+        value={selectedIndustry || null}
+        onChange={(e, value) => {
+          setSelectedIndustry(value || undefined);
+          dispatch({
+            type: "SET_FIELD",
+            field: "industry",
+            value: value ? value.id.toString() : "",
+          });
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Industry"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            name="industry"
+            error={Boolean(state.formErrors.industry)}
+            helperText={state.formErrors.industry}
+            disabled={isPending}
+          />
+        )}
       />
 
       {/* Save Changes Button */}
@@ -177,12 +224,27 @@ const CompanyInfoForm: React.FC = () => {
               fontSize: 14,
             },
           }}
-          fullWidth={true}
+          disabled={isPending}
+          fullWidth
           backgroundColor={colors.bridgeDarkPurple}
-          text={<strong>Save Changes</strong>}
+          text={<strong>Save Chang{isPending ? "ing" : "e"}</strong>}
           type="submit"
-        />{" "}
+        />
       </Box>
+
+      {/* Toast Notification */}
+      <ToastNotification
+        setOpen={setToastOpen}
+        open={toastOpen}
+        severity={isSuccess ? "success" : isError ? "error" : "info"}
+        message={
+          isSuccess
+            ? "Company Updated Successfully"
+            : isError
+              ? "Failed to update company."
+              : "Updating..."
+        }
+      />
     </Box>
   );
 };

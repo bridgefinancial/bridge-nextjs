@@ -149,7 +149,7 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({
             .map((item) => `<li>${item}: <b>${state.errors[item]}</b></li>`)
             .join("")}</ul>`
         : "",
-    [state.openToast, state.errors],
+    [state.errors],
   );
 
   return (
@@ -169,4 +169,9 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-export const useErrors = () => useContext(ErrorsContext);
+export const useErrors: () => {
+  state: ErrorsState;
+  setErrorsFunc: (errors: Record<string, any>, methodName?: string, openToast?: boolean) => void;
+  setToastOpen: (open: boolean) => void;
+  clearErrors: () => void;
+} = () => useContext(ErrorsContext);

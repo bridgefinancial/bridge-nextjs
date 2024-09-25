@@ -1,10 +1,21 @@
 import { Company } from "@/types/users.types";
 import { fetchWithAuth } from "./authorized-request.service";
+import { useMutation } from "@tanstack/react-query";
 
 type UpdateCompanyRequest = {
   attributes: Partial<Company>;
   id: Company["id"];
 };
+
+
+
+
+export const useUpdateCompany = () => {
+  return useMutation({
+    mutationFn: updateCompany,
+  });
+};
+
 
 export const updateCompany = async ({
   attributes,

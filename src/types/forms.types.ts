@@ -203,6 +203,8 @@ export type Page = {
 export type FormField = {
   id: number;
   name: string;
+  page?: string;
+  parent?: string;
   label: string;
   type: FieldType;
   required?: boolean;

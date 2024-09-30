@@ -10,6 +10,8 @@ import { routePaths } from "@/types/routes.enum";
 import Link from "next/link";
 import { useLoginUser, useSessionUser } from "@/services/users.service";
 import { useAuth } from "@/providers/Auth.provider";
+import { User } from "@/types/users.types";
+import { useRouter } from "next/navigation";
 
 // Define types for form values and errors
 interface FormValues {
@@ -33,6 +35,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   title,
   cardContainerStyles = {},
 }) => {
+  // HOOKS
+  const router = useRouter();
+
   // STATE
   const [formValues, setFormValues] = useState<FormValues>({
     email: "",
@@ -99,10 +104,21 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
       // Create a FormData object from the form element
       const formData = new FormData(formElement);
-      loginUser({
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
-      });
+      loginUser(
+        {
+          email: formData.get("email") as string,
+          password: formData.get("password") as string,
+        },
+        {
+          onSuccess: (user: User) => {
+            if (!user.company.valuation) {
+              router.push(routePaths.VALUATION);
+            } else {
+              router.push(routePaths.DASHBOARD);
+            }
+          },
+        }
+      );
     }
   };
 

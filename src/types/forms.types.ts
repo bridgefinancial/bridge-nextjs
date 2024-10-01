@@ -1,4 +1,3 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { FieldType } from "./forms.enum";
 
 export type FormDefinition = {

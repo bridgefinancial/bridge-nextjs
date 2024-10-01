@@ -277,1030 +277,16 @@ export const VALUATION_FORM_DEFINITION: FormidableForm = {
   },
 };
 
-export const RECOMMENDATION_FORM_DEFINITION: FormidableForm = {
-  id: 3,
-  created_at: "2024-07-27T22:51:09.478783-06:00",
-  updated_at: "2024-08-12T16:43:16.522528-06:00",
-  name: "Onboarding Survey",
-  slug: "onboarding-survey",
-  review: false,
-  definition: {
-    id: 3,
-    name: "Onboarding Survey",
-    pages: [
-      {
-        name: "product_market_fit",
-        fields: [
-          {
-            id: 68,
-            max: 100,
-            min: 0,
-            name: "customer_affinity_percentage",
-            type: FieldType.PositiveInteger,
-            label:
-              "What percentage of your customers would be *very disappointed* if you were to close your business?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-          {
-            id: 69,
-            max: 100,
-            min: 0,
-            name: "yearly_retention_rate",
-
-            type: FieldType.PositiveInteger,
-            label:
-              "What % of your customers continue purchasing your product or service for more than a year?",
-            order: 1,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-        ],
-        header: "Product-Market Fit",
-      },
-      {
-        name: "position_clarity",
-        fields: [
-          {
-            id: 70,
-            enum: [
-              {
-                label: "Strongly Disagree",
-                value: "strongly_disagree",
-                textbox: false,
-              },
-              {
-                label: "Disagree",
-                value: "disagree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Unsure",
-                value: "unsure",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Agree",
-                value: "agree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Strongly Agree",
-                value: "strongly_agree",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "position_clarity_likert",
-
-            type: FieldType.Likert,
-            label:
-              "How strongly do you agree or disagree with the following statements?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            internal_fields: [
-              {
-                id: 71,
-                name: "understands_customer",
-
-                type: FieldType.Radio,
-                label:
-                  "I have a clear understanding of my ideal customer profile, including their values, needs, and pain points?",
-                order: 0,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 72,
-                name: "understands_landscape",
-
-                type: FieldType.Radio,
-                label:
-                  "I have a clear understanding of the unique value my product or service offers to customers and how my products and services are differentiated from my competitors.",
-                order: 1,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 73,
-                name: "good_positioning",
-
-                type: FieldType.Radio,
-                label:
-                  "My customers have a clear understanding of the unique value of my products or services.",
-                order: 2,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 74,
-                name: "systematic_pricing",
-
-                type: FieldType.Radio,
-                label:
-                  "My company used a systematic approach to determining pricing.",
-                order: 3,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-            ],
-          },
-        ],
-        header: "Position Clarity",
-      },
-      {
-        name: "pricing_and_bundling",
-        fields: [
-          {
-            id: 75,
-            min: 0,
-            name: "average_ticket_price",
-
-            type: FieldType.PositiveInteger,
-            label: "What is your average ticket price? (It's OK to estimate)",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-          },
-          {
-            id: 76,
-            name: "offers_payment_plans",
-
-            type: FieldType.YesNo,
-            label: "Do you offer customers any form of payment plans?",
-            order: 1,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-        ],
-        header: "Pricing & Bundling",
-      },
-      {
-        name: "online_presence",
-        fields: [
-          {
-            id: 77,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "has_website",
-
-            type: FieldType.Radio,
-            label: "Do you have a website?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-          {
-            id: 78,
-            name: "web_address",
-
-            type: FieldType.URL,
-            label: "What is your web address?",
-            order: 1,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            conditions: [
-              {
-                value: "yes",
-                operator: "equal",
-                dependant_on: {
-                  name: "has_website",
-                  page_name: "online_presence",
-                },
-              },
-            ],
-          },
-          {
-            id: 79,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "has_blog",
-
-            type: FieldType.Radio,
-            label: "Does your company have a blog?",
-            order: 2,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-          },
-          {
-            id: 80,
-            name: "blog_address",
-
-            type: FieldType.URL,
-            label: "What is your blog web address?",
-            order: 3,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            conditions: [
-              {
-                value: "yes",
-                operator: "equal",
-                dependant_on: {
-                  name: "has_blog",
-                  page_name: "online_presence",
-                },
-              },
-            ],
-          },
-        ],
-        header: "Online Presence",
-      },
-      {
-        name: "digital_strategy",
-        fields: [
-          {
-            id: 81,
-            enum: [
-              {
-                label: "Strongly Disagree",
-                value: "strongly_disagree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Disagree",
-                value: "disagree",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Unsure",
-                value: "unsure",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Agree",
-                value: "agree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Strongly Agree",
-                value: "strongly_agree",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "digital_strategy_likert",
-
-            type: FieldType.Likert,
-            label:
-              "How strongly do you agree or disagree with the following statements?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            internal_fields: [
-              {
-                id: 82,
-                name: "website_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company website is effective at generating leads for my business.",
-                order: 0,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 83,
-                name: "blog_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company blog does a good job of raising brand awareness and generating leads.",
-                order: 1,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 84,
-                name: "social_media_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job of raising brand awareness and generating leads through social media.",
-                order: 2,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 85,
-                name: "review_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job of requesting online reviews from happy customers.",
-                order: 3,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 86,
-                name: "review_responsiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job monitoring and replying to online reviews.",
-                order: 4,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 87,
-                name: "digital_ad_effectiveness",
-
-                type: FieldType.Radio,
-                label: "My company has an effective digital ad strategy.",
-                order: 5,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 88,
-                name: "email_marketing_effectiveness",
-
-                type: FieldType.Radio,
-                label: "My company runs effective email marketing campaigns.",
-                order: 6,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 89,
-                name: "affiliate_marketing_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company has an effective affilite marketing program for generating online leads and sales.",
-                order: 7,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-            ],
-          },
-        ],
-        header: "Digital Strategy",
-      },
-      {
-        name: "leads_management",
-        fields: [
-          {
-            id: 90,
-            enum: [
-              {
-                label: "Strongly Disagree",
-                value: "strongly_disagree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Disagree",
-                value: "disagree",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Unsure",
-                value: "unsure",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Agree",
-                value: "agree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Strongly Agree",
-                value: "strongly_agree",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "leads_management_likert",
-
-            type: FieldType.Likert,
-            label:
-              "How strongly do you agree or disagree with the following statements?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            internal_fields: [
-              {
-                id: 91,
-                name: "partnership_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company makes good use of partnerships, distributors, and other sales channels to generate leads and sales.",
-                order: 0,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 120,
-                name: "traditional_marketing_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job using traditional marketing strategies such as community events, trade shows, sponsorships, promotions, coupons, traditional advertising (print, radio, billboards, etc), direct mail, and cold calling to raise awareness of company products and services.",
-                order: 1,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 92,
-                name: "lead_tracking_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job of saving contact info and other applicable details for new leads.",
-                order: 2,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 93,
-                name: "lead_prioritization_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job of prioritizing high-quality / high-fit leads.",
-                order: 3,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 94,
-                name: "sales_conversion_effectiveness",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job of converting leads into new sales.",
-                order: 4,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-            ],
-          },
-        ],
-        header: "Leads Management",
-      },
-      {
-        name: "business_systems",
-        fields: [
-          {
-            id: 95,
-            enum: [
-              {
-                label: "Strongly Disagree",
-                value: "strongly_disagree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Disagree",
-                value: "disagree",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Unsure",
-                value: "unsure",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Agree",
-                value: "agree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Strongly Agree",
-                value: "strongly_agree",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "business_systems_likert",
-
-            type: FieldType.Likert,
-            label:
-              "How strongly do you agree or disagree with the following statements?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            internal_fields: [
-              {
-                id: 96,
-                name: "customized_comms",
-
-                type: FieldType.Radio,
-                label:
-                  "My company's interactions and communication with prospective customers is customized based on their preferences, behavior, and past interactions.",
-                order: 0,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 97,
-                name: "consistent_delivery",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job of ensuring that the promised value and benefits of my products and services are delivered across all customer touch points (physical space, the front desk, the solution delivery, and followups).",
-                order: 1,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 98,
-                name: "meets_commitments",
-
-                type: FieldType.Radio,
-                label:
-                  "My company consistently meets our commitments to our customers.",
-                order: 2,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 99,
-                name: "commitment_tracking",
-
-                type: FieldType.Radio,
-                label:
-                  "My company has good, effective systems in place to track and fulfill our promises to our customers.",
-                order: 3,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 100,
-                name: "spend_management",
-
-                type: FieldType.Radio,
-                label: "My company does a good job managing our spending.",
-                order: 4,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 101,
-                name: "cash_reserve_adequacy",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job maintaing adequate cash reserves.",
-                order: 5,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-              {
-                id: 102,
-                name: "good_collections",
-
-                type: FieldType.Radio,
-                label:
-                  "My company does a good job ensuring that we are paid for products and services delivered.",
-                order: 6,
-                hidden: false,
-
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: false,
-              },
-            ],
-          },
-        ],
-        header: "Business Systems",
-      },
-      {
-        name: "employee_efficiency",
-        fields: [
-          {
-            id: 104,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "uses_productivity_software",
-
-            type: FieldType.Radio,
-            label:
-              "Does your company use software to track and improve employee productivity?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-          {
-            id: 105,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "uses_bi_software",
-
-            type: FieldType.Radio,
-            label:
-              "My business uses systems to gain insights business and customer data (Business Intellegence Software).",
-            order: 1,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-          {
-            id: 106,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "fraud_prevention",
-
-            type: FieldType.Radio,
-            label:
-              "Does your company have good processes and/or software in place to prevent fraud and ensure security?",
-            order: 2,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-          },
-          {
-            id: 117,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "manage_expenditures",
-
-            type: FieldType.Radio,
-            label:
-              "My business does a good job at managing and categorizing expenditures",
-            order: 3,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-          },
-          {
-            id: 103,
-            name: "num_employees",
-
-            type: FieldType.PositiveInteger,
-            label:
-              "About how many employees do you have? (It is OK to estimate)",
-            order: 4,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: true,
-          },
-        ],
-        header: "Employee Efficiency",
-      },
-      {
-        name: "process_and_training",
-        fields: [
-          {
-            id: 107,
-            enum: [
-              {
-                label: "Yes",
-                value: "yes",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "No",
-                value: "no",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "has_org_chart",
-            type: FieldType.Radio,
-            label: "Does your company have an up-to-date org chart?",
-            order: 0,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-          },
-          {
-            id: 108,
-            enum: [
-              {
-                label: "Strongly Disagree",
-                value: "strongly_disagree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Disagree",
-                value: "disagree",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Unsure",
-                value: "unsure",
-                textbox: false,
-                placeholder: "",
-              },
-
-              {
-                label: "Agree",
-                value: "agree",
-                textbox: false,
-                placeholder: "",
-              },
-              {
-                label: "Strongly Agree",
-                value: "strongly_agree",
-                textbox: false,
-                placeholder: "",
-              },
-            ],
-            name: "process_likert",
-            type: FieldType.Likert,
-            label:
-              "How strongly do you agree or disagree with the following statements?",
-            order: 1,
-            hidden: false,
-            add_more: false,
-            disabled: false,
-            readonly: false,
-            required: false,
-            internal_fields: [
-              {
-                id: 110,
-                name: "processes_and_procedures",
-                type: FieldType.Radio,
-                label:
-                  "My company's processes and procedures are standardized and well documented, and we do a good job of keeping that documentation up-to-date.",
-                order: 0,
-                hidden: false,
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 109,
-                name: "emps_understand_roles",
-                type: FieldType.Radio,
-                label:
-                  "Everyone at my company clearly understands their roles and responsibilities.",
-                order: 1,
-                hidden: false,
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-              {
-                id: 111,
-                name: "adequate_training",
-                type: FieldType.Radio,
-                label:
-                  "My company is effective at ensuring that staff follows standards and procedures.",
-                order: 2,
-                hidden: false,
-                add_more: false,
-                disabled: false,
-                readonly: false,
-                required: true,
-              },
-            ],
-          },
-        ],
-        header: "Process & Training",
-      },
-    ],
-    review: false,
-  },
-};
-
 export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
   id: 9,
+  intro: {
+    heading: "Let’s Optimize your Business",
+    subheading:
+      "We’d love to hear more about your business, your goals, and the challenges you face as you look to grow in the coming year.",
+    imageSrc: "/assets/images/man-at-computer.png",
+    timeEstimate: "15 minutes",
+    buttonText: "Get started",
+  },
   created_at: "2024-09-30T16:30:51.328167-06:00",
   updated_at: "2024-09-30T16:44:28.904841-06:00",
   name: "General Information",
@@ -1378,7 +364,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             min: 0,
             name: "revenue_growth_rate",
             page: "Economics",
-            type: FieldType.PositiveInteger,
+            type: FieldType.SliderPercent,
             label: "What is your revenue growth rate?",
             order: 0,
             hidden: false,
@@ -1386,6 +372,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             disabled: false,
             readonly: false,
             required: true,
+            not_sure: true,
           },
           {
             id: 159,
@@ -1404,7 +391,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             id: 160,
             name: "business_loans_owed",
             page: "Economics",
-            type: FieldType.PositiveInteger,
+            type: FieldType.USD,
             label:
               "What is the total amount owed, or the remaining balance on your business loans?",
             order: 2,
@@ -1413,6 +400,17 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             disabled: false,
             readonly: false,
             required: false,
+            not_sure: true,
+            conditions: [
+              {
+                value: "yes",
+                operator: "equal",
+                dependant_on: {
+                  name: "has_business_loans",
+                  page_name: "Economics",
+                },
+              },
+            ],
           },
         ],
         header: "Economics",
@@ -1480,7 +478,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             ],
             name: "goals",
             page: "Business Goals",
-            type: FieldType.Checkbox,
+            type: FieldType.Checkbox9Grid,
             label:
               "What are your business goals in the next 3-5 years? (Select all that apply)",
             order: 0,
@@ -1502,6 +500,16 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             disabled: false,
             readonly: false,
             required: false,
+            conditions: [
+              {
+                value: "other",
+                operator: "equal",
+                dependant_on: {
+                  name: "goals",
+                  page_name: "location",
+                },
+              },
+            ],
           },
         ],
         header: "Business Goals",
@@ -1521,6 +529,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             disabled: false,
             readonly: false,
             required: true,
+            placeholder: "Description",
           },
           {
             id: 164,
@@ -1535,6 +544,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             disabled: false,
             readonly: false,
             required: true,
+            placeholder: "Description",
           },
           {
             id: 165,
@@ -1548,6 +558,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             disabled: false,
             readonly: false,
             required: true,
+            placeholder: "Description",
           },
         ],
         header: "Business Goals",
@@ -1560,6 +571,13 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
 export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
   {
     id: 10,
+    intro: {
+      heading: "Business Offering",
+      subheading:
+        "Help us understand how your product stands out, your customer loyalty, and how you approach pricing and payment options.",
+      imageSrc: "/assets/images/man-at-computer.png",
+      buttonText: "Next",
+    },
     created_at: "2024-09-30T16:44:16.862880-06:00",
     updated_at: "2024-09-30T16:55:02.223865-06:00",
     name: "Business Offering",
@@ -1576,7 +594,7 @@ export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
               id: 173,
               name: "disappointed_percentage",
               page: "Product Market Fit",
-              type: FieldType.PositiveInteger,
+              type: FieldType.SliderPercent,
               label:
                 "What percentage of your customers would be very disappointed if your business closed?",
               order: 0,
@@ -1585,12 +603,15 @@ export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
               disabled: false,
               readonly: false,
               required: false,
+              not_sure: true,
+              max: 100,
+              min: 0,
             },
             {
               id: 174,
               name: "customer_retention_percent",
               page: "Product Market Fit",
-              type: FieldType.PositiveInteger,
+              type: FieldType.SliderPercent,
               label:
                 "On an annual basis, what percentage of your customers continue to do business with you?",
               order: 1,
@@ -1599,6 +620,9 @@ export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
               disabled: false,
               readonly: false,
               required: false,
+              not_sure: true,
+              max: 100,
+              min: 0,
             },
             {
               id: 175,
@@ -1613,6 +637,7 @@ export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
               disabled: false,
               readonly: false,
               required: false,
+              not_sure: true,
             },
             {
               id: 176,
@@ -1658,6 +683,16 @@ export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
               disabled: false,
               readonly: false,
               required: false,
+              conditions: [
+                {
+                  value: "Not sure",
+                  operator: "equal",
+                  dependant_on: {
+                    name: "disappointed_percentage",
+                    page_name: "location",
+                  },
+                },
+              ],
               internal_fields: [
                 {
                   id: 177,
@@ -1814,6 +849,13 @@ export const RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION: FormidableForm =
 
 export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
   id: 11,
+  intro: {
+    heading: "Growth Marketing",
+    subheading:
+      "Tell us about your marketing strategies, both digital and traditional, and how partnerships help generate leads and grow your business.",
+    imageSrc: "/assets/images/man-at-computer.png",
+    buttonText: "Next",
+  },
   created_at: "2024-09-30T16:58:41.720469-06:00",
   updated_at: "2024-09-30T17:10:37.444906-06:00",
   name: "Growth Marketing",
@@ -1906,7 +948,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             ],
             name: "digital_channels",
             page: "Digital Strategy",
-            type: FieldType.Checkbox,
+            type: FieldType.Checkbox9Grid,
             label:
               "Which digital channels does your business have? (Select all that apply)",
             order: 0,
@@ -1928,6 +970,16 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: false,
+            conditions: [
+              {
+                value: "other",
+                operator: "equal",
+                dependant_on: {
+                  name: "digital_channels",
+                  page_name: "location",
+                },
+              },
+            ],
           },
           {
             id: 188,
@@ -1942,12 +994,13 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: true,
+            not_sure: true,
           },
           {
             id: 189,
             name: "yoy_digital_lead_growth",
             page: "Digital Strategy",
-            type: FieldType.PositiveInteger,
+            type: FieldType.SliderPercent,
             label:
               "What is the year-over-year growth rate of leads from digital channels (An estimate is fine)",
             order: 3,
@@ -1956,6 +1009,9 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: true,
+            not_sure: true,
+            min: 0,
+            max: 400,
           },
         ],
         header: "Digital Strategy",
@@ -2023,7 +1079,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             ],
             name: "traditional_channels",
             page: "Traditional Marketing",
-            type: FieldType.Checkbox,
+            type: FieldType.Checkbox9Grid,
             label:
               "What traditional marketing strategies do you use? (Select all that apply)",
             order: 0,
@@ -2045,6 +1101,16 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: false,
+            conditions: [
+              {
+                value: "other",
+                operator: "equal",
+                dependant_on: {
+                  name: "traditional_channels",
+                  page_name: "location",
+                },
+              },
+            ],
           },
           {
             id: 192,
@@ -2059,6 +1125,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: true,
+            not_sure: true,
           },
           {
             id: 193,
@@ -2074,6 +1141,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: false,
+            not_sure: true,
           },
         ],
         header: "Traditional Marketing",
@@ -2095,6 +1163,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             readonly: false,
             required: true,
             placeholder: "# partnerships",
+            not_sure: true,
           },
           {
             id: 195,
@@ -2110,6 +1179,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             readonly: false,
             required: true,
             placeholder: "#",
+            not_sure: true,
           },
         ],
         header: "Partnerships",
@@ -2117,166 +1187,17 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
     ],
     review: false,
   },
-  schema: {
-    type: "object",
-    $schema: "https://json-schema.org/draft/2020-12/schema",
-    required: [
-      "Marketing Opportunities",
-      "Digital Strategy",
-      "Traditional Marketing",
-      "Partnerships",
-    ],
-    properties: {
-      Partnerships: {
-        type: "object",
-        required: ["partnerships_count", "other_partners_count"],
-        properties: {
-          partnerships_count: {
-            type: "integer",
-            minimum: 0,
-          },
-          other_partners_count: {
-            type: "string",
-          },
-        },
-      },
-      "Digital Strategy": {
-        type: "object",
-        required: ["digital_monthly_leads", "yoy_digital_lead_growth"],
-        properties: {
-          digital_channels: {
-            type: "object",
-            required: [
-              "website",
-              "social_media",
-              "reviews",
-              "blog",
-              "ads",
-              "email",
-              "directories",
-              "forums",
-              "other",
-            ],
-            properties: {
-              ads: {
-                type: "boolean",
-              },
-              blog: {
-                type: "boolean",
-              },
-              email: {
-                type: "boolean",
-              },
-              other: {
-                type: "boolean",
-              },
-              forums: {
-                type: "boolean",
-              },
-              reviews: {
-                type: "boolean",
-              },
-              website: {
-                type: "boolean",
-              },
-              directories: {
-                type: "boolean",
-              },
-              social_media: {
-                type: "boolean",
-              },
-            },
-            additionalProperties: false,
-          },
-          digital_monthly_leads: {
-            type: "integer",
-            minimum: 0,
-          },
-          other_digital_channels: {
-            type: "string",
-          },
-          yoy_digital_lead_growth: {
-            type: "integer",
-            minimum: 0,
-          },
-        },
-      },
-      "Traditional Marketing": {
-        type: "object",
-        required: ["traditional_monthly_leads"],
-        properties: {
-          traditional_channels: {
-            type: "object",
-            required: [
-              "events",
-              "trade_shows",
-              "sponsors",
-              "promotions",
-              "ads",
-              "direct_mail",
-              "calls",
-              "word_of_mouth",
-              "other",
-            ],
-            properties: {
-              ads: {
-                type: "boolean",
-              },
-              calls: {
-                type: "boolean",
-              },
-              other: {
-                type: "boolean",
-              },
-              events: {
-                type: "boolean",
-              },
-              sponsors: {
-                type: "boolean",
-              },
-              promotions: {
-                type: "boolean",
-              },
-              direct_mail: {
-                type: "boolean",
-              },
-              trade_shows: {
-                type: "boolean",
-              },
-              word_of_mouth: {
-                type: "boolean",
-              },
-            },
-            additionalProperties: false,
-          },
-          traditional_monthly_leads: {
-            type: "integer",
-            minimum: 0,
-          },
-          other_traditional_channels: {
-            type: "string",
-          },
-          yoy_traditional_lead_growth: {
-            type: "integer",
-            minimum: 0,
-          },
-        },
-      },
-      "Marketing Opportunities": {
-        type: "object",
-        required: [],
-        properties: {
-          marketing_opportunities: {
-            type: "string",
-          },
-        },
-      },
-    },
-  },
 };
 
 export const RECOMMENDATION_CONVERSION_FORM_DEFINITION = {
   id: 12,
+  intro: {
+    heading: "Lead Conversion",
+    subheading:
+      "Provide insights into your lead conversion rates, effective customer touch-points, and how you personalize interactions with potential customers.",
+    imageSrc: "/assets/images/man-at-computer.png",
+    buttonText: "Next",
+  },
   created_at: "2024-09-30T17:11:05.450683-06:00",
   updated_at: "2024-09-30T17:20:57.605878-06:00",
   name: "Lead Conversion",
@@ -2295,7 +1216,7 @@ export const RECOMMENDATION_CONVERSION_FORM_DEFINITION = {
             min: 0,
             name: "overall_conversion_percent",
             page: "Pipeline Management",
-            type: FieldType.PositiveInteger,
+            type: FieldType.SliderPercent,
             label:
               "What percentage of inquiries or interests convert into actual customers? An estimate is fine.",
             order: 0,
@@ -2411,7 +1332,7 @@ export const RECOMMENDATION_CONVERSION_FORM_DEFINITION = {
             id: 200,
             name: "word_of_mouth_percent",
             page: "Pipeline Management",
-            type: FieldType.PositiveInteger,
+            type: FieldType.SliderPercent,
             label: "What percentage of business is word of mouth?",
             order: 3,
             hidden: false,
@@ -2419,6 +1340,8 @@ export const RECOMMENDATION_CONVERSION_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: true,
+            max: 100,
+            min: 0,
           },
         ],
         header: "Pipeline Management",
@@ -2539,125 +1462,17 @@ export const RECOMMENDATION_CONVERSION_FORM_DEFINITION = {
     ],
     review: false,
   },
-  schema: {
-    type: "object",
-    $schema: "https://json-schema.org/draft/2020-12/schema",
-    required: ["Pipeline Management", "Customer Experience"],
-    properties: {
-      "Customer Experience": {
-        type: "object",
-        required: [],
-        properties: {
-          "CX Likert": {
-            type: "object",
-            required: [
-              "personalized_interactions",
-              "addresses_concerns",
-              "value_communication",
-            ],
-            properties: {
-              addresses_concerns: {
-                enum: [
-                  "strongly_disagree",
-                  "disagree",
-                  "neutral",
-                  "agree",
-                  "strongly_agree",
-                ],
-                type: "string",
-              },
-              value_communication: {
-                enum: [
-                  "strongly_disagree",
-                  "disagree",
-                  "neutral",
-                  "agree",
-                  "strongly_agree",
-                ],
-                type: "string",
-              },
-              customer_feels_heard: {
-                type: "string",
-              },
-              personalized_interactions: {
-                enum: [
-                  "strongly_disagree",
-                  "disagree",
-                  "neutral",
-                  "agree",
-                  "strongly_agree",
-                ],
-                type: "string",
-              },
-            },
-          },
-        },
-      },
-      "Pipeline Management": {
-        type: "object",
-        required: [
-          "overall_conversion_percent",
-          "effective_conversion_touchpoints",
-          "word_of_mouth_percent",
-        ],
-        properties: {
-          pipeline_likert: {
-            type: "object",
-            required: ["lead_prioritization"],
-            properties: {
-              lead_prioritization: {
-                enum: [
-                  "strongly_disagree",
-                  "disagree",
-                  "neutral",
-                  "agree",
-                  "strongly_agree",
-                ],
-                type: "string",
-              },
-            },
-          },
-          word_of_mouth_percent: {
-            type: "integer",
-            minimum: 0,
-          },
-          overall_conversion_percent: {
-            type: "integer",
-            maximum: 100,
-            minimum: 0,
-          },
-          effective_conversion_touchpoints: {
-            type: "object",
-            required: [
-              "website",
-              "social_media",
-              "in_store",
-              "customer_service",
-            ],
-            properties: {
-              website: {
-                type: "boolean",
-              },
-              in_store: {
-                type: "boolean",
-              },
-              social_media: {
-                type: "boolean",
-              },
-              customer_service: {
-                type: "boolean",
-              },
-            },
-            additionalProperties: false,
-          },
-        },
-      },
-    },
-  },
 };
 
 export const RECOMMENDATION_SYSTEMS_FORM_DEFINITION = {
   id: 13,
+  intro: {
+    heading: "Operations & Systems",
+    subheading:
+      "Share insights on your cash flow management, payment processes, and technology systems for productivity and data analysis.",
+    imageSrc: "/assets/images/man-at-computer.png",
+    buttonText: "Next",
+  },
   created_at: "2024-09-30T17:21:34.222501-06:00",
   updated_at: "2024-09-30T17:33:34.693279-06:00",
   name: "Operations & Systems",
@@ -2717,6 +1532,7 @@ export const RECOMMENDATION_SYSTEMS_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: true,
+            not_sure: true,
           },
           {
             id: 214,
@@ -2745,6 +1561,17 @@ export const RECOMMENDATION_SYSTEMS_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: false,
+            conditions: [
+              {
+                value: "yes",
+                operator: "equal",
+                dependant_on: {
+                  name: "has_effective_systems",
+                  page_name: "location",
+                },
+              },
+            ],
+            not_sure: true,
           },
         ],
         header: "Business Systems",
@@ -2840,6 +1667,17 @@ export const RECOMMENDATION_SYSTEMS_FORM_DEFINITION = {
             disabled: false,
             readonly: false,
             required: false,
+            conditions: [
+              {
+                value: "yes",
+                operator: "equal",
+                dependant_on: {
+                  name: "has_standardized_procedures",
+                  page_name: "location",
+                },
+              },
+            ],
+            not_sure: true,
           },
           {
             id: 220,
@@ -2973,6 +1811,4 @@ export const RECOMMENDATION_SYSTEMS_FORM_DEFINITION = {
   },
 };
 
-export const RECOMMENDATIONS_FORM_ID = RECOMMENDATION_FORM_DEFINITION.id;
 export const VALUATION_FORM_ID = VALUATION_FORM_DEFINITION.id;
-export const ONBOARDING_FORM_IDS = [VALUATION_FORM_ID, RECOMMENDATIONS_FORM_ID];

@@ -322,7 +322,7 @@ export const changePassword = async ({
 
 type UpdatePhotoRequest = {
   image: File;
-  userId: number;
+  userId: string;
 };
 export const useChangePassword = () => {
   return useMutation({
@@ -345,7 +345,9 @@ export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const data = await response.json();
+  const data = {
+
+  }
   return data;
 };
 

@@ -10,7 +10,7 @@ type UpdateCompanyRequest = {
 
 
 
-export const useUpdateCompany = () => {
+export const useUpdateCompany = (): UseMutationResult<Company, Error, UpdateCompanyRequest, unknown> => {
   return useMutation({
     mutationFn: updateCompany,
   });

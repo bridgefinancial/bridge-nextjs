@@ -4,7 +4,6 @@ import FormPage from "./FormPage";
 import FormAction, { FormActionConfig } from "./FormAction";
 import clsx from "clsx";
 import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import FormFooter from "./FormFooter";
 import { Box } from "@mui/material";
 
 type FormProps = {

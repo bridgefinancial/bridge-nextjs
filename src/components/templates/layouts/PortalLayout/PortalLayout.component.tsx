@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -149,7 +156,13 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
         </div>
       </Toolbar>
     );
-  }, [isMobile, logoProps, theme.palette.common.white, theme.palette.grey, handleDrawerToggle]);
+  }, [
+    isMobile,
+    logoProps,
+    theme.palette.common.white,
+    theme.palette.grey,
+    handleDrawerToggle,
+  ]);
 
   return (
     <Box

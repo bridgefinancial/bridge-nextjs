@@ -3,23 +3,20 @@ import React, {
   useContext,
   useReducer,
   useEffect,
+  useState,
   ReactNode,
   useMemo,
 } from "react";
 import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 import { isEmpty } from "lodash";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import CustomErrorBoundary from "@/components/atoms/containers/CustomErrorBoundry/CustomErrorBoundry.component";
 
-/**
- * Interface representing the structure of error messages.
- */
-export interface ErrorMessages {
-  [key: string]: string | string[] | unknown;
-  message?: string[];
-}
+// Custom Error Boundary Component
 
-/**
- * Action types for the `ErrorsReducer`.
- */
+// Action types for the reducer
 type ErrorsAction =
   | {
       type: "SET_ERRORS";
@@ -37,9 +34,7 @@ type ErrorsAction =
       type: "CLEAR_ERRORS";
     };
 
-/**
- * State shape for the `ErrorsReducer`.
- */
+// State shape for the reducer
 interface ErrorsState {
   errors: Record<string, any>;
   methodName?: string;
@@ -47,7 +42,6 @@ interface ErrorsState {
   openToast: boolean;
 }
 
-// Initial state with default error values set to empty
 const initialState: ErrorsState = {
   errors: {},
   methodName: undefined,
@@ -88,7 +82,7 @@ const errorsReducer = (
 };
 
 // Context definition
-const ErrorsContext = createContext<{
+interface ErrorsContextType {
   state: ErrorsState;
   setErrorsFunc: (
     errors: Record<string, any>,
@@ -97,7 +91,9 @@ const ErrorsContext = createContext<{
   ) => void;
   setToastOpen: (open: boolean) => void;
   clearErrors: () => void;
-}>({
+}
+
+const ErrorsContext = createContext<ErrorsContextType>({
   state: initialState,
   setErrorsFunc: () => {},
   setToastOpen: () => {},
@@ -114,21 +110,21 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({
     errors: Record<string, any>,
     methodName?: string,
     openToast?: boolean,
-  ) => {
+  ): void => {
     dispatch({
       type: "SET_ERRORS",
       payload: { errors, methodName, openToast },
     });
   };
 
-  const setToastOpen = (open: boolean) => {
+  const setToastOpen = (open: boolean): void => {
     dispatch({
       type: "SET_TOAST_OPEN",
       payload: open,
     });
   };
 
-  const clearErrors = () => {
+  const clearErrors = (): void => {
     dispatch({ type: "CLEAR_ERRORS" });
   };
 
@@ -143,7 +139,7 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({
   }, [state.errors, state.errorsIsEmpty, state.openToast]);
 
   const messageForToast = useMemo(
-    () =>
+    (): string =>
       Object.keys(state.errors).length > 0
         ? `<ul>${Object.keys(state.errors)
             .map((item) => `<li>${item}: <b>${state.errors[item]}</b></li>`)
@@ -164,14 +160,21 @@ export const ErrorsProvider: React.FC<{ children: ReactNode }> = ({
           setOpen={setToastOpen}
         />
       )}
-      {children}
+      <CustomErrorBoundary supportEmail="contact@bridge.financial">
+        {children}
+      </CustomErrorBoundary>
     </ErrorsContext.Provider>
   );
 };
 
-export const useErrors: () => {
+// Custom hook to use errors
+export const useErrors = (): {
   state: ErrorsState;
-  setErrorsFunc: (errors: Record<string, any>, methodName?: string, openToast?: boolean) => void;
+  setErrorsFunc: (
+    errors: Record<string, any>,
+    methodName?: string,
+    openToast?: boolean,
+  ) => void;
   setToastOpen: (open: boolean) => void;
   clearErrors: () => void;
-} = () => useContext(ErrorsContext);
+} => useContext(ErrorsContext);

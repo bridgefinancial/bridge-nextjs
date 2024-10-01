@@ -3,6 +3,8 @@ import { FilledTextFieldProps, TextField } from "@mui/material";
 import React from "react";
 
 interface TextInputProps extends Partial<FilledTextFieldProps> {
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;  // Ensure correct typing here
+
   shrinkLabel?: boolean;  // Adding shrinkLabel prop to control the label's shrink behavior
 }
 

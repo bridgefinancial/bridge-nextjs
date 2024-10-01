@@ -3,18 +3,35 @@
 import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
+import Button, { ButtonProps } from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import { BaseButtonProps } from "@/types/base-button-props.interface";
+import { BaseTypographyProps } from "@/types/base-typography-props.interface";
 
-interface OnActionProps {
-  icon: React.ReactNode; // Icon to be rendered in the action button
-  text: string; // Text to be displayed alongside the icon
-  onClick: () => void; // Callback when the action button is clicked
-  ariaLabel: string; // Accessible label for the button
+interface OnActionProps extends BaseButtonProps {
+  fullWidth?: boolean;
+  textColor?: string;
+  backgroundColor?: string;
+  text?: string | React.ReactNode;
+  isLoading?: boolean;
+  disabled?: boolean;
+  textProps?: BaseTypographyProps;
+  onClick?:
+    | React.MouseEventHandler<HTMLButtonElement>
+    | (() => void)
+    | undefined;
+  textComponent?: React.ElementType; // Allow dynamic text component
+  href?: string;
+  type?: ButtonProps["type"];
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
+  target?: React.HTMLAttributeAnchorTarget;
 }
 
-interface ToastNotificationProps {
+export interface ToastNotificationProps {
   message: string | React.ReactNode;
   severity: "error" | "warning" | "info" | "success";
   open: boolean;
@@ -22,6 +39,7 @@ interface ToastNotificationProps {
     | React.Dispatch<React.SetStateAction<boolean>>
     | ((open: boolean) => void);
   autoHideDuration?: number;
+  autoHideDisabled?: boolean; // New prop to control auto-hide behavior
   anchorOrigin?: {
     vertical: "top" | "bottom";
     horizontal: "left" | "center" | "right";
@@ -38,6 +56,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = (
     open = false,
     setOpen = () => console.log("no set open"),
     autoHideDuration = 10000,
+    autoHideDisabled = false, // Default value for the new prop
     anchorOrigin = { vertical: "bottom", horizontal: "right" },
     onActionProps,
   } = props;
@@ -55,7 +74,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = (
   return (
     <Snackbar
       open={open}
-      autoHideDuration={autoHideDuration}
+      autoHideDuration={autoHideDisabled ? null : autoHideDuration} // Disable auto-hide when autoHideDisabled is true
       onClose={handleClose}
       anchorOrigin={anchorOrigin}
     >
@@ -74,21 +93,12 @@ const ToastNotification: React.FC<ToastNotificationProps> = (
         action={
           <>
             {onActionProps && (
-              <Button
-                aria-label={onActionProps.ariaLabel}
-                color="inherit"
+              <ContainedButton
                 onClick={onActionProps.onClick}
-                startIcon={onActionProps.icon}
-                sx={{
-                  padding: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textTransform: "none", // Prevents text from being all caps
-                }}
-              >
-                {onActionProps.text}
-              </Button>
+          
+                text={onActionProps.text}
+                
+            />
             )}
             <IconButton
               aria-label="close"

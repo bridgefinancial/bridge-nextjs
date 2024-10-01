@@ -1,4 +1,3 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { FieldType } from "./forms.enum";
 
 export type FormDefinition = {
@@ -203,6 +202,8 @@ export type Page = {
 export type FormField = {
   id: number;
   name: string;
+  page?: string;
+  parent?: string;
   label: string;
   type: FieldType;
   required?: boolean;

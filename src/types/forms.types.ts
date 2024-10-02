@@ -132,7 +132,7 @@ export type BusinessDetailFormSubmission = {
 
 export type FormSubmission = {
   id: number;
-  json_blob: Record<string, any>;
+  json_blob: Record<string, unknown>;
   user: string;
   form: number;
 };
@@ -222,7 +222,7 @@ export type FormField = {
   min?: number;
   enum?: {
     label: string;
-    value: any;
+    value: unknown;
     textbox?: boolean;
     placeholder?: string;
 
@@ -232,7 +232,7 @@ export type FormField = {
     disabled?: boolean;
     hidden?: boolean;
   }[];
-  value?: any; // unsupported
+  value?: unknown; // unsupported
   internal_fields?: FormField[];
   pattern?: FieldPattern;
   validator?: CustomValidator; // unsupported
@@ -254,7 +254,7 @@ export type FieldPattern = {
 // can use: number, string, date with form "yyyy-mm-dd" OR "today"
 export type CustomValidator = {
   validatorName: CustomValidatorType | string;
-  value: any;
+  value: unknown;
   message: string; // Error message
 };
 

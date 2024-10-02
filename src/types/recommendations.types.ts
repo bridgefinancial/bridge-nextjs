@@ -28,7 +28,7 @@ export type ServiceCategory = {
   action_header: string;
   action_description: string;
   improvement_area: number;
-  services: any[]; // Replace `any[]` with a more specific type if `services` has a defined structure
+  services: unknown[]; // Replace `any[]` with a more specific type if `services` has a defined structure
 };
 
 export type ImprovementCategory = {

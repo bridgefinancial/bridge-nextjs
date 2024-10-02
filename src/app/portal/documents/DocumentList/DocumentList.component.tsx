@@ -1,112 +1,280 @@
-import React, { useCallback, useMemo, useReducer, useState } from "react";
-import { Box, Paper, useMediaQuery } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
-import DeleteIcon from "@mui/icons-material/Delete";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import ConfirmationDialog from "@/components/molecules/dialogs/ConfirmationDialog";
+import UploadDialog from "@/components/molecules/dialogs/UploadDialog";
+import ListHeader from "@/components/molecules/lists/ListHeader";
 import ListItemWithActions from "@/components/molecules/lists/ListItemWithActions";
 import { ListItemActionButton } from "@/components/molecules/lists/ListItemWithActions/ListItemWithActions.component";
-import UploadDialog from "@/components/molecules/dialogs/UploadDialog";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import UploadIcon from "@mui/icons-material/Upload";
+import { DocumentFileItem, UseDocumentsFormReturn, UseDocumentsState } from "@/hooks/useDocumentsForm";
+import { dialogReducer } from "@/reducers/dialog.reducer";
 import theme, { colors } from "@/theme/theme";
-import ListHeader from "@/components/molecules/lists/ListHeader";
-import ConfirmationDialog from "@/components/molecules/dialogs/ConfirmationDialog";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DownloadIcon from "@mui/icons-material/Download";
+import UploadIcon from "@mui/icons-material/Upload";
+import { Box, Paper, useMediaQuery } from "@mui/material";
+import React, { Dispatch, FormEvent, SetStateAction, SyntheticEvent, useCallback, useMemo, useReducer } from "react";
 
-interface Document {
-  filename: string;
-  date: string;
+
+// Error Message: existingFiles.map is not a function. (In 'existingFiles.map((document, index)=>/*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_components_molecules_lists_ListItemWithActions__WEBPACK_IMPORTED_MODULE_5__["default"], {
+//                 title: document.description,
+//                 subTitle: new Date(document.created_at).toLocaleDateString("en-US"),
+//                 actions: [
+//                     /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_components_molecules_lists_ListItemWithActions_ListItemWithActions_component__WEBPACK_IMPORTED_MODULE_6__.ListItemActionButton, {
+//                         children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_icons_material_Download__WEBPACK_IMPORTED_MODULE_11__["default"], {
+//                             onClick: ()=>handleDownload(document)
+//                         }, void 0, false, {
+//                             fileName: "/Users/landonjohnson/dev-local/workplaces/bridge-nextjs/src/app/portal/documents/DocumentList/DocumentList.component.tsx",
+//                             lineNumber: 144,
+//                             columnNumber: 13
+//                         }, void 0)
+//                     }, "download", false, {
+//                         fileName: "/Users/landonjohnson/dev-local/workplaces/bridge-nextjs/src/app/portal/documents/DocumentList/DocumentList.component.tsx",
+//                         lineNumber: 143,
+//                         columnNumber: 11
+//                     }, void 0),
+//                     /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_components_molecules_lists_ListItemWithActions_ListItemWithActions_component__WEBPACK_IMPORTED_MODULE_6__.ListItemActionButton, {
+//                         onClick: ()=>handleDelete(document),
+//                         children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_12__["default"], {}, void 0, false, {
+//                             fileName: "/Users/landonjohnson/dev-local/workplaces/bridge-nextjs/src/app/portal/documents/DocumentList/DocumentList.component.tsx",
+//                             lineNumber: 150,
+//                             columnNumber: 13
+//                         }, void 0)
+//                     }, "delete", false, {
+//                         fileName: "/Users/landonjohnson/dev-local/workplaces/bridge-nextjs/src/app/portal/documents/DocumentList/DocumentList.component.tsx",
+//                         lineNumber: 146,
+//                         columnNumber: 11
+//                     }, void 0)
+//                 ]
+//             }, index, false, {
+//                 fileName: "/Users/landonjohnson/dev-local/workplaces/bridge-nextjs/src/app/portal/documents/DocumentList/DocumentList.component.tsx",
+//                 lineNumber: 138,
+//                 columnNumber: 7
+//             }, undefined))', 'existingFiles.map' is undefined)
+// Error Stack: @
+// updateMemo@
+// useMemo@
+// DocumentList@
+// renderWithHooks@
+// updateFunctionComponent@
+// beginWork@
+// performUnitOfWork@
+// workLoopSync@
+// renderRootSync@
+// recoverFromConcurrentError@
+// performSyncWorkOnRoot@
+// flushSyncWorkAcrossRoots_impl@
+// flushSyncWorkOnAllRoots@
+// processRootScheduleInMicrotask@
+// @
+// Component Stack: 
+// DocumentList
+// Suspense
+// DocumentsPage
+// ClientPageRoot
+// InnerLayoutRouter
+// Component@
+// RedirectBoundary
+// NotFoundBoundary
+// LoadingBoundary
+// ErrorBoundary
+// Component@
+// ScrollAndFocusHandler
+// RenderFromTemplateContext
+// OuterLayoutRouter
+// InnerLayoutRouter
+// Component@
+// RedirectBoundary
+// NotFoundBoundary
+// LoadingBoundary
+// ErrorBoundary
+// Component@
+// ScrollAndFocusHandler
+// RenderFromTemplateContext
+// OuterLayoutRouter
+// div
+// Styled(div)
+// Box
+// div
+// Styled(div)
+// Box
+// main
+// Styled(div)
+// Box
+// div
+// Styled(div)
+// Box
+// PortalLayout
+// Suspense
+// Layout (Server)
+// InnerLayoutRouter
+// Component@
+// RedirectBoundary
+// Component@
+// NotFoundBoundary
+// LoadingBoundary
+// ErrorBoundary
+// Component@
+// ScrollAndFocusHandler
+// RenderFromTemplateContext
+// OuterLayoutRouter
+// DefaultPropsProvider
+// RtlProvider
+// ThemeProvider
+// ThemeProvider
+// ThemeProvider
+// DefaultPropsProvider
+// RtlProvider
+// ThemeProvider
+// ThemeProvider
+// ThemeProvider
+// AuthProvider
+// Component@
+// CustomErrorBoundary
+// ErrorsProvider
+// MainProvider
+// QueryClientProvider
+// Providers
+// body
+// html
+// RootLayout
+// Component@
+// RedirectBoundary
+// Component@
+// NotFoundBoundary
+// DevRootNotFoundBoundary
+// PureComponent@
+// HotReload
+// Router
+// Component@
+// ErrorBoundary
+// AppRouter
+// ServerRoot
+// Root
+interface DocumentListProps extends UseDocumentsFormReturn {
+  formState: UseDocumentsState;
+  toastOpen: boolean;
+  setToastOpen: Dispatch<SetStateAction<boolean>>;
+  onUploadFiles: (
+    event: SyntheticEvent<Element, Event>,
+    value: File | null,
+    callback?: () => void
+  ) => void;
+  refetchFiles: () => void;
+  successfullySubmittedFiles: boolean;
+  successfullyDeletedFile: boolean;
+  isSubmittingFiles: boolean;
+  isDeletingFile: boolean;
+  isFetchingFiles: boolean;
+  deletingFileError: boolean;
+  fetchingFileError: boolean;
+  submittingFileError: boolean;
+  isLoadingUserSession: boolean;
+  handleSubmit: (e: FormEvent<HTMLFormElement>, callback?: () => void) => void;
+  onFileDelete: (fileId: number, callback?: () => void) => void;
+  handleDownload: (file: DocumentFileItem) => void;
+  handleRemoveFileAtIndex: (index: number) => void;
 }
 
-interface DocumentListProps {
-  documents?: Document[];
-  loadDocuments: () => void;
-  loading: boolean;
+export function withReducers(reducers: { [key: string]: any }) {
+  return (state: any, action: any) => {
+    return Object.keys(reducers).reduce((nextState, key) => {
+      nextState[key] = reducers[key](state[key], action);
+      return nextState;
+    }, { ...state });
+  };
 }
 
-const mockDocuments: Document[] = [
-  { filename: "Mock Document 1", date: "2023-09-01" },
-  { filename: "Mock Document 2", date: "2023-08-20" },
-];
-
-// Reducer for managing dialog state
-type DialogState = {
-  open: boolean;
-  documentName: string;
-};
-
-type DialogAction = { type: "OPEN"; payload: string } | { type: "CLOSE" };
-
-const dialogReducer = (
-  state: DialogState,
-  action: DialogAction,
-): DialogState => {
-  switch (action.type) {
-    case "OPEN":
-      return { open: true, documentName: action.payload };
-    case "CLOSE":
-      return { open: false, documentName: "" };
-    default:
-      return state;
-  }
-};
 
 const DocumentList: React.FC<DocumentListProps> = ({
-  documents = mockDocuments, // Default prop value for documents
-  loadDocuments, // Expecting a function to be passed
-  loading,
+  formState: state,
+  toastOpen,
+  setToastOpen,
+  isFetchingFiles: isLoadingFiles,
+  submittingFileError,
+  successfullyDeletedFile,
+  successfullySubmittedFiles,
+  refetchFiles,
+  onUploadFiles,
+  isLoadingUserSession,
+  fetchingFileError,
+  deletingFileError,
+  handleSubmit,
+  isSubmittingFiles,
+  isDeletingFile,
+  onFileDelete,
 }) => {
-  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [submitting, setSubmitting] = useState(false);
+  const { formValues, existingFiles } = state;
+  const { filesToProcess } = formValues;
 
-  // useReducer for dialog state
   const [confirmDialogState, dispatch] = useReducer(dialogReducer, {
-    open: false,
     documentName: "",
+    open: false,
   });
-
-  const handleOpenUpload = () => setUploadDialogOpen(true);
-  const handleCloseUpload = () => setUploadDialogOpen(false);
-
-  const handleNewFilesProvided = (files: File[]) => {
-    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
-  };
-
-  const handleRemoveFileAtIndex = (index: number) => {
-    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const handleSave = () => {
-    setSubmitting(true);
-    setTimeout(() => {
-      console.log("Files saved:", uploadedFiles);
-      setSubmitting(false);
-      setUploadDialogOpen(false);
-    }, 2000);
+  const handleCloseUpload = () => {
+    setToastOpen(false); // Handle closing the upload dialog by closing the toast
+    console.log("Upload dialog closed");
   };
 
-  const handleDownload = (document: Document) => {
+  const handleNewFilesProvided = (files: File[]) => {
+    onUploadFiles(
+      {} as SyntheticEvent<Element, Event>, // use empty object or refactor to use the actual event
+      files[0],
+      () => {
+        refetchFiles(); // Call refetchFiles once new files are uploaded
+      }
+    );
+    console.log("New files provided:", files);
+  };
+
+  const handleRemoveFileAtIndex = (index: number) => {
+    onFileDelete(index, () => {
+      console.log(`File at index ${index} removed`);
+      refetchFiles(); // Refetch the files after deletion
+    });
+  };
+
+  const handleSave = (documents: File[]) => {
+    if (filesToProcess.length > 0) {
+      handleSubmit({} as FormEvent<HTMLFormElement>, () => {
+        refetchFiles(); // Refetch files after saving
+        console.log("Files saved successfully");
+      });
+    } else {
+      console.error("No files to save");
+    }
+  };
+
+  const handleDownload = (document: DocumentFileItem) => {
     console.log("Download document:", document);
     // Add download logic here
   };
 
-  const handleDelete = useCallback((document: Document) => {
+  const handleDelete = useCallback((document: DocumentFileItem) => {
     dispatch({ type: "OPEN", payload: document.filename });
   }, []);
 
   const handleDeleteDocument = () => {
-    console.log("Document deleted:", confirmDialogState.documentName);
-    dispatch({ type: "CLOSE" });
-    // Add delete logic here
+    const { documentName } = confirmDialogState;
+    const documentToDelete = existingFiles.find(file => file.filename === documentName);
+    if (documentToDelete) {
+      onFileDelete(documentToDelete.id, () => {
+        // Expected 0 arguments, but got 1.ts(2554)
+
+        dispatch({ type: "CLOSE" });
+        refetchFiles(); // Refetch files after deletion
+        console.log("Document deleted:", documentName);
+      });
+    }
   };
 
   const renderedDocuments = useMemo(() => {
-    return documents.map((document, index) => (
+    return existingFiles.map((document, index) => (
       <ListItemWithActions
         key={index}
-        title={document.filename}
-        subTitle={new Date(document.date).toLocaleDateString("en-US")}
+        title={document.description}
+        subTitle={new Date(document.created_at).toLocaleDateString("en-US")}
         actions={[
           <ListItemActionButton key="download">
             <DownloadIcon onClick={() => handleDownload(document)} />
@@ -120,7 +288,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
         ]}
       />
     ));
-  }, [documents, handleDelete]);
+  }, [existingFiles, handleDelete]);
 
   return (
     <>
@@ -150,7 +318,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <ContainedButton
             backgroundColor="#6a5ace"
-            onClick={handleOpenUpload}
+            onClick={() => setToastOpen(true)} // Open toast for upload
             text="Upload"
             sx={{
               borderRadius: "50px",
@@ -188,12 +356,12 @@ const DocumentList: React.FC<DocumentListProps> = ({
 
         <UploadDialog
           ariaDescribedBy={"document-list"}
-          open={uploadDialogOpen}
+          open={toastOpen} // Handle dialog state based on toast state
           onClose={handleCloseUpload}
-          handleSave={(d) => new Promise(d as any)}
-          submitting={submitting}
+          handleSave={handleSave}
+          submitting={isSubmittingFiles}
           dropzoneText="Drop your files here"
-          completeText="Uploaded"
+          completeText={successfullySubmittedFiles ? "Uploaded" : "Pending"}
           cancelText="Cancel"
           saveText="Save"
         />

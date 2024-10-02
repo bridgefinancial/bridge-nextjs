@@ -1,6 +1,28 @@
 {
     "cSpell.words": [
         "formik",
+        "tanstack",
         "testid"
-    ]
+    ],
+     
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always",
+        "source.removeUnusedImports": "always",
+        "source.addMissingImports.ts": "always",
+        "source.sortImports": "always"
+      },    
+      "eslint.options": {
+
+      },
+      "workbench.colorCustomizations": {
+        "panelTitle.activeBorder": "#6ba0f1",
+        "panelSection.dropBackground": "#121212",
+        "editorPane.background": "#214527",
+        "editorGroupHeader.tabsBackground": "#353056",
+        "sideBar.background": "#221e38"
+      },
+      "prettier.singleQuote": false, 
+      "prettier.tabWidth": 2,
+      "prettier.semi": false
 }
+

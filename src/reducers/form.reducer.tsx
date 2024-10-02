@@ -1,11 +1,12 @@
 // Define a generic form state and error structure
 export interface FormState<TFormValues> {
   formValues: TFormValues;
-  formErrors: Partial<Record<keyof TFormValues, string>>;
+  formErrors: Partial<Record<keyof TFormValues, any>>; // Allow any type for formErrors
 }
 
+// Type definition for FormAction with dynamic value handling
 export type FormAction<TFormValues> =
-  | { type: "SET_FIELD"; field: keyof TFormValues; value: string }
+  | { type: "SET_FIELD"; field: keyof TFormValues; value: TFormValues[keyof TFormValues] }
   | { type: "SET_ERRORS"; errors: Partial<Record<keyof TFormValues, string>> }
   | { type: "RESET_FORM"; values: TFormValues };
 
@@ -36,7 +37,7 @@ export function formReducer<TFormValues>(
       return {
         ...state,
         formValues: action.values,
-        formErrors: {},
+        formErrors: {}, // Reset errors when resetting form
       };
     }
 

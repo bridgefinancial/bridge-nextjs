@@ -1,4 +1,17 @@
-import { fetchWithAuth } from "./authorized-request.service";
+import { fetchWithAuth } from "@/services/authorized-request.service";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
+
+export const useGetCompaniesFilesQuery = (queryKey: string = "") => {
+  // query key is useful if you want to cache these later for offline use
+  return useQuery({
+    queryFn: () => getCompanyFiles(),
+    queryKey: [`useCompanyFilesQuery${queryKey ? queryKey : "KeyForQuery"}`],
+  });
+};
 
 export const getCompanyFiles = async () => {
   const url = `/api/company-files/`;
@@ -7,7 +20,6 @@ export const getCompanyFiles = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      // Include other headers if needed
     },
   });
 
@@ -30,7 +42,6 @@ export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      // Include other headers if needed, like Authorization
     },
   });
 
@@ -38,21 +49,45 @@ export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  // Optionally handle any response data if needed
   const data = await response.json();
   return data;
 };
 
-type UploadDocumentsRequest = {
+export const useDeleteFileMutation = (): UseMutationResult<
+  {
+    fileId: any
+  },
+  Error,
+  DeleteFileRequest,
+  unknown
+> => {
+  return useMutation({
+    mutationFn: deleteCompanyFile,
+  });
+};
+
+interface UploadDocumentResponse {
   files: File[];
+}
+
+interface UploadDocumentsDto {
+  files: File[];
+}
+
+export const useUploadDocumentsMutation = (): UseMutationResult<{
+  responses: any[];
+  errors: unknown[];
+}, Error, UploadDocumentResponse, unknown> => {
+  return useMutation({
+    mutationFn: handleUploadDocuments,
+  })
 };
 
 export const handleUploadDocuments = async ({
   files,
-}: UploadDocumentsRequest) => {
+}: UploadDocumentResponse) => {
   const url = `/api/company-files/`;
 
-  // Create a container to hold responses and errors
   const responses = [];
   const errors = [];
 
@@ -65,7 +100,6 @@ export const handleUploadDocuments = async ({
       const response = await fetchWithAuth(url, {
         method: "POST",
         body: formData,
-        // Note: FormData automatically sets Content-Type to multipart/form-data
       });
 
       if (!response.ok) {
@@ -80,6 +114,5 @@ export const handleUploadDocuments = async ({
     }
   }
 
-  // Handle responses and errors as needed
   return { responses, errors };
 };

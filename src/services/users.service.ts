@@ -1,5 +1,5 @@
 import { User } from "@/types/users.types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
 import { useRouter, useSearchParams } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
@@ -37,7 +37,7 @@ type LoginRequest = {
   password: string;
 };
 
-export const loginUser = async ({ email, password }: LoginRequest) => {
+export const loginUser = async ({ email, password }: LoginRequest): Promise<any> => {
   const url = `/api/login/`;
 
   const response = await fetchWithAuth(url, {
@@ -60,14 +60,14 @@ export const loginUser = async ({ email, password }: LoginRequest) => {
   return data;
 };
 
-export const useLoginUser = () => {
+export const useLoginUser = (): UseMutationResult<any, Error, LoginRequest, unknown> => {
   const router = useRouter();
   const searchParams = useSearchParams();
   return useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
       const landingUrl = decodeURIComponent(
-        searchParams.get("navigateTo") ?? ""
+        searchParams.get("navigateTo") ?? "",
       );
       router.push(landingUrl || routePaths.ROOT);
     },
@@ -93,7 +93,7 @@ export const logoutUser = async () => {
   return;
 };
 
-export const useLogoutUser = () => {
+export const useLogoutUser = (): UseMutationResult<void, Error, void, unknown> => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
@@ -115,7 +115,7 @@ export type SignUpRequest = {
   terms: boolean;
 };
 
-export const signUp = async (requestBody: SignUpRequest) => {
+export const signUp = async (requestBody: SignUpRequest): Promise<void> => {
   const url = `/api/users/`;
 
   const transformedRequestBody = {
@@ -140,18 +140,18 @@ export const signUp = async (requestBody: SignUpRequest) => {
   return;
 };
 
-export const useSignUp = () => {
+export const useSignUp = (): UseMutationResult<void, Error, SignUpRequest, unknown> => {
   return useMutation({
     mutationFn: signUp,
   });
 };
 
-type VerifyEmailRequest = {
+interface VerifyEmailRequest {
   token: string;
   uid: string;
 };
 
-export const verifyEmail = async ({ token, uid }: VerifyEmailRequest) => {
+export const verifyEmail = async ({ token, uid }: VerifyEmailRequest): Promise<void> => {
   const url = `/api/verify-email/`;
 
   const response = await fetchWithAuth(url, {
@@ -222,7 +222,7 @@ export const passwordResetConfirm = async ({
   newPassword2,
   token,
   uid,
-}: PasswordResetConfirmRequest) => {
+}: PasswordResetConfirmRequest): Promise<void> => {
   const url = `/api/password-reset-confirm/`;
 
   const response = await fetchWithAuth(url, {
@@ -246,7 +246,7 @@ export const passwordResetConfirm = async ({
   return;
 };
 
-export const usePasswordResetConfirm = () => {
+export const usePasswordResetConfirm = (): UseMutationResult<void, Error, PasswordResetConfirmRequest, unknown> => {
   return useMutation({
     mutationFn: passwordResetConfirm,
   });
@@ -266,7 +266,7 @@ export const useUpdateUser = () => {
   });
 };
 
-export const updateUser = async ({ attributes, id }: UpdateUserRequest) => {
+export const updateUser = async ({ attributes, id }: UpdateUserRequest): Promise<User> => {
   const url = `/api/users/${id}/`;
 
   const response = await fetchWithAuth(url, {

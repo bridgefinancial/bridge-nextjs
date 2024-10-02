@@ -2,8 +2,18 @@
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import { FieldInformationService } from "@/services/fields.service";
+import { colors } from "@/theme/theme";
+import { FieldType } from "@/types/forms.enum";
 import { FormField as Field } from "@/types/forms.types";
-import { Checkbox, InputAdornment, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import clsx from "clsx";
 import React, { forwardRef, useState } from "react";
 
@@ -15,14 +25,19 @@ type FormFieldProps = {
 const FormField = forwardRef(
   (
     { formField, error }: FormFieldProps,
-    ref: React.ForwardedRef<HTMLInputElement>,
+    ref: React.ForwardedRef<HTMLInputElement>
   ) => {
     // STATE
     const [notSure, setNotSure] = useState<boolean>(false);
     // CALCULATED
     const defaultPlaceholder = "";
-    const { fieldRefsByName, formValues, handleChange, checkConditions } =
-      useQuestionnaire();
+    const {
+      fieldRefsByName,
+      fieldErrorsByName,
+      formValues,
+      handleChange,
+      checkConditions,
+    } = useQuestionnaire();
 
     // DOM
     return (
@@ -56,7 +71,7 @@ const FormField = forwardRef(
         <div className="flex items-center gap-6">
           {FieldInformationService.isShortText(formField.type) && (
             <TextField
-              fullWidth={false}
+              fullWidth={formField.type === FieldType.TextFullWidth}
               inputRef={ref}
               inputProps={{
                 min: formField.min,
@@ -86,14 +101,14 @@ const FormField = forwardRef(
                 startAdornment: (
                   <InputAdornment position="start">
                     {FieldInformationService.getStartInputAdornment(
-                      formField.type,
+                      formField.type
                     )}
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     {FieldInformationService.getEndInputAdornment(
-                      formField.type,
+                      formField.type
                     )}
                   </InputAdornment>
                 ),
@@ -114,12 +129,12 @@ const FormField = forwardRef(
                 if (
                   FieldInformationService.isValidUserInput(
                     formField.type,
-                    e.target.value,
+                    e.target.value
                   )
                 ) {
                   handleChange(
                     formField.name,
-                    FieldInformationService.formatNumberInput(e.target.value),
+                    FieldInformationService.formatNumberInput(e.target.value)
                   );
                 }
               }}
@@ -208,6 +223,8 @@ const FormField = forwardRef(
                 handleChange(formField.name, e.target.value);
               }}
               disabled={notSure}
+              inputRef={ref}
+              fullWidth
             />
           )}
           {/* Not sure option */}
@@ -230,22 +247,38 @@ const FormField = forwardRef(
         </div>
 
         {FieldInformationService.isDropdown(formField.type) && (
-          <select
-            id={formField.name}
-            name={formField.name}
-            className="fmd-input"
-          >
-            {formField.placeholder && (
-              <option value="" disabled={true} selected={true}>
-                {formField.placeholder}
-              </option>
-            )}
-            {formField.enum?.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <div className="shrink-0">
+            <FormControl sx={{ minWidth: 100 }}>
+              <InputLabel
+                id={`dropdown-label-${formField.name}`}
+                sx={{ color: colors.gray600 }}
+              >
+                {formField.label || formField.placeholder}
+              </InputLabel>
+              <Select
+                labelId={`dropdown-label-${formField.name}`}
+                id={`select-${formField.name}`}
+                value={formValues[formField.name]}
+                label={formField.label || formField.placeholder}
+                onChange={(e) => {
+                  handleChange(formField.name, e.target.value);
+                }}
+                placeholder={formField.placeholder}
+                required={formField.required}
+                inputProps={{ ref: ref, id: formField.name }}
+              >
+                {(
+                  formField.enum ??
+                  FieldInformationService.getDefaultSelections(formField) ??
+                  []
+                ).map((option, index) => (
+                  <MenuItem key={index} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
         )}
 
         {FieldInformationService.isSearchableDropdown(formField.type) && (
@@ -328,7 +361,11 @@ const FormField = forwardRef(
         {FieldInformationService.isComplex(formField.type) && (
           <div id={formField.name} className="fmd-complex">
             {formField.internal_fields?.map((field, index) => (
-              <FormField key={index} formField={field} />
+              <FormField
+                key={index}
+                formField={field}
+                error={fieldErrorsByName[field.name]}
+              />
             ))}
           </div>
         )}
@@ -400,6 +437,39 @@ const FormField = forwardRef(
           </table>
         )}
 
+        {FieldInformationService.isAddress(formField.type) &&
+          !!formField.internal_fields && (
+            <div className="flex flex-col gap-4">
+              <FormField
+                formField={formField.internal_fields?.[0]}
+                ref={(el: HTMLInputElement) => {
+                  if (fieldRefsByName && formField.internal_fields?.[0]?.name) {
+                    fieldRefsByName.current[
+                      formField.internal_fields?.[0]?.name
+                    ] = el;
+                  }
+                }}
+                error={fieldErrorsByName[formField.internal_fields?.[0].name]}
+              />
+              <div className="flex items-center justify-start gap-4">
+                {formField.internal_fields.slice(1).map((field) => {
+                  return (
+                    <FormField
+                      formField={field}
+                      key={field.name}
+                      ref={(el: HTMLInputElement) => {
+                        if (fieldRefsByName) {
+                          fieldRefsByName.current[field.name] = el;
+                        }
+                      }}
+                      error={fieldErrorsByName[field.name]}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
         {/* Error Handling */}
         {formField.type !== "hidden" && (
           <div className="fmd-error-container">
@@ -415,7 +485,7 @@ const FormField = forwardRef(
         )}
       </div>
     );
-  },
+  }
 );
 
 export default FormField;

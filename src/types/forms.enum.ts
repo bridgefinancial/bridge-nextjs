@@ -31,6 +31,7 @@ export enum FieldType {
   SliderPercent = "slider_percent",
   SocialSecurity = "social_security",
   Text = "text",
+  TextFullWidth = "text_full_width",
   Time = "time",
   TrueFalse = "true_false",
   URL = "url",

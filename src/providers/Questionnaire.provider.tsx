@@ -25,6 +25,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
 import { FieldInformationService } from "@/services/fields.service";
+import { FieldType } from "@/types/forms.enum";
 
 const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = "redirectTo";
 
@@ -210,6 +211,25 @@ export const QuestionnaireProvider = ({
         handleCheckFieldValidity(internal)
       );
       return !!validity?.every(Boolean);
+    } else if (FieldInformationService.isDropdown(field.type)) {
+      // The React Select component we use for dropdowns does not have a built in
+      // input.validity compatibility. So we must use a custom check here.
+      const input = fieldRefsByName?.current[field.name];
+      const value = input?.value;
+      const possibleValues = new Set(
+        FieldInformationService.getDefaultSelections(field)?.map((f) => f.value)
+      );
+      if (field.required && (!value || !possibleValues.has(value))) {
+        setFieldErrorsByName((prev) => {
+          return { ...prev, [field.name]: "This field is required" };
+        });
+        return false;
+      } else {
+        setFieldErrorsByName((prev) => {
+          return { ...prev, [field.name]: "" };
+        });
+        return true;
+      }
     } else {
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
@@ -235,8 +255,6 @@ export const QuestionnaireProvider = ({
         } else if (validityState?.stepMismatch) {
           message = `Not a valid step value`;
         }
-
-        console.log(message);
 
         setFieldErrorsByName((prev) => {
           return { ...prev, [field.name]: message };

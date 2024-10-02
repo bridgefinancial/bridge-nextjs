@@ -1,15 +1,15 @@
-import React, { useMemo } from "react";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { BaseTypographyProps } from "@/types/base-typography-props.interface";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   SxProps,
   Theme,
 } from "@mui/material";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { BaseTypographyProps } from "@/types/base-typography-props.interface";
+import React, { useMemo } from "react";
 
 export interface BaseDialogProps {
   open: boolean;
@@ -25,6 +25,8 @@ export interface BaseDialogProps {
   paperStyles?: SxProps<Theme>;
   ariaDescribedBy: string; // Required ID for `aria-labelledby`
 }
+
+
 
 const BaseDialog: React.FC<BaseDialogProps> = ({
   open,

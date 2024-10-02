@@ -205,10 +205,10 @@ const DocumentList: React.FC<DocumentListProps> = ({
   const { formValues, existingFiles } = state;
   const { filesToProcess } = formValues;
 
-  const [confirmDialogState, dispatch] = useReducer(dialogReducer, {
+  const [confirmDialogState, dispatch] = useReducer(withReducers(dialogReducer, {
     documentName: "",
     open: false,
-  });
+  }))
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 

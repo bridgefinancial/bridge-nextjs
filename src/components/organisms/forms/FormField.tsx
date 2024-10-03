@@ -12,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Slider,
   TextField,
 } from "@mui/material";
 import clsx from "clsx";
@@ -67,184 +68,6 @@ const FormField = forwardRef(
         {formField.type === "display_only" && (
           <ParagraphText>{formField.value}</ParagraphText>
         )}
-
-        <div className="flex items-center gap-6">
-          {FieldInformationService.isShortText(formField.type) && (
-            <TextField
-              fullWidth={formField.type === FieldType.TextFullWidth}
-              inputRef={ref}
-              inputProps={{
-                min: formField.min,
-                minLength: formField.min_length,
-                max: formField.max,
-                maxLength: formField.max_length,
-              }}
-              required={formField.required}
-              id={formField.name}
-              name={formField.name}
-              placeholder={formField.placeholder || defaultPlaceholder}
-              className="fmd-input"
-              type="text"
-              value={formValues[formField.name]}
-              onChange={(e) => {
-                handleChange(formField.name, e.target.value);
-              }}
-              disabled={notSure}
-            />
-          )}
-
-          {FieldInformationService.isNumber(formField.type) && (
-            <TextField
-              fullWidth={false}
-              inputRef={ref}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    {FieldInformationService.getStartInputAdornment(
-                      formField.type
-                    )}
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {FieldInformationService.getEndInputAdornment(
-                      formField.type
-                    )}
-                  </InputAdornment>
-                ),
-              }}
-              inputProps={{
-                min: formField.min,
-                minLength: formField.min_length,
-                max: formField.max,
-                maxLength: formField.max_length,
-              }}
-              required={formField.required}
-              id={formField.name}
-              name={formField.name}
-              placeholder={formField.placeholder || defaultPlaceholder}
-              className="fmd-input"
-              value={formValues[formField.name] ?? ""}
-              onChange={(e) => {
-                if (
-                  FieldInformationService.isValidUserInput(
-                    formField.type,
-                    e.target.value
-                  )
-                ) {
-                  handleChange(
-                    formField.name,
-                    FieldInformationService.formatNumberInput(e.target.value)
-                  );
-                }
-              }}
-              disabled={notSure}
-            />
-          )}
-
-          {/* {FieldInformationService.isDate(formField.type) && (
-        <div className="fmd-date-container">
-          <input ref={ref} required={formField.required}
-            id={formField.name}
-            name={formField.name}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            type="date"
-          />
-          <button
-            disabled={formControl.disabled}
-            onClick={selectToday}
-            className="fmd-button"
-            type="button"
-          >
-            Today
-          </button>
-        </div>
-      )} */}
-
-          {/* {FieldInformationService.isTime(formField.type) && (
-        <div className="fmd-date-container">
-          <input ref={ref} required={formField.required}
-            id={formField.name}
-            name={formField.name}
-            value={formControl.value || ""}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            type="time"
-          />
-          <button
-            disabled={formControl.disabled}
-            onClick={selectNow}
-            className="fmd-button"
-            type="button"
-          >
-            Now
-          </button>
-        </div>
-      )} */}
-
-          {/* {FieldInformationService.isDatetime(formField.type) && (
-        <div className="fmd-date-container">
-          <input ref={ref} required={formField.required}
-            id={formField.name}
-            name={formField.name}
-            value={formControl.value || ""}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            type="datetime-local"
-          />
-          <button
-            disabled={formControl.disabled}
-            onClick={selectTodayNow}
-            className="fmd-button"
-            type="button"
-          >
-            Now
-          </button>
-        </div>
-      )} */}
-
-          {FieldInformationService.isLongText(formField.type) && (
-            <TextField
-              id={formField.name}
-              inputProps={{
-                min: formField.min,
-                minLength: formField.min_length,
-                max: formField.max,
-                maxLength: formField.max_length,
-              }}
-              name={formField.name}
-              placeholder={formField.placeholder || defaultPlaceholder}
-              className="fmd-input"
-              rows={4}
-              multiline={true}
-              value={formValues[formField.name]}
-              onChange={(e) => {
-                handleChange(formField.name, e.target.value);
-              }}
-              disabled={notSure}
-              inputRef={ref}
-              fullWidth
-            />
-          )}
-          {/* Not sure option */}
-          {!!formField.not_sure && (
-            <div className="flex items-center justify-start">
-              <Checkbox
-                checked={notSure}
-                onChange={(e) => {
-                  setNotSure(e.target.checked);
-                  if (e.target.checked) {
-                    handleChange(formField.name, "Not sure");
-                  } else {
-                    handleChange(formField.name, "");
-                  }
-                }}
-              />
-              <ParagraphText fontWeight={700}>Not sure</ParagraphText>
-            </div>
-          )}
-        </div>
 
         {FieldInformationService.isDropdown(formField.type) && (
           <div className="shrink-0">
@@ -469,6 +292,246 @@ const FormField = forwardRef(
               </div>
             </div>
           )}
+
+        {FieldInformationService.isSlider(formField.type) && (
+          <Slider
+            size="small"
+            min={formField.min}
+            max={formField.max}
+            value={formValues[formField.name]}
+            onChange={(e, value) => {
+              handleChange(formField.name, value);
+            }}
+            disabled={notSure}
+          ></Slider>
+        )}
+
+        <div className="flex items-center gap-6">
+          {FieldInformationService.isShortText(formField.type) && (
+            <TextField
+              fullWidth={formField.type === FieldType.TextFullWidth}
+              inputRef={ref}
+              inputProps={{
+                min: formField.min,
+                minLength: formField.min_length,
+                max: formField.max,
+                maxLength: formField.max_length,
+              }}
+              required={formField.required}
+              id={formField.name}
+              name={formField.name}
+              placeholder={formField.placeholder || defaultPlaceholder}
+              className="fmd-input"
+              type="text"
+              value={formValues[formField.name]}
+              onChange={(e) => {
+                handleChange(formField.name, e.target.value);
+              }}
+              disabled={notSure}
+            />
+          )}
+
+          {FieldInformationService.isNumber(formField.type) && (
+            <TextField
+              fullWidth={false}
+              inputRef={ref}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    {FieldInformationService.getStartInputAdornment(
+                      formField.type
+                    )}
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {FieldInformationService.getEndInputAdornment(
+                      formField.type
+                    )}
+                  </InputAdornment>
+                ),
+              }}
+              inputProps={{
+                min: formField.min,
+                minLength: formField.min_length,
+                max: formField.max,
+                maxLength: formField.max_length,
+              }}
+              required={formField.required}
+              id={formField.name}
+              name={formField.name}
+              placeholder={formField.placeholder || defaultPlaceholder}
+              className="fmd-input"
+              value={formValues[formField.name] ?? ""}
+              onChange={(e) => {
+                if (
+                  FieldInformationService.isValidUserInput(
+                    formField.type,
+                    e.target.value
+                  )
+                ) {
+                  handleChange(
+                    formField.name,
+                    FieldInformationService.formatNumberInput(e.target.value)
+                  );
+                }
+              }}
+              disabled={notSure}
+            />
+          )}
+
+          {/* {FieldInformationService.isDate(formField.type) && (
+        <div className="fmd-date-container">
+          <input ref={ref} required={formField.required}
+            id={formField.name}
+            name={formField.name}
+            placeholder={formField.placeholder || defaultPlaceholder}
+            className="fmd-input"
+            type="date"
+          />
+          <button
+            disabled={formControl.disabled}
+            onClick={selectToday}
+            className="fmd-button"
+            type="button"
+          >
+            Today
+          </button>
+        </div>
+      )} */}
+
+          {/* {FieldInformationService.isTime(formField.type) && (
+        <div className="fmd-date-container">
+          <input ref={ref} required={formField.required}
+            id={formField.name}
+            name={formField.name}
+            value={formControl.value || ""}
+            placeholder={formField.placeholder || defaultPlaceholder}
+            className="fmd-input"
+            type="time"
+          />
+          <button
+            disabled={formControl.disabled}
+            onClick={selectNow}
+            className="fmd-button"
+            type="button"
+          >
+            Now
+          </button>
+        </div>
+      )} */}
+
+          {/* {FieldInformationService.isDatetime(formField.type) && (
+        <div className="fmd-date-container">
+          <input ref={ref} required={formField.required}
+            id={formField.name}
+            name={formField.name}
+            value={formControl.value || ""}
+            placeholder={formField.placeholder || defaultPlaceholder}
+            className="fmd-input"
+            type="datetime-local"
+          />
+          <button
+            disabled={formControl.disabled}
+            onClick={selectTodayNow}
+            className="fmd-button"
+            type="button"
+          >
+            Now
+          </button>
+        </div>
+      )} */}
+
+          {FieldInformationService.isLongText(formField.type) && (
+            <TextField
+              id={formField.name}
+              inputProps={{
+                min: formField.min,
+                minLength: formField.min_length,
+                max: formField.max,
+                maxLength: formField.max_length,
+              }}
+              name={formField.name}
+              placeholder={formField.placeholder || defaultPlaceholder}
+              className="fmd-input"
+              rows={4}
+              multiline={true}
+              value={formValues[formField.name]}
+              onChange={(e) => {
+                handleChange(formField.name, e.target.value);
+              }}
+              disabled={notSure}
+              inputRef={ref}
+              fullWidth
+            />
+          )}
+          {FieldInformationService.isSlider(formField.type) && (
+            <div>
+              <TextField
+                sx={{ width: 100 }}
+                fullWidth={false}
+                inputRef={ref}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {FieldInformationService.getStartInputAdornment(
+                        formField.type
+                      )}
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {FieldInformationService.getEndInputAdornment(
+                        formField.type
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
+                inputProps={{
+                  min: formField.min,
+                  max: formField.max,
+                }}
+                required={formField.required}
+                id={formField.name}
+                name={formField.name}
+                placeholder={formField.placeholder || defaultPlaceholder}
+                className="fmd-input"
+                value={notSure ? "" : (formValues[formField.name] ?? "")}
+                onChange={(e) => {
+                  if (
+                    FieldInformationService.isValidUserInput(
+                      formField.type,
+                      e.target.value
+                    )
+                  ) {
+                    handleChange(
+                      formField.name,
+                      e.target.value ? parseInt(e.target.value) : 0
+                    );
+                  }
+                }}
+                disabled={notSure}
+              />
+            </div>
+          )}
+          {/* Not sure option */}
+          {!!formField.not_sure && (
+            <div className="flex items-center justify-start">
+              <Checkbox
+                checked={notSure}
+                onChange={(e) => {
+                  setNotSure(e.target.checked);
+                  if (e.target.checked) {
+                    handleChange(formField.name, "Not sure");
+                  } else {
+                    handleChange(formField.name, "");
+                  }
+                }}
+              />
+              <ParagraphText fontWeight={700}>Not sure</ParagraphText>
+            </div>
+          )}
+        </div>
 
         {/* Error Handling */}
         {formField.type !== "hidden" && (

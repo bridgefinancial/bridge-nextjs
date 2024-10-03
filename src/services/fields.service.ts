@@ -186,8 +186,12 @@ export class FieldInformationService {
     FieldType.Radio,
     FieldType.YesNo,
     FieldType.TrueFalse,
+    FieldType.Radio9Grid,
   ];
-  static checkboxTypes: string[] = [FieldType.Checkbox];
+  static checkboxTypes: string[] = [
+    FieldType.Checkbox,
+    FieldType.Checkbox9Grid,
+  ];
   static complexFieldTypes: string[] = [FieldType.Complex, FieldType.DateRange];
   static likertFieldTypes: string[] = [FieldType.Likert];
   static longFieldTypes: string[] = [FieldType.LongText];
@@ -260,7 +264,7 @@ export class FieldInformationService {
 
   static radios: Record<
     string,
-    { name: string; data: { value: any; label: string }[] }
+    { name: string; data: { value: any; label: string; iconUrl?: string }[] }
   > = {
     [FieldType.TrueFalse]: {
       name: "true_false",

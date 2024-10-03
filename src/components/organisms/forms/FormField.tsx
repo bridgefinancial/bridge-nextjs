@@ -16,6 +16,7 @@ import {
   TextField,
 } from "@mui/material";
 import clsx from "clsx";
+import Image from "next/image";
 import React, { forwardRef, useState } from "react";
 
 type FormFieldProps = {
@@ -125,57 +126,125 @@ const FormField = forwardRef(
         )}
 
         {FieldInformationService.isCheckbox(formField.type) && (
-          <div className="fmd-checkbox">
-            {formField.enum?.map((option, index) => (
-              <div key={index} className="fmd-checkbox">
-                {!option.textbox && !option.hidden && (
-                  <label className="fmd-checkbox-label">
-                    {option.label}
-                    <input
-                      ref={ref}
-                      id={formField.name}
-                      required={formField.required}
-                      name={formField.name}
-                      value={option.value}
-                      type="checkbox"
-                      className="opacity-0 absolute pointer-events-none"
-                      checked={formValues[formField.name] === option.value}
-                      onChange={() => {
-                        handleChange(formField.name, option.value);
-                      }}
-                    />
-                    <span className="fmd-checkmark" />
-                  </label>
-                )}
-              </div>
-            ))}
+          <div
+            className={clsx("fmd-checkbox-parent", {
+              "flex flex-wrap gap-2":
+                formField.type !== FieldType.Checkbox9Grid,
+              "grid grid-cols-3 gap-4":
+                formField.type === FieldType.Checkbox9Grid,
+            })}
+          >
+            {formField.enum?.map((option, index) => {
+              const handleClick = () => {
+                const currentValue: string[] | undefined =
+                  formValues[formField.name];
+                if (!currentValue) {
+                  handleChange(formField.name, [option.value]);
+                } else if (currentValue.includes(option.value)) {
+                  handleChange(
+                    formField.name,
+                    currentValue.filter((v) => v !== option.value)
+                  );
+                } else {
+                  handleChange(formField.name, [...currentValue, option.value]);
+                }
+              };
+              return (
+                <div
+                  key={index}
+                  className={clsx("fmd-checkbox box-border cursor-pointer", {
+                    "flex flex-col items-start justify-start w-full":
+                      formField.type === FieldType.Checkbox9Grid,
+                    "flex items-center justify-center":
+                      formField.type !== FieldType.Checkbox9Grid,
+                  })}
+                  onClick={handleClick}
+                >
+                  {option.iconUrl && (
+                    <div className="px-6 py-3">
+                      <Image
+                        src={option.iconUrl}
+                        alt={`option-${formField.name}-icon`}
+                        className="object-contain"
+                        width={24}
+                        height={24}
+                      />
+                    </div>
+                  )}
+                  {!option.textbox && !option.hidden && (
+                    <>
+                      <label className="fmd-checkbox-label cursor-pointer">
+                        {option.label}
+                        <span className="fmd-checkmark" />
+                      </label>
+                      <input
+                        ref={ref}
+                        id={formField.name}
+                        required={formField.required}
+                        name={formField.name}
+                        value={option.value}
+                        type="checkbox"
+                        className="opacity-0 absolute pointer-events-none"
+                        checked={formValues[formField.name]?.includes(
+                          option.value
+                        )}
+                      ></input>
+                    </>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
         {FieldInformationService.isRadio(formField.type) && (
-          <div className="fmd-radio-parent flex flex-wrap gap-2">
+          <div
+            className={clsx("fmd-radio-parent", {
+              "flex flex-wrap gap-2": formField.type !== FieldType.Radio9Grid,
+              "grid grid-cols-3 gap-4": formField.type === FieldType.Radio9Grid,
+            })}
+          >
             {(
               FieldInformationService.radios[formField.type]?.data ??
               formField.enum
             )?.map((option, index) => (
-              <div key={index} className="fmd-radio box-border">
-                <label className="fmd-radio-label">
+              <div
+                key={index}
+                className={clsx("fmd-radio box-border cursor-pointer", {
+                  "flex flex-col gap-4 items-start justify-start":
+                    formField.type === FieldType.Radio9Grid,
+                  "flex items-center justify-center":
+                    formField.type !== FieldType.Radio9Grid,
+                })}
+                onClick={() => {
+                  handleChange(formField.name, option.value);
+                }}
+              >
+                {option.iconUrl && (
+                  <div className="px-6 py-3">
+                    <Image
+                      src={option.iconUrl}
+                      alt={`option-${formField.name}-icon`}
+                      className="object-contain"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+                )}
+                <label className="fmd-radio-label cursor-pointer">
                   {option.label}
-                  <input
-                    ref={ref}
-                    required={formField.required}
-                    id={formField.name}
-                    name={formField.name}
-                    value={option.value}
-                    type="radio"
-                    checked={formValues[formField.name] === option.value}
-                    onChange={() => {
-                      handleChange(formField.name, option.value);
-                    }}
-                    className="opacity-0 absolute pointer-events-none"
-                  />
                   <span className="fmd-radio-circle" />
                 </label>
+                <input
+                  ref={ref}
+                  required={formField.required}
+                  id={formField.name}
+                  name={formField.name}
+                  value={option.value}
+                  type="radio"
+                  checked={formValues[formField.name] === option.value}
+                  className="opacity-0 absolute pointer-events-none"
+                />
               </div>
             ))}
           </div>
@@ -293,6 +362,7 @@ const FormField = forwardRef(
             </div>
           )}
 
+        {/* Slider */}
         {FieldInformationService.isSlider(formField.type) && (
           <Slider
             size="small"
@@ -303,6 +373,7 @@ const FormField = forwardRef(
               handleChange(formField.name, value);
             }}
             disabled={notSure}
+            valueLabelDisplay="auto"
           ></Slider>
         )}
 
@@ -465,6 +536,8 @@ const FormField = forwardRef(
               fullWidth
             />
           )}
+
+          {/* Slider Text Field */}
           {FieldInformationService.isSlider(formField.type) && (
             <div>
               <TextField
@@ -514,6 +587,7 @@ const FormField = forwardRef(
               />
             </div>
           )}
+
           {/* Not sure option */}
           {!!formField.not_sure && (
             <div className="flex items-center justify-start">

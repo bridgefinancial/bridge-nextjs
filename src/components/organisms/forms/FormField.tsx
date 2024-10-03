@@ -177,23 +177,28 @@ const FormField = forwardRef(
                         {option.label}
                         <span className="fmd-checkmark" />
                       </label>
-                      <input
-                        ref={ref}
-                        id={formField.name}
-                        required={formField.required}
-                        name={formField.name}
-                        value={option.value}
-                        type="checkbox"
-                        className="opacity-0 absolute pointer-events-none"
-                        checked={formValues[formField.name]?.includes(
-                          option.value
-                        )}
-                      ></input>
                     </>
                   )}
+                  <input
+                    name={option.value}
+                    value={option.value}
+                    type="checkbox"
+                    checked={formValues[formField.name]?.includes(option.value)}
+                    className="opacity-0 absolute pointer-events-none"
+                  ></input>
                 </div>
               );
             })}
+            <input
+              ref={ref}
+              id={formField.name}
+              required={formField.required}
+              name={formField.name}
+              value={formValues[formField.name]}
+              hidden
+              onChange={() => {}}
+              className="opacity-0 absolute pointer-events-none"
+            ></input>
           </div>
         )}
 

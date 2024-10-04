@@ -53,6 +53,10 @@ export class FieldInformationService {
     return FieldInformationService.addressFieldTypes.includes(field);
   }
 
+  static isSlider(field: FieldType | string) {
+    return FieldInformationService.sliderFieldTypes.includes(field);
+  }
+
   static isValidUserInput(field: FieldType, input: string) {
     if (FieldInformationService.isNumber(field)) {
       // Regular expression to match numbers with optional commas and decimals
@@ -62,6 +66,9 @@ export class FieldInformationService {
       }
 
       // Test the input against the regex
+      return regex.test(input);
+    } else if (FieldInformationService.isSlider(field)) {
+      const regex = /^[\d]*$/;
       return regex.test(input);
     } else {
       return true;
@@ -95,7 +102,7 @@ export class FieldInformationService {
   }
 
   static getEndInputAdornment(field: FieldType) {
-    if (field === FieldType.Percent) {
+    if (field === FieldType.Percent || field === FieldType.SliderPercent) {
       return "%";
     }
     return "";
@@ -179,12 +186,20 @@ export class FieldInformationService {
     FieldType.Radio,
     FieldType.YesNo,
     FieldType.TrueFalse,
+    FieldType.Radio9Grid,
   ];
-  static checkboxTypes: string[] = [FieldType.Checkbox];
+  static checkboxTypes: string[] = [
+    FieldType.Checkbox,
+    FieldType.Checkbox9Grid,
+  ];
   static complexFieldTypes: string[] = [FieldType.Complex, FieldType.DateRange];
   static likertFieldTypes: string[] = [FieldType.Likert];
   static longFieldTypes: string[] = [FieldType.LongText];
   static addressFieldTypes: string[] = [FieldType.Address];
+  static sliderFieldTypes: string[] = [
+    FieldType.Slider,
+    FieldType.SliderPercent,
+  ];
 
   static dropdowns: Record<string, { value: any; label: string }[]> = {
     usa_states_dropdown: [
@@ -249,7 +264,7 @@ export class FieldInformationService {
 
   static radios: Record<
     string,
-    { name: string; data: { value: any; label: string }[] }
+    { name: string; data: { value: any; label: string; iconUrl?: string }[] }
   > = {
     [FieldType.TrueFalse]: {
       name: "true_false",

@@ -225,6 +225,7 @@ export type FormField = {
     value: any;
     textbox?: boolean;
     placeholder?: string;
+    iconUrl?: string;
 
     // Deprecate
     activates?: string;

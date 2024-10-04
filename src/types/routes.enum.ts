@@ -54,7 +54,7 @@ export enum PortalRoutes {
 export enum QuestionnaireRoutes {
   VALUATION = "/q/valuation",
   RECOMMENDATION_GENERAL_INFO = "/q/general-info",
-  RECOMMENDATION_BUSINESS_OFFERRING = "/q/business/offering",
+  RECOMMENDATION_BUSINESS_OFFERRING = "/q/business-offering",
   RECOMMENDATION_MARKETING = "/q/marketing",
   RECOMMENDATION_CONVERSION = "/q/conversion",
   RECOMMENDATION_SYSTEMS = "/q/systems",

@@ -193,8 +193,6 @@ select.fmd-input,
   cursor: pointer;
   border: solid gray 2px;
   border-radius: 12px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  max-width: max-content;
   padding: 0;
 }
 
@@ -202,12 +200,6 @@ select.fmd-input,
   position: absolute;
   opacity: 0;
   cursor: pointer;
-}
-
-.fmd-radio {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .fmd-checkbox-label,
@@ -225,9 +217,11 @@ select.fmd-input,
 
 .fmd-checkbox:has(:checked),
 .fmd-radio:has(:checked),
-.fmd-radio:hover {
+.fmd-radio:hover,
+.fmd-checkbox:hover {
   border: solid #6a5ace 2px; /* Change this to the highlight color you prefer */
-  color: #6a5ace;
+  background: #f0f0f0;
+
   box-shadow: rgba(0, 0, 0, 0.16);
 }
 

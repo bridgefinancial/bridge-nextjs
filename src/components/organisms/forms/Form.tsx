@@ -11,8 +11,6 @@ type FormProps = {
   submitButtonConfig: FormActionConfig;
 };
 
-
-
 const Form = forwardRef(
   (
     { previousButtonConfig, nextButtonConfig, submitButtonConfig }: FormProps,
@@ -61,9 +59,9 @@ const Form = forwardRef(
           )}
         </div>
 
-        <div className="w-full absolute bottom-0">
+        <div className="w-full absolute bottom-0 z-20 border-t border-solid border-bridge-gray-border">
           {/* Progress */}
-          <div className="w-full flex items-center justify-center gap-2">
+          {/* <div className="w-full flex items-center justify-center gap-2">
             {form.definition.pages.map((_, index) => {
               return (
                 <div
@@ -75,7 +73,7 @@ const Form = forwardRef(
                 ></div>
               );
             })}
-          </div>
+          </div> */}
           <div className="w-full flex items-center justify-between bg-white py-6 px-16">
             {/* Previous */}
             <FormAction {...previousButtonConfig} />

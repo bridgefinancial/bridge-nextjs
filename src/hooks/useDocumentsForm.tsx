@@ -1,21 +1,78 @@
 /* eslint-disable no-console */
-import { formReducer, FormState } from "@/reducers/form.reducer";
 import {
   useDeleteFileMutation,
   useGetCompaniesFilesQuery,
   useUploadDocumentsMutation,
 } from "@/services/documents.service";
 import { useSessionUser } from "@/services/users.service";
+import colorLogger from "@/utils/color-logger";
 import {
   Dispatch,
   FormEvent,
   SetStateAction,
   SyntheticEvent,
+  useEffect,
+  useMemo,
   useReducer,
   useState,
 } from "react";
-import { withReducers } from '../hoc/withReducers/withReducers.hoc';
+import { withReducers } from "../hoc/withReducers/withReducers.hoc";
 
+// Define a generic form state and error structure
+export interface DocumentFormState<TFormValues> {
+  formErrors: Partial<Record<keyof TFormValues, any>>; // Allow any type for formErrors
+  filesToProcess: File[]; // Add filesToProcess here
+}
+
+// Type definition for DocumentFormAction with dynamic value handling
+export type DocumentFormAction<TFormValues> =
+  | { type: "SET_FIELD"; field: keyof TFormValues; value: TFormValues[keyof TFormValues] }
+  | { type: "SET_ERRORS"; errors: Partial<Record<keyof TFormValues, string>> }
+  | { type: "RESET_FORM"; values: TFormValues }
+  | { type: "SET_FILES_TO_PROCESS"; value: File[] }; // Added action for handling filesToProcess
+
+// Updated documentFormReducer to properly handle 'filesToProcess'
+export function documentFormReducer<TFormValues>(
+  state: DocumentFormState<TFormValues>,
+  action: DocumentFormAction<TFormValues>
+): DocumentFormState<TFormValues> {
+  switch (action.type) {
+    case "SET_FIELD": {
+      return {
+        ...state,
+        [action.field]: action.value,
+      };
+    }
+
+    case "SET_ERRORS": {
+      return {
+        ...state,
+        formErrors: action.errors,
+      };
+    }
+
+    case "RESET_FORM": {
+      return {
+        ...state,
+        ...action.values,
+        formErrors: {}, // Reset errors when resetting form
+      };
+    }
+
+    case "SET_FILES_TO_PROCESS": {
+      // Ensure we return a new state and properly update filesToProcess
+      return {
+        ...state,
+        filesToProcess: [...action.value],  // Merging new array
+      };
+    }
+
+    default:
+      return state;
+  }
+}
+
+// Type definition for DocumentFileItem
 export interface DocumentFileItem {
   id: number;
   created_at: string;
@@ -25,13 +82,14 @@ export interface DocumentFileItem {
   company: number;
 }
 
+// Reducer for managing existing files
 export function existingFilesReducer(
   state: DocumentFileItem[] = [],
-  action: any
+  action: any,
 ): DocumentFileItem[] {
   switch (action.type) {
     case "SET_EXISTING_FILES":
-      return action.files;
+      return action.existingFiles;
     case "RESET_EXISTING_FILES":
       return [];
     default:
@@ -39,22 +97,26 @@ export function existingFilesReducer(
   }
 }
 
-
-
-export interface UseDocumentsState extends FormState<{
-  filesToProcess: File[]
-}> {
-  existingFiles: DocumentFileItem[];
-  formValues: {  
-    filesToProcess: File[];
-  }
+// UseDocumentsState now contains filesToProcess directly, removing the formValues structure
+export interface UseDocumentsState {
+  filesToProcess: File[]; // filesToProcess is now at the root level
+  existingFiles: {
+    count: number;
+    next: any;
+    previous: any;
+    results: DocumentFileItem[];
+  };
+  formErrors: Partial<Record<string, any>>;
 }
 
 const initialState: UseDocumentsState = {
-  formValues: {
-    filesToProcess: [], // Initialize as an empty array
+  filesToProcess: [], // Initialize as an empty array
+  existingFiles: {
+    count: 0,
+    next: null,
+    previous: null,
+    results: [],
   },
-  existingFiles: [],
   formErrors: {},
 };
 
@@ -62,9 +124,9 @@ export interface UseDocumentsFormReturn {
   formState: UseDocumentsState;
   toastOpen: boolean;
   setToastOpen: Dispatch<SetStateAction<boolean>>;
-  onUploadFiles: (
+  onFileChange: (
     event: SyntheticEvent<Element, Event>,
-    value: File | null,
+    value: File[] | null,
     callback?: () => void
   ) => void;
   refetchFiles: () => void;
@@ -76,7 +138,6 @@ export interface UseDocumentsFormReturn {
   deletingFileError: boolean;
   fetchingFileError: boolean;
   submittingFileError: boolean;
-  
   isLoadingUserSession: boolean;
   handleSubmit: (e: FormEvent<HTMLFormElement>, callback?: () => void) => void;
   onFileDelete: (fileId: number, callback?: () => void) => void;
@@ -100,49 +161,97 @@ export function useDocumentsForm(): UseDocumentsFormReturn {
 
   const [state, dispatch] = useReducer(
     withReducers({
-      formValues: formReducer,
       existingFiles: existingFilesReducer,
     }),
-    initialState,
+    initialState
   );
 
   const [toastOpen, setToastOpen] = useState(false);
 
-  const { mutate: deleteFile, isSuccess: successfullyDeletedFile, isError: deletingFileError, isPending: isDeletingFile } = useDeleteFileMutation();
+  const {
+    mutate: deleteFile,
+    isSuccess: successfullyDeletedFile,
+    isError: deletingFileError,
+    isPending: isDeletingFile,
+  } = useDeleteFileMutation();
+
   const {
     mutate: uploadDocuments,
     isSuccess: successfullySubmittedFiles,
     isError: submittingFileError,
-    isPending: isSubmittingFiles
+    isPending: isSubmittingFiles,
   } = useUploadDocumentsMutation();
 
-  // Populate existing files when fetched
-  if (existingFilesData && state.existingFiles.length === 0) {
-    dispatch({ type: "SET_EXISTING_FILES", files: existingFilesData });
-  }
+  const hasExistingFiles = useMemo(
+    () => state.existingFiles.count !== 0,
+    [state.existingFiles.count]
+  );
+  const hasFilesToProcess = useMemo(
+    () => state.filesToProcess.length !== 0,
+    [state.filesToProcess]
+  );
 
-  const onUploadFiles = (
+  // Populate existing files when fetched
+  useEffect(() => {
+    colorLogger.log(
+      "blue",
+      `Does useDocumentsForm have existing files from the database? The answer is: ${hasExistingFiles}`
+    );
+
+    // If there are files, log them
+    if (hasExistingFiles) {
+      colorLogger.log("green", "Those files are:", state.existingFiles);
+    }
+  }, [hasExistingFiles, state.existingFiles]);
+
+  useEffect(() => {
+    colorLogger.log(
+      "yellow",
+      `Are files ready to upload for useDocumentsForm? The answer is: ${hasFilesToProcess}`,
+      {
+        hasFilesToProcess: hasFilesToProcess ? "Those files are:" : "No files to upload",
+        files: state.filesToProcess,
+      }
+    );
+  }, [hasFilesToProcess, state.filesToProcess]);
+
+  // Check and update existing files
+  useEffect(() => {
+    if (existingFilesData && !hasExistingFiles) {
+      dispatch({ type: "SET_EXISTING_FILES", existingFiles: existingFilesData });
+    }
+  }, [existingFilesData, hasExistingFiles]);
+
+  const onFileChange = (
     event: SyntheticEvent<Element, Event>,
-    value: File | null,
+    value: File[] | null,
     callback?: () => void
   ) => {
-    if (value) {
-      const isFileAlreadyUploaded = state.existingFiles.some(
-        (file: DocumentFileItem) => file.file === value.name,
-      );
+    console.log(value, 'this is value')
 
-      if (isFileAlreadyUploaded) {
-        console.error("File already uploaded.");
+    if (value && value.length > 0) {
+      const newFiles = value.filter(
+        (file) =>
+          !state.existingFiles.results.some(
+            (existingFile: DocumentFileItem) => existingFile.file === file.name
+          )
+      );
+  
+      if (newFiles.length === 0) {
+        colorLogger.log("red", "All selected files have already been uploaded.");
         return;
       }
 
-      // Add the file to the filesToProcess state
-      const newFiles = [...state.formValues.filesToProcess, value];
+      const updatedFiles = [...state.filesToProcess, ...newFiles];
+      colorLogger.log("green", "New files dispatched", updatedFiles);
+
       dispatch({
-        type: "SET_FIELD",
-        field: "filesToProcess",
-        value: newFiles,
+        type: "SET_FILES_TO_PROCESS",
+        value: updatedFiles,
       });
+
+      // Log state after updating to confirm it's working
+      console.log(state.filesToProcess, 'State after dispatch');
 
       if (callback && typeof callback === "function") {
         callback();
@@ -161,17 +270,20 @@ export function useDocumentsForm(): UseDocumentsFormReturn {
           refetchFiles(); // Refresh the file list after deletion
         },
         onError: (error) => {
-          console.error("Failed to delete file:", error);
+          colorLogger.log("red", "Failed to delete file:", error);
         },
       }
     );
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>, callback?: () => void) => {
+  const handleSubmit = (
+    e: FormEvent<HTMLFormElement>,
+    callback?: () => void
+  ) => {
     e.preventDefault();
-    if (state.formValues.filesToProcess.length > 0) {
-      uploadDocuments(
-        { files: state.formValues.filesToProcess },
+    if (state.filesToProcess.length > 0) {
+      mutatationfunction(
+        { files: state.filesToProcess },
         {
           onSuccess: () => {
             if (callback && typeof callback === "function") {
@@ -181,28 +293,26 @@ export function useDocumentsForm(): UseDocumentsFormReturn {
             setToastOpen(true);
           },
           onError: (error: any) => {
-            console.error("Failed to upload files:", error);
+            colorLogger.log("red", "Failed to upload files:", error);
           },
         }
       );
     } else {
-      console.error("No files to upload.");
+      colorLogger.log("red", "No files to upload.");
     }
   };
 
   const handleDownload = (file: DocumentFileItem) => {
-    // You can define your file download logic here.
-    console.log(`Downloading file: ${file.file}`);
+    colorLogger.log("blue", `Downloading file: ${file.file}`);
   };
 
   const handleRemoveFileAtIndex = (index: number) => {
-    const updatedFiles = state.formValues.filesToProcess.filter(
+    const updatedFiles = state.filesToProcess.filter(
       (_: File, i: number) => i !== index
     );
-  
+    colorLogger.log("green", "Updated files list after removing:", updatedFiles);
     dispatch({
-      type: "SET_FIELD",
-      field: "filesToProcess",
+      type: "SET_FILES_TO_PROCESS",
       value: updatedFiles,
     });
   };
@@ -216,7 +326,7 @@ export function useDocumentsForm(): UseDocumentsFormReturn {
     successfullyDeletedFile,
     successfullySubmittedFiles,
     refetchFiles,
-    onUploadFiles,
+    onFileChange,
     isLoadingUserSession,
     fetchingFileError,
     deletingFileError,

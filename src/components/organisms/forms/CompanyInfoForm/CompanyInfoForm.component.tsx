@@ -1,14 +1,13 @@
-import { UseCompanyFormReturn } from '@/hooks/useCompanyForm.hook';
-import { Industry } from '@/types/industries.types';
-import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, TextField } from '@mui/material';
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, SyntheticEvent } from 'react';
-import { Box } from '@mui/material';
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
-import ToastNotification from '@/components/molecules/feedback/ToastNotification';
-import TitleText from '@/components/atoms/typography/TitleText';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TitleText from '@/components/atoms/typography/TitleText';
+import ToastNotification from '@/components/molecules/feedback/ToastNotification';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import { UseCompanyFormReturn } from '@/hooks/useCompanyForm.hook';
 import { colors } from '@/theme/theme';
+import { Industry } from '@/types/industries.types';
+import { Autocomplete, Box, TextField } from '@mui/material';
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 
 interface CompanyFormInfoProps extends UseCompanyFormReturn {
   formState: UseCompanyFormReturn['formState'];
@@ -39,7 +38,6 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
 }) => {
 
   
-console.log(currentCompanyIndustry, 'this is current company industry')
   const { formValues, formErrors } = formState;
 
   const selectedIndustry = formValues.industry

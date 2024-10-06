@@ -1,28 +1,31 @@
 {
-    "cSpell.words": [
-        "formik",
-        "tanstack",
-        "testid"
-    ],
-     
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "always",
-        "source.removeUnusedImports": "always",
-        "source.addMissingImports.ts": "always",
-        "source.sortImports": "always"
-      },    
-      "eslint.options": {
-
-      },
-      "workbench.colorCustomizations": {
-        "panelTitle.activeBorder": "#6ba0f1",
-        "panelSection.dropBackground": "#121212",
-        "editorPane.background": "#214527",
-        "editorGroupHeader.tabsBackground": "#353056",
-        "sideBar.background": "#221e38"
-      },
-      "prettier.singleQuote": false, 
-      "prettier.tabWidth": 2,
-      "prettier.semi": false
+  "cSpell.words": [
+    "formik",
+    "tanstack",
+    "testid"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.removeUnusedImports": "explicit",
+    "source.addMissingImports.ts": "explicit",
+    "source.sortImports": "explicit"
+  },
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "rules": {
+      "react/react-in-jsx-scope": "off" // Disable the rule requiring React in scope
+    }
+  },
+  "workbench.colorCustomizations": {
+    "panelTitle.activeBorder": "#6ba0f1",
+    "panelSection.dropBackground": "#121212",
+    "editorPane.background": "#214527",
+    "editorGroupHeader.tabsBackground": "#353056",
+    "sideBar.background": "#221e38"
+  },
+  "prettier.singleQuote": false,
+  "prettier.tabWidth": 2,
+  "prettier.semi": false,
+  "editor.formatOnSave": true,  // Enable format on save
+  "prettier.requireConfig": true // Ensures Prettier will only run if a Prettier config file is present
 }
-

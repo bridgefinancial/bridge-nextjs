@@ -1,25 +1,25 @@
-import {
-  useReducer,
-  useState,
-  Dispatch,
-  SetStateAction,
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  SyntheticEvent,
-  useMemo,
-} from "react";
-import { useIndustries } from "@/services/industries.service";
-import { Industry } from "@/types/industries.types";
+import { formReducer, FormState } from "@/reducers/form.reducer";
 import { useUpdateCompany } from "@/services/companies.service";
+import { useIndustries } from "@/services/industries.service";
 import { useSessionUser } from "@/services/users.service";
+import { Industry } from "@/types/industries.types";
+import { Company } from "@/types/users.types";
 import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from "@mui/material";
 import { isEmpty } from "lodash";
-import { Company } from "@/types/users.types";
-import { formReducer, FormState, FormAction } from "@/reducers/form.reducer";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 
 // Define form-related interfaces and types
 interface FormValues {
@@ -76,15 +76,11 @@ export function useCompanyForm(): UseCompanyFormReturn {
   const [toastOpen, setToastOpen] = useState(false);
   
   const { mutate: submitChanges, isSuccess, isError, isPending } = useUpdateCompany();
-  
-  console.log(state, 'this is the state we are looking for');
-  console.log(industriesData, 'here is industries data');
-  console.log(user, 'this is user');
+ 
 
   // Set initial form values based on fetched user data
   useEffect(() => {
     if (userIsLoaded && currentCompanyIndustry) {
-      console.log('Setting form values based on user data'); // Debugging
       dispatch({
         type: "RESET_FORM",
         values: {
@@ -100,7 +96,6 @@ export function useCompanyForm(): UseCompanyFormReturn {
     event: SyntheticEvent<Element, Event>,
     value: Industry | null
   ) => {
-    console.log('Selected industry:', value); // Debugging
     if (value && value.id) {
       dispatch({ type: "SET_FIELD", field: "industry", value: value.id });
     } else {
@@ -111,7 +106,6 @@ export function useCompanyForm(): UseCompanyFormReturn {
   // Handle text input change
   const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(`Updating field ${name} with value ${value}`); // Debugging
     dispatch({ type: "SET_FIELD", field: name as keyof FormValues, value });
   };
   

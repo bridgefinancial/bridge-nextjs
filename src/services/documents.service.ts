@@ -1,26 +1,65 @@
-import { fetchWithAuth } from "@/services/authorized-request.service";
-import {
-  useMutation,
-  UseMutationResult,
-  useQuery,
-} from "@tanstack/react-query";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? "http://localhost:8000";
 
-export const useGetCompaniesFilesQuery = (queryKey: string = "") => {
-  // query key is useful if you want to cache these later for offline use
-  return useQuery({
-    queryFn: () => getCompanyFiles(),
-    queryKey: [`useCompanyFilesQuery${queryKey ? queryKey : "KeyForQuery"}`],
-  });
+// Utility function to get a specific cookie by name
+export const getCookie = (cookieString: string, name: string): string | null => {
+  let cookieValue: string | null = null;
+  if (cookieString && cookieString !== "") {
+    const cookies = cookieString.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(`${name}=`)) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
 };
 
+export interface FetchOptions extends RequestInit {
+  headers?: HeadersInit;
+}
+
+export const customFetchWithAuth = async (
+  url: string,
+  options: FetchOptions = {},
+  cookieString = document.cookie,
+): Promise<Response> => {
+  const headers = new Headers({
+    ...options.headers,
+  });
+
+  // Get the CSRF token from the cookies
+  const csrfToken = getCookie(cookieString, "csrftoken");
+
+  // If the CSRF token exists, include it in the headers
+  if (csrfToken) {
+    headers.set("X-CSRFToken", csrfToken);
+  }
+
+  // Handle form data automatically for file uploads, otherwise default to JSON
+  if (!(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(`${BASE_URL}${url}`, {
+    method: options.method || "GET",
+    credentials: "include", // Include cookies in the request
+    cache: "no-cache",
+    ...options,
+    headers,
+  });
+
+  return response;
+};
+
+// Example usage for fetching company files
 export const getCompanyFiles = async () => {
   const url = `/api/company-files/`;
 
-  const response = await fetchWithAuth(url, {
+  const response = await customFetchWithAuth(url, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   if (!response.ok) {
@@ -31,18 +70,12 @@ export const getCompanyFiles = async () => {
   return data;
 };
 
-type DeleteFileRequest = {
-  fileId: number;
-};
-
-export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
+// Example usage for deleting a company file
+export const deleteCompanyFile = async ({ fileId }: { fileId: number }) => {
   const url = `/api/company-files/${fileId}`;
 
-  const response = await fetchWithAuth(url, {
+  const response = await customFetchWithAuth(url, {
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   if (!response.ok) {
@@ -53,36 +86,12 @@ export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
   return data;
 };
 
-export const useDeleteFileMutation = (): UseMutationResult<
-  {
-    fileId: any
-  },
-  Error,
-  DeleteFileRequest,
-  unknown
-> => {
-  return useMutation({
-    mutationFn: deleteCompanyFile,
-  });
-};
-
+// Interface for uploading documents (files)
 interface UploadDocumentResponse {
   files: File[];
 }
 
-interface UploadDocumentsDto {
-  files: File[];
-}
-
-export const useUploadDocumentsMutation = (): UseMutationResult<{
-  responses: any[];
-  errors: unknown[];
-}, Error, UploadDocumentResponse, unknown> => {
-  return useMutation({
-    mutationFn: handleUploadDocuments,
-  })
-};
-
+// Example usage for uploading files
 export const handleUploadDocuments = async ({
   files,
 }: UploadDocumentResponse) => {
@@ -94,15 +103,17 @@ export const handleUploadDocuments = async ({
   for (const file of files) {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("description", file.name); // Using file name as description
+    formData.append("description", file.name);
 
     try {
-      const response = await fetchWithAuth(url, {
+      const response = await customFetchWithAuth(url, {
         method: "POST",
-        body: formData,
+        body: formData, // FormData for file upload
       });
 
       if (!response.ok) {
+        const responseBody = await response.text();
+        console.error("Response body:", responseBody);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 

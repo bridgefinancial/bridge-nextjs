@@ -18,7 +18,7 @@ export type Service = {
   button_url: string;
   created_at: string; // ISO 8601 date string
   updated_at: string; // ISO 8601 date string
-  [key: string]: unknown
+  [key: string]: unknown;
 };
 
 // Service Category type
@@ -36,8 +36,7 @@ export type ServiceCategory = {
   action_description: string;
   improvement_area: number;
   services: Service[]; // Using the defined `Service` type
-  [key: string]: unknown
-
+  [key: string]: unknown;
 };
 
 // Recommendation type
@@ -56,8 +55,7 @@ export type Recommendation = {
   rev_rating: number;
   service_category: ServiceCategory; // Reference to `ServiceCategory`
   updated_at: string;
-  [key: string]: unknown
-
+  [key: string]: unknown;
 };
 
 // Improvement Area type
@@ -77,8 +75,7 @@ export type ImprovementArea = {
   service_category_recommendations: Recommendation[]; // Array of recommendations
   total: number;
   completed: number;
-  [key: string]: unknown
-
+  [key: string]: unknown;
 };
 
 // Improvement Category type
@@ -89,6 +86,5 @@ export type ImprovementCategory = {
   name: string;
   order: number;
   improvement_areas: ImprovementArea[]; // Array of ImprovementArea
-  [key: string]: unknown
-
+  [key: string]: unknown;
 };

@@ -1,5 +1,5 @@
-@import './variables';
-@import './mixins';
+@import "./variables";
+@import "./mixins";
 
 // Display utilities
 .display {
@@ -73,20 +73,20 @@
 
 // Text utilities
 $text-sizes: (
-  'xs': 0.75rem,
-  's': 0.875rem,
-  'm': 1rem,
-  'l': 1.25rem,
-  'xl': 1.5rem,
-  'xxl': 2rem,
+  "xs": 0.75rem,
+  "s": 0.875rem,
+  "m": 1rem,
+  "l": 1.25rem,
+  "xl": 1.5rem,
+  "xxl": 2rem,
 );
 
 $text-weights: (
-  'light': 300,
-  'normal': 400,
-  'medium': 500,
-  'semi-bold': 600,
-  'bold': 700,
+  "light": 300,
+  "normal": 400,
+  "medium": 500,
+  "semi-bold": 600,
+  "bold": 700,
 );
 
 .text {

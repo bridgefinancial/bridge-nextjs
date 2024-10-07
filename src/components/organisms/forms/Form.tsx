@@ -108,8 +108,7 @@ const Form = forwardRef(
             {/* Submit */}
             <FormAction {...submitButtonConfig} />
           </div>
-          
-            </div>
+        </div>
       </form>
     );
   },

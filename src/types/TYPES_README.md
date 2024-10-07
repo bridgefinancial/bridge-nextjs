@@ -1,5 +1,3 @@
-
-
 # `types` Folder
 
 ## Overview
@@ -33,17 +31,17 @@ Here are some examples of how to structure types, interfaces, and enums in the `
 ```typescript
 // Enum for defining route paths in Next.js
 export enum RoutePath {
-  HOME = '/',
-  LOGIN = '/login',
-  DASHBOARD = '/dashboard',
-  PROFILE = '/profile',
+  HOME = "/",
+  LOGIN = "/login",
+  DASHBOARD = "/dashboard",
+  PROFILE = "/profile",
 }
 ```
 
 **Usage:**
 
 ```typescript
-import { RoutePath } from '../types/route-path.enum';
+import { RoutePath } from "../types/route-path.enum";
 
 const loginUrl = RoutePath.LOGIN;
 ```
@@ -58,14 +56,14 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
 }
 ```
 
 **Usage:**
 
 ```typescript
-import { User } from '../types/user.interface';
+import { User } from "../types/user.interface";
 
 const fetchUser = async (id: string): Promise<User> => {
   // Fetch user logic
@@ -88,7 +86,7 @@ export type ApiResponse<T> = {
 **Usage:**
 
 ```typescript
-import { ApiResponse } from '../types/api-response.type';
+import { ApiResponse } from "../types/api-response.type";
 
 const handleApiResponse = (response: ApiResponse<User>) => {
   if (response.error) {
@@ -107,5 +105,3 @@ const handleApiResponse = (response: ApiResponse<User>) => {
 - **Document Types**: Provide clear comments and documentation within your type definitions to help other developers understand their purpose and usage.
 
 By following these guidelines and conventions, you'll keep your types and interfaces organized, reducing complexity and improving the maintainability of your project.
-
-

@@ -1,9 +1,5 @@
 {
-  "cSpell.words": [
-    "formik",
-    "tanstack",
-    "testid"
-  ],
+  "cSpell.words": ["formik", "tanstack", "testid"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",

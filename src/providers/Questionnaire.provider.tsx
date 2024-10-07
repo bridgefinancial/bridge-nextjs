@@ -1,5 +1,10 @@
 "use client";
 
+import { FieldInformationService } from "@/services/fields.service";
+import {
+  getFormSubmission,
+  useSubmitForm,
+} from "@/services/form-submissions.service";
 import {
   Condition,
   FormField,
@@ -7,6 +12,8 @@ import {
   Page,
   Questionnaire,
 } from "@/types/forms.types";
+import { routePaths } from "@/types/routes.enum";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   createContext,
   MutableRefObject,
@@ -18,14 +25,6 @@ import {
   useState,
 } from "react";
 import { useErrors } from "./Errors.provider";
-import {
-  getFormSubmission,
-  useSubmitForm,
-} from "@/services/form-submissions.service";
-import { useRouter, useSearchParams } from "next/navigation";
-import { routePaths } from "@/types/routes.enum";
-import { FieldInformationService } from "@/services/fields.service";
-import { FieldType } from "@/types/forms.enum";
 
 const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = "redirectTo";
 
@@ -217,7 +216,9 @@ export const QuestionnaireProvider = ({
       const input = fieldRefsByName?.current[field.name];
       const value = input?.value;
       const possibleValues = new Set(
-        FieldInformationService.getDefaultSelections(field)?.map((f) => f.value)
+        FieldInformationService.getDefaultSelections(field)?.map(
+          (f) => f.value,
+        ),
       );
       if (field.required && (!value || !possibleValues.has(value))) {
         setFieldErrorsByName((prev) => {

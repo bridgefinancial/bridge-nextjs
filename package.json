@@ -6,6 +6,7 @@
     "check-packages": "npx check-package-dependencies",
     "dev": "next dev",
     "build": "next build",
+    "fix": "eslint --fix . && prettier --write .",
     "start": "next start",
     "lint": "next lint"
   },

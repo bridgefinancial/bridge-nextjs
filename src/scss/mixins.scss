@@ -1,14 +1,14 @@
 // Typography
 @mixin manrope {
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
 }
 
 @mixin sora {
-  font-family: 'Sora', sans-serif;
+  font-family: "Sora", sans-serif;
 }
 
 @mixin sans {
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
 }
 
 // Font weight
@@ -64,16 +64,16 @@
 }
 
 @mixin placeholder {
-  @include optional-at-root('::-webkit-input-placeholder') {
+  @include optional-at-root("::-webkit-input-placeholder") {
     @content;
   }
-  @include optional-at-root(':-moz-placeholder') {
+  @include optional-at-root(":-moz-placeholder") {
     @content;
   }
-  @include optional-at-root('::-moz-placeholder') {
+  @include optional-at-root("::-moz-placeholder") {
     @content;
   }
-  @include optional-at-root(':-ms-input-placeholder') {
+  @include optional-at-root(":-ms-input-placeholder") {
     @content;
   }
 }
@@ -88,32 +88,32 @@
 
   // Track
   &::-webkit-scrollbar-track {
-    background: $gray-400;  // Replaced $oc-gray-4 with $gray-400
+    background: $gray-400; // Replaced $oc-gray-4 with $gray-400
     border-radius: 0.5rem;
   }
 
   // Handle
   &::-webkit-scrollbar-thumb {
-    background: $gray-600;  // Replaced $oc-gray-6 with $gray-600
+    background: $gray-600; // Replaced $oc-gray-6 with $gray-600
     border-radius: 0.5rem;
   }
 
   // Handle on hover
   &::-webkit-scrollbar-thumb:hover {
-    background: $gray-600;  // Replaced $oc-gray-6 with $gray-600
+    background: $gray-600; // Replaced $oc-gray-6 with $gray-600
   }
 }
 
 // Breakpoints
 
 $breakpoints: (
-  'xxs': 320px,
-  'xs': 480px,
-  's': 768px,
-  'm': 1024px,
-  'l': 1280px,
-  'xl': 1440px,
-  'xxl': 1920px,
+  "xxs": 320px,
+  "xs": 480px,
+  "s": 768px,
+  "m": 1024px,
+  "l": 1280px,
+  "xl": 1440px,
+  "xxl": 1920px,
 );
 
 @mixin media-query($size) {

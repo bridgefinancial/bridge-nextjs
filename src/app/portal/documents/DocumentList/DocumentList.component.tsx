@@ -204,18 +204,17 @@ const DocumentList: React.FC = () => {
                 title={document.description}
                 subTitle={new Date(document.created_at).toLocaleDateString()}
                 actions={[
-                  
                   <IconButton
-                  key={`${index}-${document.description.trim().replace(/\s+/g, '')}-action-one`}
-                  onClick={() =>
+                    key={`${index}-${document.description.trim().replace(/\s+/g, "")}-action-one`}
+                    onClick={() =>
                       handleDownload(document.file, document.description)
                     }
                   >
                     <FileDownload />
                   </IconButton>,
                   <IconButton
-                  key={`${index}-${document.description.trim().replace(/\s+/g, '')}-action-one`}
-                  onClick={() => handleOpenDelete(document.description)}
+                    key={`${index}-${document.description.trim().replace(/\s+/g, "")}-action-one`}
+                    onClick={() => handleOpenDelete(document.description)}
                   >
                     <Delete />
                   </IconButton>,

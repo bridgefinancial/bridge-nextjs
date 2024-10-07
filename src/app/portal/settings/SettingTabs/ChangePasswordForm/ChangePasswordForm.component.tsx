@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useReducer, ChangeEvent, FormEvent, useState } from "react";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { Box } from "@mui/material";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import TitleText from "@/components/atoms/typography/TitleText";
-import { colors } from "@/theme/theme";
-import { useChangePassword, useSessionUser } from "@/services/users.service";
 import ToastNotification from "@/components/molecules/feedback/ToastNotification";
+import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
+import { useChangePassword, useSessionUser } from "@/services/users.service";
+import { colors } from "@/theme/theme";
+import { Box } from "@mui/material";
+import React, { ChangeEvent, FormEvent, useReducer, useState } from "react";
 
 // Interfaces for form values and errors
 interface FormValues {

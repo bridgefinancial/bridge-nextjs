@@ -204,17 +204,18 @@ const DocumentList: React.FC = () => {
                 title={document.description}
                 subTitle={new Date(document.created_at).toLocaleDateString()}
                 actions={[
-                  ,
+                  
                   <IconButton
-                    onClick={() =>
+                  key={`${index}-${document.description.trim().replace(/\s+/g, '')}-action-one`}
+                  onClick={() =>
                       handleDownload(document.file, document.description)
                     }
                   >
                     <FileDownload />
                   </IconButton>,
                   <IconButton
-                    onClick={() => handleOpenDelete(document.description)}
-                    key={document.id}
+                  key={`${index}-${document.description.trim().replace(/\s+/g, '')}-action-one`}
+                  onClick={() => handleOpenDelete(document.description)}
                   >
                     <Delete />
                   </IconButton>,
@@ -249,7 +250,7 @@ const DocumentList: React.FC = () => {
           open={uploadOpen}
           onClose={handleCloseUpload}
           handleSave={handleSave}
-          filesToProcess={selectedFiles}
+          filesToProcess={selectedFiles as any}
           onFileChange={onFileChange}
           isSaving={isUploadingFiles}
           handleRemoveFile={handleRemoveFileAtIndex}

@@ -1,10 +1,9 @@
-import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import React, { forwardRef, useEffect, useState } from "react";
-import FormPage from "./FormPage";
-import FormAction, { FormActionConfig } from "./FormAction";
-import clsx from "clsx";
 import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import { Box } from "@mui/material";
+import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import clsx from "clsx";
+import React, { forwardRef, useEffect, useState } from "react";
+import FormAction, { FormActionConfig } from "./FormAction";
+import FormPage from "./FormPage";
 
 type FormProps = {
   previousButtonConfig: FormActionConfig;
@@ -109,7 +108,8 @@ const Form = forwardRef(
             {/* Submit */}
             <FormAction {...submitButtonConfig} />
           </div>
-        </Box>
+          
+            </div>
       </form>
     );
   },

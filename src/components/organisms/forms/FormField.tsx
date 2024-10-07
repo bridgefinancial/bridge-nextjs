@@ -67,7 +67,7 @@ const FormField = forwardRef(
 
         {/* Field Types */}
         {formField.type === "display_only" && (
-          <ParagraphText>{formField.value}</ParagraphText>
+          <ParagraphText>{formField.value as any}</ParagraphText>
         )}
 
         {FieldInformationService.isDropdown(formField.type) && (
@@ -96,7 +96,7 @@ const FormField = forwardRef(
                   FieldInformationService.getDefaultSelections(formField) ??
                   []
                 ).map((option, index) => (
-                  <MenuItem key={index} value={option.value}>
+                  <MenuItem key={index as number} value={option.value as string}>
                     {option.label}
                   </MenuItem>
                 ))}
@@ -109,7 +109,7 @@ const FormField = forwardRef(
           <div className="fmd-input">
             <datalist id="suggestions" style={{ display: "none" }}>
               {formField.enum?.map((option, index) => (
-                <option key={index} value={option.value}>
+                <option key={index} value={option.value as string}>
                   {option.label}
                 </option>
               ))}
@@ -140,7 +140,7 @@ const FormField = forwardRef(
                   formValues[formField.name];
                 if (!currentValue) {
                   handleChange(formField.name, [option.value]);
-                } else if (currentValue.includes(option.value)) {
+                } else if (currentValue.includes(option.value as string)) {
                   handleChange(
                     formField.name,
                     currentValue.filter((v) => v !== option.value)
@@ -180,8 +180,8 @@ const FormField = forwardRef(
                     </>
                   )}
                   <input
-                    name={option.value}
-                    value={option.value}
+                    name={option.value as string}
+                    value={option.value as string}
                     type="checkbox"
                     checked={formValues[formField.name]?.includes(option.value)}
                     className="opacity-0 absolute pointer-events-none"
@@ -271,7 +271,7 @@ const FormField = forwardRef(
           <input
             ref={ref}
             required={formField.required}
-            value={formField.value}
+            value={formField.value as string}
             className="fmd-hidden"
             type="hidden"
           />
@@ -318,7 +318,7 @@ const FormField = forwardRef(
                         required={formField.required}
                         id={field.name}
                         name={field.name}
-                        value={option.value}
+                        value={option.value as string}
                         type="radio"
                         checked={formValues[field.name] === option.value}
                         onChange={() => {
@@ -538,7 +538,6 @@ const FormField = forwardRef(
                 handleChange(formField.name, e.target.value);
               }}
               disabled={notSure}
-              inputRef={ref}
               fullWidth
             />
           )}

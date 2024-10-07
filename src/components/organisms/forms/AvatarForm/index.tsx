@@ -1,1 +1,1 @@
-export { default } from "./AvatarForm.component.tsx";
+export { default } from "./AvatarForm.component";

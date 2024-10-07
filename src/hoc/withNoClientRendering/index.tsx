@@ -1,1 +1,1 @@
-export {default} from './withNoClientRendering.hoc'
+export { default } from "./withNoClientRendering.hoc";

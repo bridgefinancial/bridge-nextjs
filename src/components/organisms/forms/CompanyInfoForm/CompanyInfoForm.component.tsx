@@ -1,20 +1,20 @@
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import TitleText from '@/components/atoms/typography/TitleText';
-import ToastNotification from '@/components/molecules/feedback/ToastNotification';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
-import { UseCompanyFormReturn } from '@/hooks/useCompanyForm.hook';
-import { colors } from '@/theme/theme';
-import { Industry } from '@/types/industries.types';
-import { Autocomplete, Box, TextField } from '@mui/material';
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import TitleText from "@/components/atoms/typography/TitleText";
+import ToastNotification from "@/components/molecules/feedback/ToastNotification";
+import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
+import { UseCompanyFormReturn } from "@/hooks/useCompanyForm.hook";
+import { colors } from "@/theme/theme";
+import { Industry } from "@/types/industries.types";
+import { Autocomplete, Box, TextField } from "@mui/material";
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 
 interface CompanyFormInfoProps extends UseCompanyFormReturn {
-  formState: UseCompanyFormReturn['formState'];
+  formState: UseCompanyFormReturn["formState"];
   toastOpen: boolean;
   setToastOpen: Dispatch<SetStateAction<boolean>>;
   industries: Industry[];
-  onIndustryChange: UseCompanyFormReturn['onIndustryChange'],
+  onIndustryChange: UseCompanyFormReturn["onIndustryChange"];
   isSuccess: boolean;
   isError: boolean;
   isPending: boolean;
@@ -36,20 +36,20 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
   handleTextInputChange,
   handleSubmit,
 }) => {
-
-  
   const { formValues, formErrors } = formState;
 
-  const selectedIndustry = formValues.industry
-  const industryValue = selectedIndustry? industries.find(ind => ind.id === selectedIndustry): currentCompanyIndustry
-  
+  const selectedIndustry = formValues.industry;
+  const industryValue = selectedIndustry
+    ? industries.find((ind) => ind.id === selectedIndustry)
+    : currentCompanyIndustry;
+
   return (
     <Box
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: 1,
         maxWidth: 500,
         paddingTop: 4,
@@ -58,8 +58,8 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
       {/* Company Info Header */}
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 0.5,
           marginBottom: 1,
         }}
@@ -73,54 +73,54 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
       </Box>
 
       {/* Company Name Input */}
-<TextInputGroup
-  label="Company Name"
-  type="text"
-  fullWidth
-  margin="normal"
-  name="businessName" // Make sure this is businessName, not companyName
-  placeholder="Enter company name"
-  value={formValues.businessName}
-  onChange={handleTextInputChange} // Correct handling for text input
-  error={Boolean(formErrors.businessName)}
-  helperText={formErrors.businessName}
-  disabled={isPending}
-/>
+      <TextInputGroup
+        label="Company Name"
+        type="text"
+        fullWidth={true}
+        margin="normal"
+        name="businessName" // Make sure this is businessName, not companyName
+        placeholder="Enter company name"
+        value={formValues.businessName}
+        onChange={handleTextInputChange} // Correct handling for text input
+        error={Boolean(formErrors.businessName)}
+        helperText={formErrors.businessName}
+        disabled={isPending}
+      />
 
       {/* Industry Autocomplete */}
       <Autocomplete
-  options={industries ?? []} // Provide industry options
-  getOptionLabel={(industry: Industry) => industry.name} // Display the industry name
-  value={industryValue || null} // Handle selected industry
-  onChange={onIndustryChange} // This handles selection change, specific for Autocomplete
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      label="Industry" // Set the label for the input
-      variant="filled" // Set the variant
-      fullWidth
-      margin="normal"
-      name="industry"
-      error={Boolean(formErrors.industry)}
-      helperText={formErrors.industry}
-    />
-  )}
-  disabled={isPending} // Disable if form is pending
-/>
+        options={industries ?? []} // Provide industry options
+        getOptionLabel={(industry: Industry) => industry.name} // Display the industry name
+        value={industryValue || null} // Handle selected industry
+        onChange={onIndustryChange} // This handles selection change, specific for Autocomplete
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Industry" // Set the label for the input
+            variant="filled" // Set the variant
+            fullWidth={true}
+            margin="normal"
+            name="industry"
+            error={Boolean(formErrors.industry)}
+            helperText={formErrors.industry}
+          />
+        )}
+        disabled={isPending} // Disable if form is pending
+      />
       {/* Save Changes Button */}
-      <Box sx={{ alignSelf: 'flex-end' }}>
+      <Box sx={{ alignSelf: "flex-end" }}>
         <ContainedButton
           textProps={{
             sx: {
-              fontWeight: 'bold',
-              color: 'white',
+              fontWeight: "bold",
+              color: "white",
               fontSize: 14,
             },
           }}
           disabled={isPending}
-          fullWidth
+          fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
-          text={<strong>{isPending ? 'Saving...' : 'Save Changes'}</strong>}
+          text={<strong>{isPending ? "Saving..." : "Save Changes"}</strong>}
           type="submit"
         />
       </Box>
@@ -129,13 +129,13 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
       <ToastNotification
         setOpen={setToastOpen}
         open={toastOpen}
-        severity={isSuccess ? 'success' : isError ? 'error' : 'info'}
+        severity={isSuccess ? "success" : isError ? "error" : "info"}
         message={
           isSuccess
-            ? 'Company Information Updated Successfully'
+            ? "Company Information Updated Successfully"
             : isError
-            ? 'Failed to update company information.'
-            : 'Updating...'
+              ? "Failed to update company information."
+              : "Updating..."
         }
       />
     </Box>

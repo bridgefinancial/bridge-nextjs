@@ -8,7 +8,7 @@ const BasicInfoForm: React.FC = () => {
   // const companyFormData = useCompanyForm();
   const personalFormData = usePersonalInfoForm();
   // const avatarFormData = useAvatarForm();
-  const companyFormData = useCompanyForm()
+  const companyFormData = useCompanyForm();
   return (
     <>
       {/* Avatar Form */}
@@ -24,8 +24,6 @@ const BasicInfoForm: React.FC = () => {
         handleHideToast={avatarFormData.handleHideToast}
       /> */}
 
-    
-
       <PersonalInfoForm
         formState={personalFormData.formState}
         toastOpen={personalFormData.toastOpen}
@@ -37,10 +35,7 @@ const BasicInfoForm: React.FC = () => {
         isSuccess={personalFormData.isSuccess}
         isPending={personalFormData.isPending}
       />
-  <CompanyInfoForm
-      
-      {...companyFormData}
-    />
+      <CompanyInfoForm {...companyFormData} />
       {/* <Box sx={{ mt: 4 }}>
         <Typography
           variant="body1"

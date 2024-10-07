@@ -39,7 +39,7 @@ const FormAction = ({
         type={type ?? "button"}
         text={text}
         textColor={colors.bridgeDarkPurple}
-      ></TextButton>
+      />
     );
   }
   return (

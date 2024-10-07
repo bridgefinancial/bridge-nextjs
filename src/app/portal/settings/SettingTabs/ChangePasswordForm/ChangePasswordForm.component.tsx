@@ -122,10 +122,8 @@ const ChangePasswordForm: React.FC = () => {
           },
           onSettled: () => {
             setToastOpen(true); // Open success toast notification
-
-          }
+          },
         },
-        
       );
     }
   };
@@ -214,7 +212,6 @@ const ChangePasswordForm: React.FC = () => {
           disabled={isLoadingUser}
         />
       </Box>
-
 
       {/* Toast Notification */}
       <ToastNotification

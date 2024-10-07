@@ -15,7 +15,7 @@ type FormProps = {
 const Form = forwardRef(
   (
     { previousButtonConfig, nextButtonConfig, submitButtonConfig }: FormProps,
-    ref: React.ForwardedRef<HTMLFormElement>
+    ref: React.ForwardedRef<HTMLFormElement>,
   ) => {
     const { form, pageIndex, submit, isLoading } = useQuestionnaire();
 
@@ -123,7 +123,7 @@ const Form = forwardRef(
         </Box>
       </form>
     );
-  }
+  },
 );
 
 export default Form;

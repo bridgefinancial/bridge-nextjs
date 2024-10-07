@@ -63,20 +63,31 @@ export function useCompanyForm(): UseCompanyFormReturn {
     refetch: refetchUser,
     isFetched: isUserFetched,
   } = useSessionUser();
-  
-  const { data: industriesData, isLoading: isLoadingIndustries } = useIndustries();
-  
-  const currentCompanyId = useMemo(() => isUserFetched ? user?.company?.id : undefined, [isUserFetched, user]);
-  
-  const currentCompanyIndustry = useMemo(() => isUserFetched ? user?.company?.industry : undefined, [isUserFetched, user?.company?.industry]);
+
+  const { data: industriesData, isLoading: isLoadingIndustries } =
+    useIndustries();
+
+  const currentCompanyId = useMemo(
+    () => (isUserFetched ? user?.company?.id : undefined),
+    [isUserFetched, user],
+  );
+
+  const currentCompanyIndustry = useMemo(
+    () => (isUserFetched ? user?.company?.industry : undefined),
+    [isUserFetched, user?.company?.industry],
+  );
 
   const userIsLoaded = !isLoadingUserSession && !isEmpty(user);
-  
+
   const [state, dispatch] = useReducer(formReducer<FormValues>, initialState);
   const [toastOpen, setToastOpen] = useState(false);
-  
-  const { mutate: submitChanges, isSuccess, isError, isPending } = useUpdateCompany();
- 
+
+  const {
+    mutate: submitChanges,
+    isSuccess,
+    isError,
+    isPending,
+  } = useUpdateCompany();
 
   // Set initial form values based on fetched user data
   useEffect(() => {
@@ -90,11 +101,11 @@ export function useCompanyForm(): UseCompanyFormReturn {
       });
     }
   }, [userIsLoaded, currentCompanyIndustry, user?.company?.name]);
-  
+
   // Handle industry selection change
   const onIndustryChange = (
     event: SyntheticEvent<Element, Event>,
-    value: Industry | null
+    value: Industry | null,
   ) => {
     if (value && value.id) {
       dispatch({ type: "SET_FIELD", field: "industry", value: value.id });
@@ -102,13 +113,13 @@ export function useCompanyForm(): UseCompanyFormReturn {
       dispatch({ type: "SET_FIELD", field: "industry", value: "" });
     }
   };
-  
+
   // Handle text input change
   const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     dispatch({ type: "SET_FIELD", field: name as keyof FormValues, value });
   };
-  
+
   // Validate form fields
   const validate = (): boolean => {
     const errors: Partial<Record<keyof FormValues, string>> = {};
@@ -121,25 +132,25 @@ export function useCompanyForm(): UseCompanyFormReturn {
     dispatch({ type: "SET_ERRORS", errors });
     return isEmpty(errors);
   };
-  
+
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate() && currentCompanyId && industriesData?.results.length) {
       const selectedIndustry = industriesData.results.find(
-        (ind) => ind.id === state.formValues.industry
+        (ind) => ind.id === state.formValues.industry,
       );
-      
+
       if (!selectedIndustry) {
         console.error("Selected industry not found.");
         return;
       }
-      
+
       const companyUpdate: Partial<Company> = {
         name: state.formValues.businessName,
         industry: selectedIndustry.id as any,
       };
-      
+
       submitChanges(
         { attributes: companyUpdate, id: currentCompanyId },
         {
@@ -150,11 +161,11 @@ export function useCompanyForm(): UseCompanyFormReturn {
           onError: (error: any) => {
             console.error("Failed to update company:", error);
           },
-        }
+        },
       );
     }
   };
-  
+
   return {
     formState: state,
     toastOpen,

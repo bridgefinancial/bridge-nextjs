@@ -105,7 +105,7 @@ export const QuestionnaireProvider = ({
   const page = forms[formIndex].definition.pages[pageIndex];
   const redirectTo = useMemo(() => {
     const redirectParam = searchParams.get(
-      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM
+      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM,
     );
     if (redirectParam) {
       const decoded = decodeURIComponent(redirectParam);
@@ -146,7 +146,7 @@ export const QuestionnaireProvider = ({
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    event
+    event,
   ) => {
     if (!form || !handleCheckPageValidity()) {
       return;
@@ -163,7 +163,7 @@ export const QuestionnaireProvider = ({
           FieldInformationService.isNumber(field.type)
         ) {
           formDataValues[field.name] = parseFloat(
-            formValues[field.name]?.replaceAll(",", "") ?? ""
+            formValues[field.name]?.replaceAll(",", "") ?? "",
           );
         }
       });
@@ -186,18 +186,18 @@ export const QuestionnaireProvider = ({
           setErrorsFunc(
             { Error: `Something went wrong: ${error}` },
             undefined,
-            true
+            true,
           );
           setTimeout(() => {
             setErrorsFunc({});
           }, 5000);
         },
-      }
+      },
     );
   };
 
   const handleCheckFieldValidity: (field: FormField) => boolean = (
-    field: FormField
+    field: FormField,
   ) => {
     // If the form field's conditions are hiding the field, ski[]
     if (!handleCheckConditions(field.conditions)) {
@@ -207,7 +207,7 @@ export const QuestionnaireProvider = ({
     // check internal fields if those exist
     if ((field.internal_fields?.length ?? 0) > 0) {
       const validity = field.internal_fields?.map((internal) =>
-        handleCheckFieldValidity(internal)
+        handleCheckFieldValidity(internal),
       );
       return !!validity?.every(Boolean);
     } else {
@@ -332,7 +332,7 @@ export const useQuestionnaire = () => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
     throw new Error(
-      "useQuestionnaire must be used within a QuestionnaireProvider"
+      "useQuestionnaire must be used within a QuestionnaireProvider",
     );
   }
   return context;

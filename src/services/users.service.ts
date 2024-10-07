@@ -1,5 +1,10 @@
 import { User } from "@/types/users.types";
-import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { fetchWithAuth } from "./authorized-request.service";
 import { useRouter, useSearchParams } from "next/navigation";
 import { routePaths } from "@/types/routes.enum";
@@ -37,7 +42,10 @@ type LoginRequest = {
   password: string;
 };
 
-export const loginUser = async ({ email, password }: LoginRequest): Promise<any> => {
+export const loginUser = async ({
+  email,
+  password,
+}: LoginRequest): Promise<any> => {
   const url = `/api/login/`;
 
   const response = await fetchWithAuth(url, {
@@ -60,7 +68,12 @@ export const loginUser = async ({ email, password }: LoginRequest): Promise<any>
   return data;
 };
 
-export const useLoginUser = (): UseMutationResult<any, Error, LoginRequest, unknown> => {
+export const useLoginUser = (): UseMutationResult<
+  any,
+  Error,
+  LoginRequest,
+  unknown
+> => {
   const router = useRouter();
   const searchParams = useSearchParams();
   return useMutation({
@@ -93,7 +106,12 @@ export const logoutUser = async () => {
   return;
 };
 
-export const useLogoutUser = (): UseMutationResult<void, Error, void, unknown> => {
+export const useLogoutUser = (): UseMutationResult<
+  void,
+  Error,
+  void,
+  unknown
+> => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
@@ -140,7 +158,12 @@ export const signUp = async (requestBody: SignUpRequest): Promise<void> => {
   return;
 };
 
-export const useSignUp = (): UseMutationResult<void, Error, SignUpRequest, unknown> => {
+export const useSignUp = (): UseMutationResult<
+  void,
+  Error,
+  SignUpRequest,
+  unknown
+> => {
   return useMutation({
     mutationFn: signUp,
   });
@@ -149,9 +172,12 @@ export const useSignUp = (): UseMutationResult<void, Error, SignUpRequest, unkno
 interface VerifyEmailRequest {
   token: string;
   uid: string;
-};
+}
 
-export const verifyEmail = async ({ token, uid }: VerifyEmailRequest): Promise<void> => {
+export const verifyEmail = async ({
+  token,
+  uid,
+}: VerifyEmailRequest): Promise<void> => {
   const url = `/api/verify-email/`;
 
   const response = await fetchWithAuth(url, {
@@ -246,7 +272,12 @@ export const passwordResetConfirm = async ({
   return;
 };
 
-export const usePasswordResetConfirm = (): UseMutationResult<void, Error, PasswordResetConfirmRequest, unknown> => {
+export const usePasswordResetConfirm = (): UseMutationResult<
+  void,
+  Error,
+  PasswordResetConfirmRequest,
+  unknown
+> => {
   return useMutation({
     mutationFn: passwordResetConfirm,
   });
@@ -259,14 +290,15 @@ type UpdateUserRequest = {
 
 // Hook to use for updating the user
 export const useUpdateUser = () => {
-
   return useMutation({
     mutationFn: updateUser,
-
   });
 };
 
-export const updateUser = async ({ attributes, id }: UpdateUserRequest): Promise<User> => {
+export const updateUser = async ({
+  attributes,
+  id,
+}: UpdateUserRequest): Promise<User> => {
   const url = `/api/users/${id}/`;
 
   const response = await fetchWithAuth(url, {
@@ -326,7 +358,7 @@ type UpdatePhotoRequest = {
 };
 export const useChangePassword = () => {
   return useMutation({
-    mutationFn: changePassword
+    mutationFn: changePassword,
   });
 };
 export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
@@ -345,15 +377,13 @@ export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const data = {
-
-  }
+  const data = {};
   return data;
 };
 
 export const useChangeUserAvatar = () => {
   return useMutation({
-    mutationFn: updatePhoto
+    mutationFn: updatePhoto,
   });
 };
 
@@ -383,6 +413,6 @@ export const clearUserImage = async ({ userId }: ClearUserImageRequest) => {
 
 export const useRemoveUserAvatar = () => {
   return useMutation({
-    mutationFn: clearUserImage
+    mutationFn: clearUserImage,
   });
 };

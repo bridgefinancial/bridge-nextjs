@@ -1,25 +1,12 @@
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
+import { FetchOptions, getCookie } from "./authorized-request.service";
+
 const BASE_URL =
   process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? "http://localhost:8000";
-
-// Utility function to get a specific cookie by name
-export const getCookie = (cookieString: string, name: string): string | null => {
-  let cookieValue: string | null = null;
-  if (cookieString && cookieString !== "") {
-    const cookies = cookieString.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.startsWith(`${name}=`)) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-};
-
-export interface FetchOptions extends RequestInit {
-  headers?: HeadersInit;
-}
 
 export const customFetchWithAuth = async (
   url: string,
@@ -54,8 +41,8 @@ export const customFetchWithAuth = async (
   return response;
 };
 
-// Example usage for fetching company files
-export const getCompanyFiles = async () => {
+// Fetch company files
+export const getCompanyFiles = async (): Promise<any> => {
   const url = `/api/company-files/`;
 
   const response = await customFetchWithAuth(url, {
@@ -70,8 +57,12 @@ export const getCompanyFiles = async () => {
   return data;
 };
 
-// Example usage for deleting a company file
-export const deleteCompanyFile = async ({ fileId }: { fileId: number }) => {
+// Delete a company file
+export const deleteCompanyFile = async ({
+  fileId,
+}: {
+  fileId: number;
+}): Promise<any> => {
   const url = `/api/company-files/${fileId}`;
 
   const response = await customFetchWithAuth(url, {
@@ -86,15 +77,14 @@ export const deleteCompanyFile = async ({ fileId }: { fileId: number }) => {
   return data;
 };
 
-// Interface for uploading documents (files)
+// Upload documents using FormData
 interface UploadDocumentResponse {
   files: File[];
 }
 
-// Example usage for uploading files
 export const handleUploadDocuments = async ({
   files,
-}: UploadDocumentResponse) => {
+}: UploadDocumentResponse): Promise<{ responses: any[]; errors: any[] }> => {
   const url = `/api/company-files/`;
 
   const responses = [];
@@ -108,7 +98,7 @@ export const handleUploadDocuments = async ({
     try {
       const response = await customFetchWithAuth(url, {
         method: "POST",
-        body: formData, // FormData for file upload
+        body: formData,
       });
 
       if (!response.ok) {
@@ -126,4 +116,36 @@ export const handleUploadDocuments = async ({
   }
 
   return { responses, errors };
+};
+
+// Fetch company files with cacheable query
+export const useGetCompaniesFilesQuery = (queryKey: string = "") => {
+  return useQuery({
+    queryFn: getCompanyFiles,
+    queryKey: [`useCompanyFilesQuery${queryKey ? queryKey : "KeyForQuery"}`],
+  });
+};
+
+// Use mutation to delete a file
+export const useDeleteFileMutation = (): UseMutationResult<
+  any,
+  Error,
+  { fileId: number },
+  unknown
+> => {
+  return useMutation({
+    mutationFn: deleteCompanyFile,
+  });
+};
+
+// Use mutation to upload files
+export const useUploadDocumentsMutation = (): UseMutationResult<
+  { responses: any[]; errors: unknown[] },
+  Error,
+  UploadDocumentResponse,
+  unknown
+> => {
+  return useMutation({
+    mutationFn: handleUploadDocuments,
+  });
 };

@@ -1,1 +1,1 @@
-export {default} from './withNotFoundCheck.hoc'
+export { default } from "./withNotFoundCheck.hoc";

@@ -28,11 +28,11 @@
   ],
   "rules": {
     "no-empty-pattern": "warn",
-    "react/no-unescaped-entities": "warn", 
-    "react/prop-types": "warn", 
+    "react/no-unescaped-entities": "warn",
+    "react/prop-types": "warn",
     "react/display-name": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
-    "react/react-in-jsx-scope": "warn",
+    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-var-requires": "warn",
     "prettier/prettier": ["warn", { "endOfLine": "auto" }],
     "react/jsx-pascal-case": ["warn", { "allowAllCaps": true }],
@@ -42,12 +42,10 @@
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
-    "no-prototype-builtins": "warn", 
-    "@typescript-eslint/no-empty-object-type": "off",
-
-    "no-unused-vars": "warn",
+    "no-prototype-builtins": "warn",
+    "prefer-const": "warn",
     "no-console": "warn",
-    "prefer-const": "warn"
+    "no-unused-vars": "warn"
   },
   "overrides": [
     {

@@ -1,20 +1,10 @@
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import TitleText from "@/components/atoms/typography/TitleText";
+import { BaseButtonProps } from "@/types/base-button-props.interface";
 import React from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Box,
-} from "@mui/material";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { BaseTypographyProps } from "@/types/base-typography-props.interface";
 import BaseDialog, {
   BaseDialogProps,
 } from "../BaseDialog/BaseDialog.component";
-import { BaseButtonProps } from "@/types/base-button-props.interface";
-import TitleText from "@/components/atoms/typography/TitleText";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 
 export interface ConfirmationDialog {
   open: BaseDialogProps["open"];

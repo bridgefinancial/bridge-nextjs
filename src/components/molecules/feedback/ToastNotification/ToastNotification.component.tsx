@@ -95,10 +95,8 @@ const ToastNotification: React.FC<ToastNotificationProps> = (
             {onActionProps && (
               <ContainedButton
                 onClick={onActionProps.onClick}
-          
                 text={onActionProps.text}
-                
-            />
+              />
             )}
             <IconButton
               aria-label="close"

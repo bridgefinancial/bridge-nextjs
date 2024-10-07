@@ -6,11 +6,11 @@ import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import TitleText from "@/components/atoms/typography/TitleText";
 import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 import { colors } from "@/theme/theme";
-import { PersonalInfoFormReturn } from '../../../../hooks/usePersonalInfoForm.hook';
+import { PersonalInfoFormReturn } from "../../../../hooks/usePersonalInfoForm.hook";
 
 /**
  * A form component for managing personal information like name, email, and phone number.
- * 
+ *
  * @param formValues - An object containing the current values for the form fields.
  * @param formErrors - An object containing validation errors for each form field.
  * @param isPending - A boolean indicating whether the form submission is pending.
@@ -20,9 +20,9 @@ import { PersonalInfoFormReturn } from '../../../../hooks/usePersonalInfoForm.ho
  * @param onTextInputChange - A function to handle changes to input fields.
  * @param onSubmit - A function to handle the form submission event.
  * @param onToastClose - A function to close the toast notification.
- * 
+ *
  * @returns A JSX element that renders a personal info form.
- * 
+ *
  * @example
  * <PersonalInfoForm
  *   formValues={{ firstName: '', lastName: '', email: '', phoneNumber: '' }}
@@ -36,9 +36,7 @@ import { PersonalInfoFormReturn } from '../../../../hooks/usePersonalInfoForm.ho
  *   onToastClose={handleClose}
  * />
  */
-interface PersonalInfoFormProps extends PersonalInfoFormReturn {
-
-}
+interface PersonalInfoFormProps extends PersonalInfoFormReturn {}
 
 const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   formState,
@@ -50,11 +48,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   setToastOpen,
   handleSubmit,
 }) => {
-
-  const {
-    formValues, 
-    formErrors
-  } = formState
+  const { formValues, formErrors } = formState;
   return (
     <Box
       component="form"
@@ -89,7 +83,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         label="First name"
         type="text"
         shrinkLabel={true}
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="firstName"
         placeholder="Enter first name"
@@ -104,7 +98,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       <TextInputGroup
         label="Last name"
         type="text"
-        fullWidth
+        fullWidth={true}
         shrinkLabel={true}
         margin="normal"
         name="lastName"
@@ -121,7 +115,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         label="Email"
         type="email"
         shrinkLabel={true}
-        fullWidth
+        fullWidth={true}
         margin="normal"
         name="email"
         placeholder="Enter email"
@@ -136,7 +130,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       <TextInputGroup
         label="Phone number"
         type="text"
-        fullWidth
+        fullWidth={true}
         shrinkLabel={true}
         margin="normal"
         name="phoneNumber"
@@ -159,7 +153,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
             },
           }}
           disabled={isPending}
-          fullWidth
+          fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
           text={<strong>Save Chang{isPending ? "ing" : "e"}</strong>}
           type="submit"
@@ -175,8 +169,8 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
           isSuccess
             ? "Profile Updated Successfully"
             : isError
-            ? "Failed to update profile."
-            : "Updating..."
+              ? "Failed to update profile."
+              : "Updating..."
         }
       />
     </Box>

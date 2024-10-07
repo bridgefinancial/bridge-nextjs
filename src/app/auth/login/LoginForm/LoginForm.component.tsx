@@ -117,7 +117,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               router.push(routePaths.DASHBOARD);
             }
           },
-        }
+        },
       );
     }
   };

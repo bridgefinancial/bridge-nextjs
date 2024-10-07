@@ -48,7 +48,7 @@ const ImageBackground: React.FC<ImageBackgroundProps> = ({
       <Image
         src={src}
         alt={alt}
-        fill
+        fill={true}
         objectFit={objectFit}
         quality={100}
         style={mergedImageStyles}

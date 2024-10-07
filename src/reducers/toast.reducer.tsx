@@ -17,7 +17,7 @@ export const initialToastState: ToastState = {
 
 export const toastReducer = (
   state: ToastState,
-  action: ToastAction
+  action: ToastAction,
 ): ToastState => {
   switch (action.type) {
     case "SHOW_SUCCESS":

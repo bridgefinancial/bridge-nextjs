@@ -3,9 +3,9 @@ import { FilledTextFieldProps, TextField } from "@mui/material";
 import React from "react";
 
 interface TextInputProps extends Partial<FilledTextFieldProps> {
-  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;  // Ensure correct typing here
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>; // Ensure correct typing here
 
-  shrinkLabel?: boolean;  // Adding shrinkLabel prop to control the label's shrink behavior
+  shrinkLabel?: boolean; // Adding shrinkLabel prop to control the label's shrink behavior
 }
 
 export default function TextInputGroup(props: TextInputProps) {
@@ -18,7 +18,7 @@ export default function TextInputGroup(props: TextInputProps) {
     error,
     fullWidth,
     helperText,
-    shrinkLabel,  // Access the shrinkLabel prop
+    shrinkLabel, // Access the shrinkLabel prop
     ...otherProps
   } = props;
 
@@ -53,7 +53,7 @@ export default function TextInputGroup(props: TextInputProps) {
       error={error}
       helperText={helperText}
       InputLabelProps={{
-        shrink: shrinkLabel,  // Use the shrinkLabel prop to control label shrinking
+        shrink: shrinkLabel, // Use the shrinkLabel prop to control label shrinking
       }}
       {...otherProps}
     />

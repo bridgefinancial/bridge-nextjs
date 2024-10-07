@@ -50,7 +50,7 @@ const FormIntro = ({
 
       {/* Image container */}
       <div className="p-4 rounded-lg h-[250px] lg:h-[500px] lg:max-w-[500px] w-full">
-        <Image 
+        <Image
           src={imageSrc}
           alt="Form intro picture"
           width={500}

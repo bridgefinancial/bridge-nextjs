@@ -5,6 +5,7 @@
     "testid"
   ],
   "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",
     "source.removeUnusedImports": "explicit",
     "source.addMissingImports.ts": "explicit",
@@ -13,7 +14,7 @@
   "eslint.options": {
     "extensions": [".js", ".jsx", ".ts", ".tsx"],
     "rules": {
-      "react/react-in-jsx-scope": "off" // Disable the rule requiring React in scope
+      "react/react-in-jsx-scope": "off"
     }
   },
   "workbench.colorCustomizations": {
@@ -23,9 +24,10 @@
     "editorGroupHeader.tabsBackground": "#353056",
     "sideBar.background": "#221e38"
   },
-  "prettier.singleQuote": false,
+  "prettier.singleQuote": true,
   "prettier.tabWidth": 2,
-  "prettier.semi": false,
-  "editor.formatOnSave": true,  // Enable format on save
-  "prettier.requireConfig": true // Ensures Prettier will only run if a Prettier config file is present
+  "prettier.semi": true,
+  "editor.formatOnSave": true,
+  "prettier.requireConfig": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -51,13 +51,13 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
         backgroundColor: backgroundColor,
       },
     }),
-    [backgroundColor, textColor]
+    [backgroundColor, textColor],
   );
 
   // Merge default styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
-    [sx, defaultStyles]
+    [sx, defaultStyles],
   );
 
   return (

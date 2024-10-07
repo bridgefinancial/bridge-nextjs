@@ -74,7 +74,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     if (industryName && industries?.results?.length) {
       // Find the industry that matches the industryName (case insensitive)
       const existingIndustry = industries.results.find(
-        (industry) => industry.name.toLowerCase() === industryName.toLowerCase()
+        (industry) =>
+          industry.name.toLowerCase() === industryName.toLowerCase(),
       );
 
       // If the industry is found and it's different from the selected one, update the selectedIndustry

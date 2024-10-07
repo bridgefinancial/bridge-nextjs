@@ -1,24 +1,29 @@
+import { DocumentFileItem } from "@/app/portal/documents/DocumentList/DocumentList.component";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import TextButton from "@/components/atoms/buttons/TextButton/TextButton.component";
+import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import withLogging, {
   WithLoggingOptions,
 } from "@/hoc/withLogging/withLogging.hoc";
 import { colors } from "@/theme/theme";
+import { CheckCircle } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Box, Grid, List } from "@mui/material";
-import React, { FormEvent, SyntheticEvent, useMemo, useRef } from "react";
+import { File } from "buffer";
+import React, { ChangeEvent, FormEvent, useMemo, useRef } from "react"; // Use ChangeEvent instead of SyntheticEvent
 import { BaseTypographyProps } from "../../../../types/base-typography-props.interface";
 import ListItemWithStatus from "../../lists/ListItemWithStatus";
 import BaseDialog from "../BaseDialog";
 import { BaseDialogProps } from "../BaseDialog/BaseDialog.component";
 
-interface UploadDialogProps
+export interface UploadDialogProps
   extends Partial<BaseDialogProps>,
     WithLoggingOptions {
   open: boolean;
   filesToProcess: File[];
+  existingFiles?: DocumentFileItem[];
   onClose: () => void;
   submitting?: boolean;
   dropzoneText?: string;
@@ -26,13 +31,9 @@ interface UploadDialogProps
     titleText: string;
     titleStyles: BaseTypographyProps;
   };
-  onFileChange: (
-    event: SyntheticEvent<Element, Event>,
-    value: File[] | null,
-    callback?: () => void,
-  ) => void;
+  onFileChange: (event: ChangeEvent<HTMLInputElement>) => void; // Updated type here
   callback?: () => void;
-  handleSave: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  handleSave: (e: FormEvent<HTMLFormElement | any>) => Promise<void> | void;
   supportedFormats?: string[];
   completeText?: string;
   isSaving?: boolean;
@@ -48,9 +49,10 @@ const UploadDialog: React.FC<UploadDialogProps> = withLogging(
     onClose = () => {},
     dropzoneText = "Drag and drop your documents here",
     supportedFormats = ["pdf", "docx", "csv"],
-    completeText = "Complete",
+    completeText = "Upload Complete",
     cancelText = "Cancel",
     saveText = "Save",
+    existingFiles = [],
     handleSave,
     isSaving = false,
     handleRemoveFile,
@@ -72,51 +74,57 @@ const UploadDialog: React.FC<UploadDialogProps> = withLogging(
       .map((format) => `.${format}`)
       .join(",");
 
-    // this should be able to take multiple files at once
-    const handleFileDrop = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files) {
-        const files = Array.from(event.target.files); // Multiple files can be selected
-        const validFiles = files.filter((file) => {
-          const fileExtension = file.name.split(".").pop()?.toLowerCase();
-          return supportedFormats.includes(fileExtension || "");
-        });
-    
-        if (validFiles.length !== files.length) {
-          alert("Some files are not in the supported format.");
-        } else {
-          // Call onFileChange and pass the valid files
-          onFileChange(event, validFiles, () => {
-            
-          });
-        }
-      }
-    };
-    
-
     // Format file size for display
     const formatFileSize = (size: number) =>
       `${(size / 1024 / 1024).toFixed(2)} MB`;
 
-    // Check if there are no files uploaded
-    const noFilesAvailable = useMemo(
-      () => filesToProcess.length === 0,
-      [filesToProcess],
+    // Check if there are no files uploaded or all files are uploaded
+    const noFilesReadyToUpload = useMemo(() => {
+      return (
+        filesToProcess.length === 0 ||
+        filesToProcess.every((file) =>
+          existingFiles.some((item) => item.description === file.name),
+        )
+      );
+    }, [filesToProcess, existingFiles]);
+
+    const dialogActions = useMemo(
+      () =>
+        noFilesReadyToUpload ? null : (
+          <Grid container={true} spacing={2}>
+            <Grid item={true} xs={4}>
+              <TextButton
+                sx={{ width: "100%" }}
+                text={cancelText}
+                onClick={onClose}
+                disabled={isSaving}
+              />
+            </Grid>
+            <Grid item={true} xs={4} />
+            <Grid item={true} xs={4}>
+              <ContainedButton
+                backgroundColor={colors.bridgeDarkPurple}
+                sx={{ width: "100%", opacity: isSaving ? 0.5 : 1 }}
+                text={saveText}
+                onClick={(e) => handleSave(e)}
+                type="submit"
+                disabled={isSaving}
+              />
+            </Grid>
+          </Grid>
+        ),
+      [
+        isSaving,
+        saveText,
+        handleSave,
+        cancelText,
+        onClose,
+        noFilesReadyToUpload,
+      ],
     );
 
-    // Handle save operation
-    const submitDocs = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!noFilesAvailable) {
-        try {
-          await handleSave(e); // Call the passed handleSave function
-        } catch (error) {
-          console.error("Error while saving files:", error);
-        }
-      }
-    };
-
     return (
-      <form id={`upload-${ariaDescribedBy}`} onSubmit={submitDocs}>
+      <form id={`upload-${ariaDescribedBy}`}>
         <BaseDialog
           maxWidth={600}
           fullWidth={true}
@@ -124,30 +132,7 @@ const UploadDialog: React.FC<UploadDialogProps> = withLogging(
           titleProps={titleProps}
           open={open}
           onClose={onClose}
-          actions={
-            noFilesAvailable ? null : (
-              <Grid container={true} spacing={2}>
-                <Grid item={true} xs={4}>
-                  <TextButton
-                    sx={{ width: "100%" }}
-                    text={cancelText}
-                    onClick={onClose}
-                    disabled={isSaving}
-                  />
-                </Grid>
-                <Grid item={true} xs={4} />
-                <Grid item={true} xs={4}>
-                  <ContainedButton
-                    backgroundColor={colors.bridgeDarkPurple}
-                    sx={{ width: "100%" }}
-                    text={saveText}
-                    type="submit"
-                    disabled={isSaving}
-                  />
-                </Grid>
-              </Grid>
-            )
-          }
+          actions={dialogActions}
         >
           <Box className="space-y-2">
             {/* Hidden File Input */}
@@ -157,7 +142,7 @@ const UploadDialog: React.FC<UploadDialogProps> = withLogging(
               accept={acceptFormats}
               style={{ display: "none" }}
               ref={fileInputRef}
-              onChange={handleFileDrop}
+              onChange={onFileChange}
             />
 
             {/* Clickable Upload Box */}
@@ -189,19 +174,57 @@ const UploadDialog: React.FC<UploadDialogProps> = withLogging(
             </ParagraphText>
 
             {/* List of Uploaded Files */}
-            {!noFilesAvailable && (
+            {filesToProcess.length > 0 && (
               <Box className="space-y-10">
                 <List>
-                  {filesToProcess.map((file, index) => (
-                    <ListItemWithStatus
-                      key={index}
-                      title={file.name}
-                      status={completeText}
-                      actionIcon={<CloseIcon />}
-                      onAction={() => handleRemoveFile(index)}
-                      subtitle={formatFileSize(file.size)}
-                    />
-                  ))}
+                  {filesToProcess.map((file, index) => {
+                    const fileHasBeenUploaded = existingFiles.find(
+                      (item) => item.description === file.name,
+                    );
+                    const uploadText = "Uploading...";
+                    const readyToUpload = "Ready to upload";
+                    const status = fileHasBeenUploaded
+                      ? completeText
+                      : isSaving
+                        ? uploadText
+                        : readyToUpload;
+
+                    return (
+                      <ListItemWithStatus
+                        key={index}
+                        title={file.name}
+                        status={status}
+                        onAction={
+                          status === completeText
+                            ? () => {}
+                            : status === uploadText
+                              ? () => {}
+                              : () => handleRemoveFile(index)
+                        }
+                        statusColor={
+                          status === completeText
+                            ? colors.bridgeDarkGreen
+                            : status === uploadText
+                              ? colors.bridgeDarkPurple
+                              : colors.bridgeDarkBlue
+                        }
+                        actionIcon={
+                          status === completeText ? (
+                            <CheckCircle />
+                          ) : status === uploadText ? (
+                            <LoadingSpinner
+                              spinnerProps={{
+                                size: 15,
+                              }}
+                            />
+                          ) : (
+                            <CloseIcon />
+                          )
+                        }
+                        subtitle={formatFileSize(file.size)}
+                      />
+                    );
+                  })}
                 </List>
               </Box>
             )}
@@ -211,7 +234,9 @@ const UploadDialog: React.FC<UploadDialogProps> = withLogging(
     );
   },
 );
+
 UploadDialog.defaultProps = {
   shouldLog: true,
 };
+
 export default UploadDialog;

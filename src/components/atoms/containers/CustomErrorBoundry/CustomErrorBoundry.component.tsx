@@ -19,7 +19,7 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
 
   const handleErrorLogging = (
     error: Error,
-    errorInfo?: { componentStack?: string | null }
+    errorInfo?: { componentStack?: string | null },
   ) => {
     console.error("Error:", error);
     if (errorInfo && errorInfo.componentStack) {
@@ -132,8 +132,7 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
             </div>
             {componentStack && (
               <>
-                            <br />
-
+                <br />
 
                 <p
                   style={{
@@ -162,7 +161,7 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
                 </div>
               </>
             )}
-<br />
+            <br />
             <button
               onClick={resetErrorBoundary}
               style={{ ...buttonStyle, backgroundColor: "#28a745" }}
@@ -173,7 +172,7 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `Error Message: ${error.message}\nError Stack: ${error.stack}\nComponent Stack: ${componentStack}`
+                  `Error Message: ${error.message}\nError Stack: ${error.stack}\nComponent Stack: ${componentStack}`,
                 );
                 alert("Error details copied to clipboard");
               }}
@@ -194,7 +193,7 @@ Component Stack: ${componentStack || "No component stack available"}
 
 Please assist in resolving this issue.
 
-Thank you!`
+Thank you!`,
                 );
                 const mailtoLink = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
                 window.location.href = mailtoLink;

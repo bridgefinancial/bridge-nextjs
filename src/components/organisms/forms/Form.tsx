@@ -83,42 +83,31 @@ const Form = forwardRef(
             </>
           )}
         </div>
-        <Box
-          sx={{
-            position: "fixed",
-            bottom: 0,
-            width: "100%",
-            backgroundColor: "white",
-            zIndex: 1000, // Ensure the footer stays above other content
-          }}
-        >
-          <div className="w-full absolute bottom-0">
-            {/* Progress Indicators */}
-            <div
-              style={{ backgroundColor: "white" }}
-              className="w-full flex items-center justify-center gap-2 mb-0"
-            >
-              {form?.definition.pages.map((_: any, index: number) => (
+
+        <div className="w-full absolute bottom-0 z-20 border-t border-solid border-bridge-gray-border">
+          {/* Progress */}
+          {/* <div className="w-full flex items-center justify-center gap-2">
+            {form.definition.pages.map((_, index) => {
+              return (
                 <div
                   key={`page-indicator-${index}`}
                   className={clsx("basis-0 shrink grow rounded-full h-2", {
                     "bg-bridge-dark-purple": index < pageIndex,
                     "bg-gray-300": index >= pageIndex,
                   })}
-                />
-              ))}
-            </div>
+                ></div>
+              );
+            })}
+          </div> */}
+          <div className="w-full flex items-center justify-between bg-white py-6 px-16">
+            {/* Previous */}
+            <FormAction {...previousButtonConfig} />
 
-            <Box>
-              <div className="w-full flex items-center justify-between bg-white py-6 px-16">
-                {/* Previous Button */}
-                <FormAction {...previousButtonConfig} />
-                {/* Next Button */}
-                <FormAction {...nextButtonConfig} />
-                {/* Submit Button */}
-                <FormAction {...submitButtonConfig} />
-              </div>
-            </Box>
+            {/* Next Page */}
+            <FormAction {...nextButtonConfig} />
+
+            {/* Submit */}
+            <FormAction {...submitButtonConfig} />
           </div>
         </Box>
       </form>

@@ -49,6 +49,14 @@ export class FieldInformationService {
     return FieldInformationService.likertFieldTypes.includes(field);
   }
 
+  static isAddress(field: FieldType | string) {
+    return FieldInformationService.addressFieldTypes.includes(field);
+  }
+
+  static isSlider(field: FieldType | string) {
+    return FieldInformationService.sliderFieldTypes.includes(field);
+  }
+
   static isValidUserInput(field: FieldType, input: string) {
     if (FieldInformationService.isNumber(field)) {
       // Regular expression to match numbers with optional commas and decimals
@@ -58,6 +66,9 @@ export class FieldInformationService {
       }
 
       // Test the input against the regex
+      return regex.test(input);
+    } else if (FieldInformationService.isSlider(field)) {
+      const regex = /^[\d]*$/;
       return regex.test(input);
     } else {
       return true;
@@ -91,7 +102,7 @@ export class FieldInformationService {
   }
 
   static getEndInputAdornment(field: FieldType) {
-    if (field === FieldType.Percent) {
+    if (field === FieldType.Percent || field === FieldType.SliderPercent) {
       return "%";
     }
     return "";
@@ -116,9 +127,9 @@ export class FieldInformationService {
     }
     // dropdown
     if (FieldInformationService.isDropdown(field.type)) {
-      const defaultOptions = FieldInformationService.dropdowns.find(
-        (listing) => listing.name === field.type,
-      )?.data;
+      const defaultOptions = FieldInformationService.getDropdownEnum(
+        field.type
+      );
       if (!field.enum) {
         return defaultOptions ? defaultOptions : undefined;
       } else {
@@ -130,7 +141,7 @@ export class FieldInformationService {
 
   static getDefaultInternalFields(field: FormField): FormField[] | undefined {
     const defaultFields = FieldInformationService.complexData.find(
-      (listing) => listing.name === field.type,
+      (listing) => listing.name === field.type
     )?.data;
     if (!field.internal_fields) {
       return defaultFields ? defaultFields : undefined;
@@ -141,6 +152,7 @@ export class FieldInformationService {
 
   static shortTextFieldTypes: string[] = [
     FieldType.Text,
+    FieldType.TextFullWidth,
     FieldType.Email,
     FieldType.PhoneNumber,
     FieldType.IP,
@@ -174,78 +186,85 @@ export class FieldInformationService {
     FieldType.Radio,
     FieldType.YesNo,
     FieldType.TrueFalse,
+    FieldType.Radio9Grid,
   ];
-  static checkboxTypes: string[] = [FieldType.Checkbox];
-  static complexFieldTypes: string[] = [
-    FieldType.Complex,
-    FieldType.Address,
-    FieldType.DateRange,
+  static checkboxTypes: string[] = [
+    FieldType.Checkbox,
+    FieldType.Checkbox9Grid,
   ];
+  static complexFieldTypes: string[] = [FieldType.Complex, FieldType.DateRange];
   static likertFieldTypes: string[] = [FieldType.Likert];
   static longFieldTypes: string[] = [FieldType.LongText];
+  static addressFieldTypes: string[] = [FieldType.Address];
+  static sliderFieldTypes: string[] = [
+    FieldType.Slider,
+    FieldType.SliderPercent,
+  ];
 
-  static dropdowns: { name: string; data: { value: any; label: string }[] }[] =
-    [
-      {
-        name: "usa_states_dropdown",
-        data: [
-          { value: "AK", label: "AK" },
-          { value: "AL", label: "AL" },
-          { value: "AR", label: "AR" },
-          { value: "AZ", label: "AZ" },
-          { value: "CA", label: "CA" },
-          { value: "CO", label: "CO" },
-          { value: "CT", label: "CT" },
-          { value: "DE", label: "DE" },
-          { value: "FL", label: "FL" },
-          { value: "GA", label: "GA" },
-          { value: "HI", label: "HI" },
-          { value: "IA", label: "IA" },
-          { value: "ID", label: "ID" },
-          { value: "IL", label: "IL" },
-          { value: "IN", label: "IN" },
-          { value: "KS", label: "KS" },
-          { value: "KY", label: "KY" },
-          { value: "LA", label: "LA" },
-          { value: "MA", label: "MA" },
-          { value: "MD", label: "MD" },
-          { value: "ME", label: "ME" },
-          { value: "MI", label: "MI" },
-          { value: "MN", label: "MN" },
-          { value: "MO", label: "MO" },
-          { value: "MS", label: "MS" },
-          { value: "MT", label: "MT" },
-          { value: "NC", label: "NC" },
-          { value: "ND", label: "ND" },
-          { value: "NE", label: "NE" },
-          { value: "NH", label: "NH" },
-          { value: "NJ", label: "NJ" },
-          { value: "NM", label: "NM" },
-          { value: "NV", label: "NV" },
-          { value: "NY", label: "NY" },
-          { value: "OH", label: "OH" },
-          { value: "OK", label: "OK" },
-          { value: "OR", label: "OR" },
-          { value: "PA", label: "PA" },
-          { value: "RI", label: "RI" },
-          { value: "SC", label: "SC" },
-          { value: "SD", label: "SD" },
-          { value: "TN", label: "TN" },
-          { value: "TX", label: "TX" },
-          { value: "UT", label: "UT" },
-          { value: "VA", label: "VA" },
-          { value: "VT", label: "VT" },
-          { value: "WA", label: "WA" },
-          { value: "WI", label: "WI" },
-          { value: "WV", label: "WV" },
-          { value: "WY", label: "WY" },
-        ],
-      },
-    ];
+  static dropdowns: Record<string, { value: any; label: string }[]> = {
+    usa_states_dropdown: [
+      { value: "AK", label: "AK" },
+      { value: "AL", label: "AL" },
+      { value: "AR", label: "AR" },
+      { value: "AZ", label: "AZ" },
+      { value: "CA", label: "CA" },
+      { value: "CO", label: "CO" },
+      { value: "CT", label: "CT" },
+      { value: "DE", label: "DE" },
+      { value: "FL", label: "FL" },
+      { value: "GA", label: "GA" },
+      { value: "HI", label: "HI" },
+      { value: "IA", label: "IA" },
+      { value: "ID", label: "ID" },
+      { value: "IL", label: "IL" },
+      { value: "IN", label: "IN" },
+      { value: "KS", label: "KS" },
+      { value: "KY", label: "KY" },
+      { value: "LA", label: "LA" },
+      { value: "MA", label: "MA" },
+      { value: "MD", label: "MD" },
+      { value: "ME", label: "ME" },
+      { value: "MI", label: "MI" },
+      { value: "MN", label: "MN" },
+      { value: "MO", label: "MO" },
+      { value: "MS", label: "MS" },
+      { value: "MT", label: "MT" },
+      { value: "NC", label: "NC" },
+      { value: "ND", label: "ND" },
+      { value: "NE", label: "NE" },
+      { value: "NH", label: "NH" },
+      { value: "NJ", label: "NJ" },
+      { value: "NM", label: "NM" },
+      { value: "NV", label: "NV" },
+      { value: "NY", label: "NY" },
+      { value: "OH", label: "OH" },
+      { value: "OK", label: "OK" },
+      { value: "OR", label: "OR" },
+      { value: "PA", label: "PA" },
+      { value: "RI", label: "RI" },
+      { value: "SC", label: "SC" },
+      { value: "SD", label: "SD" },
+      { value: "TN", label: "TN" },
+      { value: "TX", label: "TX" },
+      { value: "UT", label: "UT" },
+      { value: "VA", label: "VA" },
+      { value: "VT", label: "VT" },
+      { value: "WA", label: "WA" },
+      { value: "WI", label: "WI" },
+      { value: "WV", label: "WV" },
+      { value: "WY", label: "WY" },
+    ],
+  };
+
+  static getDropdownEnum: (
+    fieldType: FieldType
+  ) => { value: any; label: string }[] = (fieldType) => {
+    return FieldInformationService.dropdowns[fieldType];
+  };
 
   static radios: Record<
     string,
-    { name: string; data: { value: any; label: string }[] }
+    { name: string; data: { value: any; label: string; iconUrl?: string }[] }
   > = {
     [FieldType.TrueFalse]: {
       name: "true_false",

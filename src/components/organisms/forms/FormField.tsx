@@ -189,7 +189,7 @@ const FormField = forwardRef(
                         }
                         control={<Checkbox />}
                         label={option.label}
-                        name={option.value}
+                        name={option.value as string}
                         value={option.value}
                         className="cursor-pointer"
                       ></FormControlLabel>

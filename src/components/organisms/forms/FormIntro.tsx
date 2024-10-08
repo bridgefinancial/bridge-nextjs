@@ -3,7 +3,8 @@ import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { colors } from "@/theme/theme";
 import { FormIntro as FormidableFormIntro } from "@/types/forms.types";
 import { AccessTime, ArrowForward } from "@mui/icons-material";
-import React, { ReactNode } from "react";
+import Image from "next/image";
+import { ReactNode } from "react";
 
 type FormIntroProps = {
   onClick: () => void;

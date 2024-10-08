@@ -199,7 +199,7 @@ export const QuestionnaireProvider = ({
   const handleCheckFieldValidity: (field: FormField) => boolean = (
     field: FormField,
   ) => {
-    // If the form field's conditions are hiding the field, ski[]
+    // If the form field's conditions are hiding the field, skip validation check
     if (!handleCheckConditions(field.conditions)) {
       return true;
     }

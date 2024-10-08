@@ -26,6 +26,7 @@ export enum FieldType {
   PositiveInteger = "positive_integer",
   Radio = "radio",
   Radio9Grid = "radio_icon",
+  RadioLikert = "radio_likert",
   SearchableDropdown = "searchable_dropdown",
   Slider = "slider",
   SliderPercent = "slider_percent",

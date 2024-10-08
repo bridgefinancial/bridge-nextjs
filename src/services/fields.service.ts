@@ -198,6 +198,7 @@ export class FieldInformationService {
     FieldType.YesNo,
     FieldType.TrueFalse,
     FieldType.Radio9Grid,
+    FieldType.RadioLikert,
   ];
   static checkboxTypes: string[] = [
     FieldType.Checkbox,

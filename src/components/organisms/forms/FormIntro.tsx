@@ -22,6 +22,7 @@ const FormIntro = ({
 }: FormIntroProps) => {
   return (
     <div className="w-full p-8 bg-white h-full grow flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center">
+      {/* Text content */}
       <div className="flex flex-col gap-8 max-w-[500px] p-4">
         {!!stepper && stepper}
         <div className="flex flex-col gap-1">
@@ -45,14 +46,23 @@ const FormIntro = ({
             text={buttonText ?? "Get Started"}
             onClick={onClick}
             endIcon={<ArrowForward />}
-          ></ContainedButton>
+          />
         </div>
       </div>
-      <div className="p-4 rounded-lg object-cover h-[250px] lg:h-[500px] lg:max-w-[500px]">
-        <img
-          alt="Form intro picture"
+
+      {/* Image container */}
+      <div className="p-4 rounded-lg h-[250px] lg:h-[500px] lg:max-w-[500px] w-full">
+        <Image
           src={imageSrc}
-          className="w-full h-full"
+          alt="Form intro picture"
+          width={500}
+          height={500}
+          style={{
+            objectFit: "cover", // Adjust the fit of the image
+            borderRadius: "8px", // Rounded corners for the image
+            height: "100%", // Ensure the image takes the full height
+            width: "100%", // Ensure the image takes the full width
+          }}
         />
       </div>
     </div>

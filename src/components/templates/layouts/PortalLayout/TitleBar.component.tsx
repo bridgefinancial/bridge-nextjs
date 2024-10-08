@@ -14,6 +14,12 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user }) => {
   const { mutateAsync: logout } = useLogoutUser();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const handleLogout = () => {
+    if (logout && typeof logout === "function") {
+      console.log("logging out");
+      logout();
+    }
+  };
   return (
     <AppBar
       elevation={0}
@@ -63,10 +69,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, user }) => {
                 {
                   startIcon: <LogoutRounded />,
                   text: "Log Out",
-                  onClick: () => {
-                    console.log("logging out");
-                    logout();
-                  },
+                  onClick: () => handleLogout(),
                 },
               ]}
             />

@@ -72,5 +72,5 @@ export const RECOMMENDATION_QUESTIONNAIRES =
   RECOMMENDATION_QUESTIONNAIRE_SLUGS.map((slug) => QUESTIONNAIRE_BY_SLUG[slug]);
 
 export const RECOMMENDATION_FORM_IDS = RECOMMENDATION_QUESTIONNAIRES.map(
-  (q) => q.forms[0].id
+  (q) => q.forms[0].id,
 );

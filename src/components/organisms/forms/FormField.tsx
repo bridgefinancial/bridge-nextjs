@@ -29,7 +29,7 @@ type FormFieldProps = {
 const FormField = forwardRef(
   (
     { formField, error }: FormFieldProps,
-    ref: React.ForwardedRef<HTMLInputElement>
+    ref: React.ForwardedRef<HTMLInputElement>,
   ) => {
     // STATE
     const [notSure, setNotSure] = useState<boolean>(false);
@@ -69,7 +69,7 @@ const FormField = forwardRef(
 
         {/* Field Types */}
         {formField.type === "display_only" && (
-          <ParagraphText>{formField.value}</ParagraphText>
+          <ParagraphText>{formField.value as any}</ParagraphText>
         )}
 
         {FieldInformationService.isDropdown(formField.type) && (
@@ -98,7 +98,10 @@ const FormField = forwardRef(
                   FieldInformationService.getDefaultSelections(formField) ??
                   []
                 ).map((option, index) => (
-                  <MenuItem key={index} value={option.value}>
+                  <MenuItem
+                    key={index as number}
+                    value={option.value as string}
+                  >
                     {option.label}
                   </MenuItem>
                 ))}
@@ -111,7 +114,7 @@ const FormField = forwardRef(
           <div className="fmd-input">
             <datalist id="suggestions" style={{ display: "none" }}>
               {formField.enum?.map((option, index) => (
-                <option key={index} value={option.value}>
+                <option key={index} value={option.value as string}>
                   {option.label}
                 </option>
               ))}
@@ -145,10 +148,10 @@ const FormField = forwardRef(
                   formValues[formField.name];
                 if (!currentValue) {
                   handleChange(formField.name, [option.value]);
-                } else if (currentValue.includes(option.value)) {
+                } else if (currentValue.includes(option.value as string)) {
                   handleChange(
                     formField.name,
-                    currentValue.filter((v) => v !== option.value)
+                    currentValue.filter((v) => v !== option.value),
                   );
                 } else {
                   handleChange(formField.name, [...currentValue, option.value]);
@@ -200,14 +203,14 @@ const FormField = forwardRef(
                     </>
                   )}
                   <input
-                    name={option.value}
-                    value={option.value}
+                    name={option.value as string}
+                    value={option.value as string}
                     type="checkbox"
                     checked={
                       !!formValues[formField.name]?.includes(option.value)
                     }
                     className="opacity-0 absolute pointer-events-none"
-                  ></input>
+                  />
                 </div>
               );
             })}
@@ -217,10 +220,10 @@ const FormField = forwardRef(
               required={formField.required}
               name={formField.name}
               value={formValues[formField.name]}
-              hidden
+              hidden={true}
               onChange={() => {}}
               className="opacity-0 absolute pointer-events-none"
-            ></input>
+            />
           </div>
         )}
 
@@ -316,7 +319,7 @@ const FormField = forwardRef(
           <input
             ref={ref}
             required={formField.required}
-            value={formField.value}
+            value={formField.value as string}
             className="fmd-hidden"
             type="hidden"
           />
@@ -404,7 +407,7 @@ const FormField = forwardRef(
             }}
             disabled={notSure}
             valueLabelDisplay="auto"
-          ></Slider>
+          />
         )}
 
         <div className="flex items-center gap-6">
@@ -440,14 +443,14 @@ const FormField = forwardRef(
                 startAdornment: (
                   <InputAdornment position="start">
                     {FieldInformationService.getStartInputAdornment(
-                      formField.type
+                      formField.type,
                     )}
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     {FieldInformationService.getEndInputAdornment(
-                      formField.type
+                      formField.type,
                     )}
                   </InputAdornment>
                 ),
@@ -468,12 +471,12 @@ const FormField = forwardRef(
                 if (
                   FieldInformationService.isValidUserInput(
                     formField.type,
-                    e.target.value
+                    e.target.value,
                   )
                 ) {
                   handleChange(
                     formField.name,
-                    FieldInformationService.formatNumberInput(e.target.value)
+                    FieldInformationService.formatNumberInput(e.target.value),
                   );
                 }
               }}
@@ -546,6 +549,7 @@ const FormField = forwardRef(
           {FieldInformationService.isLongText(formField.type) && (
             <TextField
               id={formField.name}
+              inputRef={ref}
               inputProps={{
                 min: formField.min,
                 minLength: formField.min_length,
@@ -562,8 +566,7 @@ const FormField = forwardRef(
                 handleChange(formField.name, e.target.value);
               }}
               disabled={notSure}
-              inputRef={ref}
-              fullWidth
+              fullWidth={true}
             />
           )}
 
@@ -578,14 +581,14 @@ const FormField = forwardRef(
                   startAdornment: (
                     <InputAdornment position="start">
                       {FieldInformationService.getStartInputAdornment(
-                        formField.type
+                        formField.type,
                       )}
                     </InputAdornment>
                   ),
                   endAdornment: (
                     <InputAdornment position="end">
                       {FieldInformationService.getEndInputAdornment(
-                        formField.type
+                        formField.type,
                       )}
                     </InputAdornment>
                   ),
@@ -604,12 +607,12 @@ const FormField = forwardRef(
                   if (
                     FieldInformationService.isValidUserInput(
                       formField.type,
-                      e.target.value
+                      e.target.value,
                     )
                   ) {
                     handleChange(
                       formField.name,
-                      e.target.value ? parseInt(e.target.value) : 0
+                      e.target.value ? parseInt(e.target.value) : 0,
                     );
                   }
                 }}
@@ -652,7 +655,7 @@ const FormField = forwardRef(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default FormField;

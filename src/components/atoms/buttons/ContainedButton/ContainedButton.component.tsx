@@ -1,10 +1,10 @@
-import React, { FC, useMemo } from "react";
+import { BaseButtonProps } from "@/types/base-button-props.interface";
 import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import merge from "lodash.merge"; // Import lodash's merge utility
-import ParagraphText from "../../typography/ParagraphText";
-import { BaseButtonProps } from "@/types/base-button-props.interface";
 import Link from "next/link";
+import React, { FC, useMemo } from "react";
+import ParagraphText from "../../typography/ParagraphText";
 
 interface ContainedButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
@@ -51,13 +51,13 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
         backgroundColor: backgroundColor,
       },
     }),
-    [backgroundColor, textColor]
+    [backgroundColor, textColor],
   );
 
   // Merge default styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
-    [sx, defaultStyles]
+    [sx, defaultStyles],
   );
 
   return (

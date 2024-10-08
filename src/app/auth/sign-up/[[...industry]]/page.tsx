@@ -18,10 +18,10 @@ const SignUpPage = ({ params }: { params: { industry: string[] } }) => {
       {
         onSuccess: () => {
           router.push(
-            `${QuestionnaireRoutes.VALUATION}?${searchParams.toString()}`
+            `${QuestionnaireRoutes.VALUATION}?${searchParams.toString()}`,
           );
         },
-      }
+      },
     );
   };
 

@@ -8,7 +8,9 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return <LandingLayout pathForHome="/valuation-estimate">{children}</LandingLayout>;
+  return (
+    <LandingLayout pathForHome="/valuation-estimate">{children}</LandingLayout>
+  );
 };
 
 export default Layout;

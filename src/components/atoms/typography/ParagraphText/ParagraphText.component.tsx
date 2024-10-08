@@ -1,8 +1,8 @@
-import React, { FC } from "react";
-import { Typography } from "@mui/material";
-import { Manrope } from "next/font/google";
 import useMergeStyles from "@/hooks/useMergeStyles.hook";
 import { BaseTypographyProps } from "@/types/base-typography-props.interface";
+import { Typography } from "@mui/material";
+import { Manrope } from "next/font/google";
+import { FC } from "react";
 
 // Load the Manrope font with all available weights
 const manrope = Manrope({
@@ -33,7 +33,7 @@ const ParagraphText: FC<BaseTypographyProps> = ({
     },
   };
 
-  const mergedStyles = useMergeStyles(defaultStyles, sx);
+  const mergedStyles = useMergeStyles(defaultStyles, sx as any);
 
   return (
     <Typography

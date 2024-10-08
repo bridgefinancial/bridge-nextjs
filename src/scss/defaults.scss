@@ -1,4 +1,4 @@
-@import './variables';
+@import "./variables";
 
 // This file contains CSS resets for default browser styles.
 // Changes here can affect the entire application, so be careful when making changes.
@@ -23,15 +23,15 @@ body {
 
 // Set cursor to pointer on buttons
 button,
-input[type='submit'],
-input[type='button'] {
+input[type="submit"],
+input[type="button"] {
   cursor: pointer;
 }
 
 // Set cursor to not-allowed on disabled buttons
 button:disabled,
-input[type='submit']:disabled,
-input[type='button']:disabled {
+input[type="submit"]:disabled,
+input[type="button"]:disabled {
   cursor: not-allowed;
 }
 

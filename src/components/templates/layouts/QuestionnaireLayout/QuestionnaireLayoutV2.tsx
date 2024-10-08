@@ -25,27 +25,27 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
             {/* CENTER MOBILE HEADER */}
             <div className="flex items-center justify-center">
               {/* <Link href={routePaths.DASHBOARD}> */}
-                <img
-                  className="max-w-[100px]"
-                  alt="Bridge Financial logo"
-                  src="/assets/images/Bridge-logo.png"
-                />
+              <img
+                className="max-w-[100px]"
+                alt="Bridge Financial logo"
+                src="/assets/images/Bridge-logo.png"
+              />
               {/* </Link> */}
             </div>
             {/* RIGHT MOBILE HEADER */}
-            <div></div>
+            <div />
           </div>
-          <div className="w-full h-[3px] linear-gradient-orange-purple-blue"></div>
+          <div className="w-full h-[3px] linear-gradient-orange-purple-blue" />
         </div>
 
         {/* DESKTOP NAV */}
         <div className="w-full grow-0 hidden md:flex flex-col box-border py-7 px-16 bg-white z-10">
           {/* <Link href={routePaths.DASHBOARD}> */}
-            <img
-              className="max-w-[120px]"
-              alt="Bridge logo"
-              src="/assets/images/Bridge-logo.png"
-            />
+          <img
+            className="max-w-[120px]"
+            alt="Bridge logo"
+            src="/assets/images/Bridge-logo.png"
+          />
           {/* </Link> */}
         </div>
 

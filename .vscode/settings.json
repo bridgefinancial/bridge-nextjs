@@ -1,6 +1,29 @@
 {
-    "cSpell.words": [
-        "formik",
-        "testid"
-    ]
+  "cSpell.words": ["formik", "tanstack", "testid"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.removeUnusedImports": "explicit",
+    "source.addMissingImports.ts": "explicit",
+    "source.sortImports": "explicit"
+  },
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "rules": {
+      "react/react-in-jsx-scope": "off"
+    }
+  },
+  "workbench.colorCustomizations": {
+    "panelTitle.activeBorder": "#6ba0f1",
+    "panelSection.dropBackground": "#121212",
+    "editorPane.background": "#214527",
+    "editorGroupHeader.tabsBackground": "#353056",
+    "sideBar.background": "#221e38"
+  },
+  "prettier.singleQuote": true,
+  "prettier.tabWidth": 2,
+  "prettier.semi": true,
+  "editor.formatOnSave": true,
+  "prettier.requireConfig": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

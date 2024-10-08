@@ -1,13 +1,19 @@
 import { FormSubmission } from "@/types/forms.types";
 import { fetchWithAuth } from "./authorized-request.service";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 
 type GetFormSubmissionVariables = {
   formId: number;
 };
 
 export const getFormSubmission: (
-  variables: GetFormSubmissionVariables,
+  variables: GetFormSubmissionVariables
 ) => Promise<FormSubmission> = async ({
   formId,
 }: GetFormSubmissionVariables) => {
@@ -22,14 +28,10 @@ export const getFormSubmission: (
   return responseBody;
 };
 
-export const useFormSubmission = (
-  variables: GetFormSubmissionVariables,
-  options?: {
-    onSuccess?: (submission: FormSubmission) => void;
-    onError?: () => void;
-  },
-) => {
-  return useQuery({
+const getFormSubmissionQueryVariables = (
+  variables: GetFormSubmissionVariables
+): UseQueryOptions<FormSubmission> => {
+  return {
     queryKey: ["form-submission", variables.formId],
     queryFn: () => getFormSubmission(variables),
     retry: (_, error) => {
@@ -38,7 +40,25 @@ export const useFormSubmission = (
       }
       return true;
     },
+  };
+};
+
+export const useFormSubmission = (
+  variables: GetFormSubmissionVariables,
+  options?: {
+    onSuccess?: (submission: FormSubmission) => void;
+    onError?: () => void;
+  }
+) => {
+  return useQuery({
+    ...getFormSubmissionQueryVariables(variables),
     ...options,
+  });
+};
+
+export const useFormSubmissions = (variables: GetFormSubmissionVariables[]) => {
+  return useQueries({
+    queries: variables.map((v) => getFormSubmissionQueryVariables(v)),
   });
 };
 
@@ -48,7 +68,7 @@ type SubmitFormVariables = {
 };
 
 export const submitForm: (
-  variables: SubmitFormVariables,
+  variables: SubmitFormVariables
 ) => Promise<void> = async ({ formId, formData }: SubmitFormVariables) => {
   const url = `/api/submit-form/${formId}/`;
   const response = await fetchWithAuth(url, {

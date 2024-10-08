@@ -1,13 +1,17 @@
 "use client";
 
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import React, { useRef, useState } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 import Form from "./Form";
 import { FormActionConfig } from "./FormAction";
 import { ArrowForward } from "@mui/icons-material";
 import FormIntro from "./FormIntro";
 
-const Questionnaire = () => {
+type QuestionnaireProps = {
+  stepper?: ReactNode;
+};
+
+const Questionnaire = ({ stepper }: QuestionnaireProps) => {
   // HOOKS
   const {
     formsCount,
@@ -86,6 +90,7 @@ const Questionnaire = () => {
         onClick={() => {
           setShowIntro(false);
         }}
+        stepper={stepper}
       />
     );
   }

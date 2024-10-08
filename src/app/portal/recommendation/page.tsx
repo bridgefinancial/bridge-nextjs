@@ -29,8 +29,9 @@ const RecommendationPage = () => {
         QuestionnaireSlugs.RECOMMENDATION_GENERAL_INFO;
       const firstUnsubmittedFormIndex = submissions.findIndex((s) => !s);
       if (firstUnsubmittedFormIndex !== -1) {
-        questionnaireSlug =
-          RECOMMENDATION_QUESTIONNAIRE_SLUGS[firstUnsubmittedFormIndex];
+        questionnaireSlug = RECOMMENDATION_QUESTIONNAIRE_SLUGS[
+          firstUnsubmittedFormIndex
+        ] as QuestionnaireSlugs;
       }
 
       router.push(`/q/${questionnaireSlug}`);

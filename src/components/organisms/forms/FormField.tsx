@@ -8,9 +8,11 @@ import { FormField as Field } from "@/types/forms.types";
 import {
   Checkbox,
   FormControl,
+  FormControlLabel,
   InputAdornment,
   InputLabel,
   MenuItem,
+  Radio,
   Select,
   Slider,
   TextField,
@@ -82,7 +84,7 @@ const FormField = forwardRef(
               <Select
                 labelId={`dropdown-label-${formField.name}`}
                 id={`select-${formField.name}`}
-                value={formValues[formField.name]}
+                value={formValues[formField.name] ?? ""}
                 label={formField.label || formField.placeholder}
                 onChange={(e) => {
                   handleChange(formField.name, e.target.value);
@@ -135,7 +137,10 @@ const FormField = forwardRef(
             })}
           >
             {formField.enum?.map((option, index) => {
-              const handleClick = () => {
+              const handleClick = (e: any) => {
+                if (e.target.tagName === "INPUT") {
+                  return;
+                }
                 const currentValue: string[] | undefined =
                   formValues[formField.name];
                 if (!currentValue) {
@@ -151,14 +156,16 @@ const FormField = forwardRef(
               };
               return (
                 <div
-                  key={index}
+                  key={`${index}-${formField.name}`}
                   className={clsx("fmd-checkbox box-border cursor-pointer", {
                     "flex flex-col items-start justify-start w-full":
                       formField.type === FieldType.Checkbox9Grid,
                     "flex items-center justify-center":
                       formField.type !== FieldType.Checkbox9Grid,
                   })}
-                  onClick={handleClick}
+                  onClick={(e) => {
+                    handleClick(e);
+                  }}
                 >
                   {option.iconUrl && (
                     <div className="px-6 py-3">
@@ -171,7 +178,20 @@ const FormField = forwardRef(
                       />
                     </div>
                   )}
-                  {!option.textbox && !option.hidden && (
+                  {formField.type !== FieldType.Checkbox9Grid ? (
+                    <div className="px-4">
+                      <FormControlLabel
+                        checked={
+                          !!formValues[formField.name]?.includes(option.value)
+                        }
+                        control={<Checkbox />}
+                        label={option.label}
+                        name={option.value}
+                        value={option.value}
+                        className="cursor-pointer"
+                      ></FormControlLabel>
+                    </div>
+                  ) : (
                     <>
                       <label className="fmd-checkbox-label cursor-pointer">
                         {option.label}
@@ -183,7 +203,9 @@ const FormField = forwardRef(
                     name={option.value}
                     value={option.value}
                     type="checkbox"
-                    checked={formValues[formField.name]?.includes(option.value)}
+                    checked={
+                      !!formValues[formField.name]?.includes(option.value)
+                    }
                     className="opacity-0 absolute pointer-events-none"
                   ></input>
                 </div>
@@ -205,8 +227,12 @@ const FormField = forwardRef(
         {FieldInformationService.isRadio(formField.type) && (
           <div
             className={clsx("fmd-radio-parent", {
-              "flex flex-wrap gap-2": formField.type !== FieldType.Radio9Grid,
+              "flex flex-wrap gap-2":
+                formField.type !== FieldType.Radio9Grid &&
+                formField.type !== FieldType.RadioLikert,
               "grid grid-cols-3 gap-4": formField.type === FieldType.Radio9Grid,
+              "flex gap-1 justify-center flex-nowrap":
+                formField.type === FieldType.RadioLikert,
             })}
           >
             {(
@@ -215,7 +241,8 @@ const FormField = forwardRef(
             )?.map((option, index) => (
               <div
                 key={index}
-                className={clsx("fmd-radio box-border cursor-pointer", {
+                className={clsx("box-border cursor-pointer", {
+                  "fmd-radio": formField.type !== FieldType.RadioLikert,
                   "flex flex-col gap-4 items-start justify-start":
                     formField.type === FieldType.Radio9Grid,
                   "flex items-center justify-center":
@@ -236,10 +263,23 @@ const FormField = forwardRef(
                     />
                   </div>
                 )}
-                <label className="fmd-radio-label cursor-pointer">
-                  {option.label}
-                  <span className="fmd-radio-circle" />
-                </label>
+                {formField.type === FieldType.RadioLikert ? (
+                  <FormControlLabel
+                    checked={formValues[formField.name] === option.value}
+                    control={<Radio readOnly />}
+                    label={option.label}
+                    name={option.value}
+                    value={option.value}
+                    className="cursor-pointer"
+                    classes={{ labelPlacementTop: "text-center" }}
+                    labelPlacement="top"
+                  ></FormControlLabel>
+                ) : (
+                  <label className="fmd-radio-label cursor-pointer">
+                    {option.label}
+                    <span className="fmd-radio-circle" />
+                  </label>
+                )}
                 <input
                   ref={ref}
                   required={formField.required}
@@ -262,6 +302,11 @@ const FormField = forwardRef(
                 key={index}
                 formField={field}
                 error={fieldErrorsByName[field.name]}
+                ref={(el: HTMLInputElement) => {
+                  if (fieldRefsByName) {
+                    fieldRefsByName.current[field.name] = el;
+                  }
+                }}
               />
             ))}
           </div>
@@ -292,46 +337,26 @@ const FormField = forwardRef(
       )} */}
 
         {FieldInformationService.isLikert(formField.type) && (
-          <table className="fmd-likert">
-            <thead className="fmd-likert-row">
-              <tr>
-                <td className="fmd-likert-empty" />
-                {formField.enum?.map((option, index) => (
-                  <td key={index} className="fmd-likert-label">
-                    {option.label}
-                  </td>
-                ))}
-              </tr>
-            </thead>
-            <tbody id={formField.name} className="fmd-likert-options">
-              {formField.internal_fields?.map((field, index) => (
-                <tr key={index}>
-                  <td className="fmd-likert-label">{field.label}</td>
-                  {formField.enum?.map((option, index) => (
-                    <td key={index} className="fmd-likert-option">
-                      <input
-                        ref={(el: HTMLInputElement) => {
-                          if (fieldRefsByName) {
-                            fieldRefsByName.current[field.name] = el;
-                          }
-                        }}
-                        required={formField.required}
-                        id={field.name}
-                        name={field.name}
-                        value={option.value}
-                        type="radio"
-                        checked={formValues[field.name] === option.value}
-                        onChange={() => {
-                          handleChange(field.name, option.value);
-                        }}
-                      />
-                      <span className="fmd-likert-circle" />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="flex flex-col gap-8">
+            {formField.internal_fields?.map((f) => {
+              return (
+                <FormField
+                  key={f.name}
+                  formField={{
+                    ...f,
+                    type: FieldType.RadioLikert,
+                    enum: formField.enum,
+                  }}
+                  error={fieldErrorsByName[f.name]}
+                  ref={(el: HTMLInputElement) => {
+                    if (fieldRefsByName) {
+                      fieldRefsByName.current[f.name] = el;
+                    }
+                  }}
+                />
+              );
+            })}
+          </div>
         )}
 
         {FieldInformationService.isAddress(formField.type) &&
@@ -373,7 +398,7 @@ const FormField = forwardRef(
             size="small"
             min={formField.min}
             max={formField.max}
-            value={formValues[formField.name]}
+            value={formValues[formField.name] ?? 0}
             onChange={(e, value) => {
               handleChange(formField.name, value);
             }}
@@ -399,7 +424,7 @@ const FormField = forwardRef(
               placeholder={formField.placeholder || defaultPlaceholder}
               className="fmd-input"
               type="text"
-              value={formValues[formField.name]}
+              value={formValues[formField.name] ?? ""}
               onChange={(e) => {
                 handleChange(formField.name, e.target.value);
               }}
@@ -532,7 +557,7 @@ const FormField = forwardRef(
               className="fmd-input"
               rows={4}
               multiline={true}
-              value={formValues[formField.name]}
+              value={formValues[formField.name] ?? ""}
               onChange={(e) => {
                 handleChange(formField.name, e.target.value);
               }}

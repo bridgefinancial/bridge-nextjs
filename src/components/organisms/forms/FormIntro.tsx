@@ -3,11 +3,11 @@ import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import { colors } from "@/theme/theme";
 import { FormIntro as FormidableFormIntro } from "@/types/forms.types";
 import { AccessTime, ArrowForward } from "@mui/icons-material";
-import Image from "next/image";
-import React from "react";
+import React, { ReactNode } from "react";
 
 type FormIntroProps = {
   onClick: () => void;
+  stepper?: ReactNode;
 } & FormidableFormIntro;
 
 const FormIntro = ({
@@ -17,11 +17,13 @@ const FormIntro = ({
   subheading,
   timeEstimate,
   buttonText,
+  stepper,
   onClick,
 }: FormIntroProps) => {
   return (
     <div className="w-full p-8 bg-white h-full grow flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center">
       <div className="flex flex-col gap-8 max-w-[500px] p-4">
+        {!!stepper && stepper}
         <div className="flex flex-col gap-1">
           {!!welcomeHeading && (
             <ParagraphText color={colors.gray600}>

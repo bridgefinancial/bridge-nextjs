@@ -60,7 +60,7 @@ export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
   [QuestionnaireSlugs.VALUATION]: VALUATION_QUESTIONNAIRE,
 };
 
-export const RECOMMENDATION_QUESTIONNAIRE_SLUGS = [
+export const RECOMMENDATION_QUESTIONNAIRE_SLUGS: string[] = [
   QuestionnaireSlugs.RECOMMENDATION_GENERAL_INFO,
   QuestionnaireSlugs.RECOMMENDATION_BUSINESS_OFFERING,
   QuestionnaireSlugs.RECOMMENDATION_MARKETING,

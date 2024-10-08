@@ -23,7 +23,7 @@ const RecommendationPage = () => {
         } catch (error) {
           return null;
         }
-      })
+      }),
     ).then((submissions) => {
       let questionnaireSlug: QuestionnaireSlugs =
         QuestionnaireSlugs.RECOMMENDATION_GENERAL_INFO;

@@ -20,34 +20,28 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
   "rules": {
     "no-empty-pattern": "warn",
-    "react/no-unescaped-entities": "warn", 
-    "react/prop-types": "warn", 
+    "react/no-unescaped-entities": "warn",
+    "react/prop-types": "warn",
     "react/display-name": "warn",
-    "@typescript-eslint/no-explicit-any": "warn",
-    "react/react-in-jsx-scope": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-var-requires": "warn",
     "prettier/prettier": ["warn", { "endOfLine": "auto" }],
     "react/jsx-pascal-case": ["warn", { "allowAllCaps": true }],
     "react/jsx-boolean-value": ["warn", "always"],
     "react/self-closing-comp": "warn",
     "react-hooks/rules-of-hooks": "warn",
-    "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "warn",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "no-prototype-builtins": "warn", 
-    "@typescript-eslint/no-empty-object-type": "off",
 
-    "no-unused-vars": "warn",
-    "no-console": "warn",
-    "prefer-const": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-prototype-builtins": "warn",
+    "prefer-const": "warn",
+    "no-console": "off",
+    "no-unused-vars": "warn"
   },
   "overrides": [
     {

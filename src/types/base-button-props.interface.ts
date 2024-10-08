@@ -18,6 +18,6 @@ export interface BaseButtonProps {
   type?: ButtonProps["type"];
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
-  sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
+  sx?: Record<string, unknown>; // Adjust the type of `sx` to be more specific
   target?: React.HTMLAttributeAnchorTarget;
 }

@@ -115,6 +115,17 @@ export class FieldInformationService {
         placeholder?: string;
         textbox?: boolean;
       }[]
+    | {
+        label: string;
+        value: unknown;
+        textbox?: boolean;
+        placeholder?: string;
+        iconUrl?: string;
+        activates?: string;
+        displays?: string;
+        disabled?: boolean;
+        hidden?: boolean;
+      }[]
     | undefined {
     // radio
     if (FieldInformationService.isRadio(field.type)) {
@@ -128,7 +139,7 @@ export class FieldInformationService {
     // dropdown
     if (FieldInformationService.isDropdown(field.type)) {
       const defaultOptions = FieldInformationService.getDropdownEnum(
-        field.type
+        field.type,
       );
       if (!field.enum) {
         return defaultOptions ? defaultOptions : undefined;
@@ -141,7 +152,7 @@ export class FieldInformationService {
 
   static getDefaultInternalFields(field: FormField): FormField[] | undefined {
     const defaultFields = FieldInformationService.complexData.find(
-      (listing) => listing.name === field.type
+      (listing) => listing.name === field.type,
     )?.data;
     if (!field.internal_fields) {
       return defaultFields ? defaultFields : undefined;
@@ -257,7 +268,7 @@ export class FieldInformationService {
   };
 
   static getDropdownEnum: (
-    fieldType: FieldType
+    fieldType: FieldType,
   ) => { value: any; label: string }[] = (fieldType) => {
     return FieldInformationService.dropdowns[fieldType];
   };

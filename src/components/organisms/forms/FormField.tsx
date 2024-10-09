@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import { FieldInformationService } from "@/services/fields.service";
-import { colors } from "@/theme/theme";
-import { FieldType } from "@/types/forms.enum";
-import { FormField as Field } from "@/types/forms.types";
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import { useQuestionnaire } from '@/providers/Questionnaire.provider';
+import { FieldInformationService } from '@/services/fields.service';
+import { colors } from '@/theme/theme';
+import { FieldType } from '@/types/forms.enum';
+import { FormField as Field } from '@/types/forms.types';
 import {
   Checkbox,
   FormControl,
@@ -16,10 +16,10 @@ import {
   Select,
   Slider,
   TextField,
-} from "@mui/material";
-import clsx from "clsx";
-import Image from "next/image";
-import React, { forwardRef, useState } from "react";
+} from '@mui/material';
+import clsx from 'clsx';
+import Image from 'next/image';
+import React, { forwardRef, useState } from 'react';
 
 type FormFieldProps = {
   formField: Field;
@@ -29,12 +29,10 @@ type FormFieldProps = {
 const FormField = forwardRef(
   (
     { formField, error }: FormFieldProps,
-    ref: React.ForwardedRef<HTMLInputElement>,
+    ref: React.ForwardedRef<HTMLInputElement>
   ) => {
-    // STATE
-    const [notSure, setNotSure] = useState<boolean>(false);
     // CALCULATED
-    const defaultPlaceholder = "";
+    const defaultPlaceholder = '';
     const {
       fieldRefsByName,
       fieldErrorsByName,
@@ -42,21 +40,31 @@ const FormField = forwardRef(
       handleChange,
       checkConditions,
     } = useQuestionnaire();
+    // STATE
+    const [notSure, setNotSure] = useState<boolean>(
+      formValues[formField.name] === 'Not sure'
+    );
+    const isFieldRequired =
+      formField.required && checkConditions(formField.conditions);
 
     // DOM
+    if (!checkConditions(formField.conditions)) {
+      return null;
+    }
+
     return (
       <div
-        className={clsx("fmd-form-field flex flex-col transition-all", {
-          hidden: formField.hidden || !checkConditions(formField.conditions),
+        className={clsx('fmd-form-field flex flex-col transition-all', {
+          hidden: formField.hidden,
         })}
       >
         {/* Label and Hint */}
-        {formField.type !== "hidden" &&
+        {formField.type !== 'hidden' &&
           formField.label &&
           formField.label.length > 0 && (
             <label
               htmlFor={formField.name}
-              className={clsx("fmd-label text-lg")}
+              className={clsx('fmd-label text-lg')}
             >
               {formField.label}
               {formField.hint && (
@@ -68,7 +76,7 @@ const FormField = forwardRef(
           )}
 
         {/* Field Types */}
-        {formField.type === "display_only" && (
+        {formField.type === 'display_only' && (
           <ParagraphText>{formField.value as any}</ParagraphText>
         )}
 
@@ -84,13 +92,13 @@ const FormField = forwardRef(
               <Select
                 labelId={`dropdown-label-${formField.name}`}
                 id={`select-${formField.name}`}
-                value={formValues[formField.name] ?? ""}
+                value={formValues[formField.name] ?? ''}
                 label={formField.label || formField.placeholder}
                 onChange={(e) => {
                   handleChange(formField.name, e.target.value);
                 }}
                 placeholder={formField.placeholder}
-                required={formField.required}
+                required={isFieldRequired}
                 inputProps={{ ref: ref, id: formField.name }}
               >
                 {(
@@ -112,7 +120,7 @@ const FormField = forwardRef(
 
         {FieldInformationService.isSearchableDropdown(formField.type) && (
           <div className="fmd-input">
-            <datalist id="suggestions" style={{ display: "none" }}>
+            <datalist id="suggestions" style={{ display: 'none' }}>
               {formField.enum?.map((option, index) => (
                 <option key={index} value={option.value as string}>
                   {option.label}
@@ -122,7 +130,7 @@ const FormField = forwardRef(
             <input
               ref={ref}
               id={formField.name}
-              required={formField.required}
+              required={isFieldRequired}
               autoComplete="on"
               className="fmd-input"
               list="suggestions"
@@ -132,16 +140,16 @@ const FormField = forwardRef(
 
         {FieldInformationService.isCheckbox(formField.type) && (
           <div
-            className={clsx("fmd-checkbox-parent", {
-              "flex flex-wrap gap-2":
+            className={clsx('fmd-checkbox-parent', {
+              'flex flex-wrap gap-2':
                 formField.type !== FieldType.Checkbox9Grid,
-              "grid grid-cols-3 gap-4":
+              'grid grid-cols-3 gap-4':
                 formField.type === FieldType.Checkbox9Grid,
             })}
           >
             {formField.enum?.map((option, index) => {
               const handleClick = (e: any) => {
-                if (e.target.tagName === "INPUT") {
+                if (e.target.tagName === 'INPUT') {
                   return;
                 }
                 const currentValue: string[] | undefined =
@@ -151,7 +159,7 @@ const FormField = forwardRef(
                 } else if (currentValue.includes(option.value as string)) {
                   handleChange(
                     formField.name,
-                    currentValue.filter((v) => v !== option.value),
+                    currentValue.filter((v) => v !== option.value)
                   );
                 } else {
                   handleChange(formField.name, [...currentValue, option.value]);
@@ -160,10 +168,10 @@ const FormField = forwardRef(
               return (
                 <div
                   key={`${index}-${formField.name}`}
-                  className={clsx("fmd-checkbox box-border cursor-pointer", {
-                    "flex flex-col items-start justify-start w-full":
+                  className={clsx('fmd-checkbox box-border cursor-pointer', {
+                    'flex flex-col items-start justify-start w-full':
                       formField.type === FieldType.Checkbox9Grid,
-                    "flex items-center justify-center":
+                    'flex items-center justify-center':
                       formField.type !== FieldType.Checkbox9Grid,
                   })}
                   onClick={(e) => {
@@ -217,7 +225,7 @@ const FormField = forwardRef(
             <input
               ref={ref}
               id={formField.name}
-              required={formField.required}
+              required={isFieldRequired}
               name={formField.name}
               value={formValues[formField.name]}
               hidden={true}
@@ -229,12 +237,12 @@ const FormField = forwardRef(
 
         {FieldInformationService.isRadio(formField.type) && (
           <div
-            className={clsx("fmd-radio-parent", {
-              "flex flex-wrap gap-2":
+            className={clsx('fmd-radio-parent', {
+              'flex flex-wrap gap-2':
                 formField.type !== FieldType.Radio9Grid &&
                 formField.type !== FieldType.RadioLikert,
-              "grid grid-cols-3 gap-4": formField.type === FieldType.Radio9Grid,
-              "flex gap-1 justify-center flex-nowrap":
+              'grid grid-cols-3 gap-4': formField.type === FieldType.Radio9Grid,
+              'flex gap-1 justify-center flex-nowrap':
                 formField.type === FieldType.RadioLikert,
             })}
           >
@@ -244,11 +252,11 @@ const FormField = forwardRef(
             )?.map((option, index) => (
               <div
                 key={index}
-                className={clsx("box-border cursor-pointer", {
-                  "fmd-radio": formField.type !== FieldType.RadioLikert,
-                  "flex flex-col gap-4 items-start justify-start":
+                className={clsx('box-border cursor-pointer', {
+                  'fmd-radio': formField.type !== FieldType.RadioLikert,
+                  'flex flex-col gap-4 items-start justify-start':
                     formField.type === FieldType.Radio9Grid,
-                  "flex items-center justify-center":
+                  'flex items-center justify-center':
                     formField.type !== FieldType.Radio9Grid,
                 })}
                 onClick={() => {
@@ -274,7 +282,7 @@ const FormField = forwardRef(
                     name={option.value}
                     value={option.value}
                     className="cursor-pointer"
-                    classes={{ labelPlacementTop: "text-center" }}
+                    classes={{ labelPlacementTop: 'text-center' }}
                     labelPlacement="top"
                   ></FormControlLabel>
                 ) : (
@@ -285,7 +293,7 @@ const FormField = forwardRef(
                 )}
                 <input
                   ref={ref}
-                  required={formField.required}
+                  required={isFieldRequired}
                   id={formField.name}
                   name={formField.name}
                   value={option.value}
@@ -315,10 +323,10 @@ const FormField = forwardRef(
           </div>
         )}
 
-        {formField.type === "hidden" && (
+        {formField.type === 'hidden' && (
           <input
             ref={ref}
-            required={formField.required}
+            required={isFieldRequired}
             value={formField.value as string}
             className="fmd-hidden"
             type="hidden"
@@ -327,7 +335,7 @@ const FormField = forwardRef(
 
         {/* {FieldInformationService.isSlider(formField.type) && (
         <div>
-          <input ref={ref} required={formField.required}
+          <input ref={ref} required={isFieldRequired}
             id={formField.name}
             name={formField.name}
             value={formControl.value || 0}
@@ -421,13 +429,13 @@ const FormField = forwardRef(
                 max: formField.max,
                 maxLength: formField.max_length,
               }}
-              required={formField.required}
+              required={isFieldRequired}
               id={formField.name}
               name={formField.name}
               placeholder={formField.placeholder || defaultPlaceholder}
               className="fmd-input"
               type="text"
-              value={formValues[formField.name] ?? ""}
+              value={formValues[formField.name] ?? ''}
               onChange={(e) => {
                 handleChange(formField.name, e.target.value);
               }}
@@ -443,14 +451,14 @@ const FormField = forwardRef(
                 startAdornment: (
                   <InputAdornment position="start">
                     {FieldInformationService.getStartInputAdornment(
-                      formField.type,
+                      formField.type
                     )}
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     {FieldInformationService.getEndInputAdornment(
-                      formField.type,
+                      formField.type
                     )}
                   </InputAdornment>
                 ),
@@ -461,22 +469,22 @@ const FormField = forwardRef(
                 max: formField.max,
                 maxLength: formField.max_length,
               }}
-              required={formField.required}
+              required={isFieldRequired}
               id={formField.name}
               name={formField.name}
               placeholder={formField.placeholder || defaultPlaceholder}
               className="fmd-input"
-              value={formValues[formField.name] ?? ""}
+              value={formValues[formField.name] ?? ''}
               onChange={(e) => {
                 if (
                   FieldInformationService.isValidUserInput(
                     formField.type,
-                    e.target.value,
+                    e.target.value
                   )
                 ) {
                   handleChange(
                     formField.name,
-                    FieldInformationService.formatNumberInput(e.target.value),
+                    FieldInformationService.formatNumberInput(e.target.value)
                   );
                 }
               }}
@@ -486,7 +494,7 @@ const FormField = forwardRef(
 
           {/* {FieldInformationService.isDate(formField.type) && (
         <div className="fmd-date-container">
-          <input ref={ref} required={formField.required}
+          <input ref={ref} required={isFieldRequired}
             id={formField.name}
             name={formField.name}
             placeholder={formField.placeholder || defaultPlaceholder}
@@ -506,7 +514,7 @@ const FormField = forwardRef(
 
           {/* {FieldInformationService.isTime(formField.type) && (
         <div className="fmd-date-container">
-          <input ref={ref} required={formField.required}
+          <input ref={ref} required={isFieldRequired}
             id={formField.name}
             name={formField.name}
             value={formControl.value || ""}
@@ -527,7 +535,7 @@ const FormField = forwardRef(
 
           {/* {FieldInformationService.isDatetime(formField.type) && (
         <div className="fmd-date-container">
-          <input ref={ref} required={formField.required}
+          <input ref={ref} required={isFieldRequired}
             id={formField.name}
             name={formField.name}
             value={formControl.value || ""}
@@ -561,7 +569,7 @@ const FormField = forwardRef(
               className="fmd-input"
               rows={4}
               multiline={true}
-              value={formValues[formField.name] ?? ""}
+              value={formValues[formField.name] ?? ''}
               onChange={(e) => {
                 handleChange(formField.name, e.target.value);
               }}
@@ -581,14 +589,14 @@ const FormField = forwardRef(
                   startAdornment: (
                     <InputAdornment position="start">
                       {FieldInformationService.getStartInputAdornment(
-                        formField.type,
+                        formField.type
                       )}
                     </InputAdornment>
                   ),
                   endAdornment: (
                     <InputAdornment position="end">
                       {FieldInformationService.getEndInputAdornment(
-                        formField.type,
+                        formField.type
                       )}
                     </InputAdornment>
                   ),
@@ -597,22 +605,22 @@ const FormField = forwardRef(
                   min: formField.min,
                   max: formField.max,
                 }}
-                required={formField.required}
+                required={isFieldRequired}
                 id={formField.name}
                 name={formField.name}
                 placeholder={formField.placeholder || defaultPlaceholder}
                 className="fmd-input"
-                value={notSure ? "" : (formValues[formField.name] ?? "")}
+                value={notSure ? '' : (formValues[formField.name] ?? '')}
                 onChange={(e) => {
                   if (
                     FieldInformationService.isValidUserInput(
                       formField.type,
-                      e.target.value,
+                      e.target.value
                     )
                   ) {
                     handleChange(
                       formField.name,
-                      e.target.value ? parseInt(e.target.value) : 0,
+                      e.target.value ? parseInt(e.target.value) : 0
                     );
                   }
                 }}
@@ -629,9 +637,9 @@ const FormField = forwardRef(
                 onChange={(e) => {
                   setNotSure(e.target.checked);
                   if (e.target.checked) {
-                    handleChange(formField.name, "Not sure");
+                    handleChange(formField.name, 'Not sure');
                   } else {
-                    handleChange(formField.name, "");
+                    handleChange(formField.name, '');
                   }
                 }}
               />
@@ -641,7 +649,7 @@ const FormField = forwardRef(
         </div>
 
         {/* Error Handling */}
-        {formField.type !== "hidden" && (
+        {formField.type !== 'hidden' && (
           <div className="fmd-error-container">
             {formField.help_text && (
               <div className="fmd-help-text">{formField.help_text}</div>
@@ -655,7 +663,7 @@ const FormField = forwardRef(
         )}
       </div>
     );
-  },
+  }
 );
 
 export default FormField;

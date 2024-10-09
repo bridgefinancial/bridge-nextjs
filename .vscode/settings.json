@@ -24,6 +24,7 @@
   "prettier.tabWidth": 2,
   "prettier.semi": true,
   "editor.formatOnSave": true,
-  "prettier.requireConfig": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "prettier.requireConfig": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

@@ -148,9 +148,7 @@ export const QuestionnaireProvider = ({
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
     event
   ) => {
-    console.log('1');
     if (!form || !handleCheckPageValidity()) {
-      console.log('2');
       return;
     }
     // Prevent the default form submission behavior

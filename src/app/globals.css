@@ -86,7 +86,15 @@
 html,
 body {
   max-width: 100vw;
+  max-height: 100vh;
+}
+
+html {
   overflow: hidden;
+}
+
+body {
+  overflow: auto;
 }
 
 body {

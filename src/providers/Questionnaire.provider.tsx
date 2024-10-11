@@ -18,6 +18,7 @@ import {
   createContext,
   MutableRefObject,
   ReactNode,
+  RefObject,
   useContext,
   useEffect,
   useMemo,
@@ -40,6 +41,7 @@ export const QuestionnaireContext = createContext<{
   fieldRefsByName?: MutableRefObject<Record<string, HTMLInputElement | null>>;
   fieldErrorsByName: Record<string, string>;
   formValues: Record<string, any>;
+  bodyRef: RefObject<HTMLDivElement> | null;
   goTo: ({
     pageIndex,
     formIndex,
@@ -62,6 +64,7 @@ export const QuestionnaireContext = createContext<{
   fieldRefsByName: undefined,
   fieldErrorsByName: {},
   formValues: {},
+  bodyRef: null,
   goTo: () => {},
   submit: () => {},
   checkPageValidity: () => {
@@ -98,6 +101,7 @@ export const QuestionnaireProvider = ({
   const { setErrorsFunc } = useErrors();
   const { mutateAsync: submitForm, isPending: isSubmitting } = useSubmitForm();
   const searchParams = useSearchParams();
+  const questionnaireBodyRef = useRef<HTMLDivElement>(null);
 
   // CALCULATED
   const { forms, redirectPath } = questionnaire;
@@ -128,6 +132,13 @@ export const QuestionnaireProvider = ({
     router.push(redirectTo);
   };
 
+  const scrollToTop = () => {
+    console.log('scrolling');
+    questionnaireBodyRef.current?.scrollTo({
+      top: 0,
+    });
+  };
+
   const goTo = ({
     pageIndex,
     formIndex,
@@ -143,6 +154,7 @@ export const QuestionnaireProvider = ({
     } else if (pageIndex !== undefined) {
       setPageIndex(pageIndex);
     }
+    scrollToTop();
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -339,6 +351,7 @@ export const QuestionnaireProvider = ({
         checkPageValidity: handleCheckPageValidity,
         checkConditions: handleCheckConditions,
         handleChange,
+        bodyRef: questionnaireBodyRef,
       }}
     >
       {children}

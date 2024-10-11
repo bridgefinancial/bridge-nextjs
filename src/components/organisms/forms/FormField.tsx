@@ -100,6 +100,7 @@ const FormField = forwardRef(
                 placeholder={formField.placeholder}
                 required={isFieldRequired}
                 inputProps={{ ref: ref, id: formField.name }}
+                autoComplete={formField.autocomplete}
               >
                 {(
                   formField.enum ??
@@ -143,7 +144,7 @@ const FormField = forwardRef(
             className={clsx('fmd-checkbox-parent', {
               'flex flex-wrap gap-2':
                 formField.type !== FieldType.Checkbox9Grid,
-              'grid grid-cols-3 gap-4':
+              'grid grid-cols-2 md:grid-cols-3 gap-4':
                 formField.type === FieldType.Checkbox9Grid,
             })}
           >
@@ -241,8 +242,9 @@ const FormField = forwardRef(
               'flex flex-wrap gap-2':
                 formField.type !== FieldType.Radio9Grid &&
                 formField.type !== FieldType.RadioLikert,
-              'grid grid-cols-3 gap-4': formField.type === FieldType.Radio9Grid,
-              'flex gap-1 justify-center flex-nowrap':
+              'grid grid-cols-2 md:grid-cols-3 gap-4':
+                formField.type === FieldType.Radio9Grid,
+              'flex flex-col md:flex-row gap-1 items-start md:justify-center flex-nowrap py-4':
                 formField.type === FieldType.RadioLikert,
             })}
           >
@@ -275,16 +277,29 @@ const FormField = forwardRef(
                   </div>
                 )}
                 {formField.type === FieldType.RadioLikert ? (
-                  <FormControlLabel
-                    checked={formValues[formField.name] === option.value}
-                    control={<Radio readOnly />}
-                    label={option.label}
-                    name={option.value}
-                    value={option.value}
-                    className="cursor-pointer"
-                    classes={{ labelPlacementTop: 'text-center' }}
-                    labelPlacement="top"
-                  ></FormControlLabel>
+                  <>
+                    {/* DESKTOP: LABEL TOP */}
+                    <FormControlLabel
+                      checked={formValues[formField.name] === option.value}
+                      control={<Radio readOnly />}
+                      label={option.label}
+                      name={option.value}
+                      value={option.value}
+                      className="hidden md:flex cursor-pointer"
+                      classes={{ labelPlacementTop: 'text-center' }}
+                      labelPlacement="top"
+                    ></FormControlLabel>
+                    {/* MOBILE: LABEL START */}
+                    <FormControlLabel
+                      checked={formValues[formField.name] === option.value}
+                      control={<Radio readOnly />}
+                      label={option.label}
+                      name={option.value}
+                      value={option.value}
+                      className="cursor-pointer inline-block md:hidden"
+                      labelPlacement="start"
+                    ></FormControlLabel>
+                  </>
                 ) : (
                   <label className="fmd-radio-label cursor-pointer">
                     {option.label}
@@ -384,7 +399,7 @@ const FormField = forwardRef(
                 }}
                 error={fieldErrorsByName[formField.internal_fields?.[0].name]}
               />
-              <div className="flex items-center justify-start gap-4">
+              <div className="flex items-start justify-start gap-4">
                 {formField.internal_fields.slice(1).map((field) => {
                   return (
                     <FormField
@@ -440,6 +455,7 @@ const FormField = forwardRef(
                 handleChange(formField.name, e.target.value);
               }}
               disabled={notSure}
+              autoComplete={formField.autocomplete}
             />
           )}
 
@@ -489,6 +505,7 @@ const FormField = forwardRef(
                 }
               }}
               disabled={notSure}
+              autoComplete={formField.autocomplete}
             />
           )}
 
@@ -575,6 +592,7 @@ const FormField = forwardRef(
               }}
               disabled={notSure}
               fullWidth={true}
+              autoComplete={formField.autocomplete}
             />
           )}
 

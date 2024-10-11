@@ -1,19 +1,14 @@
-"use client";
+'use client';
 
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import { routePaths } from "@/types/routes.enum";
-import { Check, Circle } from "@mui/icons-material";
-import clsx from "clsx";
-import Link from "next/link";
-import React, { ReactNode } from "react";
+import { useQuestionnaire } from '@/providers/Questionnaire.provider';
+import { ReactNode } from 'react';
 
 type QuestionnaireLayoutProps = {
   children?: ReactNode;
 };
 
 const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
-  const { form, pageIndex, goTo } = useQuestionnaire();
+  const { bodyRef } = useQuestionnaire();
   return (
     <>
       <div className="h-screen w-screen flex flex-col items-stretch justify-stretch">
@@ -50,7 +45,11 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
         </div>
 
         {/* BODY */}
-        <div className="grow bg-white overflow-scroll w-full">
+        <div
+          className="grow bg-white overflow-scroll w-full"
+          id="questionnaire-body"
+          ref={bodyRef}
+        >
           {/* MOBILE PROGRESS */}
           {/* TODO: Implement mobile progress bar if needed */}
           <div className="pt-8 md:pt-6 box-border flex flex-col min-h-full mx-auto">

@@ -299,6 +299,8 @@ export const QuestionnaireProvider = ({
   const handleCheckCondition = (condition: Condition) => {
     if (condition.operator === 'equal') {
       return formValues[condition.dependant_on.name] === condition.value;
+    } else if (condition.operator === 'includes') {
+      return formValues[condition.dependant_on.name]?.includes(condition.value);
     }
     return false;
   };

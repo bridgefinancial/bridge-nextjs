@@ -361,7 +361,7 @@ export const RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION: FormidableForm = {
             conditions: [
               {
                 value: 'other',
-                operator: 'equal',
+                operator: 'includes',
                 dependant_on: {
                   name: 'goals',
                   page_name: 'location',
@@ -1024,7 +1024,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             conditions: [
               {
                 value: 'other',
-                operator: 'equal',
+                operator: 'includes',
                 dependant_on: {
                   name: 'digital_channels',
                   page_name: 'location',
@@ -1164,7 +1164,7 @@ export const RECOMMENDATION_MARKETING_FORM_DEFINITION = {
             conditions: [
               {
                 value: 'other',
-                operator: 'equal',
+                operator: 'includes',
                 dependant_on: {
                   name: 'traditional_channels',
                   page_name: 'location',

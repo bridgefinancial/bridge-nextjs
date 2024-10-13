@@ -1,4 +1,4 @@
-import { Step, StepLabel, Stepper } from "@mui/material";
+import { Step, StepLabel, Stepper } from '@mui/material';
 
 export type Step = {
   label: string;

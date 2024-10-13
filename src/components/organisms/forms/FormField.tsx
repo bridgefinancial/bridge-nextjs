@@ -244,7 +244,7 @@ const FormField = forwardRef(
                 formField.type !== FieldType.RadioLikert,
               'grid grid-cols-2 md:grid-cols-3 gap-4':
                 formField.type === FieldType.Radio9Grid,
-              'flex flex-col md:flex-row gap-1 items-start md:justify-center flex-nowrap py-4':
+              'flex flex-col md:flex-row gap-1 items-start md:items-stretch md:justify-center flex-nowrap py-4':
                 formField.type === FieldType.RadioLikert,
             })}
           >
@@ -286,7 +286,9 @@ const FormField = forwardRef(
                       name={option.value}
                       value={option.value}
                       className="hidden md:flex cursor-pointer"
-                      classes={{ labelPlacementTop: 'text-center' }}
+                      classes={{
+                        label: 'text-center h-12 flex items-center',
+                      }}
                       labelPlacement="top"
                     ></FormControlLabel>
                     {/* MOBILE: LABEL START */}

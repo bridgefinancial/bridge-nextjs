@@ -1,26 +1,26 @@
-"use client";
-import React, { useState, MouseEvent, useEffect } from "react";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
-import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { externalUrls, routePaths } from "@/types/routes.enum";
-import Link from "next/link";
+'use client';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import { useIndustries } from '@/services/industries.service';
+import { SignUpRequest, useSignUp } from '@/services/users.service';
+import { colors } from '@/theme/theme';
+import { Industry } from '@/types/industries.types';
+import { externalUrls, routePaths } from '@/types/routes.enum';
 import {
-  FormControlLabel,
-  Checkbox,
-  Typography,
-  Box,
   Autocomplete,
+  Box,
+  Checkbox,
+  FormControlLabel,
   TextField,
-} from "@mui/material";
-import { SignUpRequest, useSignUp } from "@/services/users.service";
-import { useIndustries } from "@/services/industries.service";
-import { Industry } from "@/types/industries.types";
-import { colors } from "@/theme/theme";
+  Typography,
+} from '@mui/material';
+import Link from 'next/link';
+import React, { MouseEvent, useEffect, useState } from 'react';
 
-interface SignUpFormProps {
+export interface SignUpFormProps {
   title?: string;
   cardContainerStyles?: Record<any, any>;
   industryName?: string;
@@ -31,15 +31,15 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   cardContainerStyles = {},
   onSignUp,
   industryName = null,
-}) => {
+}): React.ReactNode => {
   // STATE
   const [formValues, setFormValues] = useState<SignUpRequest>({
-    first_name: "",
-    last_name: "",
-    company_name: "",
-    industry: "",
-    email: "",
-    password: "",
+    first_name: '',
+    last_name: '',
+    company_name: '',
+    industry: '',
+    email: '',
+    password: '',
     terms: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -59,14 +59,14 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     const { name, value, type, checked } = e.target;
     setFormValues({
       ...formValues,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
     const { name } = e.target;
     setErrors((prev) => {
-      return { ...prev, [name]: "" };
+      return { ...prev, [name]: '' };
     });
   };
 
@@ -74,8 +74,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     if (industryName && industries?.results?.length) {
       // Find the industry that matches the industryName (case insensitive)
       const existingIndustry = industries.results.find(
-        (industry) =>
-          industry.name.toLowerCase() === industryName.toLowerCase(),
+        (industry) => industry.name.toLowerCase() === industryName.toLowerCase()
       );
 
       // If the industry is found and it's different from the selected one, update the selectedIndustry
@@ -94,30 +93,30 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   const checkFormValidity = () => {
     const newErrors: Record<string, string> = {};
     if (!formValues.first_name) {
-      newErrors["first_name"] = "First name is required";
+      newErrors['first_name'] = 'First name is required';
     }
     if (!formValues.last_name) {
-      newErrors["last_name"] = "Last name is required";
+      newErrors['last_name'] = 'Last name is required';
     }
     if (!formValues.company_name) {
-      newErrors["company_name"] = "Company name is required";
+      newErrors['company_name'] = 'Company name is required';
     }
     if (!formValues.industry) {
-      newErrors["industry"] = "Industry is required";
+      newErrors['industry'] = 'Industry is required';
     }
     if (!formValues.email) {
-      newErrors["email"] = "Email is required";
+      newErrors['email'] = 'Email is required';
     }
     if (!formValues.password) {
-      newErrors["password"] = "Password is required";
+      newErrors['password'] = 'Password is required';
     } else if (formValues.password.length < 8) {
-      newErrors["password"] = "Password must be at least 8 characters";
+      newErrors['password'] = 'Password must be at least 8 characters';
     } else if (!/\d/.test(formValues.password)) {
-      newErrors["password"] =
-        "Password must have at least 1 number and 1 special character";
+      newErrors['password'] =
+        'Password must have at least 1 number and 1 special character';
     }
     if (!formValues.terms) {
-      newErrors["terms"] = "Must accept terms";
+      newErrors['terms'] = 'Must accept terms';
     }
 
     setErrors(newErrors);
@@ -158,9 +157,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     <CardWithTitle
       containerStyle={cardContainerStyles}
       titleProps={{
-        text: "Create an Account",
+        text: 'Create an Account',
         sx: {
-          textAlign: "left",
+          textAlign: 'left',
         },
       }}
     >
@@ -168,12 +167,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         align="left"
         sx={{
           marginTop: 0,
-          "& a": {
+          '& a': {
             color: colors.bridgeDarkPurple,
           },
         }}
       >
-        Already have an account?{" "}
+        Already have an account?{' '}
         <span
           style={{
             color: colors.bridgeDarkPurple,
@@ -181,7 +180,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         >
           <Link href={routePaths.LOGIN} color="primary">
             Sign In
-          </Link>{" "}
+          </Link>{' '}
         </span>
         here
       </ParagraphText>
@@ -231,7 +230,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             // Update selectedIndustry and form values when a new industry is selected
             setSelectedIndustry(value || undefined);
             setFormValues((prev: any) => {
-              return { ...prev, industry: value ? value.id.toString() : "" };
+              return { ...prev, industry: value ? value.id.toString() : '' };
             });
           }}
           renderInput={(params) => (
@@ -286,8 +285,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
               checked={formValues.terms}
               onChange={handleChange}
               sx={{
-                "&.Mui-checked": {
-                  color: "#77CE80", // green when checked
+                '&.Mui-checked': {
+                  color: '#77CE80', // green when checked
                 },
               }}
             />
@@ -297,12 +296,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
               component="p"
               sx={{
                 fontSize: { xs: 14, md: 14, lg: 14 },
-                "& a": {
+                '& a': {
                   color: colors.bridgeDarkPurple,
                 },
               }}
             >
-              I accept the Bridge{" "}
+              I accept the Bridge{' '}
               <Link
                 legacyBehavior={true}
                 target="_blank"
@@ -325,7 +324,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         )}
         <Box sx={{ marginTop: 3 }}>
           <ContainedButton
-            type={"submit"}
+            type={'submit'}
             text="Sign Up"
             fullWidth={true}
             sx={{ padding: 1.5 }}

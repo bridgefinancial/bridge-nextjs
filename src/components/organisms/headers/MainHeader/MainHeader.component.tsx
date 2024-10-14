@@ -1,10 +1,12 @@
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
-import Image from "next/image";
-import Link, { LinkProps } from "next/link";
-import { Button } from "@mui/material";
-import React from "react";
+'use client';
+
+import { useBreakpointQuery } from '@/hooks/useBreakpointQuery.hook';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Image from 'next/image';
+import Link, { LinkProps } from 'next/link';
+import React from 'react';
 
 export interface HeaderProps {
   /**
@@ -66,55 +68,77 @@ export interface HeaderProps {
  */
 function MainHeader(props: HeaderProps) {
   const {
-    linkProps = {
-      href: "/",
-    },
+    linkProps = { href: '/' },
     LinkComponent = Link,
-    logoPath = "/assets/images/bridge-logo.png",
+    logoPath = '/assets/images/bridge-logo.png',
     HeaderActions = <></>,
   } = props;
+
+  const { matches: isMobile, loading } = useBreakpointQuery({
+    minWidth: 300,
+    maxWidth: 500,
+  });
 
   return (
     <AppBar
       position="relative"
       sx={{
-        backgroundColor: "white",
-        height: "99px",
-        justifyContent: "center",
-        boxShadow: "none",
+        backgroundColor: 'white',
+        height: isMobile ? '80px' : '99px',
+        justifyContent: 'center',
+        transition: {
+          'ease-in-out': '0.1s',
+        },
+        boxShadow: 'none',
       }}
     >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters={true}
           sx={{
-            height: "100%",
+            height: '100%',
             maxWidth: 928,
-            alignItems: "center",
-            borderWidth: 1,
-            borderColor: "transparent",
+            alignItems: 'center',
+            borderWidth: 0,
+            borderColor: 'transparent',
           }}
         >
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
-              height: "100%",
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
             }}
           >
-            <LinkComponent href={linkProps.href}>
-              <Image
-                loading={"lazy"}
-                src={logoPath} // Adjust the path to your actual logo file location
-                width={150} // Image width
-                height={42} // Image height
-                alt="Logo"
-                unoptimized={false}
-              />
+            <LinkComponent {...linkProps}>
+              {/* Conditionally render based on screen size */}
+              {loading ? (
+                <></>
+              ) : isMobile ? (
+                <Image
+                  loading="lazy"
+                  src={logoPath}
+                  width={107}
+                  height={30}
+                  alt="Bridge Financial Logo"
+                  unoptimized={false}
+                />
+              ) : (
+                <Image
+                  loading="lazy"
+                  src={logoPath}
+                  width={150}
+                  height={42}
+                  alt="Bridge Financial Logo"
+                  unoptimized={false}
+                />
+              )}
             </LinkComponent>
 
-            <div>{HeaderActions ? HeaderActions : null}</div>
+            <div style={{ marginLeft: 'auto' }}>
+              {HeaderActions ? HeaderActions : null}
+            </div>
           </div>
         </Toolbar>
       </Container>

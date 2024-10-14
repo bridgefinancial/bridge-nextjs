@@ -1,10 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { SignUpForm } from "../SignUpForm/SignUpForm.component";
-import { useRouter, useSearchParams } from "next/navigation";
-import { QuestionnaireRoutes } from "@/types/routes.enum";
-import { SignUpRequest, useLoginUser } from "@/services/users.service";
+import { SignUpRequest, useLoginUser } from '@/services/users.service';
+import { QuestionnaireRoutes } from '@/types/routes.enum';
+import { useRouter, useSearchParams } from 'next/navigation';
+import SignUpForm from '../SignUpForm';
 
 const SignUpPage = ({ params }: { params: { industry: string[] } }) => {
   const router = useRouter();
@@ -18,10 +17,10 @@ const SignUpPage = ({ params }: { params: { industry: string[] } }) => {
       {
         onSuccess: () => {
           router.push(
-            `${QuestionnaireRoutes.VALUATION}?${searchParams.toString()}`,
+            `${QuestionnaireRoutes.VALUATION}?${searchParams.toString()}`
           );
         },
-      },
+      }
     );
   };
 
@@ -31,7 +30,7 @@ const SignUpPage = ({ params }: { params: { industry: string[] } }) => {
       onSignUp={handleRedirectAfterSignUp}
       cardContainerStyles={{
         boxShadow: 0,
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
       }}
     />
   );

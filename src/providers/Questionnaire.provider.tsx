@@ -1,5 +1,6 @@
 'use client';
 
+import { default as useScrollTo } from '@/hooks/useScrollTo.hook';
 import { FieldInformationService } from '@/services/fields.service';
 import {
   getFormSubmission,
@@ -103,6 +104,7 @@ export const QuestionnaireProvider = ({
   const searchParams = useSearchParams();
   const questionnaireBodyRef = useRef<HTMLDivElement>(null);
 
+  const { onChange: triggerScrollTo } = useScrollTo();
   // CALCULATED
   const { forms, redirectPath } = questionnaire;
   const form = forms[formIndex];
@@ -132,12 +134,13 @@ export const QuestionnaireProvider = ({
     router.push(redirectTo);
   };
 
-  const scrollToTop = () => {
-    console.log('scrolling');
-    questionnaireBodyRef.current?.scrollTo({
-      top: 0,
-    });
-  };
+  // const scrollToTop = () => {
+  //   // console.log('scrolling');
+  //   onTrigger();
+  //   // questionnaireBodyRef.current?.scrollTo({
+  //   //   top: 0,
+  //   // });
+  // };
 
   const goTo = ({
     pageIndex,
@@ -154,7 +157,9 @@ export const QuestionnaireProvider = ({
     } else if (pageIndex !== undefined) {
       setPageIndex(pageIndex);
     }
-    scrollToTop();
+    setTimeout(() => {
+      triggerScrollTo();
+    }, 100);
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (

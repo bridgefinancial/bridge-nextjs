@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "check-packages": "npx check-package-dependencies",
-    "dev": "next dev",
+    "dev": "node create-env.js browser",
+    "dev:on-device": "node create-env.js local",
     "build": "next build",
     "fix": "eslint --fix . && prettier --write .",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:on-local": "next -H 0.0.0.0"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
@@ -27,6 +29,7 @@
     "canvas-confetti": "1.9.3",
     "clsx": "2.1.1",
     "formik": "2.4.6",
+    "json2mq": "^0.2.0",
     "lodash": "4.17.21",
     "lodash.merge": "4.6.2",
     "next": "14.2.5",
@@ -40,6 +43,7 @@
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.5.0",
     "@types/canvas-confetti": "1.6.4",
+    "@types/json2mq": "^0.2.2",
     "@types/node": "22.5.4",
     "@types/react": "18.3.5",
     "@types/react-dom": "18.3.0",

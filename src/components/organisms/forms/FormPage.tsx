@@ -1,7 +1,6 @@
-import { Page } from "@/types/forms.types";
-import React from "react";
-import FormField from "./FormField";
-import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import { useQuestionnaire } from '@/providers/Questionnaire.provider';
+import { Page } from '@/types/forms.types';
+import FormField from './FormField';
 
 type PageProps = {
   page: Page;

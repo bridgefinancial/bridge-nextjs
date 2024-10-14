@@ -22,7 +22,7 @@ const FormIntro = ({
   onClick,
 }: FormIntroProps) => {
   return (
-    <div className="w-full p-8 bg-white h-full grow flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center">
+    <div className="w-full pl-8 pr-8 pb-20 bg-white h-full grow flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center">
       {/* Text content */}
       <div className="flex flex-col gap-8 max-w-[500px] p-4">
         {!!stepper && stepper}

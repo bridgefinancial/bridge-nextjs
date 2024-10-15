@@ -2,7 +2,8 @@ import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import clsx from "clsx";
 import React, { forwardRef, useEffect, useState } from "react";
-import FormAction, { FormActionConfig } from "./FormAction";
+import FormFooter from "../FormFooter/FormFooter.component";
+import { FormActionConfig } from "./FormAction";
 import FormPage from "./FormPage";
 
 type FormProps = {
@@ -20,6 +21,9 @@ const Form = forwardRef(
 
     // State to track the window height
     const [formHeight, setFormHeight] = useState<number>(0);
+
+    // State to track if the user is scrolling
+    const [isScrolling, setIsScrolling] = useState<boolean>(false);
 
     // Calculate the form height based on the window size
     useEffect(() => {
@@ -41,6 +45,25 @@ const Form = forwardRef(
       };
     }, []);
 
+    // Scroll event listener
+    useEffect(() => {
+      const handleScroll = () => {
+        setIsScrolling(true);
+        // Optional: Set a timer to reset the state after scrolling stops
+        const scrollTimeout = setTimeout(() => {
+          setIsScrolling(false);
+        }, 1000); // Adjust the delay as needed
+        return () => clearTimeout(scrollTimeout);
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+
     if (isLoading) {
       return (
         <div className="w-full h-full">
@@ -57,14 +80,15 @@ const Form = forwardRef(
       <form
         onSubmit={submit}
         ref={ref}
-        style={{ height: `${formHeight}px` }} // Set the form height dynamically
+        className="bg-white"
+        style={{ minHeight: `${formHeight}px` }} // Set the form height dynamically
         onChange={(e) => {
           // force rerender each time a form input value changes
         }}
       >
-        <div className="px-6 mx-auto max-w-xl">
+        <div className="px-6 mx-auto max-w-xl bg-white">
           {isLoading ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 bg-white">
               <div className="bg-gray-200 animate-pulse w-full rounded-xl h-20" />
               <div className="bg-gray-200 animate-pulse w-1/2 rounded-xl h-20" />
               <div className="bg-gray-200 animate-pulse w-1/2 rounded-xl h-10" />
@@ -74,7 +98,9 @@ const Form = forwardRef(
               {form.definition.pages.map((page, index) => (
                 <div
                   key={page.name}
-                  className={clsx("pb-32", { hidden: index !== pageIndex })}
+                  className={clsx("pb-2 bg-white", {
+                    hidden: index !== pageIndex,
+                  })}
                 >
                   <FormPage pageIndex={index} page={page} />
                 </div>
@@ -82,33 +108,13 @@ const Form = forwardRef(
             </>
           )}
         </div>
-
-        <div className="w-full absolute bottom-0 z-20 border-t border-solid border-bridge-gray-border">
-          {/* Progress */}
-          {/* <div className="w-full flex items-center justify-center gap-2">
-            {form.definition.pages.map((_, index) => {
-              return (
-                <div
-                  key={`page-indicator-${index}`}
-                  className={clsx("basis-0 shrink grow rounded-full h-2", {
-                    "bg-bridge-dark-purple": index < pageIndex,
-                    "bg-gray-300": index >= pageIndex,
-                  })}
-                ></div>
-              );
-            })}
-          </div> */}
-          <div className="w-full flex items-center justify-between bg-white py-6 px-16">
-            {/* Previous */}
-            <FormAction {...previousButtonConfig} />
-
-            {/* Next Page */}
-            <FormAction {...nextButtonConfig} />
-
-            {/* Submit */}
-            <FormAction {...submitButtonConfig} />
-          </div>
-        </div>
+        <FormFooter
+          isScrolling={isScrolling}
+          previousButtonConfig={previousButtonConfig}
+          nextButtonConfig={nextButtonConfig}
+          submitButtonConfig={submitButtonConfig}
+        />
+        {/* Optional: Display whether the user is scrolling */}
       </form>
     );
   },

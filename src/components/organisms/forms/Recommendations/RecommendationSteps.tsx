@@ -23,7 +23,7 @@ const RecommendationSteps = ({ slug }: RecommendationStepsProps) => {
           formId: f.id,
         };
       });
-    }).flat()
+    }).flat(),
   );
 
   if (recommendationSlugIndex === -1) {

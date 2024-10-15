@@ -1,16 +1,16 @@
-import ImprovementAreaDialog from '@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog';
-import { useImprovementCategories } from '@/services/recommendations.service';
-import { routePaths } from '@/types/routes.enum';
+import ImprovementAreaDialog from "@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog";
+import { useImprovementCategories } from "@/services/recommendations.service";
+import { routePaths } from "@/types/routes.enum";
 import {
   Check,
   ChevronRight,
   InfoOutlined,
   Map,
   Summarize,
-} from '@mui/icons-material';
-import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+} from "@mui/icons-material";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 type BusinessHealthRoadmapProps = {
   hasCompletedOnboarding: boolean;
@@ -36,7 +36,7 @@ const BusinessHealthRoadmap = ({
         (areaAcc: number, area: any) => {
           return areaAcc + area.total;
         },
-        0
+        0,
       );
       map[category.id] = total;
     });
@@ -50,7 +50,7 @@ const BusinessHealthRoadmap = ({
         (areaAcc: number, area: any) => {
           return areaAcc + area.completed;
         },
-        0
+        0,
       );
       map[category.id] = total;
     });
@@ -75,14 +75,14 @@ const BusinessHealthRoadmap = ({
   const totalSteps = useMemo(() => {
     return Object.values(totalStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0
+      0,
     );
   }, [totalStepsByCategory]);
 
   const completedSteps = useMemo(() => {
     return Object.values(completedStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0
+      0,
     );
   }, [completedStepsByCategory]);
 
@@ -221,19 +221,19 @@ const BusinessHealthRoadmap = ({
                         <div
                           key={`area-${area.id}`}
                           className={clsx(
-                            'flex items-start lg:items-center gap-6 px-4 py-6 cursor-pointer',
+                            "flex items-start lg:items-center gap-6 px-4 py-6 cursor-pointer",
                             {
-                              'rounded-t-[20px]': i === 0,
+                              "rounded-t-[20px]": i === 0,
 
-                              'rounded-b-[20px]':
+                              "rounded-b-[20px]":
                                 i === category.improvement_areas.length - 1,
 
-                              'bg-[#F8FCED]': area.completed === area.total,
-                            }
+                              "bg-[#F8FCED]": area.completed === area.total,
+                            },
                           )}
                           onClick={() => {
                             router.push(
-                              `${routePaths.BUSINESS_HEALTH}/${area.id}`
+                              `${routePaths.BUSINESS_HEALTH}/${area.id}`,
                             );
                           }}
                         >
@@ -260,31 +260,31 @@ const BusinessHealthRoadmap = ({
                                 {!area.completed && (
                                   <div
                                     className={clsx(
-                                      'rounded-full flex items-center justify-center p-1 w-fit',
+                                      "rounded-full flex items-center justify-center p-1 w-fit",
                                       {
-                                        'bg-[#FCEBE5]': area.priority > 0.5,
-                                        'bg-[#FEF6EC]':
+                                        "bg-[#FCEBE5]": area.priority > 0.5,
+                                        "bg-[#FEF6EC]":
                                           area.priority > 0 &&
                                           area.priority <= 0.5,
-                                        'bg-[#EDF8F2]': area.priority === 0,
-                                      }
+                                        "bg-[#EDF8F2]": area.priority === 0,
+                                      },
                                     )}
                                   >
                                     <p
-                                      className={clsx('text-xs', {
-                                        'text-[#ED682C]': area.priority > 0.5,
-                                        'text-[#F2A83B]':
+                                      className={clsx("text-xs", {
+                                        "text-[#ED682C]": area.priority > 0.5,
+                                        "text-[#F2A83B]":
                                           area.priority > 0 &&
                                           area.priority <= 0.5,
-                                        'text-[#B0BEC5]': area.priority === 0,
+                                        "text-[#B0BEC5]": area.priority === 0,
                                       })}
                                     >
-                                      •{' '}
+                                      •{" "}
                                       {area.priority > 0.5
-                                        ? 'High'
+                                        ? "High"
                                         : area.priority > 0
-                                          ? 'Medium'
-                                          : 'Low'}
+                                          ? "Medium"
+                                          : "Low"}
                                     </p>
                                   </div>
                                 )}
@@ -301,13 +301,13 @@ const BusinessHealthRoadmap = ({
                                     <div
                                       key={`service-category-${recommendation.id}`}
                                       className={clsx(
-                                        'flex items-center px-2 py-[2px] rounded-full w-fit',
+                                        "flex items-center px-2 py-[2px] rounded-full w-fit",
                                         {
-                                          'bg-[#5DBF6D]':
+                                          "bg-[#5DBF6D]":
                                             recommendation.dt_done,
-                                          'bg-[#F0F0F0]':
+                                          "bg-[#F0F0F0]":
                                             !recommendation.dt_done,
-                                        }
+                                        },
                                       )}
                                     >
                                       {recommendation.dt_done && (
@@ -317,14 +317,14 @@ const BusinessHealthRoadmap = ({
                                         />
                                       )}
                                       <p
-                                        className={clsx('text-xs', {
-                                          'text-white': recommendation.dt_done,
+                                        className={clsx("text-xs", {
+                                          "text-white": recommendation.dt_done,
                                         })}
                                       >
                                         {recommendation.service_category.name}
                                       </p>
                                     </div>
-                                  )
+                                  ),
                                 )}
                               </div>
                             </div>
@@ -362,43 +362,43 @@ export default BusinessHealthRoadmap;
 
 const healthGrade = (percentage: number) => {
   if (percentage < 10) {
-    return 'F';
+    return "F";
   } else if (percentage < 30) {
-    return 'C-';
+    return "C-";
   } else if (percentage < 40) {
-    return 'C';
+    return "C";
   } else if (percentage < 50) {
-    return 'C+';
+    return "C+";
   } else if (percentage < 60) {
-    return 'B-';
+    return "B-";
   } else if (percentage < 70) {
-    return 'B';
+    return "B";
   } else if (percentage < 80) {
-    return 'B+';
+    return "B+";
   } else if (percentage < 90) {
-    return 'A-';
+    return "A-";
   } else if (percentage < 100) {
-    return 'A';
+    return "A";
   } else {
-    return 'A+';
+    return "A+";
   }
 };
 
 const healthGradeHeader = (percentage: number): string => {
   if (percentage < 10) {
-    return 'Starting Out';
+    return "Starting Out";
   } else if (percentage < 30) {
-    return 'Making Progress';
+    return "Making Progress";
   } else if (percentage < 50) {
-    return 'Not Bad!';
+    return "Not Bad!";
   } else if (percentage < 70) {
-    return 'Great Job!';
+    return "Great Job!";
   } else if (percentage < 90) {
-    return 'Excellent Work!';
+    return "Excellent Work!";
   } else if (percentage <= 100) {
-    return 'Outstanding!';
+    return "Outstanding!";
   } else {
-    return 'Error';
+    return "Error";
   }
 };
 
@@ -416,6 +416,6 @@ const healthGradeDescription = (percentage: number): string => {
   } else if (percentage <= 100) {
     return "Outstanding! You've achieved an impressive level of completion. Keep maintaining this high standard.";
   } else {
-    return 'Completion percentage is out of range.';
+    return "Completion percentage is out of range.";
   }
 };

@@ -1,7 +1,6 @@
-import React, { Suspense } from "react";
 import { Box, Container } from "@mui/material";
+import React, { Suspense } from "react";
 import LoginForm from "./LoginForm";
-import PageMetaData from "@/components/seo/PageMetaData";
 
 const LoginPage: React.FC = () => {
   return (
@@ -11,6 +10,7 @@ const LoginPage: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          paddingBottom: 4,
         }}
       >
         <Container maxWidth="sm">

@@ -1,10 +1,10 @@
-import ContainedButton from '@/components/atoms/buttons/ContainedButton';
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import { colors } from '@/theme/theme';
-import { FormIntro as FormidableFormIntro } from '@/types/forms.types';
-import { AccessTime, ArrowForward } from '@mui/icons-material';
-import Image from 'next/image';
-import { ReactNode } from 'react';
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { colors } from "@/theme/theme";
+import { FormIntro as FormidableFormIntro } from "@/types/forms.types";
+import { AccessTime, ArrowForward } from "@mui/icons-material";
+import Image from "next/image";
+import { ReactNode } from "react";
 
 type FormIntroProps = {
   onClick: () => void;
@@ -22,7 +22,7 @@ const FormIntro = ({
   onClick,
 }: FormIntroProps) => {
   return (
-    <div className="w-full p-8 bg-white h-full grow flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center">
+    <div className="w-full pl-8 pr-8 pb-20 bg-white h-full grow flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center">
       {/* Text content */}
       <div className="flex flex-col gap-8 max-w-[500px] p-4">
         {!!stepper && stepper}
@@ -45,7 +45,7 @@ const FormIntro = ({
           <div>
             <ContainedButton
               backgroundColor={colors.bridgeDarkPurple}
-              text={buttonText ?? 'Get Started'}
+              text={buttonText ?? "Get Started"}
               onClick={onClick}
               endIcon={<ArrowForward />}
             />
@@ -61,10 +61,10 @@ const FormIntro = ({
           width={500}
           height={500}
           style={{
-            objectFit: 'cover', // Adjust the fit of the image
-            borderRadius: '8px', // Rounded corners for the image
-            height: '100%', // Ensure the image takes the full height
-            width: '100%', // Ensure the image takes the full width
+            objectFit: "cover", // Adjust the fit of the image
+            borderRadius: "8px", // Rounded corners for the image
+            height: "100%", // Ensure the image takes the full height
+            width: "100%", // Ensure the image takes the full width
           }}
         />
       </div>

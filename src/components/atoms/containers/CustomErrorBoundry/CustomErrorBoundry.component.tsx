@@ -1,6 +1,6 @@
-import React, { useState, ReactNode } from "react";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import Image from "next/image";
+import React, { ReactNode, useState } from "react";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 interface CustomErrorBoundaryProps {
   children: ReactNode;
@@ -63,6 +63,7 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
         <div
           style={{
             padding: "20px",
+            paddingBottom: 150,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",

@@ -1,20 +1,20 @@
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import TextButton from "@/components/atoms/buttons/TextButton/TextButton.component";
-import { colors } from "@/theme/theme";
-import { BaseButtonProps } from "@/types/base-button-props.interface";
-import { Button } from "@mui/material";
-import React, { ReactNode } from "react";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import TextButton from '@/components/atoms/buttons/TextButton/TextButton.component';
+import { colors } from '@/theme/theme';
+import { BaseButtonProps } from '@/types/base-button-props.interface';
+import { ReactNode } from 'react';
 
-export type FormActionConfig = {
+export interface FormActionConfig extends Partial<BaseButtonProps> {
   hidden: boolean;
-  onClick: BaseButtonProps["onClick"];
+  onClick: BaseButtonProps['onClick'];
   disabled: boolean;
   isLoading: boolean;
   text: string;
-  type?: "button" | "submit";
-  variant?: "contained" | "text";
+  sx?: BaseButtonProps['sx'];
+  type?: 'button' | 'submit';
+  variant?: 'contained' | 'text';
   endIcon?: ReactNode;
-};
+}
 
 const FormAction = ({
   hidden,
@@ -22,6 +22,7 @@ const FormAction = ({
   disabled,
   isLoading,
   type,
+  sx = {},
   text,
   variant,
   endIcon,
@@ -30,13 +31,14 @@ const FormAction = ({
     return <></>;
   }
 
-  if (variant === "text") {
+  if (variant === 'text') {
     return (
       <TextButton
         disabled={disabled}
         onClick={onClick}
         isLoading={isLoading}
-        type={type ?? "button"}
+        type={type ?? 'button'}
+        sx={sx}
         text={text}
         textColor={colors.bridgeDarkPurple}
       />
@@ -47,7 +49,8 @@ const FormAction = ({
       disabled={disabled}
       onClick={onClick}
       isLoading={isLoading}
-      type={type ?? "button"}
+      sx={sx}
+      type={type ?? 'button'}
       text={text}
       backgroundColor="#6a5ace"
       endIcon={endIcon}

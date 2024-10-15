@@ -1,18 +1,18 @@
-import { BaseButtonProps } from "@/types/base-button-props.interface";
-import Button, { ButtonProps } from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-import merge from "lodash.merge"; // Import lodash's merge utility
-import Link from "next/link";
-import React, { FC, useMemo } from "react";
-import ParagraphText from "../../typography/ParagraphText";
+import { BaseButtonProps } from '@/types/base-button-props.interface';
+import Button, { ButtonProps } from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import merge from 'lodash.merge'; // Import lodash's merge utility
+import Link from 'next/link';
+import React, { FC, useMemo } from 'react';
+import ParagraphText from '../../typography/ParagraphText';
 
-interface ContainedButtonProps extends BaseButtonProps {
+export interface ContainedButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
   textColor?: string;
   backgroundColor?: string;
   isLoading?: boolean;
   disabled?: boolean;
-  type?: ButtonProps["type"];
+  type?: ButtonProps['type'];
   startIcon?: React.ReactNode;
   textProps?: Record<string, any>; // Style for the text component
   endIcon?: React.ReactNode;
@@ -23,16 +23,17 @@ interface ContainedButtonProps extends BaseButtonProps {
 
 const ContainedButton: FC<ContainedButtonProps> = (props) => {
   const {
-    fullWidth,
-    textColor = "white",
-    backgroundColor = "#212121",
+    fullWidth = false,
+    textColor = 'white',
+    backgroundColor = '#212121',
     text,
-    onClick,
-    isLoading,
-    disabled,
+    onClick = () => {},
+    isLoading = false,
+    type = 'button',
+    disabled = false,
     textProps = {
       sx: {
-        color: textColor ?? "white",
+        color: textColor ?? 'white',
       },
     }, // Add default empty textStyle
     sx = {},
@@ -44,20 +45,20 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
   const defaultStyles = useMemo(
     () => ({
       borderRadius: 3,
-      textTransform: "initial",
+      textTransform: 'initial',
       backgroundColor: backgroundColor,
       color: textColor,
-      "&:hover": {
+      '&:hover': {
         backgroundColor: backgroundColor,
       },
     }),
-    [backgroundColor, textColor],
+    [backgroundColor, textColor]
   );
 
   // Merge default styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
-    [sx, defaultStyles],
+    [sx, defaultStyles]
   );
 
   return (
@@ -68,7 +69,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       fullWidth={fullWidth}
       disableElevation={true}
       disabled={isLoading || disabled}
-      type="button"
+      type={type}
       LinkComponent={Link}
       {...rest}
     >

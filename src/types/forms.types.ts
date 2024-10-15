@@ -1,4 +1,5 @@
-import { FieldType } from "./forms.enum";
+import { JSX } from 'react';
+import { FieldType } from './forms.enum';
 
 export type FormDefinition = {
   id: number | string;
@@ -165,12 +166,12 @@ export type FormidableForm = {
 };
 
 export type ConditionOperator =
-  | "equal"
-  | "not_equal"
-  | "greater_than"
-  | "greater_than_or_equal"
-  | "less_than"
-  | "less_than_or_equal";
+  | 'equal'
+  | 'not_equal'
+  | 'greater_than'
+  | 'greater_than_or_equal'
+  | 'less_than'
+  | 'less_than_or_equal';
 
 export type Condition = {
   dependant_on: {
@@ -190,7 +191,8 @@ export type Section = {
 
 export type Page = {
   name: string;
-  header?: string;
+  header?: string | (() => JSX.Element);
+
   fields: FormField[];
   conditions?: Condition[];
 
@@ -261,18 +263,18 @@ export type CustomValidator = {
 };
 
 export enum CustomValidatorType {
-  Greater = "greater",
-  GreaterOrEqual = "greater_or_equal",
-  Less = "less",
-  LessOrEqual = "less_or_equal",
-  Equal = "equal",
+  Greater = 'greater',
+  GreaterOrEqual = 'greater_or_equal',
+  Less = 'less',
+  LessOrEqual = 'less_or_equal',
+  Equal = 'equal',
 }
 
 export enum CleanType {
-  Trim = "trim",
-  Uppercase = "uppercase",
-  Lowercase = "lowercase",
-  Capitalize = "capitalize",
+  Trim = 'trim',
+  Uppercase = 'uppercase',
+  Lowercase = 'lowercase',
+  Capitalize = 'capitalize',
 }
 
 export type Questionnaire = {

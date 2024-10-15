@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useBreakpointQuery } from '@/hooks/useBreakpointQuery.hook';
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Image from 'next/image';
-import Link, { LinkProps } from 'next/link';
-import React from 'react';
+import { useBreakpointQuery } from "@/hooks/useBreakpointQuery.hook";
+import AppBar from "@mui/material/AppBar";
+import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
+import Image from "next/image";
+import Link, { LinkProps } from "next/link";
+import React from "react";
 
 export interface HeaderProps {
   /**
@@ -68,9 +68,9 @@ export interface HeaderProps {
  */
 function MainHeader(props: HeaderProps) {
   const {
-    linkProps = { href: '/' },
+    linkProps = { href: "/" },
     LinkComponent = Link,
-    logoPath = '/assets/images/bridge-logo.png',
+    logoPath = "/assets/images/bridge-logo.png",
     HeaderActions = <></>,
   } = props;
 
@@ -83,32 +83,32 @@ function MainHeader(props: HeaderProps) {
     <AppBar
       position="relative"
       sx={{
-        backgroundColor: 'white',
-        height: isMobile ? '80px' : '99px',
-        justifyContent: 'center',
+        backgroundColor: "white",
+        height: isMobile ? "80px" : "99px",
+        justifyContent: "center",
         transition: {
-          'ease-in-out': '0.1s',
+          "ease-in-out": "0.1s",
         },
-        boxShadow: 'none',
+        boxShadow: "none",
       }}
     >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters={true}
           sx={{
-            height: '100%',
+            height: "100%",
             maxWidth: 928,
-            alignItems: 'center',
+            alignItems: "center",
             borderWidth: 0,
-            borderColor: 'transparent',
+            borderColor: "transparent",
           }}
         >
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
             }}
           >
             <LinkComponent {...linkProps}>
@@ -136,7 +136,7 @@ function MainHeader(props: HeaderProps) {
               )}
             </LinkComponent>
 
-            <div style={{ marginLeft: 'auto' }}>
+            <div style={{ marginLeft: "auto" }}>
               {HeaderActions ? HeaderActions : null}
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
+import { Step, StepLabel, Stepper } from "@mui/material";
 
 export type Step = {
   label: string;
@@ -12,7 +12,7 @@ export type StepsProps = {
 
 const Steps = ({ steps, activeStepIndex }: StepsProps) => {
   return (
-    <Stepper activeStep={activeStepIndex} alternativeLabel>
+    <Stepper activeStep={activeStepIndex} alternativeLabel={true}>
       {steps.map(({ label, isCompleted }, index) => {
         return (
           <Step key={label} completed={isCompleted}>

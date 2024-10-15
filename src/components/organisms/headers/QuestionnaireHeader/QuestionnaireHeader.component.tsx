@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useLayoutEffect, useRef, useState } from 'react';
+import Image from "next/image";
+import { useLayoutEffect, useRef, useState } from "react";
 
-type QuestionnaireHeaderProps = {};
+interface QuestionnaireHeaderProps {}
 
-const QuestionnaireHeader = ({}: QuestionnaireHeaderProps) => {
+const QuestionnaireHeader = (props: QuestionnaireHeaderProps) => {
   const [dropShadowEnabled, setDropShadowEnabled] = useState(false);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
-  const [shrinkHeader, setShrinkHeader] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null); // Ref to track the header
 
   // Scroll event handler
@@ -35,13 +34,13 @@ const QuestionnaireHeader = ({}: QuestionnaireHeaderProps) => {
     updateHeaderHeight();
 
     // Add scroll and resize event listeners
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', updateHeaderHeight); // Adjust height on window resize
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateHeaderHeight); // Adjust height on window resize
 
     // Clean up event listeners
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateHeaderHeight);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateHeaderHeight);
     };
   }, []);
 
@@ -51,16 +50,16 @@ const QuestionnaireHeader = ({}: QuestionnaireHeaderProps) => {
       <div
         ref={headerRef}
         style={{
-          position: 'fixed',
-          width: '100%',
-          backgroundColor: 'white',
+          position: "fixed",
+          width: "100%",
+          backgroundColor: "white",
           zIndex: 100000,
         }}
       >
         {/* MOBILE HEADER */}
         <div
           className={`sticky top-0 w-screen md:hidden bg-white transition-shadow duration-300 ${
-            dropShadowEnabled ? 'shadow-md' : ''
+            dropShadowEnabled ? "shadow-md" : ""
           }`}
         >
           <div className="w-full grid grid-cols-3 p-4">
@@ -84,7 +83,7 @@ const QuestionnaireHeader = ({}: QuestionnaireHeaderProps) => {
         {/* DESKTOP NAV */}
         <div
           className={`sticky top-0 hidden md:flex w-full flex-col py-7 px-16 bg-white z-10 transition-shadow duration-300 ${
-            dropShadowEnabled ? 'shadow-md' : ''
+            dropShadowEnabled ? "shadow-md" : ""
           }`}
         >
           <Image
@@ -102,11 +101,11 @@ const QuestionnaireHeader = ({}: QuestionnaireHeaderProps) => {
         className="bg-white"
         style={{
           height: headerHeight,
-          position: 'relative',
-          backgroundColor: 'white',
+          position: "relative",
+          backgroundColor: "white",
           marginBottom: headerHeight / 4,
         }}
-      ></div>
+      />
     </div>
   );
 };

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import QuestionnaireHeader from '@/components/organisms/headers/QuestionnaireHeader';
-import { useQuestionnaire } from '@/providers/Questionnaire.provider';
-import { ReactNode } from 'react';
+import QuestionnaireHeader from "@/components/organisms/headers/QuestionnaireHeader";
+import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import { ReactNode } from "react";
 
 type QuestionnaireLayoutProps = {
   children?: ReactNode;

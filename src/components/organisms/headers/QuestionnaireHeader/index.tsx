@@ -1,1 +1,1 @@
-export { default } from './QuestionnaireHeader.component';
+export { default } from "./QuestionnaireHeader.component";

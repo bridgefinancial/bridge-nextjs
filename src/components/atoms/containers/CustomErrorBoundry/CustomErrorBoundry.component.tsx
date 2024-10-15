@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import React, { ReactNode, useState } from 'react';
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+import Image from "next/image";
+import React, { ReactNode, useState } from "react";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 interface CustomErrorBoundaryProps {
   children: ReactNode;
@@ -12,20 +12,20 @@ interface CustomErrorBoundaryProps {
 const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
   children,
   supportEmail,
-  emailSubject = 'Bug Report',
-  emailBodyPrefix = 'Hello Support Team,\n\nI encountered an issue with the application. Below are the details:',
+  emailSubject = "Bug Report",
+  emailBodyPrefix = "Hello Support Team,\n\nI encountered an issue with the application. Below are the details:",
 }) => {
   const [componentStack, setComponentStack] = useState<string | null>(null);
 
   const handleErrorLogging = (
     error: Error,
-    errorInfo?: { componentStack?: string | null }
+    errorInfo?: { componentStack?: string | null },
   ) => {
-    console.error('Error:', error);
+    console.error("Error:", error);
     if (errorInfo && errorInfo.componentStack) {
-      const stack = errorInfo.componentStack || 'No component stack available';
+      const stack = errorInfo.componentStack || "No component stack available";
       setComponentStack(stack);
-      console.error('Component Stack:', stack);
+      console.error("Component Stack:", stack);
     }
   };
 
@@ -34,25 +34,25 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
   };
 
   const buttonStyle = {
-    padding: '10px 20px',
-    backgroundColor: '#007BFF',
-    color: '#fff',
-    borderRadius: '5px',
-    textDecoration: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '16px',
-    margin: '10px 0',
-    textAlign: 'center' as const,
-    display: 'inline-block',
+    padding: "10px 20px",
+    backgroundColor: "#007BFF",
+    color: "#fff",
+    borderRadius: "5px",
+    textDecoration: "none",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "16px",
+    margin: "10px 0",
+    textAlign: "center" as const,
+    display: "inline-block",
   };
 
   const linkStyle = {
-    color: '#007BFF',
-    textDecoration: 'underline',
-    cursor: 'pointer',
-    fontSize: '16px',
-    marginTop: '10px',
+    color: "#007BFF",
+    textDecoration: "underline",
+    cursor: "pointer",
+    fontSize: "16px",
+    marginTop: "10px",
   };
 
   return (
@@ -62,28 +62,28 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
       fallbackRender={({ error, resetErrorBoundary }: FallbackProps) => (
         <div
           style={{
-            padding: '20px',
+            padding: "20px",
             paddingBottom: 150,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#f8f9fa',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#f8f9fa",
           }}
         >
           <div
             style={{
               maxWidth: 500,
-              display: 'flex',
-              flexDirection: 'column',
-              textAlign: 'center',
-              backgroundColor: '#fff',
-              padding: '30px',
-              borderRadius: '10px',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+              backgroundColor: "#fff",
+              padding: "30px",
+              borderRadius: "10px",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
             }}
           >
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: "20px" }}>
               <Image
                 src="/assets/images/Bridge-logo.png"
                 alt="Logo"
@@ -94,33 +94,33 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
 
             <p
               style={{
-                fontWeight: 'bold',
-                color: 'rgba(0, 0, 0, 0.5)',
-                fontSize: '22px',
-                marginBottom: '20px',
+                fontWeight: "bold",
+                color: "rgba(0, 0, 0, 0.5)",
+                fontSize: "22px",
+                marginBottom: "20px",
               }}
             >
               Something went wrong
             </p>
             <p
               style={{
-                textTransform: 'uppercase',
-                color: 'rgba(0, 0, 0, 0.5)',
+                textTransform: "uppercase",
+                color: "rgba(0, 0, 0, 0.5)",
               }}
             >
-              {' '}
+              {" "}
               <strong>Error Message:</strong>
             </p>
 
             <div
               style={{
-                borderRadius: '10px',
-                padding: '20px',
-                backgroundColor: '#E57373',
-                color: 'white',
-                marginBottom: '10px',
-                maxHeight: '20vh',
-                overflowY: 'scroll',
+                borderRadius: "10px",
+                padding: "20px",
+                backgroundColor: "#E57373",
+                color: "white",
+                marginBottom: "10px",
+                maxHeight: "20vh",
+                overflowY: "scroll",
               }}
             >
               <p>
@@ -137,23 +137,23 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
 
                 <p
                   style={{
-                    textTransform: 'uppercase',
+                    textTransform: "uppercase",
                     marginBottom: 10,
-                    color: 'rgba(0, 0, 0, 0.5)',
+                    color: "rgba(0, 0, 0, 0.5)",
                   }}
                 >
-                  {' '}
+                  {" "}
                   <strong>Component Stack Trace:</strong>
                 </p>
                 <div
                   style={{
-                    padding: '10px',
-                    overflowY: 'scroll',
-                    maxHeight: '20vh',
+                    padding: "10px",
+                    overflowY: "scroll",
+                    maxHeight: "20vh",
 
-                    backgroundColor: '#FFCDD2',
-                    borderRadius: '10px',
-                    color: '#B71C1C',
+                    backgroundColor: "#FFCDD2",
+                    borderRadius: "10px",
+                    color: "#B71C1C",
                   }}
                 >
                   <pre>
@@ -165,7 +165,7 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
             <br />
             <button
               onClick={resetErrorBoundary}
-              style={{ ...buttonStyle, backgroundColor: '#28a745' }}
+              style={{ ...buttonStyle, backgroundColor: "#28a745" }}
             >
               Retry
             </button>
@@ -173,11 +173,11 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `Error Message: ${error.message}\nError Stack: ${error.stack}\nComponent Stack: ${componentStack}`
+                  `Error Message: ${error.message}\nError Stack: ${error.stack}\nComponent Stack: ${componentStack}`,
                 );
-                alert('Error details copied to clipboard');
+                alert("Error details copied to clipboard");
               }}
-              style={{ ...buttonStyle, backgroundColor: '#17a2b8' }}
+              style={{ ...buttonStyle, backgroundColor: "#17a2b8" }}
             >
               Copy Error Details
             </button>
@@ -190,11 +190,11 @@ const CustomErrorBoundary: React.FC<CustomErrorBoundaryProps> = ({
 
 Error Message: ${error.message}
 Error Stack: ${error.stack}
-Component Stack: ${componentStack || 'No component stack available'}
+Component Stack: ${componentStack || "No component stack available"}
 
 Please assist in resolving this issue.
 
-Thank you!`
+Thank you!`,
                 );
                 const mailtoLink = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
                 window.location.href = mailtoLink;

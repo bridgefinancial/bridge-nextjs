@@ -1,15 +1,15 @@
-'use client';
-import { useCallback, useEffect, useState } from 'react';
+"use client";
+import { useCallback, useEffect, useState } from "react";
 
 // Define the type for scroll options (optional)
 interface ScrollToOptions {
   top?: number; // The vertical scroll position
-  behavior?: 'auto' | 'smooth'; // Scroll behavior
+  behavior?: "auto" | "smooth"; // Scroll behavior
 }
 
 const useScrollTo = (options?: ScrollToOptions) => {
   // Check if window is defined (to handle SSR or non-browser environments)
-  const isWindowDefined = typeof window !== 'undefined';
+  const isWindowDefined = typeof window !== "undefined";
   const [scrolledToTop, setScrolledToTop] = useState(false);
   // State to store the window dimensions and scale
   const [dimensions, setDimensions] = useState({
@@ -20,7 +20,7 @@ const useScrollTo = (options?: ScrollToOptions) => {
 
   // State to store the current scroll position (using the `html` tag)
   const [scrollPosition, setScrollPosition] = useState<number>(
-    isWindowDefined ? document.documentElement.scrollTop : 0
+    isWindowDefined ? document.documentElement.scrollTop : 0,
   );
 
   // Function to get the current scroll position from the `html` tag dynamically
@@ -43,13 +43,13 @@ const useScrollTo = (options?: ScrollToOptions) => {
       });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup the event listeners on unmount
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, [isWindowDefined]);
 
@@ -58,7 +58,7 @@ const useScrollTo = (options?: ScrollToOptions) => {
     (scrollOptions?: ScrollToOptions) => {
       if (!isWindowDefined) return; // Prevent errors in non-browser environments
 
-      const { top = 0, behavior = 'smooth' } = scrollOptions || options || {}; // Fallback to options or default
+      const { top = 0, behavior = "smooth" } = scrollOptions || options || {}; // Fallback to options or default
 
       const scrollTop = getScrollPosition();
 
@@ -72,7 +72,7 @@ const useScrollTo = (options?: ScrollToOptions) => {
         setScrolledToTop(top === 0); // Update scrolledToTop based on the scroll position
       }
     },
-    [options, isWindowDefined] // Dependency is the options passed to the hook
+    [options, isWindowDefined], // Dependency is the options passed to the hook
   );
 
   // Return the onChange function, the current scroll position, and window dimensions/scale

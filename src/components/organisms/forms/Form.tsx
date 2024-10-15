@@ -1,10 +1,10 @@
-import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
-import { useQuestionnaire } from '@/providers/Questionnaire.provider';
-import clsx from 'clsx';
-import React, { forwardRef, useEffect, useState } from 'react';
-import FormFooter from '../FormFooter/FormFooter.component';
-import { FormActionConfig } from './FormAction';
-import FormPage from './FormPage';
+import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
+import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import clsx from "clsx";
+import React, { forwardRef, useEffect, useState } from "react";
+import FormFooter from "../FormFooter/FormFooter.component";
+import { FormActionConfig } from "./FormAction";
+import FormPage from "./FormPage";
 
 type FormProps = {
   previousButtonConfig: FormActionConfig;
@@ -15,7 +15,7 @@ type FormProps = {
 const Form = forwardRef(
   (
     { previousButtonConfig, nextButtonConfig, submitButtonConfig }: FormProps,
-    ref: React.ForwardedRef<HTMLFormElement>
+    ref: React.ForwardedRef<HTMLFormElement>,
   ) => {
     const { form, pageIndex, submit, isLoading } = useQuestionnaire();
 
@@ -28,7 +28,7 @@ const Form = forwardRef(
     // Calculate the form height based on the window size
     useEffect(() => {
       const updateFormHeight = () => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           setFormHeight(window.innerHeight);
         }
       };
@@ -37,11 +37,11 @@ const Form = forwardRef(
       updateFormHeight();
 
       // Listen to the window resize event to update the height dynamically
-      window.addEventListener('resize', updateFormHeight);
+      window.addEventListener("resize", updateFormHeight);
 
       // Cleanup the event listener on component unmount
       return () => {
-        window.removeEventListener('resize', updateFormHeight);
+        window.removeEventListener("resize", updateFormHeight);
       };
     }, []);
 
@@ -56,11 +56,11 @@ const Form = forwardRef(
         return () => clearTimeout(scrollTimeout);
       };
 
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener("scroll", handleScroll);
 
       // Cleanup the event listener on component unmount
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener("scroll", handleScroll);
       };
     }, []);
 
@@ -98,7 +98,7 @@ const Form = forwardRef(
               {form.definition.pages.map((page, index) => (
                 <div
                   key={page.name}
-                  className={clsx('pb-2 bg-white', {
+                  className={clsx("pb-2 bg-white", {
                     hidden: index !== pageIndex,
                   })}
                 >
@@ -117,7 +117,7 @@ const Form = forwardRef(
         {/* Optional: Display whether the user is scrolling */}
       </form>
     );
-  }
+  },
 );
 
 export default Form;

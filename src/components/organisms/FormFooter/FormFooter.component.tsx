@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import FormAction, { FormActionConfig } from '../forms/FormAction';
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import FormAction, { FormActionConfig } from "../forms/FormAction";
 
 interface FormFooterProps {
   isScrolling: boolean;
@@ -19,7 +19,7 @@ function FormFooter(props: FormFooterProps) {
   const footerRef = useRef<HTMLDivElement>(null); // Ref for the footer
   const [footerHeight, setFooterHeight] = useState(0); // State to track footer height
   const [initialWindowHeight, setInitialWindowHeight] = useState(
-    window.innerHeight
+    window.innerHeight,
   );
   const [showBorderTop, setShowBorderTop] = useState(false);
 
@@ -40,10 +40,10 @@ function FormFooter(props: FormFooterProps) {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -59,10 +59,10 @@ function FormFooter(props: FormFooterProps) {
     // Update footer height on mount and resize
     updateFooterHeight();
 
-    window.addEventListener('resize', updateFooterHeight);
+    window.addEventListener("resize", updateFooterHeight);
 
     return () => {
-      window.removeEventListener('resize', updateFooterHeight);
+      window.removeEventListener("resize", updateFooterHeight);
     };
   }, []);
 
@@ -75,32 +75,32 @@ function FormFooter(props: FormFooterProps) {
       const footerElement = footerRef.current;
       if (isKeyboardVisible && footerElement) {
         // If the keyboard is visible, adjust the footer position
-        footerElement.style.bottom = '0px'; // Adjust as needed
+        footerElement.style.bottom = "0px"; // Adjust as needed
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [initialWindowHeight, isScrolling]);
 
   return (
-    <div className={'bg-white'}>
+    <div className={"bg-white"}>
       <div
         ref={footerRef}
         id="form-footer"
         style={{
-          position: 'fixed', // Always fixed
+          position: "fixed", // Always fixed
           zIndex: 10000,
-          bottom: '0px', // Always at the bottom
-          width: '100%',
+          bottom: "0px", // Always at the bottom
+          width: "100%",
         }}
         className={
           showBorderTop
-            ? 'border-t border-solid border-bridge-gray-border bg-white'
-            : 'bg-white'
+            ? "border-t border-solid border-bridge-gray-border bg-white"
+            : "bg-white"
         }
       >
         <div className="w-full flex items-center justify-between bg-white py-6 px-16">
@@ -118,10 +118,10 @@ function FormFooter(props: FormFooterProps) {
         className="bg-white"
         style={{
           height: footerHeight, // Set to the height of the footer
-          position: 'relative',
+          position: "relative",
           marginTop: footerHeight / 4, // Example margin based on the footer height
         }}
-      ></div>
+      />
     </div>
   );
 }

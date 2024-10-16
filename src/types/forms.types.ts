@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { FieldType } from "./forms.enum";
 
 export type FormDefinition = {
@@ -190,7 +191,8 @@ export type Section = {
 
 export type Page = {
   name: string;
-  header?: string;
+  header?: string | (() => JSX.Element);
+
   fields: FormField[];
   conditions?: Condition[];
 

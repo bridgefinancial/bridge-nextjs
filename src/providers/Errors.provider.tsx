@@ -1,18 +1,14 @@
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useEffect,
-  useState,
-  ReactNode,
-  useMemo,
-} from "react";
+import CustomErrorBoundary from "@/components/atoms/containers/CustomErrorBoundry/CustomErrorBoundry.component";
 import ToastNotification from "@/components/molecules/feedback/ToastNotification";
 import { isEmpty } from "lodash";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import CustomErrorBoundary from "@/components/atoms/containers/CustomErrorBoundry/CustomErrorBoundry.component";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
 
 // Custom Error Boundary Component
 

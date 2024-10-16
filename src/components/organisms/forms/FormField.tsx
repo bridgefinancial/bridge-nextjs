@@ -1,5 +1,9 @@
+"use client";
+
+import LabelText from "@/components/atoms/typography/LabelText";
 /* eslint-disable react/display-name */
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import CustomFormControlLabel from "@/components/molecules/forms/CustomFormControlLabel";
 import { useQuestionnaire } from "@/providers/Questionnaire.provider";
 import { FieldInformationService } from "@/services/fields.service";
 import { colors } from "@/theme/theme";
@@ -62,9 +66,10 @@ const FormField = forwardRef(
         {formField.type !== "hidden" &&
           formField.label &&
           formField.label.length > 0 && (
-            <label
+            <LabelText
               htmlFor={formField.name}
               className={clsx("fmd-label text-lg")}
+              style={{ cursor: "pointer" }}
             >
               {formField.label}
               {formField.hint && (
@@ -72,7 +77,7 @@ const FormField = forwardRef(
                   ?
                 </span>
               )}
-            </label>
+            </LabelText>
           )}
 
         {/* Field Types */}
@@ -182,6 +187,8 @@ const FormField = forwardRef(
                   {option.iconUrl && (
                     <div className="px-6 py-3">
                       <Image
+                        loading="lazy"
+                        unoptimized={true}
                         src={option.iconUrl}
                         alt={`option-${formField.name}-icon`}
                         className="object-contain"
@@ -192,10 +199,11 @@ const FormField = forwardRef(
                   )}
                   {formField.type !== FieldType.Checkbox9Grid ? (
                     <div className="px-4">
-                      <FormControlLabel
+                      <CustomFormControlLabel
                         checked={
                           !!formValues[formField.name]?.includes(option.value)
                         }
+                        onChange={() => {}}
                         control={<Checkbox />}
                         label={option.label}
                         name={option.value as string}
@@ -268,6 +276,8 @@ const FormField = forwardRef(
                 {option.iconUrl && (
                   <div className="px-6 py-3">
                     <Image
+                      loading={"lazy"}
+                      unoptimized={true}
                       src={option.iconUrl}
                       alt={`option-${formField.name}-icon`}
                       className="object-contain"
@@ -303,10 +313,10 @@ const FormField = forwardRef(
                     />
                   </>
                 ) : (
-                  <label className="fmd-radio-label cursor-pointer">
+                  <LabelText className="fmd-radio-label cursor-pointer">
                     {option.label}
                     <span className="fmd-radio-circle" />
-                  </label>
+                  </LabelText>
                 )}
                 <input
                   ref={ref}

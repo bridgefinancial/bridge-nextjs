@@ -1,10 +1,10 @@
-import React, { FC, MouseEventHandler, useMemo } from "react";
+import { colors } from "@/theme/theme";
+import { BaseButtonProps } from "@/types/base-button-props.interface";
 import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import merge from "lodash.merge"; // Import lodash's merge utility
-import { BaseButtonProps } from "@/types/base-button-props.interface";
+import React, { FC, MouseEventHandler, useMemo } from "react";
 import ParagraphText from "../../typography/ParagraphText";
-import { colors } from "@/theme/theme";
 
 export interface TextButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
@@ -17,6 +17,7 @@ export interface TextButtonProps extends BaseButtonProps {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
+  textProps?: Record<string, any>; // Extend textProps as needed
 }
 
 const TextButton: FC<TextButtonProps> = (props) => {
@@ -28,19 +29,29 @@ const TextButton: FC<TextButtonProps> = (props) => {
     onClick = () => console.log("onclick inside of contained button"),
     isLoading,
     disabled,
-    textProps = {
-      sx: {
-        color: disabled ? colors.gray600 : (textColor ?? "#212121"),
-        fontWeight: "bold",
-        backgroundOpacity: disabled ? 60 : undefined,
-      },
-    }, // Add default empty textStyle
+    textProps = {}, // This will now be an empty object by default
     type = "button",
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
     sx = {},
     ...rest
   } = props;
-  // Define default styles
+
+  // Define default textProps
+  const defaultTextProps = {
+    sx: {
+      color: disabled ? colors.gray600 : textColor,
+      fontWeight: "bold",
+      backgroundOpacity: disabled ? 60 : undefined,
+    },
+  };
+
+  // Merge passed textProps with defaultTextProps
+  const mergedTextProps = useMemo(
+    () => merge({}, defaultTextProps, textProps),
+    [textProps, defaultTextProps],
+  );
+
+  // Define default button styles
   const defaultStyles = useMemo(
     () => ({
       borderRadius: 3,
@@ -54,7 +65,7 @@ const TextButton: FC<TextButtonProps> = (props) => {
     [backgroundColor, textColor],
   );
 
-  // Merge default styles with custom styles
+  // Merge default button styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
     [sx, defaultStyles],
@@ -74,7 +85,7 @@ const TextButton: FC<TextButtonProps> = (props) => {
       {isLoading ? (
         <CircularProgress size={20} />
       ) : (
-        <TextComponent {...textProps}>{text}</TextComponent>
+        <TextComponent {...mergedTextProps}>{text}</TextComponent>
       )}{" "}
     </Button>
   );

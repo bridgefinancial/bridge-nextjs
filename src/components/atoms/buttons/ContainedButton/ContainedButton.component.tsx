@@ -6,7 +6,7 @@ import Link from "next/link";
 import React, { FC, useMemo } from "react";
 import ParagraphText from "../../typography/ParagraphText";
 
-interface ContainedButtonProps extends BaseButtonProps {
+export interface ContainedButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
   textColor?: string;
   backgroundColor?: string;
@@ -23,24 +23,34 @@ interface ContainedButtonProps extends BaseButtonProps {
 
 const ContainedButton: FC<ContainedButtonProps> = (props) => {
   const {
-    fullWidth,
+    fullWidth = false,
     textColor = "white",
     backgroundColor = "#212121",
     text,
-    onClick,
-    isLoading,
-    disabled,
-    textProps = {
-      sx: {
-        color: textColor ?? "white",
-      },
-    }, // Add default empty textStyle
+    onClick = () => {},
+    isLoading = false,
+    type = "button",
+    disabled = false,
+    textProps = {}, // Start with an empty object
     sx = {},
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
     ...rest
   } = props;
 
-  // Define default styles
+  // Define default textProps
+  const defaultTextProps = {
+    sx: {
+      color: textColor ?? "white",
+    },
+  };
+
+  // Merge default textProps with user-provided textProps
+  const mergedTextProps = useMemo(
+    () => merge({}, defaultTextProps, textProps),
+    [textProps, defaultTextProps],
+  );
+
+  // Define default button styles
   const defaultStyles = useMemo(
     () => ({
       borderRadius: 3,
@@ -54,7 +64,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     [backgroundColor, textColor],
   );
 
-  // Merge default styles with custom styles
+  // Merge default button styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
     [sx, defaultStyles],
@@ -68,14 +78,14 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       fullWidth={fullWidth}
       disableElevation={true}
       disabled={isLoading || disabled}
-      type="button"
+      type={type}
       LinkComponent={Link}
       {...rest}
     >
       {isLoading ? (
         <CircularProgress size={20} />
       ) : (
-        <TextComponent fontSize={14} {...textProps}>
+        <TextComponent fontSize={14} {...mergedTextProps}>
           {text}
         </TextComponent>
       )}

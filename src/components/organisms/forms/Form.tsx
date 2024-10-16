@@ -10,6 +10,7 @@ type FormProps = {
   previousButtonConfig: FormActionConfig;
   nextButtonConfig: FormActionConfig;
   submitButtonConfig: FormActionConfig;
+  progress: number;
 };
 
 const Form = forwardRef(

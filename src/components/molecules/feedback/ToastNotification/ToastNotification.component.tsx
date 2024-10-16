@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import Button, { ButtonProps } from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import { BaseButtonProps } from "@/types/base-button-props.interface";
 import { BaseTypographyProps } from "@/types/base-typography-props.interface";
+import CloseIcon from "@mui/icons-material/Close";
+import Alert from "@mui/material/Alert";
+import { ButtonProps } from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import React from "react";
 
 interface OnActionProps extends BaseButtonProps {
   fullWidth?: boolean;
@@ -77,6 +77,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = (
       autoHideDuration={autoHideDisabled ? null : autoHideDuration} // Disable auto-hide when autoHideDisabled is true
       onClose={handleClose}
       anchorOrigin={anchorOrigin}
+      sx={{ zIndex: 9999 }} // Ensure this component is above everything else
     >
       <Alert
         onClose={handleClose}
@@ -89,6 +90,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = (
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          zIndex: 9999, // Ensure this component is above everything else
         }}
         action={
           <>

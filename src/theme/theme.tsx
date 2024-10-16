@@ -1,3 +1,4 @@
+// export default theme;
 import { createTheme } from "@mui/material/styles";
 
 export const colors = {
@@ -30,8 +31,10 @@ export const colors = {
   bridgeDarkOrange: "#f48421",
 };
 
-const theme = createTheme({
+// Light theme
+export const lightTheme = createTheme({
   palette: {
+    mode: "light",
     primary: {
       main: colors.bridgeDarkPurple,
     },
@@ -47,6 +50,7 @@ const theme = createTheme({
     },
     background: {
       default: colors.bridgeLightGray,
+      paper: "#ffffff", // Background for components like cards
     },
   },
   typography: {
@@ -108,7 +112,109 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.bridgeLightGray,
+          color: colors.gray900,
+        },
+      },
+    },
   },
 });
 
+// Dark theme
+export const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: colors.bridgeLightPurple,
+    },
+    secondary: {
+      main: colors.bridgeDarkPurple,
+    },
+    error: {
+      main: colors.red900,
+    },
+    text: {
+      primary: colors.gray600, // Lighter color for text in dark mode
+      secondary: colors.gray600,
+    },
+    background: {
+      default: colors.gray900, // Dark background
+      paper: colors.bridgeBlack, // For paper components like cards
+    },
+  },
+  typography: {
+    fontFamily: "Sora, sans-serif",
+    htmlFontSize: 16,
+    body1: {
+      fontSize: "1rem",
+      lineHeight: 1.5,
+      fontWeight: 400,
+      color: colors.gray600, // Text color for body in dark mode
+    },
+    h1: {
+      fontSize: "2rem",
+      fontWeight: 600,
+      color: colors.gray600, // Header text color in dark mode
+    },
+    h2: {
+      fontSize: "1.5rem",
+      fontWeight: 600,
+      color: colors.gray600,
+    },
+    h3: {
+      fontSize: "1.25rem",
+      fontWeight: 600,
+      color: colors.gray600,
+    },
+    h4: {
+      fontSize: "1rem",
+      fontWeight: 600,
+      color: colors.gray600,
+    },
+    h5: {
+      fontSize: "0.875rem",
+      fontWeight: 600,
+      color: colors.gray600,
+    },
+    h6: {
+      fontSize: "0.75rem",
+      fontWeight: 600,
+      color: colors.gray600,
+    },
+  },
+  components: {
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: colors.gray600,
+          "&.Mui-checked": {
+            color: colors.gray600,
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          height: "54px",
+          borderRadius: "12px",
+          backgroundColor: colors.bridgeDarkPurple,
+          color: colors.gray600,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.bridgeBlack,
+          color: colors.gray600,
+        },
+      },
+    },
+  },
+});
+const theme = lightTheme;
 export default theme;

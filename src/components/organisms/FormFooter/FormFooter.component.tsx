@@ -1,7 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import theme from "@/theme/theme";
+import { useMediaQuery } from "@mui/material";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import FormAction, { FormActionConfig } from "../forms/FormAction";
 
-interface FormFooterProps {
+export interface FormFooterProps {
   isScrolling: boolean;
   previousButtonConfig: FormActionConfig;
   nextButtonConfig: FormActionConfig;
@@ -9,56 +11,23 @@ interface FormFooterProps {
 }
 
 function FormFooter(props: FormFooterProps) {
-  const {
-    previousButtonConfig,
-    nextButtonConfig,
-    submitButtonConfig,
-    isScrolling,
-  } = props;
+  const { previousButtonConfig, nextButtonConfig, submitButtonConfig } = props;
 
   const footerRef = useRef<HTMLDivElement>(null); // Ref for the footer
-  const [footerHeight, setFooterHeight] = useState(0); // State to track footer height
-  const [initialWindowHeight, setInitialWindowHeight] = useState(
-    window.innerHeight,
-  );
-  const [showBorderTop, setShowBorderTop] = useState(false);
+  const [footerHeight, setFooterHeight] = useState<number>(0); // State to track footer height
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
+  const [showBorderTop, setShowBorderTop] = useState<boolean>(false); // Border state
 
-  // Scroll event handler
-  useLayoutEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition =
-        window.scrollY || document.documentElement.scrollTop;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      // Check if the user has scrolled to the bottom of the page
-      // Show the border when the user is NOT at the bottom
-      if (windowHeight + scrollPosition >= documentHeight - 1) {
-        setShowBorderTop(false);
-      } else {
-        setShowBorderTop(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  // Track and update footer height
+  // Track and update footer height dynamically
   useLayoutEffect(() => {
     const updateFooterHeight = () => {
       if (footerRef.current) {
-        const height = footerRef.current.offsetHeight;
-        setFooterHeight(height);
+        setFooterHeight(footerRef.current.offsetHeight);
       }
     };
 
     // Update footer height on mount and resize
     updateFooterHeight();
-
     window.addEventListener("resize", updateFooterHeight);
 
     return () => {
@@ -66,25 +35,60 @@ function FormFooter(props: FormFooterProps) {
     };
   }, []);
 
-  // Handle keyboard visibility and footer adjustment
+  // Scroll event handler with debouncing
   useEffect(() => {
-    const handleResize = () => {
-      const newWindowHeight = window.innerHeight;
-      const isKeyboardVisible = newWindowHeight < initialWindowHeight;
+    let scrollTimeout: NodeJS.Timeout;
 
-      const footerElement = footerRef.current;
-      if (isKeyboardVisible && footerElement) {
-        // If the keyboard is visible, adjust the footer position
-        footerElement.style.bottom = "0px"; // Adjust as needed
-      }
+    const handleScroll = () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+
+      scrollTimeout = setTimeout(() => {
+        const scrollPosition =
+          window.scrollY || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        // Only set border top when the user is not at the bottom
+        setShowBorderTop(windowHeight + scrollPosition < documentHeight - 10);
+      }, 100); // Wait for scrolling to stop for 100ms before changing state
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
     };
-  }, [initialWindowHeight, isScrolling]);
+  }, []);
+
+  // Conditionally apply padding for mobile or desktop
+  const classesForFooterContainer = useMemo(
+    () => (isMobile ? "px-3 pb-3 pt-3" : "py-3 px-8"),
+    [isMobile],
+  );
+
+  const buttonStyle = useMemo(() => {
+    if (isMobile) {
+      return {
+        width: 120,
+        height: 45,
+        cursor: "pointer",
+      };
+    } else {
+      return {
+        width: 110,
+        cursor: "pointer",
+        height: 48,
+      };
+    }
+  }, [isMobile]);
+
+  const textPropsForButton = useMemo(() => {
+    return {
+      fontWeight: "bold",
+      fontSize: "24px",
+    };
+  }, []);
 
   return (
     <div className={"bg-white"}>
@@ -92,34 +96,47 @@ function FormFooter(props: FormFooterProps) {
         ref={footerRef}
         id="form-footer"
         style={{
-          position: "fixed", // Always fixed
-          zIndex: 10000,
-          bottom: "0px", // Always at the bottom
+          position: "fixed", // Always fixed at the bottom
+          zIndex: 5000,
+          bottom: "0px",
           width: "100%",
+          backgroundColor: "rgba(255, 255, 255, 0.75)", // Semi-transparent background to show blur
+          transition: "border-top 0.2s ease-in-out", // Smooth border transition
+          // Ensure backdrop-filter compatibility across browsers
+          backdropFilter: "blur(3px)",
+          WebkitBackdropFilter: "blur(3px)", // Safari support
         }}
         className={
-          showBorderTop
-            ? "border-t border-solid border-bridge-gray-border bg-white"
-            : "bg-white"
+          showBorderTop ? "border-t border-solid border-bridge-gray-border" : ""
         }
       >
-        <div className="w-full flex items-center justify-between bg-white py-6 px-16">
-          {/* Previous */}
-          <FormAction {...previousButtonConfig} />
+        <div
+          id="glass-content"
+          className={`w-full flex items-center justify-between ${classesForFooterContainer}`}
+        >
+          {/* Previous Action */}
+          <FormAction
+            {...previousButtonConfig}
+            sx={buttonStyle}
+            textProps={textPropsForButton}
+          />
 
-          {/* Next Page */}
-          <FormAction {...nextButtonConfig} />
+          {/* Next Action */}
+          <FormAction
+            {...nextButtonConfig}
+            sx={buttonStyle}
+            textProps={textPropsForButton}
+          />
 
-          {/* Submit */}
-          <FormAction {...submitButtonConfig} />
+          {/* Submit Action */}
+          <FormAction {...submitButtonConfig} sx={buttonStyle} />
         </div>
       </div>
       <div
         className="bg-white"
         style={{
-          height: footerHeight, // Set to the height of the footer
-          position: "relative",
-          marginTop: footerHeight / 4, // Example margin based on the footer height
+          height: footerHeight, // Set placeholder height to match the footer
+          marginTop: footerHeight / 4, // Optional margin adjustment
         }}
       />
     </div>

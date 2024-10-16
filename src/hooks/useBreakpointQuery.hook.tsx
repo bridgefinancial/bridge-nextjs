@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import json2mq from 'json2mq';
-import { useEffect, useState } from 'react';
+import json2mq from "json2mq";
+import { useEffect, useState } from "react";
 
 interface UseMediaQueryOptions {
   defaultMatches?: boolean;
@@ -12,16 +12,16 @@ interface UseMediaQueryOptions {
 
 export function useBreakpointQuery(
   queryInput: Record<string, string | number | boolean>,
-  options: UseMediaQueryOptions = {}
+  options: UseMediaQueryOptions = {},
 ): { matches: boolean; loading: boolean } {
   const {
     defaultMatches = false,
-    matchMedia = typeof window !== 'undefined' ? window.matchMedia : undefined,
+    matchMedia = typeof window !== "undefined" ? window.matchMedia : undefined,
     noSsr = true,
     ssrMatchMedia,
   } = options;
 
-  const isClient = typeof window !== 'undefined'; // Detect if running on client
+  const isClient = typeof window !== "undefined"; // Detect if running on client
   const [matches, setMatches] = useState<boolean>(() => {
     // On the server, return defaultMatches or SSR-specific logic if available
     if (!isClient) {
@@ -45,7 +45,7 @@ export function useBreakpointQuery(
     }
 
     const query =
-      typeof queryInput === 'string' ? queryInput : json2mq(queryInput);
+      typeof queryInput === "string" ? queryInput : json2mq(queryInput);
     const mediaQueryList = matchMedia
       ? matchMedia(query)
       : window.matchMedia(query);
@@ -60,11 +60,11 @@ export function useBreakpointQuery(
     setLoading(false); // We have the result, stop loading
 
     // Add the event listener to detect changes
-    mediaQueryList.addEventListener('change', handleChange);
+    mediaQueryList.addEventListener("change", handleChange);
 
     // Cleanup event listener on unmount
     return () => {
-      mediaQueryList.removeEventListener('change', handleChange);
+      mediaQueryList.removeEventListener("change", handleChange);
     };
   }, [isClient, queryInput, matchMedia]);
 

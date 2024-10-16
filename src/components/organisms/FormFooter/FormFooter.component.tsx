@@ -1,7 +1,7 @@
-import theme from '@/theme/theme';
-import { useMediaQuery } from '@mui/material';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import FormAction, { FormActionConfig } from '../forms/FormAction';
+import theme from "@/theme/theme";
+import { useMediaQuery } from "@mui/material";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import FormAction, { FormActionConfig } from "../forms/FormAction";
 
 export interface FormFooterProps {
   isScrolling: boolean;
@@ -15,7 +15,7 @@ function FormFooter(props: FormFooterProps) {
 
   const footerRef = useRef<HTMLDivElement>(null); // Ref for the footer
   const [footerHeight, setFooterHeight] = useState<number>(0); // State to track footer height
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Detect mobile screens
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
   const [showBorderTop, setShowBorderTop] = useState<boolean>(false); // Border state
 
   // Track and update footer height dynamically
@@ -28,10 +28,10 @@ function FormFooter(props: FormFooterProps) {
 
     // Update footer height on mount and resize
     updateFooterHeight();
-    window.addEventListener('resize', updateFooterHeight);
+    window.addEventListener("resize", updateFooterHeight);
 
     return () => {
-      window.removeEventListener('resize', updateFooterHeight);
+      window.removeEventListener("resize", updateFooterHeight);
     };
   }, []);
 
@@ -53,18 +53,18 @@ function FormFooter(props: FormFooterProps) {
       }, 100); // Wait for scrolling to stop for 100ms before changing state
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, []);
 
   // Conditionally apply padding for mobile or desktop
   const classesForFooterContainer = useMemo(
-    () => (isMobile ? 'px-3 pb-3 pt-3' : 'py-3 px-8'),
-    [isMobile]
+    () => (isMobile ? "px-3 pb-3 pt-3" : "py-3 px-8"),
+    [isMobile],
   );
 
   const buttonStyle = useMemo(() => {
@@ -72,12 +72,12 @@ function FormFooter(props: FormFooterProps) {
       return {
         width: 120,
         height: 45,
-        cursor: 'pointer',
+        cursor: "pointer",
       };
     } else {
       return {
         width: 110,
-        cursor: 'pointer',
+        cursor: "pointer",
         height: 48,
       };
     }
@@ -85,29 +85,29 @@ function FormFooter(props: FormFooterProps) {
 
   const textPropsForButton = useMemo(() => {
     return {
-      fontWeight: 'bold',
-      fontSize: '24px',
+      fontWeight: "bold",
+      fontSize: "24px",
     };
   }, []);
 
   return (
-    <div className={'bg-white'}>
+    <div className={"bg-white"}>
       <div
         ref={footerRef}
         id="form-footer"
         style={{
-          position: 'fixed', // Always fixed at the bottom
+          position: "fixed", // Always fixed at the bottom
           zIndex: 5000,
-          bottom: '0px',
-          width: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.75)', // Semi-transparent background to show blur
-          transition: 'border-top 0.2s ease-in-out', // Smooth border transition
+          bottom: "0px",
+          width: "100%",
+          backgroundColor: "rgba(255, 255, 255, 0.75)", // Semi-transparent background to show blur
+          transition: "border-top 0.2s ease-in-out", // Smooth border transition
           // Ensure backdrop-filter compatibility across browsers
-          backdropFilter: 'blur(3px)',
-          WebkitBackdropFilter: 'blur(3px)', // Safari support
+          backdropFilter: "blur(3px)",
+          WebkitBackdropFilter: "blur(3px)", // Safari support
         }}
         className={
-          showBorderTop ? 'border-t border-solid border-bridge-gray-border' : ''
+          showBorderTop ? "border-t border-solid border-bridge-gray-border" : ""
         }
       >
         <div

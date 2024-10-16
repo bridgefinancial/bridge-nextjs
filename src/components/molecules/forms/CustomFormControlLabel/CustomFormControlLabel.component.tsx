@@ -2,8 +2,8 @@ import {
   Checkbox,
   FormControlLabel,
   FormControlLabelProps,
-} from '@mui/material';
-import React, { ReactElement, SyntheticEvent } from 'react';
+} from "@mui/material";
+import React, { ReactElement, SyntheticEvent } from "react";
 
 /**
  * Props for CustomFormControlLabel component.
@@ -16,7 +16,7 @@ import React, { ReactElement, SyntheticEvent } from 'react';
  * @property {ReactElement} control - Custom control component (e.g., Checkbox, Switch).
  */
 interface CustomFormControlLabelProps
-  extends Omit<FormControlLabelProps, 'control'> {
+  extends Omit<FormControlLabelProps, "control"> {
   onChange: (event: SyntheticEvent<Element, Event>, checked: boolean) => void; // Match FormControlLabel's onChange signature
   className?: string;
   control?: ReactElement; // Correctly specify ReactElement for custom control
@@ -52,7 +52,7 @@ function CustomFormControlLabel({
         value,
       })}
       label={label}
-      className={className || 'cursor-pointer'}
+      className={className || "cursor-pointer"}
     />
   );
 }

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import GradientBox from '@/components/atoms/containers/GradientBox';
-import Image from 'next/image';
-import { useLayoutEffect, useRef, useState } from 'react';
+import GradientBox from "@/components/atoms/containers/GradientBox";
+import Image from "next/image";
+import { useLayoutEffect, useRef, useState } from "react";
 
 interface QuestionnaireHeaderProps {}
 
@@ -42,13 +42,13 @@ const QuestionnaireHeader = (props: QuestionnaireHeaderProps) => {
     updateHeaderHeight();
 
     // Add scroll and resize event listeners
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', updateHeaderHeight); // Adjust height on window resize
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateHeaderHeight); // Adjust height on window resize
 
     // Clean up event listeners
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateHeaderHeight);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateHeaderHeight);
     };
   }, []);
 
@@ -57,24 +57,24 @@ const QuestionnaireHeader = (props: QuestionnaireHeaderProps) => {
       <div
         ref={headerRef}
         style={{
-          position: 'fixed',
-          width: '100%',
-          backgroundColor: 'white',
+          position: "fixed",
+          width: "100%",
+          backgroundColor: "white",
           zIndex: 100000,
         }}
       >
         {/* MOBILE HEADER */}
         <div
           style={{
-            width: '100%',
+            width: "100%",
             height: shrinkHeader ? 55 : 75,
           }}
           className={`sticky top-0 w-screen md:hidden bg-white transition-shadow duration-300 ${
-            dropShadowEnabled ? 'shadow-md' : ''
+            dropShadowEnabled ? "shadow-md" : ""
           }`}
         >
           <div className={`w-full h-full grid grid-cols-3 `}>
-            {' '}
+            {" "}
             {/* Reduced padding */}
             {/* LEFT MOBILE HEADER */}
             <div>{/* Add any button or icon here if needed */}</div>
@@ -98,7 +98,7 @@ const QuestionnaireHeader = (props: QuestionnaireHeaderProps) => {
         {/* DESKTOP NAV */}
         <div
           className={`sticky top-0 hidden md:flex w-full flex-col py-7 px-16 bg-white z-10 transition-shadow duration-300 ${
-            dropShadowEnabled ? 'shadow-md' : ''
+            dropShadowEnabled ? "shadow-md" : ""
           }
          `}
         >
@@ -117,8 +117,8 @@ const QuestionnaireHeader = (props: QuestionnaireHeaderProps) => {
         className="bg-white"
         style={{
           height: headerHeight,
-          position: 'relative',
-          backgroundColor: 'white',
+          position: "relative",
+          backgroundColor: "white",
           marginBottom: headerHeight / 4,
         }}
       />

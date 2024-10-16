@@ -1,7 +1,7 @@
-import ParagraphText from '@/components/atoms/typography/ParagraphText';
-import { styled } from '@mui/material/styles';
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { styled } from "@mui/material/styles";
 
-const ErrorStyled = styled('div')(({ theme }) => ({
+const ErrorStyled = styled("div")(({ theme }) => ({
   color: theme.palette.error.main,
   marginTop: theme.spacing(1),
 }));

@@ -108,15 +108,15 @@
 // };
 
 // export default Questionnaire;
-'use client';
-'use client';
+"use client";
+"use client";
 
-import { useQuestionnaire } from '@/providers/Questionnaire.provider';
-import { ArrowForward } from '@mui/icons-material';
-import { ReactNode, useMemo, useRef, useState } from 'react';
-import Form from './Form';
-import { FormActionConfig } from './FormAction';
-import FormIntro from './FormIntro';
+import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import { ArrowForward } from "@mui/icons-material";
+import { ReactNode, useMemo, useRef, useState } from "react";
+import Form from "./Form";
+import { FormActionConfig } from "./FormAction";
+import FormIntro from "./FormIntro";
 
 // Define types for props
 interface QuestionnaireProps {
@@ -146,16 +146,16 @@ const Questionnaire = ({ stepper }: QuestionnaireProps) => {
   const isFirstPage = useMemo(() => pageIndex === 0, [pageIndex]);
   const isLastPage = useMemo(
     () => !!form && pageIndex === form.definition.pages.length - 1,
-    [form, pageIndex]
+    [form, pageIndex],
   );
   const isFirstForm = useMemo(() => formIndex === 0, [formIndex]);
   const isLastForm = useMemo(
     () => formIndex === formsCount - 1,
-    [formIndex, formsCount]
+    [formIndex, formsCount],
   );
   const progress = useMemo(
     () => (form ? (pageIndex + 1) / form.definition.pages.length : 0),
-    [form, pageIndex]
+    [form, pageIndex],
   );
 
   // BUTTON CONFIGS MEMOIZED
@@ -164,7 +164,7 @@ const Questionnaire = ({ stepper }: QuestionnaireProps) => {
       hidden: isLastPage,
       disabled: isSubmitting,
       isLoading: false,
-      text: 'Next',
+      text: "Next",
       onClick: () => {
         if (checkPageValidity(page)) {
           goTo({ pageIndex: pageIndex + 1 });
@@ -172,7 +172,7 @@ const Questionnaire = ({ stepper }: QuestionnaireProps) => {
       },
       endIcon: <ArrowForward />,
     }),
-    [isLastPage, isSubmitting, page, checkPageValidity, pageIndex, goTo]
+    [isLastPage, isSubmitting, page, checkPageValidity, pageIndex, goTo],
   );
 
   const previousButtonConfig: FormActionConfig = useMemo(
@@ -180,7 +180,7 @@ const Questionnaire = ({ stepper }: QuestionnaireProps) => {
       hidden: false,
       disabled: isSubmitting || (isFirstPage && isFirstForm),
       isLoading: false,
-      text: 'Back',
+      text: "Back",
       onClick: () => {
         if (pageIndex === 0 && !isFirstForm) {
           goTo({ formIndex: formIndex - 1, pageIndex: pageIndex - 1 });
@@ -188,25 +188,25 @@ const Questionnaire = ({ stepper }: QuestionnaireProps) => {
           goTo({ pageIndex: pageIndex - 1 });
         }
       },
-      variant: 'text',
+      variant: "text",
     }),
-    [isSubmitting, isFirstPage, isFirstForm, pageIndex, formIndex, goTo]
+    [isSubmitting, isFirstPage, isFirstForm, pageIndex, formIndex, goTo],
   );
 
   const submitButtonConfig: FormActionConfig = useMemo(
     () => ({
-      type: 'submit',
+      type: "submit",
       hidden: !isLastPage,
       disabled: isSubmitting,
       isLoading: isSubmitting,
-      text: isLastForm ? 'Submit' : 'Next',
+      text: isLastForm ? "Submit" : "Next",
       onClick: (e) => {
         if (!checkPageValidity()) {
           e.preventDefault();
         }
       },
     }),
-    [isLastPage, isSubmitting, isLastForm, checkPageValidity]
+    [isLastPage, isSubmitting, isLastForm, checkPageValidity],
   );
 
   // DOM

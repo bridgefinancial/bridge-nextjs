@@ -1,1 +1,1 @@
-export { default } from './ErrorDisplay.component';
+export { default } from "./ErrorDisplay.component";

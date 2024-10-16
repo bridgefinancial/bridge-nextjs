@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-console */
+
 import React, { useMemo } from "react";
 import { Avatar, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

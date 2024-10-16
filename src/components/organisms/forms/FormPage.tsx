@@ -1,8 +1,8 @@
-import TitleText from '@/components/atoms/typography/TitleText';
-import { useQuestionnaire } from '@/providers/Questionnaire.provider';
-import { Page } from '@/types/forms.types';
-import { useMemo } from 'react';
-import FormField from './FormField';
+import TitleText from "@/components/atoms/typography/TitleText";
+import { useQuestionnaire } from "@/providers/Questionnaire.provider";
+import { Page } from "@/types/forms.types";
+import { useMemo } from "react";
+import FormField from "./FormField";
 
 type PageProps = {
   page: Page;
@@ -10,7 +10,7 @@ type PageProps = {
 };
 
 const FormPage = ({ page }: PageProps) => {
-  const { header = '', fields = [] } = page;
+  const { header = "", fields = [] } = page;
   const { fieldRefsByName, fieldErrorsByName, checkConditions } =
     useQuestionnaire();
 
@@ -21,11 +21,11 @@ const FormPage = ({ page }: PageProps) => {
 
   // Function to render the header, which could be a string or JSX returned by a function
   const renderHeader = useMemo(() => {
-    if (typeof header === 'string') {
+    if (typeof header === "string") {
       return (
         <TitleText sx={{ fontSize: 28, paddingTop: 2 }}>{header}</TitleText>
       );
-    } else if (typeof header === 'function') {
+    } else if (typeof header === "function") {
       return header(); // If it's a function, invoke it and return JSX
     }
     return null; // Fallback in case header is undefined

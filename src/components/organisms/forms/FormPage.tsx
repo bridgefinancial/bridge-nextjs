@@ -22,7 +22,9 @@ const FormPage = ({ page }: PageProps) => {
   // Function to render the header, which could be a string or JSX returned by a function
   const renderHeader = useMemo(() => {
     if (typeof header === 'string') {
-      return <TitleText sx={{ fontSize: 28 }}>{header}</TitleText>;
+      return (
+        <TitleText sx={{ fontSize: 28, paddingTop: 2 }}>{header}</TitleText>
+      );
     } else if (typeof header === 'function') {
       return header(); // If it's a function, invoke it and return JSX
     }

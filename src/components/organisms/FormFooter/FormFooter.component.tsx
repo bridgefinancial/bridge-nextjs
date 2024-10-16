@@ -63,9 +63,32 @@ function FormFooter(props: FormFooterProps) {
 
   // Conditionally apply padding for mobile or desktop
   const classesForFooterContainer = useMemo(
-    () => (isMobile ? 'px-3 pb-3 pt-3' : 'py-2 px-10'),
+    () => (isMobile ? 'px-3 pb-3 pt-3' : 'py-3 px-8'),
     [isMobile]
   );
+
+  const buttonStyle = useMemo(() => {
+    if (isMobile) {
+      return {
+        width: 120,
+        height: 45,
+        cursor: 'pointer',
+      };
+    } else {
+      return {
+        width: 110,
+        cursor: 'pointer',
+        height: 48,
+      };
+    }
+  }, [isMobile]);
+
+  const textPropsForButton = useMemo(() => {
+    return {
+      fontWeight: 'bold',
+      fontSize: '24px',
+    };
+  }, []);
 
   return (
     <div className={'bg-white'}>
@@ -77,11 +100,11 @@ function FormFooter(props: FormFooterProps) {
           zIndex: 5000,
           bottom: '0px',
           width: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.6)', // Semi-transparent background to show blur
+          backgroundColor: 'rgba(255, 255, 255, 0.75)', // Semi-transparent background to show blur
           transition: 'border-top 0.2s ease-in-out', // Smooth border transition
           // Ensure backdrop-filter compatibility across browsers
-          backdropFilter: 'blur(2px)',
-          WebkitBackdropFilter: 'blur(2px)', // Safari support
+          backdropFilter: 'blur(3px)',
+          WebkitBackdropFilter: 'blur(3px)', // Safari support
         }}
         className={
           showBorderTop ? 'border-t border-solid border-bridge-gray-border' : ''
@@ -93,21 +116,20 @@ function FormFooter(props: FormFooterProps) {
         >
           {/* Previous Action */}
           <FormAction
-            sx={{ borderWidth: 1, borderColor: 'green' }}
             {...previousButtonConfig}
+            sx={buttonStyle}
+            textProps={textPropsForButton}
           />
 
           {/* Next Action */}
           <FormAction
-            sx={{ borderWidth: 1, borderColor: 'red' }}
             {...nextButtonConfig}
+            sx={buttonStyle}
+            textProps={textPropsForButton}
           />
 
           {/* Submit Action */}
-          <FormAction
-            sx={{ borderWidth: 1, borderColor: 'blue' }}
-            {...submitButtonConfig}
-          />
+          <FormAction {...submitButtonConfig} sx={buttonStyle} />
         </div>
       </div>
       <div

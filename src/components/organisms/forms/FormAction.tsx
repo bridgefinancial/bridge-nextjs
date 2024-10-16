@@ -13,6 +13,7 @@ export interface FormActionConfig extends Partial<BaseButtonProps> {
   sx?: BaseButtonProps['sx'];
   type?: 'button' | 'submit';
   variant?: 'contained' | 'text';
+  textProps?: BaseButtonProps['textProps'];
   endIcon?: ReactNode;
 }
 
@@ -25,6 +26,7 @@ const FormAction = ({
   sx = {},
   text,
   variant,
+  textProps,
   endIcon,
 }: FormActionConfig) => {
   if (hidden) {
@@ -36,6 +38,7 @@ const FormAction = ({
       <TextButton
         disabled={disabled}
         onClick={onClick}
+        textProps={textProps}
         isLoading={isLoading}
         type={type ?? 'button'}
         sx={sx}
@@ -54,6 +57,7 @@ const FormAction = ({
       text={text}
       backgroundColor="#6a5ace"
       endIcon={endIcon}
+      textProps={textProps}
     />
   );
 };

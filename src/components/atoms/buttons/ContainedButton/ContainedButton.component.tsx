@@ -31,17 +31,26 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     isLoading = false,
     type = 'button',
     disabled = false,
-    textProps = {
-      sx: {
-        color: textColor ?? 'white',
-      },
-    }, // Add default empty textStyle
+    textProps = {}, // Start with an empty object
     sx = {},
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
     ...rest
   } = props;
 
-  // Define default styles
+  // Define default textProps
+  const defaultTextProps = {
+    sx: {
+      color: textColor ?? 'white',
+    },
+  };
+
+  // Merge default textProps with user-provided textProps
+  const mergedTextProps = useMemo(
+    () => merge({}, defaultTextProps, textProps),
+    [textProps, defaultTextProps]
+  );
+
+  // Define default button styles
   const defaultStyles = useMemo(
     () => ({
       borderRadius: 3,
@@ -55,7 +64,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     [backgroundColor, textColor]
   );
 
-  // Merge default styles with custom styles
+  // Merge default button styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
     [sx, defaultStyles]
@@ -76,7 +85,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       {isLoading ? (
         <CircularProgress size={20} />
       ) : (
-        <TextComponent fontSize={14} {...textProps}>
+        <TextComponent fontSize={14} {...mergedTextProps}>
           {text}
         </TextComponent>
       )}

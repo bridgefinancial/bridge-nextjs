@@ -1,10 +1,10 @@
-import React, { FC, MouseEventHandler, useMemo } from "react";
-import Button, { ButtonProps } from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-import merge from "lodash.merge"; // Import lodash's merge utility
-import { BaseButtonProps } from "@/types/base-button-props.interface";
-import ParagraphText from "../../typography/ParagraphText";
-import { colors } from "@/theme/theme";
+import { colors } from '@/theme/theme';
+import { BaseButtonProps } from '@/types/base-button-props.interface';
+import Button, { ButtonProps } from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import merge from 'lodash.merge'; // Import lodash's merge utility
+import React, { FC, MouseEventHandler, useMemo } from 'react';
+import ParagraphText from '../../typography/ParagraphText';
 
 export interface TextButtonProps extends BaseButtonProps {
   fullWidth?: boolean;
@@ -13,51 +13,62 @@ export interface TextButtonProps extends BaseButtonProps {
   isLoading?: boolean;
   disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  type?: ButtonProps["type"];
+  type?: ButtonProps['type'];
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
+  textProps?: Record<string, any>; // Extend textProps as needed
 }
 
 const TextButton: FC<TextButtonProps> = (props) => {
   const {
     fullWidth,
-    textColor = "#212121",
-    backgroundColor = "transparent",
+    textColor = '#212121',
+    backgroundColor = 'transparent',
     text,
-    onClick = () => console.log("onclick inside of contained button"),
+    onClick = () => console.log('onclick inside of contained button'),
     isLoading,
     disabled,
-    textProps = {
-      sx: {
-        color: disabled ? colors.gray600 : (textColor ?? "#212121"),
-        fontWeight: "bold",
-        backgroundOpacity: disabled ? 60 : undefined,
-      },
-    }, // Add default empty textStyle
-    type = "button",
+    textProps = {}, // This will now be an empty object by default
+    type = 'button',
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
     sx = {},
     ...rest
   } = props;
-  // Define default styles
+
+  // Define default textProps
+  const defaultTextProps = {
+    sx: {
+      color: disabled ? colors.gray600 : textColor,
+      fontWeight: 'bold',
+      backgroundOpacity: disabled ? 60 : undefined,
+    },
+  };
+
+  // Merge passed textProps with defaultTextProps
+  const mergedTextProps = useMemo(
+    () => merge({}, defaultTextProps, textProps),
+    [textProps, defaultTextProps]
+  );
+
+  // Define default button styles
   const defaultStyles = useMemo(
     () => ({
       borderRadius: 3,
-      textTransform: "initial",
+      textTransform: 'initial',
       backgroundColor: backgroundColor,
       color: textColor,
-      "&:hover": {
+      '&:hover': {
         backgroundColor: backgroundColor,
       },
     }),
-    [backgroundColor, textColor],
+    [backgroundColor, textColor]
   );
 
-  // Merge default styles with custom styles
+  // Merge default button styles with custom styles
   const mergedStyles = useMemo(
     () => merge({}, defaultStyles, sx),
-    [sx, defaultStyles],
+    [sx, defaultStyles]
   );
 
   return (
@@ -74,8 +85,8 @@ const TextButton: FC<TextButtonProps> = (props) => {
       {isLoading ? (
         <CircularProgress size={20} />
       ) : (
-        <TextComponent {...textProps}>{text}</TextComponent>
-      )}{" "}
+        <TextComponent {...mergedTextProps}>{text}</TextComponent>
+      )}{' '}
     </Button>
   );
 };

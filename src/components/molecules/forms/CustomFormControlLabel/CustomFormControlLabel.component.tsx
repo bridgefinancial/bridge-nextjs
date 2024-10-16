@@ -2,8 +2,8 @@ import {
   Checkbox,
   FormControlLabel,
   FormControlLabelProps,
-} from "@mui/material";
-import React, { ReactElement, SyntheticEvent } from "react";
+} from '@mui/material';
+import React, { ReactElement, SyntheticEvent } from 'react';
 
 /**
  * Props for CustomFormControlLabel component.
@@ -11,15 +11,15 @@ import React, { ReactElement, SyntheticEvent } from "react";
  * @property {string} name - The name of the checkbox input.
  * @property {string} value - The value of the checkbox input.
  * @property {string} label - The label displayed next to the checkbox.
- * @property {function} onChange - Handler for change events (event and checked).
+ * @property {function} onChange - Optional handler for change events (event and checked).
  * @property {string} className - Additional CSS classes.
  * @property {ReactElement} control - Custom control component (e.g., Checkbox, Switch).
  */
-interface CustomFormControlLabelProps
-  extends Omit<FormControlLabelProps, "control"> {
-  onChange: (event: SyntheticEvent<Element, Event>, checked: boolean) => void; // Match FormControlLabel's onChange signature
+export interface CustomFormControlLabelProps
+  extends Omit<FormControlLabelProps, 'control'> {
+  onChange?: (event: SyntheticEvent<Element, Event>, checked: boolean) => void; // onChange is optional now
   className?: string;
-  control?: ReactElement; // Correctly specify ReactElement for custom control
+  control?: ReactElement; // Custom control component, default is Checkbox
 }
 
 /**
@@ -34,11 +34,11 @@ function CustomFormControlLabel({
   name,
   value,
   label,
-  onChange,
+  onChange = () => {}, // No-op default if onChange is not provided
   control = <Checkbox />, // Default to Checkbox if no control is passed
   className,
 }: CustomFormControlLabelProps): JSX.Element {
-  // Custom onChange handler for checkbox control
+  // Custom onChange handler for the control
   const handleControlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event, event.target.checked);
   };
@@ -52,8 +52,9 @@ function CustomFormControlLabel({
         value,
       })}
       label={label}
-      className={className || "cursor-pointer"}
+      className={className || 'cursor-pointer'}
     />
   );
 }
+
 export default CustomFormControlLabel;

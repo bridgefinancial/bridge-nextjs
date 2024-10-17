@@ -1,32 +1,38 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import { CssBaseline } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import { PortalLayoutProps } from "./PortalLayout.types";
-import PortalListItem from "./PortalListItem.component";
-import MobileBar from "./MobileBar.component";
-import TitleBar from "./TitleBar.component";
-import { portalDrawerStyles } from "./PortalLayout.styles";
-import Link from "next/link";
-import UserProfileMenu from "./UserProfileMenu.component";
-import PortalLogo, { DefaultLogoProps } from "./PortalLogo.component";
+import { useLogoutUser, useSessionUser } from "@/services/users.service";
 import { CloseSharp, LogoutRounded } from "@mui/icons-material";
+import { CssBaseline } from "@mui/material";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import { useTheme } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import confetti from "canvas-confetti";
+import Link from "next/link";
 import {
   usePathname,
   useRouter,
   useSearchParams,
   useSelectedLayoutSegment,
 } from "next/navigation";
-import { useLogoutUser, useSessionUser } from "@/services/users.service";
-import confetti from "canvas-confetti";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import MobileBar from "./MobileBar.component";
+import { portalDrawerStyles } from "./PortalLayout.styles";
+import { PortalLayoutProps } from "./PortalLayout.types";
+import PortalListItem from "./PortalListItem.component";
+import PortalLogo, { DefaultLogoProps } from "./PortalLogo.component";
+import TitleBar from "./TitleBar.component";
+import UserProfileMenu from "./UserProfileMenu.component";
 
 const PortalLayout: React.FC<PortalLayoutProps> = ({
   window,
@@ -52,11 +58,11 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
   const segment = useSelectedLayoutSegment();
   const params = useSearchParams();
   const router = useRouter();
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = useCallback(() => {
     if (isMobile) {
       setMobileOpen(!mobileOpen);
     }
-  };
+  }, [isMobile, mobileOpen]);
 
   // HADNLERS
   const celebrate = () => {
@@ -73,7 +79,6 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
 
   useEffect(() => {
     if (desktopBarRef.current) {
-      const desktopBarHeight = desktopBarRef.current.offsetHeight;
       setLayoutContentHeight(`calc(100vh)`);
     }
   }, []);
@@ -83,7 +88,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
       celebrate();
       router.replace(pathname);
     }
-  }, []);
+  }, [params, pathname, router]);
 
   const activeTabLabel = useMemo(() => {
     const activeTab = tabs.find((tab) => tab.active);
@@ -96,7 +101,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
       );
     }
     return "";
-  }, [tabs]);
+  }, [segment, tabs]);
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -150,7 +155,13 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
         </div>
       </Toolbar>
     );
-  }, [isMobile, logoProps, handleDrawerToggle]);
+  }, [
+    isMobile,
+    logoProps,
+    theme.palette.common.white,
+    theme.palette.grey,
+    handleDrawerToggle,
+  ]);
 
   return (
     <Box
@@ -158,6 +169,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
         display: "flex",
         backgroundColor: "#F9FAFB",
         flexDirection: "column",
+        overflowY: "auto",
       }}
     >
       <CssBaseline />

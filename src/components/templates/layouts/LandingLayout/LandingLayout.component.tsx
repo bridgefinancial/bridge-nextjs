@@ -1,9 +1,9 @@
 // components/Layout.tsx
 
-import React, { ReactNode } from "react";
-import { Container, Box } from "@mui/material";
-import MainHeader from "@/components/organisms/headers/MainHeader";
 import GradientBox from "@/components/atoms/containers/GradientBox";
+import MainHeader from "@/components/organisms/headers/MainHeader";
+import { Box } from "@mui/material";
+import React, { ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,13 +13,20 @@ interface LayoutProps {
 const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
   const { children, pathForHome = "/" } = props;
   return (
-    <div className="w-full bg-white h-screen flex flex-col">
-      <MainHeader
-        linkProps={{
-          href: pathForHome,
-        }}
-      />
-      <GradientBox containerStyle={{ height: "4px" }} />
+    <div
+      style={{
+        overflowY: "auto",
+      }}
+      className="w-full bg-white h-screen flex flex-col"
+    >
+      <div>
+        <MainHeader
+          linkProps={{
+            href: pathForHome,
+          }}
+        />
+        <GradientBox containerStyle={{ height: "4px" }} />
+      </div>
 
       <Box
         sx={{
@@ -27,7 +34,6 @@ const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
           alignItems: "center",
           justifyContent: "center",
           padding: 1,
-          overflow: "auto",
           flexGrow: 1,
         }}
       >

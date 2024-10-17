@@ -1,0 +1,18 @@
+{
+  "environment": "local",
+  "baseUrls": {
+    "api": {
+      "protocol": "http",
+      "domain": "192.168.4.160",
+      "port": 8000,
+      "full": "http://192.168.4.160:8000"
+    },
+    "web": {
+      "protocol": "http",
+      "domain": "192.168.4.160",
+      "port": 3000,
+      "full": "http://192.168.4.160:3000"
+    }
+  },
+  "apiKeys": {}
+}

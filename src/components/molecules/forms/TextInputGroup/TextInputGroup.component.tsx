@@ -1,19 +1,24 @@
 import { colors } from "@/theme/theme";
-import { FilledTextFieldProps, TextField, TextFieldProps } from "@mui/material";
+import { FilledTextFieldProps, TextField } from "@mui/material";
 import React from "react";
 
-interface TextInputProps extends Partial<FilledTextFieldProps> {}
+interface TextInputProps extends Partial<FilledTextFieldProps> {
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>; // Ensure correct typing here
+
+  shrinkLabel?: boolean; // Adding shrinkLabel prop to control the label's shrink behavior
+}
 
 export default function TextInputGroup(props: TextInputProps) {
   const {
     label,
     name,
     value,
-    margin = "normal",
+    margin = "none",
     onChange,
     error,
     fullWidth,
     helperText,
+    shrinkLabel, // Access the shrinkLabel prop
     ...otherProps
   } = props;
 
@@ -47,6 +52,9 @@ export default function TextInputGroup(props: TextInputProps) {
       onChange={onChange}
       error={error}
       helperText={helperText}
+      InputLabelProps={{
+        shrink: shrinkLabel, // Use the shrinkLabel prop to control label shrinking
+      }}
       {...otherProps}
     />
   );

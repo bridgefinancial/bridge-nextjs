@@ -1,3 +1,4 @@
+"use client";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
 

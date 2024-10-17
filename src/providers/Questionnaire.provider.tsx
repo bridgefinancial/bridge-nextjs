@@ -1,5 +1,11 @@
 "use client";
 
+import { default as useScrollTo } from "@/hooks/useScrollTo.hook";
+import { FieldInformationService } from "@/services/fields.service";
+import {
+  getFormSubmission,
+  useSubmitForm,
+} from "@/services/form-submissions.service";
 import {
   Condition,
   FormField,
@@ -7,10 +13,13 @@ import {
   Page,
   Questionnaire,
 } from "@/types/forms.types";
+import { routePaths } from "@/types/routes.enum";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   createContext,
   MutableRefObject,
   ReactNode,
+  RefObject,
   useContext,
   useEffect,
   useMemo,
@@ -18,13 +27,6 @@ import {
   useState,
 } from "react";
 import { useErrors } from "./Errors.provider";
-import {
-  getFormSubmission,
-  useSubmitForm,
-} from "@/services/form-submissions.service";
-import { useRouter, useSearchParams } from "next/navigation";
-import { routePaths } from "@/types/routes.enum";
-import { FieldInformationService } from "@/services/fields.service";
 
 const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = "redirectTo";
 
@@ -40,6 +42,7 @@ export const QuestionnaireContext = createContext<{
   fieldRefsByName?: MutableRefObject<Record<string, HTMLInputElement | null>>;
   fieldErrorsByName: Record<string, string>;
   formValues: Record<string, any>;
+  bodyRef: RefObject<HTMLDivElement> | null;
   goTo: ({
     pageIndex,
     formIndex,
@@ -62,6 +65,7 @@ export const QuestionnaireContext = createContext<{
   fieldRefsByName: undefined,
   fieldErrorsByName: {},
   formValues: {},
+  bodyRef: null,
   goTo: () => {},
   submit: () => {},
   checkPageValidity: () => {
@@ -98,14 +102,16 @@ export const QuestionnaireProvider = ({
   const { setErrorsFunc } = useErrors();
   const { mutateAsync: submitForm, isPending: isSubmitting } = useSubmitForm();
   const searchParams = useSearchParams();
+  const questionnaireBodyRef = useRef<HTMLDivElement>(null);
 
+  const { onChange: triggerScrollTo } = useScrollTo();
   // CALCULATED
   const { forms, redirectPath } = questionnaire;
   const form = forms[formIndex];
   const page = forms[formIndex].definition.pages[pageIndex];
   const redirectTo = useMemo(() => {
     const redirectParam = searchParams.get(
-      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM
+      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM,
     );
     if (redirectParam) {
       const decoded = decodeURIComponent(redirectParam);
@@ -128,6 +134,14 @@ export const QuestionnaireProvider = ({
     router.push(redirectTo);
   };
 
+  // const scrollToTop = () => {
+  //   // console.log('scrolling');
+  //   onTrigger();
+  //   // questionnaireBodyRef.current?.scrollTo({
+  //   //   top: 0,
+  //   // });
+  // };
+
   const goTo = ({
     pageIndex,
     formIndex,
@@ -143,10 +157,13 @@ export const QuestionnaireProvider = ({
     } else if (pageIndex !== undefined) {
       setPageIndex(pageIndex);
     }
+    setTimeout(() => {
+      triggerScrollTo();
+    }, 100);
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    event
+    event,
   ) => {
     if (!form || !handleCheckPageValidity()) {
       return;
@@ -157,16 +174,18 @@ export const QuestionnaireProvider = ({
     const formDataValues: Record<string, any> = formValues;
 
     form.definition.pages.forEach((page) => {
-      page.fields.forEach((field) => {
-        if (
-          handleCheckConditions(field.conditions) &&
-          FieldInformationService.isNumber(field.type)
-        ) {
-          formDataValues[field.name] = parseFloat(
-            formValues[field.name]?.replaceAll(",", "") ?? ""
-          );
-        }
-      });
+      if (handleCheckConditions(page.conditions)) {
+        page.fields.forEach((field) => {
+          if (
+            handleCheckConditions(field.conditions) &&
+            FieldInformationService.isNumber(field.type)
+          ) {
+            formDataValues[field.name] = parseFloat(
+              formValues[field.name]?.replaceAll(",", "") ?? "",
+            );
+          }
+        });
+      }
     });
 
     submitForm(
@@ -186,20 +205,20 @@ export const QuestionnaireProvider = ({
           setErrorsFunc(
             { Error: `Something went wrong: ${error}` },
             undefined,
-            true
+            true,
           );
           setTimeout(() => {
             setErrorsFunc({});
           }, 5000);
         },
-      }
+      },
     );
   };
 
   const handleCheckFieldValidity: (field: FormField) => boolean = (
-    field: FormField
+    field: FormField,
   ) => {
-    // If the form field's conditions are hiding the field, ski[]
+    // If the form field's conditions are hiding the field, skip validation check
     if (!handleCheckConditions(field.conditions)) {
       return true;
     }
@@ -207,9 +226,30 @@ export const QuestionnaireProvider = ({
     // check internal fields if those exist
     if ((field.internal_fields?.length ?? 0) > 0) {
       const validity = field.internal_fields?.map((internal) =>
-        handleCheckFieldValidity(internal)
+        handleCheckFieldValidity(internal),
       );
       return !!validity?.every(Boolean);
+    } else if (FieldInformationService.isDropdown(field.type)) {
+      // The React Select component we use for dropdowns does not have a built in
+      // input.validity compatibility. So we must use a custom check here.
+      const input = fieldRefsByName?.current[field.name];
+      const value = input?.value;
+      const possibleValues = new Set(
+        FieldInformationService.getDefaultSelections(field)?.map(
+          (f) => f.value,
+        ),
+      );
+      if (field.required && (!value || !possibleValues.has(value))) {
+        setFieldErrorsByName((prev) => {
+          return { ...prev, [field.name]: "This field is required" };
+        });
+        return false;
+      } else {
+        setFieldErrorsByName((prev) => {
+          return { ...prev, [field.name]: "" };
+        });
+        return true;
+      }
     } else {
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
@@ -235,8 +275,6 @@ export const QuestionnaireProvider = ({
         } else if (validityState?.stepMismatch) {
           message = `Not a valid step value`;
         }
-
-        console.log(message);
 
         setFieldErrorsByName((prev) => {
           return { ...prev, [field.name]: message };
@@ -268,6 +306,8 @@ export const QuestionnaireProvider = ({
   const handleCheckCondition = (condition: Condition) => {
     if (condition.operator === "equal") {
       return formValues[condition.dependant_on.name] === condition.value;
+    } else if (condition.operator === "includes") {
+      return formValues[condition.dependant_on.name]?.includes(condition.value);
     }
     return false;
   };
@@ -320,6 +360,7 @@ export const QuestionnaireProvider = ({
         checkPageValidity: handleCheckPageValidity,
         checkConditions: handleCheckConditions,
         handleChange,
+        bodyRef: questionnaireBodyRef,
       }}
     >
       {children}
@@ -332,7 +373,7 @@ export const useQuestionnaire = () => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
     throw new Error(
-      "useQuestionnaire must be used within a QuestionnaireProvider"
+      "useQuestionnaire must be used within a QuestionnaireProvider",
     );
   }
   return context;

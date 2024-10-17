@@ -1,0 +1,18 @@
+{
+  "environment": "production",
+  "baseUrls": {
+    "api": {
+      "protocol": "https",
+      "domain": "django.bridge.financial",
+      "port": "",
+      "full": "https://django.bridge.financial"
+    },
+    "web": {
+      "protocol": "http",
+      "domain": "localhost",
+      "port": 3000,
+      "full": "http://localhost:3000"
+    }
+  },
+  "apiKeys": {}
+}

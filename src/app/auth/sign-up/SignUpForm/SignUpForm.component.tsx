@@ -1,26 +1,26 @@
 "use client";
-import React, { useState, MouseEvent, useEffect } from "react";
 import ContainedButton from "@/components/atoms/buttons/ContainedButton";
 import ParagraphText from "@/components/atoms/typography/ParagraphText";
 import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
 import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
 import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { externalUrls, routePaths } from "@/types/routes.enum";
-import Link from "next/link";
-import {
-  FormControlLabel,
-  Checkbox,
-  Typography,
-  Box,
-  Autocomplete,
-  TextField,
-} from "@mui/material";
-import { SignUpRequest, useSignUp } from "@/services/users.service";
 import { useIndustries } from "@/services/industries.service";
-import { Industry } from "@/types/industries.types";
+import { SignUpRequest, useSignUp } from "@/services/users.service";
 import { colors } from "@/theme/theme";
+import { Industry } from "@/types/industries.types";
+import { externalUrls, routePaths } from "@/types/routes.enum";
+import {
+  Autocomplete,
+  Box,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
+import React, { MouseEvent, useEffect, useState } from "react";
 
-interface SignUpFormProps {
+export interface SignUpFormProps {
   title?: string;
   cardContainerStyles?: Record<any, any>;
   industryName?: string;
@@ -31,7 +31,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   cardContainerStyles = {},
   onSignUp,
   industryName = null,
-}) => {
+}): React.ReactNode => {
   // STATE
   const [formValues, setFormValues] = useState<SignUpRequest>({
     first_name: "",
@@ -74,7 +74,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     if (industryName && industries?.results?.length) {
       // Find the industry that matches the industryName (case insensitive)
       const existingIndustry = industries.results.find(
-        (industry) => industry.name.toLowerCase() === industryName.toLowerCase()
+        (industry) =>
+          industry.name.toLowerCase() === industryName.toLowerCase(),
       );
 
       // If the industry is found and it's different from the selected one, update the selectedIndustry

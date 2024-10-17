@@ -1,4 +1,4 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { JSX } from "react";
 import { FieldType } from "./forms.enum";
 
 export type FormDefinition = {
@@ -133,7 +133,7 @@ export type BusinessDetailFormSubmission = {
 
 export type FormSubmission = {
   id: number;
-  json_blob: Record<string, any>;
+  json_blob: Record<string, unknown>;
   user: string;
   form: number;
 };
@@ -191,7 +191,8 @@ export type Section = {
 
 export type Page = {
   name: string;
-  header?: string;
+  header?: string | (() => JSX.Element);
+
   fields: FormField[];
   conditions?: Condition[];
 
@@ -203,6 +204,8 @@ export type Page = {
 export type FormField = {
   id: number;
   name: string;
+  page?: string;
+  parent?: string;
   label: string;
   type: FieldType;
   required?: boolean;
@@ -221,9 +224,10 @@ export type FormField = {
   min?: number;
   enum?: {
     label: string;
-    value: any;
+    value: unknown;
     textbox?: boolean;
     placeholder?: string;
+    iconUrl?: string;
 
     // Deprecate
     activates?: string;
@@ -231,7 +235,7 @@ export type FormField = {
     disabled?: boolean;
     hidden?: boolean;
   }[];
-  value?: any; // unsupported
+  value?: unknown; // unsupported
   internal_fields?: FormField[];
   pattern?: FieldPattern;
   validator?: CustomValidator; // unsupported
@@ -239,6 +243,7 @@ export type FormField = {
   add_more?: boolean;
   not_sure?: boolean;
   accepted_file_types?: string;
+  autocomplete?: string;
 
   // Deprecate in favor of conditions
   activates?: string;
@@ -253,7 +258,7 @@ export type FieldPattern = {
 // can use: number, string, date with form "yyyy-mm-dd" OR "today"
 export type CustomValidator = {
   validatorName: CustomValidatorType | string;
-  value: any;
+  value: unknown;
   message: string; // Error message
 };
 

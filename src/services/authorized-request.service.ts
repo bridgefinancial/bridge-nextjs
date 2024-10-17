@@ -1,6 +1,7 @@
-const BASE_URL =
-  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? "http://localhost:8000";
+import { baseUrls } from "../utils/env-variables";
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? baseUrls.api.full;
 // Utility function to get a specific cookie by name
 export const getCookie = (
   cookieString: string,

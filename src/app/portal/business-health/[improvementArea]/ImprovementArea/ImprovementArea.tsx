@@ -1,9 +1,13 @@
 "use client";
+import ContainedButton from "@/components/atoms/buttons/ContainedButton";
+import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
+import ImprovementAreaDialog from "@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog";
 import {
   useImprovementArea,
   useServiceCategoryRecommendations,
   useToggleRecommendationCompletion,
 } from "@/services/recommendations.service";
+import { colors } from "@/theme/theme";
 import { Recommendation } from "@/types/recommendations.types";
 import { routePaths } from "@/types/routes.enum";
 import {
@@ -24,12 +28,8 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import "./ImprovementArea.scss";
-import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import ImprovementAreaDialog from "@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import { colors } from "@/theme/theme";
 
 type ImprovementAreaProps = {
   improvementAreaId: number;

@@ -1,15 +1,17 @@
-import React, { useMemo } from "react";
+import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import { BaseTypographyProps } from "@/types/base-typography-props.interface";
+import { CloseOutlined } from "@mui/icons-material";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
   SxProps,
   Theme,
 } from "@mui/material";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { BaseTypographyProps } from "@/types/base-typography-props.interface";
+import React, { useMemo } from "react";
 
 export interface BaseDialogProps {
   open: boolean;
@@ -64,11 +66,22 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
       aria-labelledby={`base-dialog-title-${ariaDescribedBy}`}
       aria-describedby={`base-dialog-description-${ariaDescribedBy}`}
     >
-      {titleText && (
-        <DialogTitle id={`base-dialog-title-${ariaDescribedBy}`}>
-          <ParagraphText sx={titleStyles}>{titleText}</ParagraphText>
-        </DialogTitle>
-      )}
+      <DialogTitle
+        id={`base-dialog-title-${ariaDescribedBy}`}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center", // Center align the items
+        }}
+      >
+        <ParagraphText sx={{ margin: 0, padding: 0, ...titleStyles }}>
+          {titleText}
+        </ParagraphText>
+        <IconButton onClick={() => onClose()}>
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+
       <DialogContent dividers={true}>
         <Box id={`base-dialog-description-${ariaDescribedBy}`} sx={{ p: 0.5 }}>
           {children}

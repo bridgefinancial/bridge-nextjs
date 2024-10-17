@@ -1,14 +1,52 @@
-import { fetchWithAuth } from "./authorized-request.service";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
+import { FetchOptions, getCookie } from "./authorized-request.service";
 
-export const getCompanyFiles = async () => {
+const BASE_URL =
+  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? "http://localhost:8000";
+
+export const customFetchWithAuth = async (
+  url: string,
+  options: FetchOptions = {},
+  cookieString = document.cookie,
+): Promise<Response> => {
+  const headers = new Headers({
+    ...options.headers,
+  });
+
+  // Get the CSRF token from the cookies
+  const csrfToken = getCookie(cookieString, "csrftoken");
+
+  // If the CSRF token exists, include it in the headers
+  if (csrfToken) {
+    headers.set("X-CSRFToken", csrfToken);
+  }
+
+  // Handle form data automatically for file uploads, otherwise default to JSON
+  if (!(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(`${BASE_URL}${url}`, {
+    method: options.method || "GET",
+    credentials: "include", // Include cookies in the request
+    cache: "no-cache",
+    ...options,
+    headers,
+  });
+
+  return response;
+};
+
+// Fetch company files
+export const getCompanyFiles = async (): Promise<any> => {
   const url = `/api/company-files/`;
 
-  const response = await fetchWithAuth(url, {
+  const response = await customFetchWithAuth(url, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      // Include other headers if needed
-    },
   });
 
   if (!response.ok) {
@@ -19,56 +57,53 @@ export const getCompanyFiles = async () => {
   return data;
 };
 
-type DeleteFileRequest = {
+// Delete a company file
+export const deleteCompanyFile = async ({
+  fileId,
+}: {
   fileId: number;
-};
-
-export const deleteCompanyFile = async ({ fileId }: DeleteFileRequest) => {
+}): Promise<any> => {
   const url = `/api/company-files/${fileId}`;
 
-  const response = await fetchWithAuth(url, {
+  const response = await customFetchWithAuth(url, {
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      // Include other headers if needed, like Authorization
-    },
   });
 
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  // Optionally handle any response data if needed
   const data = await response.json();
   return data;
 };
 
-type UploadDocumentsRequest = {
+// Upload documents using FormData
+interface UploadDocumentResponse {
   files: File[];
-};
+}
 
 export const handleUploadDocuments = async ({
   files,
-}: UploadDocumentsRequest) => {
+}: UploadDocumentResponse): Promise<{ responses: any[]; errors: any[] }> => {
   const url = `/api/company-files/`;
 
-  // Create a container to hold responses and errors
   const responses = [];
   const errors = [];
 
   for (const file of files) {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("description", file.name); // Using file name as description
+    formData.append("description", file.name);
 
     try {
-      const response = await fetchWithAuth(url, {
+      const response = await customFetchWithAuth(url, {
         method: "POST",
         body: formData,
-        // Note: FormData automatically sets Content-Type to multipart/form-data
       });
 
       if (!response.ok) {
+        const responseBody = await response.text();
+        console.error("Response body:", responseBody);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -80,6 +115,37 @@ export const handleUploadDocuments = async ({
     }
   }
 
-  // Handle responses and errors as needed
   return { responses, errors };
+};
+
+// Fetch company files with cacheable query
+export const useGetCompaniesFilesQuery = (queryKey: string = "") => {
+  return useQuery({
+    queryFn: getCompanyFiles,
+    queryKey: [`useCompanyFilesQuery${queryKey ? queryKey : "KeyForQuery"}`],
+  });
+};
+
+// Use mutation to delete a file
+export const useDeleteFileMutation = (): UseMutationResult<
+  any,
+  Error,
+  { fileId: number },
+  unknown
+> => {
+  return useMutation({
+    mutationFn: deleteCompanyFile,
+  });
+};
+
+// Use mutation to upload files
+export const useUploadDocumentsMutation = (): UseMutationResult<
+  { responses: any[]; errors: unknown[] },
+  Error,
+  UploadDocumentResponse,
+  unknown
+> => {
+  return useMutation({
+    mutationFn: handleUploadDocuments,
+  });
 };

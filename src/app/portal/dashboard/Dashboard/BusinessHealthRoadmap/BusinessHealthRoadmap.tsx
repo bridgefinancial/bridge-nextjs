@@ -10,7 +10,7 @@ import {
 } from "@mui/icons-material";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 type BusinessHealthRoadmapProps = {
   hasCompletedOnboarding: boolean;
@@ -208,7 +208,7 @@ const BusinessHealthRoadmap = ({
 
           {/* RECOMMENDATIONS CHECKLIST */}
           {hasCompletedOnboarding && (
-            <div className="py-4">
+            <div className="py-4 space-y-8">
               {!isLoading ? (
                 improvementCategories?.map((category) => (
                   <div
@@ -242,7 +242,7 @@ const BusinessHealthRoadmap = ({
                               <Check className="text-white" />
                             </div>
                           ) : (
-                            <div className="w-8 h-8 border-2 border-bridge-gray-border rounded-full" />
+                            <div className="w-8 h-8 border-2 border-bridge-gray-border rounded-full shrink-0" />
                           )}
                           <div className="flex flex-col lg:flex-row gap-2 grow">
                             <div className="lg:w-2/3">
@@ -295,7 +295,7 @@ const BusinessHealthRoadmap = ({
                             </div>
                             <div className="flex flex-col lg:basis-[200px]">
                               <p className="text-xs">Tasks</p>
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-1 flex-wrap">
                                 {area.service_category_recommendations.map(
                                   (recommendation) => (
                                     <div

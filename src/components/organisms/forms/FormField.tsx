@@ -22,6 +22,7 @@ import {
   TextField,
 } from '@mui/material';
 import clsx from 'clsx';
+import { Inter } from 'next/font/google';
 import Image from 'next/image';
 import React, { forwardRef, useState } from 'react';
 
@@ -29,6 +30,8 @@ type FormFieldProps = {
   formField: Field;
   error?: string;
 };
+
+const inter = Inter({ subsets: ['latin'] });
 
 const FormField = forwardRef(
   (
@@ -155,9 +158,7 @@ const FormField = forwardRef(
           >
             {formField.enum?.map((option, index) => {
               const handleClick = (e: any) => {
-                if (e.target.tagName === 'INPUT') {
-                  return;
-                }
+                e.preventDefault();
                 const currentValue: string[] | undefined =
                   formValues[formField.name];
                 if (!currentValue) {
@@ -181,6 +182,7 @@ const FormField = forwardRef(
                       formField.type !== FieldType.Checkbox9Grid,
                   })}
                   onClick={(e) => {
+                    e.stopPropagation();
                     handleClick(e);
                   }}
                 >
@@ -198,7 +200,7 @@ const FormField = forwardRef(
                     </div>
                   )}
                   {formField.type !== FieldType.Checkbox9Grid ? (
-                    <div className="px-4">
+                    <div className="px-4 py-1">
                       <CustomFormControlLabel
                         checked={
                           !!formValues[formField.name]?.includes(option.value)
@@ -209,13 +211,13 @@ const FormField = forwardRef(
                         name={option.value as string}
                         value={option.value}
                         className="cursor-pointer"
+                        classes={{ label: clsx('fmd-checkbox-label', inter) }}
                       />
                     </div>
                   ) : (
                     <>
                       <label className="fmd-checkbox-label cursor-pointer">
                         {option.label}
-                        <span className="fmd-checkmark" />
                       </label>
                     </>
                   )}
@@ -430,6 +432,35 @@ const FormField = forwardRef(
           />
         )}
 
+        {FieldInformationService.isLongText(formField.type) && (
+          <TextField
+            id={formField.name}
+            inputRef={ref}
+            inputProps={{
+              min: formField.min,
+              minLength: formField.min_length,
+              max: formField.max,
+              maxLength: formField.max_length,
+            }}
+            name={formField.name}
+            placeholder={formField.placeholder || defaultPlaceholder}
+            className="fmd-input"
+            rows={4}
+            multiline={true}
+            value={formValues[formField.name] ?? ''}
+            onChange={(e) => {
+              handleChange(formField.name, e.target.value);
+            }}
+            disabled={notSure}
+            fullWidth={true}
+            autoComplete={formField.autocomplete}
+          />
+        )}
+
+        {/*
+            If 'Not sure' checkbox should appear in the same row,
+            place the element within this div
+        */}
         <div className="flex items-center gap-6">
           {FieldInformationService.isShortText(formField.type) && (
             <TextField
@@ -568,31 +599,6 @@ const FormField = forwardRef(
         </div>
       )} */}
 
-          {FieldInformationService.isLongText(formField.type) && (
-            <TextField
-              id={formField.name}
-              inputRef={ref}
-              inputProps={{
-                min: formField.min,
-                minLength: formField.min_length,
-                max: formField.max,
-                maxLength: formField.max_length,
-              }}
-              name={formField.name}
-              placeholder={formField.placeholder || defaultPlaceholder}
-              className="fmd-input"
-              rows={4}
-              multiline={true}
-              value={formValues[formField.name] ?? ''}
-              onChange={(e) => {
-                handleChange(formField.name, e.target.value);
-              }}
-              disabled={notSure}
-              fullWidth={true}
-              autoComplete={formField.autocomplete}
-            />
-          )}
-
           {/* Slider Text Field */}
           {FieldInformationService.isSlider(formField.type) && (
             <div>
@@ -646,7 +652,7 @@ const FormField = forwardRef(
 
           {/* Not sure option */}
           {!!formField.not_sure && (
-            <div className="flex items-center justify-start">
+            <div className="flex items-center justify-start py-2">
               <Checkbox
                 checked={notSure}
                 onChange={(e) => {

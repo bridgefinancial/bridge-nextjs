@@ -1,4 +1,4 @@
-import { useOnboardingCompletion } from '@/services/form-submissions.service';
+import { useOnboardingCompletion } from '@/hooks/useOnboardingCompletion.hook';
 import { useTasksCompletion } from '@/services/recommendations.service';
 import BusinessHealthScore from '../BusinessHealthRoadmap/BusinessHealthScore';
 import QuestionnaireProgress from './QuestionnaireProgress';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useOnboardingCompletion } from '@/services/form-submissions.service';
+import { useOnboardingCompletion } from '@/hooks/useOnboardingCompletion.hook';
 import { useTasksCompletion } from '@/services/recommendations.service';
 import { useSessionUser } from '@/services/users.service';
 import { routePaths } from '@/types/routes.enum';

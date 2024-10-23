@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import { routePaths } from "@/types/routes.enum";
-import { Check, Circle } from "@mui/icons-material";
-import clsx from "clsx";
-import Image from "next/image";
-import Link from "next/link";
-import { ReactNode } from "react";
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import { useQuestionnaire } from '@/providers/Questionnaire.provider';
+import { routePaths } from '@/types/routes.enum';
+import { Check, Circle } from '@mui/icons-material';
+import clsx from 'clsx';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ReactNode } from 'react';
 
 type QuestionnaireLayoutProps = {
   children?: ReactNode;
@@ -31,7 +31,7 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
             <div className="flex items-center justify-center">
               <Link href={routePaths.DASHBOARD}>
                 <Image
-                  loading={"lazy"}
+                  loading={'lazy'}
                   unoptimized={true}
                   width={100}
                   height={28}
@@ -53,7 +53,7 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
         >
           <Link className="mb-8" href={routePaths.DASHBOARD}>
             <Image
-              loading={"lazy"}
+              loading={'lazy'}
               unoptimized={true}
               width={120}
               height={33.6}
@@ -64,7 +64,7 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
           </Link>
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-6 items-center">
-              <ParagraphText sx={{ fontWeight: "600" }}>
+              <ParagraphText sx={{ fontWeight: '600' }}>
                 {form?.name}
               </ParagraphText>
             </div>
@@ -72,9 +72,9 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
               {form?.definition?.pages.map((page, j) => (
                 <div
                   key={j}
-                  className={clsx("flex flex-row items-center gap-4", {
-                    "cursor-not-allowed": j > pageIndex,
-                    "cursor-pointer": j < pageIndex,
+                  className={clsx('flex flex-row items-center gap-4', {
+                    'cursor-not-allowed': j > pageIndex,
+                    'cursor-pointer': j < pageIndex,
                   })}
                   onClick={() => {
                     if (j < pageIndex) {
@@ -89,9 +89,9 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
                   ) : (
                     <Circle
                       fontSize="inherit"
-                      className={clsx("text-[8px] mx-2", {
-                        "text-bridge-dark-purple": pageIndex === j,
-                        "text-gray-400": pageIndex !== j,
+                      className={clsx('text-[8px] mx-2', {
+                        'text-bridge-dark-purple': pageIndex === j,
+                        'text-gray-400': pageIndex !== j,
                       })}
                     />
                   )}
@@ -99,13 +99,13 @@ const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
                   {}
                   <ParagraphText
                     className={clsx({
-                      "font-semibold text-bridge-dark-purple": pageIndex === j,
-                      "text-gray-400": pageIndex < j,
+                      'font-semibold text-bridge-dark-purple': pageIndex === j,
+                      'text-gray-400': pageIndex < j,
                     })}
                   >
-                    {typeof page.header === "string"
+                    {typeof page.header === 'string'
                       ? page.header
-                      : typeof page.header === "function"
+                      : typeof page.header === 'function'
                         ? page.header()
                         : null}
                   </ParagraphText>

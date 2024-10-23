@@ -5,7 +5,7 @@ import { useTasksCompletion } from '@/services/recommendations.service';
 import { useSessionUser } from '@/services/users.service';
 import { routePaths } from '@/types/routes.enum';
 import LockedContent from './LockedContent/LockedContent';
-import QuestionnaireProgress from './OnboardingProgress/OnboardingProgress';
+import OnboardingProgress from './OnboardingProgress/OnboardingProgress';
 import Valuation from './Valuation/Valuation';
 
 const Dashboard = () => {
@@ -44,7 +44,7 @@ const Dashboard = () => {
             blurred={!hasStartedOnboarding}
             buttonHref={routePaths.RECOMMENDATION}
           >
-            <QuestionnaireProgress />
+            <OnboardingProgress />
           </LockedContent>
         </div>
       </div>

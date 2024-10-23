@@ -4,6 +4,7 @@ import { useOnboardingCompletion } from '@/services/form-submissions.service';
 import { useTasksCompletion } from '@/services/recommendations.service';
 import { useSessionUser } from '@/services/users.service';
 import { routePaths } from '@/types/routes.enum';
+import Calendar from './Calendar/Calendar';
 import LockedContent from './LockedContent/LockedContent';
 import OnboardingProgress from './OnboardingProgress/OnboardingProgress';
 import Valuation from './Valuation/Valuation';
@@ -47,6 +48,9 @@ const Dashboard = () => {
             <OnboardingProgress />
           </LockedContent>
         </div>
+      </div>
+      <div className="w-full">
+        <Calendar />
       </div>
     </div>
   );

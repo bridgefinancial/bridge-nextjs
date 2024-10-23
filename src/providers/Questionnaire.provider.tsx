@@ -14,6 +14,7 @@ import {
   Questionnaire,
 } from '@/types/forms.types';
 import { routePaths } from '@/types/routes.enum';
+import { getLandingConfigKey } from '@/utils/local-storage';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   createContext,
@@ -30,6 +31,11 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useErrors } from './Errors.provider';
 
 const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = 'redirectTo';
+
+export type LandingConfig = {
+  formIndex?: number;
+  pageIndex?: number;
+};
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -115,11 +121,8 @@ export const QuestionnaireProvider = ({
     }
   );
   const [landingConfig, setLandingConfig, removeLandingConfig] =
-    useLocalStorage<{
-      formIndex?: number;
-      pageIndex?: number;
-    }>(
-      `last-viewed-${questionnaire.key}`,
+    useLocalStorage<LandingConfig>(
+      getLandingConfigKey(questionnaire),
       {},
       {
         serializer: (value) => {

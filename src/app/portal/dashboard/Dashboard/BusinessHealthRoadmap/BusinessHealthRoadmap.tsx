@@ -1,16 +1,11 @@
-import ImprovementAreaDialog from "@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog";
-import { useImprovementCategories } from "@/services/recommendations.service";
-import { routePaths } from "@/types/routes.enum";
-import {
-  Check,
-  ChevronRight,
-  InfoOutlined,
-  Map,
-  Summarize,
-} from "@mui/icons-material";
-import clsx from "clsx";
-import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import ImprovementAreaDialog from '@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog';
+import { useImprovementCategories } from '@/services/recommendations.service';
+import { routePaths } from '@/types/routes.enum';
+import { Check, ChevronRight, InfoOutlined, Map } from '@mui/icons-material';
+import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import BusinessHealthScore from './BusinessHealthScore';
 
 type BusinessHealthRoadmapProps = {
   hasCompletedOnboarding: boolean;
@@ -36,7 +31,7 @@ const BusinessHealthRoadmap = ({
         (areaAcc: number, area: any) => {
           return areaAcc + area.total;
         },
-        0,
+        0
       );
       map[category.id] = total;
     });
@@ -50,7 +45,7 @@ const BusinessHealthRoadmap = ({
         (areaAcc: number, area: any) => {
           return areaAcc + area.completed;
         },
-        0,
+        0
       );
       map[category.id] = total;
     });
@@ -75,14 +70,14 @@ const BusinessHealthRoadmap = ({
   const totalSteps = useMemo(() => {
     return Object.values(totalStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0,
+      0
     );
   }, [totalStepsByCategory]);
 
   const completedSteps = useMemo(() => {
     return Object.values(completedStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0,
+      0
     );
   }, [completedStepsByCategory]);
 
@@ -115,44 +110,10 @@ const BusinessHealthRoadmap = ({
           {/* SCORES */}
           <div className="flex flex-col lg:flex-row lg:items-stretch gap-5 w-full">
             {/* BUSINESS HEALTH SCORE */}
-            <div className="lg:basis-1 grow shrink flex flex-col min-h-full">
-              <div className="flex flex-row items-center justify-start gap-4 px-6 py-3 rounded-t-[20px] bg-[#FEF1E7] h-[86px]">
-                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-bridge-orange">
-                  <Summarize />
-                </div>
-                <div className="flex flex-col">
-                  {!isLoading ? (
-                    <h2 className="text-[32px]">
-                      {healthGrade(completionPercentage)}
-                    </h2>
-                  ) : (
-                    <div className="h-8 w-24 animate-pulse bg-gray-300 rounded-full" />
-                  )}
-                  <p>Business Health Score</p>
-                </div>
-              </div>
-              <div className="border border-t-0 border-solid border-bridge-gray-border rounded-b-[20px] grow flex items-center">
-                <div className="px-6 py-3 flex flex-col gap-1 w-full">
-                  {!isLoading ? (
-                    <>
-                      <p className="text-sm">
-                        <strong>
-                          {healthGradeHeader(completionPercentage)}
-                        </strong>
-                      </p>
-                      <p className="text-xs">
-                        {healthGradeDescription(completionPercentage)}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="h-3 w-full animate-pulse bg-gray-300 rounded-full" />
-                      <div className="h-3 w-1/2 animate-pulse bg-gray-300 rounded-full" />
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
+            <BusinessHealthScore
+              completionPercentage={completionPercentage}
+              isLoading={isLoading}
+            />
 
             {/* OVERALL PROGRESS */}
             <div className="lg:basis-1 grow shrink">
@@ -221,19 +182,19 @@ const BusinessHealthRoadmap = ({
                         <div
                           key={`area-${area.id}`}
                           className={clsx(
-                            "flex items-start lg:items-center gap-6 px-4 py-6 cursor-pointer",
+                            'flex items-start lg:items-center gap-6 px-4 py-6 cursor-pointer',
                             {
-                              "rounded-t-[20px]": i === 0,
+                              'rounded-t-[20px]': i === 0,
 
-                              "rounded-b-[20px]":
+                              'rounded-b-[20px]':
                                 i === category.improvement_areas.length - 1,
 
-                              "bg-[#F8FCED]": area.completed === area.total,
-                            },
+                              'bg-[#F8FCED]': area.completed === area.total,
+                            }
                           )}
                           onClick={() => {
                             router.push(
-                              `${routePaths.BUSINESS_HEALTH}/${area.id}`,
+                              `${routePaths.BUSINESS_HEALTH}/${area.id}`
                             );
                           }}
                         >
@@ -260,31 +221,31 @@ const BusinessHealthRoadmap = ({
                                 {!area.completed && (
                                   <div
                                     className={clsx(
-                                      "rounded-full flex items-center justify-center p-1 w-fit",
+                                      'rounded-full flex items-center justify-center p-1 w-fit',
                                       {
-                                        "bg-[#FCEBE5]": area.priority > 0.5,
-                                        "bg-[#FEF6EC]":
+                                        'bg-[#FCEBE5]': area.priority > 0.5,
+                                        'bg-[#FEF6EC]':
                                           area.priority > 0 &&
                                           area.priority <= 0.5,
-                                        "bg-[#EDF8F2]": area.priority === 0,
-                                      },
+                                        'bg-[#EDF8F2]': area.priority === 0,
+                                      }
                                     )}
                                   >
                                     <p
-                                      className={clsx("text-xs", {
-                                        "text-[#ED682C]": area.priority > 0.5,
-                                        "text-[#F2A83B]":
+                                      className={clsx('text-xs', {
+                                        'text-[#ED682C]': area.priority > 0.5,
+                                        'text-[#F2A83B]':
                                           area.priority > 0 &&
                                           area.priority <= 0.5,
-                                        "text-[#B0BEC5]": area.priority === 0,
+                                        'text-[#B0BEC5]': area.priority === 0,
                                       })}
                                     >
-                                      •{" "}
+                                      •{' '}
                                       {area.priority > 0.5
-                                        ? "High"
+                                        ? 'High'
                                         : area.priority > 0
-                                          ? "Medium"
-                                          : "Low"}
+                                          ? 'Medium'
+                                          : 'Low'}
                                     </p>
                                   </div>
                                 )}
@@ -301,13 +262,13 @@ const BusinessHealthRoadmap = ({
                                     <div
                                       key={`service-category-${recommendation.id}`}
                                       className={clsx(
-                                        "flex items-center px-2 py-[2px] rounded-full w-fit",
+                                        'flex items-center px-2 py-[2px] rounded-full w-fit',
                                         {
-                                          "bg-[#5DBF6D]":
+                                          'bg-[#5DBF6D]':
                                             recommendation.dt_done,
-                                          "bg-[#F0F0F0]":
+                                          'bg-[#F0F0F0]':
                                             !recommendation.dt_done,
-                                        },
+                                        }
                                       )}
                                     >
                                       {recommendation.dt_done && (
@@ -317,14 +278,14 @@ const BusinessHealthRoadmap = ({
                                         />
                                       )}
                                       <p
-                                        className={clsx("text-xs", {
-                                          "text-white": recommendation.dt_done,
+                                        className={clsx('text-xs', {
+                                          'text-white': recommendation.dt_done,
                                         })}
                                       >
                                         {recommendation.service_category.name}
                                       </p>
                                     </div>
-                                  ),
+                                  )
                                 )}
                               </div>
                             </div>
@@ -359,63 +320,3 @@ const BusinessHealthRoadmap = ({
 };
 
 export default BusinessHealthRoadmap;
-
-const healthGrade = (percentage: number) => {
-  if (percentage < 10) {
-    return "F";
-  } else if (percentage < 30) {
-    return "C-";
-  } else if (percentage < 40) {
-    return "C";
-  } else if (percentage < 50) {
-    return "C+";
-  } else if (percentage < 60) {
-    return "B-";
-  } else if (percentage < 70) {
-    return "B";
-  } else if (percentage < 80) {
-    return "B+";
-  } else if (percentage < 90) {
-    return "A-";
-  } else if (percentage < 100) {
-    return "A";
-  } else {
-    return "A+";
-  }
-};
-
-const healthGradeHeader = (percentage: number): string => {
-  if (percentage < 10) {
-    return "Starting Out";
-  } else if (percentage < 30) {
-    return "Making Progress";
-  } else if (percentage < 50) {
-    return "Not Bad!";
-  } else if (percentage < 70) {
-    return "Great Job!";
-  } else if (percentage < 90) {
-    return "Excellent Work!";
-  } else if (percentage <= 100) {
-    return "Outstanding!";
-  } else {
-    return "Error";
-  }
-};
-
-const healthGradeDescription = (percentage: number): string => {
-  if (percentage < 10) {
-    return "You're just starting out. Take the first steps to make some progress!";
-  } else if (percentage < 30) {
-    return "Good effort! You're making progress, but there's still a lot of room for improvement. Keep pushing forward!";
-  } else if (percentage < 50) {
-    return "Not bad! You're getting there. Focus on the key areas that need attention to boost your score further.";
-  } else if (percentage < 70) {
-    return "Great job! You're more than halfway there. Keep up the good work and finish strong.";
-  } else if (percentage < 90) {
-    return "Excellent work! You're very close to reaching your goal. Just a few more adjustments and you'll be there.";
-  } else if (percentage <= 100) {
-    return "Outstanding! You've achieved an impressive level of completion. Keep maintaining this high standard.";
-  } else {
-    return "Completion percentage is out of range.";
-  }
-};

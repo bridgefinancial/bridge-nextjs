@@ -5,7 +5,7 @@ export const VALUATION_FORM_DEFINITION: FormidableForm = {
   id: 8,
   created_at: '2024-09-14T11:21:59.524282-06:00',
   updated_at: '2024-09-15T23:11:04.635250-06:00',
-  name: 'Chiropractic Valuation',
+  name: 'Valuation',
   slug: 'chiropractic-valuation',
   review: false,
   intro: {

@@ -1,22 +1,23 @@
-"use client";
+'use client';
 
-import React from "react";
-import Valuation from "./Valuation/Valuation";
-import NextAction from "./NextAction/NextAction";
-import BusinessHealthRoadmap from "./BusinessHealthRoadmap/BusinessHealthRoadmap";
-import LockedContent from "./LockedContent/LockedContent";
-import { routePaths } from "@/types/routes.enum";
-import { useSessionUser } from "@/services/users.service";
-import { useNextRecommendations } from "@/services/recommendations.service";
+import { useOnboardingCompletion } from '@/services/form-submissions.service';
+import { useTasksCompletion } from '@/services/recommendations.service';
+import { useSessionUser } from '@/services/users.service';
+import { routePaths } from '@/types/routes.enum';
+import LockedContent from './LockedContent/LockedContent';
+import QuestionnaireProgress from './OnboardingProgress/OnboardingProgress';
+import Valuation from './Valuation/Valuation';
 
 const Dashboard = () => {
+  // HOOKS
+  const { completionPercentage } = useTasksCompletion();
+
   // QUERIES
   const { data: user, isLoading: isLoadingUser } = useSessionUser();
-  const { data: nextActions, isLoading: isLoadingNextAction } =
-    useNextRecommendations();
+  const { hasStartedOnboarding, hasCompletedOnboarding } =
+    useOnboardingCompletion();
 
   // CALCULATED
-  const hasCompletedOnboarding = !!user?.company?.has_finished_onboarding;
   const hasValuation = !!user?.company?.valuation;
 
   return (
@@ -36,36 +37,17 @@ const Dashboard = () => {
             </LockedContent>
           )}
         </div>
-
         <div className="grow shrink basis-0">
-          {isLoadingNextAction ? (
-            <div className="bg-gray-200 animate-pulse h-60 rounded-[20px]" />
-          ) : (
-            <LockedContent
-              body="Get personalized next steps for your business by completing your business profile!"
-              buttonLabel="Complete Profile"
-              blurred={!hasCompletedOnboarding}
-              buttonHref={routePaths.RECOMMENDATION}
-            >
-              <NextAction recommendations={nextActions} />
-            </LockedContent>
-          )}
+          <LockedContent
+            body="Get personalized next steps for your business by completing your business profile!"
+            buttonLabel="Complete Profile"
+            blurred={!hasStartedOnboarding}
+            buttonHref={routePaths.RECOMMENDATION}
+          >
+            <QuestionnaireProgress />
+          </LockedContent>
         </div>
       </div>
-
-      {isLoadingUser ? (
-        <div className="bg-gray-200 animate-pulse h-60 rounded-[20px] w-full" />
-      ) : (
-        <LockedContent
-          body="Access your business roadmap and recommendations by completing your business profile!"
-          blurred={!hasCompletedOnboarding}
-          buttonHref={routePaths.RECOMMENDATION}
-        >
-          <BusinessHealthRoadmap
-            hasCompletedOnboarding={hasCompletedOnboarding}
-          />
-        </LockedContent>
-      )}
     </div>
   );
 };

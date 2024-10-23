@@ -1,8 +1,10 @@
-import { Step, StepLabel, Stepper } from "@mui/material";
+import { Step, StepButton, Stepper } from '@mui/material';
+import Link from 'next/link';
 
 export type Step = {
   label: string;
   isCompleted: boolean;
+  href: string;
 };
 
 export type StepsProps = {
@@ -12,11 +14,13 @@ export type StepsProps = {
 
 const Steps = ({ steps, activeStepIndex }: StepsProps) => {
   return (
-    <Stepper activeStep={activeStepIndex} alternativeLabel={true}>
-      {steps.map(({ label, isCompleted }, index) => {
+    <Stepper nonLinear activeStep={activeStepIndex} alternativeLabel={true}>
+      {steps.map(({ label, isCompleted, href }, index) => {
         return (
           <Step key={label} completed={isCompleted}>
-            <StepLabel>{label}</StepLabel>
+            <StepButton color="inherit" LinkComponent={Link} href={href}>
+              {label}
+            </StepButton>
           </Step>
         );
       })}

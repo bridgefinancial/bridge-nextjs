@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
+import { useFormSubmissions } from '@/services/form-submissions.service';
 import {
   QuestionnaireSlugs,
   RECOMMENDATION_QUESTIONNAIRE_SLUGS,
   RECOMMENDATION_QUESTIONNAIRES,
-} from "@/services/questionnaires.service";
-import Steps, { Step } from "../Steps";
-import { useFormSubmissions } from "@/services/form-submissions.service";
+} from '@/services/questionnaires.service';
+import Steps, { Step } from '../Steps';
 
 type RecommendationStepsProps = {
   slug: QuestionnaireSlugs;
@@ -23,7 +23,7 @@ const RecommendationSteps = ({ slug }: RecommendationStepsProps) => {
           formId: f.id,
         };
       });
-    }).flat(),
+    }).flat()
   );
 
   if (recommendationSlugIndex === -1) {
@@ -39,6 +39,7 @@ const RecommendationSteps = ({ slug }: RecommendationStepsProps) => {
             const step: Step = {
               label: f.definition.name,
               isCompleted: formSubmissionQueries[index + formIndex].isSuccess,
+              href: RECOMMENDATION_QUESTIONNAIRE_SLUGS[index],
             };
             return step;
           });

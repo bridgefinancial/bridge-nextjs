@@ -4,7 +4,7 @@ import { InlineWidget } from 'react-calendly';
 type CalendarProps = {};
 
 export const CALENDLY_LINK =
-  'https://calendly.com/garrison-whitaker-bridge/30min';
+  'https://calendly.com/jimmy-choi-bridge/consultation-to-buy-a-business';
 
 const Calendar = ({}: CalendarProps) => {
   return (

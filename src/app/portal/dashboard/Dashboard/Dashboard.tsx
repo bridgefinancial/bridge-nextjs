@@ -50,7 +50,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="w-full">
-        <Calendar />
+        <Calendar user={user} />
       </div>
     </div>
   );

@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import QuestionnaireHeader from "@/components/organisms/headers/QuestionnaireHeader";
-import { useQuestionnaire } from "@/providers/Questionnaire.provider";
-import { ReactNode } from "react";
+import QuestionnaireHeader from '@/components/organisms/headers/QuestionnaireHeader';
+import { useQuestionnaire } from '@/providers/Questionnaire.provider';
+import { ReactNode } from 'react';
 
 type QuestionnaireLayoutProps = {
   children?: ReactNode;
 };
 
 const QuestionnaireLayout = ({ children }: QuestionnaireLayoutProps) => {
-  const { bodyRef } = useQuestionnaire();
+  const { bodyRef, saveAndExit } = useQuestionnaire();
   return (
     <>
       <div className="h-screen w-screen flex flex-col items-stretch justify-stretch">
-        <QuestionnaireHeader />
+        <QuestionnaireHeader showSaveAndExit onSaveAndExit={saveAndExit} />
 
         {/* BODY */}
         <div

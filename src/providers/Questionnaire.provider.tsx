@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import { default as useScrollTo } from "@/hooks/useScrollTo.hook";
-import { FieldInformationService } from "@/services/fields.service";
+import { default as useScrollTo } from '@/hooks/useScrollTo.hook';
+import { FieldInformationService } from '@/services/fields.service';
 import {
   getFormSubmission,
   useSubmitForm,
-} from "@/services/form-submissions.service";
+} from '@/services/form-submissions.service';
 import {
   Condition,
   FormField,
   FormidableForm,
   Page,
   Questionnaire,
-} from "@/types/forms.types";
-import { routePaths } from "@/types/routes.enum";
-import { useRouter, useSearchParams } from "next/navigation";
+} from '@/types/forms.types';
+import { routePaths } from '@/types/routes.enum';
+import { getLandingConfigKey } from '@/utils/local-storage';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   createContext,
   MutableRefObject,
@@ -25,10 +26,16 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { useErrors } from "./Errors.provider";
+} from 'react';
+import { useLocalStorage } from 'usehooks-ts';
+import { useErrors } from './Errors.provider';
 
-const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = "redirectTo";
+const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = 'redirectTo';
+
+export type LandingConfig = {
+  formIndex?: number;
+  pageIndex?: number;
+};
 
 // Define the context
 export const QuestionnaireContext = createContext<{
@@ -43,6 +50,7 @@ export const QuestionnaireContext = createContext<{
   fieldErrorsByName: Record<string, string>;
   formValues: Record<string, any>;
   bodyRef: RefObject<HTMLDivElement> | null;
+  showIntro: boolean;
   goTo: ({
     pageIndex,
     formIndex,
@@ -54,6 +62,8 @@ export const QuestionnaireContext = createContext<{
   checkPageValidity: (page?: Page) => boolean;
   checkConditions: (conditions?: Condition[]) => boolean;
   handleChange: (name: string, value: any) => void;
+  saveAndExit: () => void;
+  begin: () => void;
 }>({
   form: undefined,
   page: undefined,
@@ -66,6 +76,7 @@ export const QuestionnaireContext = createContext<{
   fieldErrorsByName: {},
   formValues: {},
   bodyRef: null,
+  showIntro: true,
   goTo: () => {},
   submit: () => {},
   checkPageValidity: () => {
@@ -75,6 +86,8 @@ export const QuestionnaireContext = createContext<{
     return false;
   },
   handleChange: () => {},
+  saveAndExit: () => {},
+  begin: () => {},
 });
 
 type QuestionnaireProviderProps = {
@@ -87,13 +100,50 @@ export const QuestionnaireProvider = ({
   children,
   questionnaire,
 }: QuestionnaireProviderProps) => {
+  // LOCAL STORAGE
+  const [localValues, setLocalValues, removeLocalValues] = useLocalStorage<
+    Record<string, any>
+  >(
+    `questionnaire-responses-${questionnaire.key}`,
+    {},
+    {
+      serializer: (value) => {
+        return JSON.stringify(value);
+      },
+      deserializer: (value) => {
+        try {
+          return JSON.parse(value) || {};
+        } catch (error) {
+          console.log(error);
+          return {};
+        }
+      },
+    }
+  );
+  const [landingConfig, setLandingConfig, removeLandingConfig] =
+    useLocalStorage<LandingConfig>(
+      getLandingConfigKey(questionnaire),
+      {},
+      {
+        serializer: (value) => {
+          return JSON.stringify(value);
+        },
+        deserializer: (value) => {
+          return JSON.parse(value);
+        },
+      }
+    );
+
   // STATE
-  const [formIndex, setFormIndex] = useState(0);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [formIndex, setFormIndex] = useState<number>(
+    landingConfig.formIndex ?? 0
+  );
+  const [pageIndex, setPageIndex] = useState(landingConfig.pageIndex ?? 0);
   const [fieldErrorsByName, setFieldErrorsByName] = useState<
     Record<string, string>
   >({});
-  const [formValues, setFormValues] = useState<Record<string, any>>({});
+  const [formValues, setFormValues] =
+    useState<Record<string, any>>(localValues);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // HOOKS
@@ -108,14 +158,17 @@ export const QuestionnaireProvider = ({
   // CALCULATED
   const { forms, redirectPath } = questionnaire;
   const form = forms[formIndex];
+  const [showIntro, setShowIntro] = useState<boolean>(
+    landingConfig.pageIndex === undefined && !!form?.intro
+  );
   const page = forms[formIndex].definition.pages[pageIndex];
   const redirectTo = useMemo(() => {
     const redirectParam = searchParams.get(
-      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM,
+      QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM
     );
     if (redirectParam) {
       const decoded = decodeURIComponent(redirectParam);
-      return `${decoded.startsWith("/") ? "" : "/"}${decodeURIComponent(redirectParam)}`;
+      return `${decoded.startsWith('/') ? '' : '/'}${decodeURIComponent(redirectParam)}`;
     }
     return redirectPath ?? `${routePaths.DASHBOARD}?celebrate=t`;
   }, [redirectPath, searchParams]);
@@ -131,7 +184,20 @@ export const QuestionnaireProvider = ({
   };
 
   const handleComplete = () => {
+    removeLocalValues();
+    removeLandingConfig();
     router.push(redirectTo);
+  };
+
+  const handleSaveAndExit = () => {
+    setLocalValues(formValues);
+    !showIntro &&
+      setLandingConfig({ formIndex: formIndex, pageIndex: pageIndex });
+    router.push(routePaths.DASHBOARD);
+  };
+
+  const handleBegin = () => {
+    setShowIntro(false);
   };
 
   // const scrollToTop = () => {
@@ -160,10 +226,11 @@ export const QuestionnaireProvider = ({
     setTimeout(() => {
       triggerScrollTo();
     }, 100);
+    setLandingConfig({ pageIndex, formIndex });
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    event,
+    event
   ) => {
     if (!form || !handleCheckPageValidity()) {
       return;
@@ -181,7 +248,7 @@ export const QuestionnaireProvider = ({
             FieldInformationService.isNumber(field.type)
           ) {
             formDataValues[field.name] = parseFloat(
-              formValues[field.name]?.replaceAll(",", "") ?? "",
+              formValues[field.name]?.replaceAll(',', '') ?? ''
             );
           }
         });
@@ -205,18 +272,18 @@ export const QuestionnaireProvider = ({
           setErrorsFunc(
             { Error: `Something went wrong: ${error}` },
             undefined,
-            true,
+            true
           );
           setTimeout(() => {
             setErrorsFunc({});
           }, 5000);
         },
-      },
+      }
     );
   };
 
   const handleCheckFieldValidity: (field: FormField) => boolean = (
-    field: FormField,
+    field: FormField
   ) => {
     // If the form field's conditions are hiding the field, skip validation check
     if (!handleCheckConditions(field.conditions)) {
@@ -226,7 +293,7 @@ export const QuestionnaireProvider = ({
     // check internal fields if those exist
     if ((field.internal_fields?.length ?? 0) > 0) {
       const validity = field.internal_fields?.map((internal) =>
-        handleCheckFieldValidity(internal),
+        handleCheckFieldValidity(internal)
       );
       return !!validity?.every(Boolean);
     } else if (FieldInformationService.isDropdown(field.type)) {
@@ -235,18 +302,16 @@ export const QuestionnaireProvider = ({
       const input = fieldRefsByName?.current[field.name];
       const value = input?.value;
       const possibleValues = new Set(
-        FieldInformationService.getDefaultSelections(field)?.map(
-          (f) => f.value,
-        ),
+        FieldInformationService.getDefaultSelections(field)?.map((f) => f.value)
       );
       if (field.required && (!value || !possibleValues.has(value))) {
         setFieldErrorsByName((prev) => {
-          return { ...prev, [field.name]: "This field is required" };
+          return { ...prev, [field.name]: 'This field is required' };
         });
         return false;
       } else {
         setFieldErrorsByName((prev) => {
-          return { ...prev, [field.name]: "" };
+          return { ...prev, [field.name]: '' };
         });
         return true;
       }
@@ -254,16 +319,16 @@ export const QuestionnaireProvider = ({
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
       if (!validityState?.valid) {
-        let message = "Please fix errors";
+        let message = 'Please fix errors';
         // Check each type of validity error
         if (validityState?.valueMissing) {
-          message = "This field is required";
+          message = 'This field is required';
         } else if (validityState?.typeMismatch) {
-          message = "Input type is incorrect";
+          message = 'Input type is incorrect';
         } else if (validityState?.patternMismatch) {
           message =
             field.pattern?.message ??
-            "Input does not match the required pattern";
+            'Input does not match the required pattern';
         } else if (validityState?.rangeOverflow) {
           message = `Value must be below ${field.max}`;
         } else if (validityState?.rangeUnderflow) {
@@ -281,7 +346,7 @@ export const QuestionnaireProvider = ({
         });
       } else {
         setFieldErrorsByName((prev) => {
-          return { ...prev, [field.name]: "" };
+          return { ...prev, [field.name]: '' };
         });
       }
       return !!validityState?.valid;
@@ -304,9 +369,9 @@ export const QuestionnaireProvider = ({
   };
 
   const handleCheckCondition = (condition: Condition) => {
-    if (condition.operator === "equal") {
+    if (condition.operator === 'equal') {
       return formValues[condition.dependant_on.name] === condition.value;
-    } else if (condition.operator === "includes") {
+    } else if (condition.operator === 'includes') {
       return formValues[condition.dependant_on.name]?.includes(condition.value);
     }
     return false;
@@ -329,11 +394,13 @@ export const QuestionnaireProvider = ({
           return {
             ...prev,
             ...defaultValues,
+            // Local values should override form submission values, since those are only saved when save & exit is clicked, and are cleared when form is submitted.
+            ...localValues,
           };
         });
       })
       .catch(() => {
-        console.log("no form submission found");
+        console.log('no form submission found');
       })
       .finally(() => {
         setIsLoading(false);
@@ -355,12 +422,15 @@ export const QuestionnaireProvider = ({
         fieldErrorsByName,
         isLoading: isLoading,
         formValues,
+        showIntro,
         goTo,
         submit: handleSubmit,
         checkPageValidity: handleCheckPageValidity,
         checkConditions: handleCheckConditions,
         handleChange,
         bodyRef: questionnaireBodyRef,
+        saveAndExit: handleSaveAndExit,
+        begin: handleBegin,
       }}
     >
       {children}
@@ -373,7 +443,7 @@ export const useQuestionnaire = () => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
     throw new Error(
-      "useQuestionnaire must be used within a QuestionnaireProvider",
+      'useQuestionnaire must be used within a QuestionnaireProvider'
     );
   }
   return context;
@@ -383,7 +453,7 @@ function flattenObject(obj: any, result: any = {}): any {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       if (
-        typeof obj[key] === "object" &&
+        typeof obj[key] === 'object' &&
         obj[key] !== null &&
         !Array.isArray(obj[key])
       ) {

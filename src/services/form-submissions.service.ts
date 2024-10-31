@@ -1,24 +1,24 @@
-import { FormSubmission } from "@/types/forms.types";
-import { fetchWithAuth } from "./authorized-request.service";
+import { FormSubmission } from '@/types/forms.types';
 import {
   useMutation,
   useQueries,
   useQuery,
   useQueryClient,
   UseQueryOptions,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
+import { fetchWithAuth } from './authorized-request.service';
 
 type GetFormSubmissionVariables = {
   formId: number;
 };
 
 export const getFormSubmission: (
-  variables: GetFormSubmissionVariables,
+  variables: GetFormSubmissionVariables
 ) => Promise<FormSubmission> = async ({
   formId,
 }: GetFormSubmissionVariables) => {
   const url = `/api/form-submission/${formId}/`;
-  const response = await fetchWithAuth(url, { cache: "no-store" });
+  const response = await fetchWithAuth(url, { cache: 'no-store' });
 
   if (!response.ok) {
     throw new Error(`Response status: ${response.status}`);
@@ -29,13 +29,14 @@ export const getFormSubmission: (
 };
 
 const getFormSubmissionQueryVariables = (
-  variables: GetFormSubmissionVariables,
+  variables: GetFormSubmissionVariables
 ): UseQueryOptions<FormSubmission> => {
   return {
-    queryKey: ["form-submission", variables.formId],
+    queryKey: ['form-submission', variables.formId],
     queryFn: () => getFormSubmission(variables),
     retry: (_, error) => {
-      if (error.message.includes("404")) {
+      console.log(error.message);
+      if (error.message.includes('404')) {
         return false;
       }
       return true;
@@ -48,7 +49,7 @@ export const useFormSubmission = (
   options?: {
     onSuccess?: (submission: FormSubmission) => void;
     onError?: () => void;
-  },
+  }
 ) => {
   return useQuery({
     ...getFormSubmissionQueryVariables(variables),
@@ -68,11 +69,11 @@ type SubmitFormVariables = {
 };
 
 export const submitForm: (
-  variables: SubmitFormVariables,
+  variables: SubmitFormVariables
 ) => Promise<void> = async ({ formId, formData }: SubmitFormVariables) => {
   const url = `/api/submit-form/${formId}/`;
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(formData),
   });
 
@@ -88,13 +89,13 @@ export const useSubmitForm = () => {
   return useMutation({
     mutationFn: submitForm,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["form-submission"] });
-      queryClient.invalidateQueries({ queryKey: ["session"] });
+      queryClient.invalidateQueries({ queryKey: ['form-submission'] });
+      queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({
-        queryKey: ["next-action-recommendation"],
+        queryKey: ['next-action-recommendation'],
       });
       queryClient.invalidateQueries({
-        queryKey: ["improvement-categories"],
+        queryKey: ['improvement-categories'],
       });
     },
   });

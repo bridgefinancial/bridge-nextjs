@@ -1,4 +1,5 @@
-import { Questionnaire } from "@/types/forms.types";
+import { Questionnaire } from '@/types/forms.types';
+import { routePaths } from '@/types/routes.enum';
 import {
   RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION,
   RECOMMENDATION_CONVERSION_FORM_DEFINITION,
@@ -6,44 +7,49 @@ import {
   RECOMMENDATION_MARKETING_FORM_DEFINITION,
   RECOMMENDATION_SYSTEMS_FORM_DEFINITION,
   VALUATION_FORM_DEFINITION,
-} from "./forms.service";
-import { routePaths } from "@/types/routes.enum";
+} from './forms.service';
 
 export const VALUATION_QUESTIONNAIRE: Questionnaire = {
   forms: [VALUATION_FORM_DEFINITION],
+  key: 'valuation',
 };
 
 export const RECOMMENDATION_GENERAL_INFO_QUESTIONNAIRE: Questionnaire = {
   forms: [RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION],
   redirectPath: routePaths.RECOMMENDATION_BUSINESS_OFFERRING,
+  key: 'general info',
 };
 
 export const RECOMMENDATION_BUSINESS_OFFERING_QUESTIONNAIRE: Questionnaire = {
   forms: [RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION],
   redirectPath: routePaths.RECOMMENDATION_MARKETING,
+  key: 'business offering',
 };
 
 export const RECOMMENDATION_MARKETING_QUESTIONNAIRE: Questionnaire = {
   forms: [RECOMMENDATION_MARKETING_FORM_DEFINITION],
   redirectPath: routePaths.RECOMMENDATION_CONVERSION,
+  key: 'marketing',
 };
 
 export const RECOMMENDATION_CONVERSION_QUESTIONNAIRE: Questionnaire = {
   forms: [RECOMMENDATION_CONVERSION_FORM_DEFINITION],
   redirectPath: routePaths.RECOMMENDATION_SYSTEMS,
+  key: 'conversion',
 };
 
 export const RECOMMENDATION_SYSTEMS_QUESTIONNAIRE: Questionnaire = {
   forms: [RECOMMENDATION_SYSTEMS_FORM_DEFINITION],
+  key: 'systems',
 };
 
 export enum QuestionnaireSlugs {
-  VALUATION = "valuation",
-  RECOMMENDATION_GENERAL_INFO = "general-info",
-  RECOMMENDATION_BUSINESS_OFFERING = "business-offering",
-  RECOMMENDATION_MARKETING = "marketing",
-  RECOMMENDATION_CONVERSION = "conversion",
-  RECOMMENDATION_SYSTEMS = "systems",
+  VALUATION = 'valuation',
+  RECOMMENDATION_GENERAL_INFO = 'general-info',
+  RECOMMENDATION_BUSINESS_OFFERING = 'business-offering',
+  RECOMMENDATION_MARKETING = 'marketing',
+  RECOMMENDATION_CONVERSION = 'conversion',
+  RECOMMENDATION_SYSTEMS = 'systems',
 }
 
 export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
@@ -68,9 +74,14 @@ export const RECOMMENDATION_QUESTIONNAIRE_SLUGS: string[] = [
   QuestionnaireSlugs.RECOMMENDATION_SYSTEMS,
 ];
 
+export const ONBOARDING_SLUGS: string[] = [
+  QuestionnaireSlugs.VALUATION,
+  ...RECOMMENDATION_QUESTIONNAIRE_SLUGS,
+];
+
 export const RECOMMENDATION_QUESTIONNAIRES =
   RECOMMENDATION_QUESTIONNAIRE_SLUGS.map((slug) => QUESTIONNAIRE_BY_SLUG[slug]);
 
 export const RECOMMENDATION_FORM_IDS = RECOMMENDATION_QUESTIONNAIRES.map(
-  (q) => q.forms[0].id,
+  (q) => q.forms[0].id
 );

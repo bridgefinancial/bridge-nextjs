@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorBoundary from '@/components/templates/boundaries/ErrorBoundary';
 import MainProvider from '@/providers/Main.provider';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Inter } from 'next/font/google';
@@ -34,7 +35,7 @@ export default function RootLayout({
             <ThemeProvider theme={theme}>
               {/* CssBaseline ensures MUI's styles are applied */}
               <CssBaseline />
-              {children}
+              <ErrorBoundary>{children}</ErrorBoundary>
             </ThemeProvider>
           </MainProvider>
         </Providers>

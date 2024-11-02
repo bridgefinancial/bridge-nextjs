@@ -1,46 +1,59 @@
 import { Questionnaire } from '@/types/forms.types';
 import { routePaths } from '@/types/routes.enum';
 import {
-  RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION,
-  RECOMMENDATION_CONVERSION_FORM_DEFINITION,
-  RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION,
-  RECOMMENDATION_MARKETING_FORM_DEFINITION,
-  RECOMMENDATION_SYSTEMS_FORM_DEFINITION,
-  VALUATION_FORM_DEFINITION,
+  RECOMMENDATION_BUSINESS_OFFERING_FORM_ID,
+  RECOMMENDATION_CONVERSION_FORM_ID,
+  RECOMMENDATION_GENERAL_INFO_FORM_ID,
+  RECOMMENDATION_MARKETING_FORM_ID,
+  RECOMMENDATION_SYSTEMS_FORM_ID,
+  SELLER_READINESS_FORM_ID,
+  VALUATION_FORM_ID,
 } from './forms.service';
 
 export const VALUATION_QUESTIONNAIRE: Questionnaire = {
-  forms: [VALUATION_FORM_DEFINITION],
+  formId: VALUATION_FORM_ID,
   key: 'valuation',
+  stepperLabel: 'Valuation',
 };
 
 export const RECOMMENDATION_GENERAL_INFO_QUESTIONNAIRE: Questionnaire = {
-  forms: [RECOMMENDATION_GENERAL_INFO_FORM_DEFINITION],
+  formId: RECOMMENDATION_GENERAL_INFO_FORM_ID,
   redirectPath: routePaths.RECOMMENDATION_BUSINESS_OFFERRING,
   key: 'general info',
+  stepperLabel: 'General Information',
 };
 
 export const RECOMMENDATION_BUSINESS_OFFERING_QUESTIONNAIRE: Questionnaire = {
-  forms: [RECOMMENDATION_BUSINESS_OFFERING_FORM_DEFINITION],
+  formId: RECOMMENDATION_BUSINESS_OFFERING_FORM_ID,
   redirectPath: routePaths.RECOMMENDATION_MARKETING,
   key: 'business offering',
+  stepperLabel: 'Business Offering',
 };
 
 export const RECOMMENDATION_MARKETING_QUESTIONNAIRE: Questionnaire = {
-  forms: [RECOMMENDATION_MARKETING_FORM_DEFINITION],
+  formId: RECOMMENDATION_MARKETING_FORM_ID,
   redirectPath: routePaths.RECOMMENDATION_CONVERSION,
   key: 'marketing',
+  stepperLabel: 'Growth Marketing',
 };
 
 export const RECOMMENDATION_CONVERSION_QUESTIONNAIRE: Questionnaire = {
-  forms: [RECOMMENDATION_CONVERSION_FORM_DEFINITION],
+  formId: RECOMMENDATION_CONVERSION_FORM_ID,
   redirectPath: routePaths.RECOMMENDATION_SYSTEMS,
   key: 'conversion',
+  stepperLabel: 'Lead Conversion',
 };
 
 export const RECOMMENDATION_SYSTEMS_QUESTIONNAIRE: Questionnaire = {
-  forms: [RECOMMENDATION_SYSTEMS_FORM_DEFINITION],
+  formId: RECOMMENDATION_SYSTEMS_FORM_ID,
   key: 'systems',
+  stepperLabel: 'Operations & Systems',
+};
+
+export const SELLER_READINESS_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_FORM_ID,
+  key: 'seller readiness',
+  stepperLabel: 'Seller Readiness',
 };
 
 export enum QuestionnaireSlugs {
@@ -50,6 +63,7 @@ export enum QuestionnaireSlugs {
   RECOMMENDATION_MARKETING = 'marketing',
   RECOMMENDATION_CONVERSION = 'conversion',
   RECOMMENDATION_SYSTEMS = 'systems',
+  SELLER_READINESS = 'seller-readiness',
 }
 
 export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
@@ -83,5 +97,5 @@ export const RECOMMENDATION_QUESTIONNAIRES =
   RECOMMENDATION_QUESTIONNAIRE_SLUGS.map((slug) => QUESTIONNAIRE_BY_SLUG[slug]);
 
 export const RECOMMENDATION_FORM_IDS = RECOMMENDATION_QUESTIONNAIRES.map(
-  (q) => q.forms[0].id
+  (q) => q.formId
 );

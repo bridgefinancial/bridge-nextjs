@@ -1,21 +1,22 @@
-import { User } from "@/types/users.types";
+import { useToastNotification } from '@/providers/ToastNotification.provider';
+import { routePaths } from '@/types/routes.enum';
+import { User } from '@/types/users.types';
 import {
   useMutation,
   UseMutationResult,
   useQuery,
   useQueryClient,
-} from "@tanstack/react-query";
-import { fetchWithAuth } from "./authorized-request.service";
-import { useRouter, useSearchParams } from "next/navigation";
-import { routePaths } from "@/types/routes.enum";
+} from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { fetchWithAuth } from './authorized-request.service';
 
 export const fetchSession: () => Promise<User> = async () => {
   const url = `/api/session/`;
 
   const response = await fetchWithAuth(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 
@@ -30,7 +31,7 @@ export const fetchSession: () => Promise<User> = async () => {
 export const useSessionUser = () => {
   return useQuery({
     queryFn: fetchSession,
-    queryKey: ["session"],
+    queryKey: ['session'],
     retry: () => {
       return false;
     },
@@ -49,9 +50,9 @@ export const loginUser = async ({
   const url = `/api/login/`;
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed
     },
     body: JSON.stringify({
@@ -60,11 +61,18 @@ export const loginUser = async ({
     }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!data) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    } else {
+      throw new Error(
+        data.non_field_errors?.[0] ?? 'An unknown error occurred'
+      );
+    }
   }
 
-  const data = await response.json();
   return data;
 };
 
@@ -76,13 +84,18 @@ export const useLoginUser = (): UseMutationResult<
 > => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { open } = useToastNotification();
+
   return useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
       const landingUrl = decodeURIComponent(
-        searchParams.get("navigateTo") ?? "",
+        searchParams.get('navigateTo') ?? ''
       );
       router.push(landingUrl || routePaths.ROOT);
+    },
+    onError: (error) => {
+      open(error.message, 'error');
     },
   });
 };
@@ -91,9 +104,9 @@ export const logoutUser = async () => {
   const url = `/api/logout/`;
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed
     },
     body: JSON.stringify({}), // Empty object
@@ -114,11 +127,15 @@ export const useLogoutUser = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["session"] });
+      queryClient.invalidateQueries({ queryKey: ['session'] });
       router.push(routePaths.LOGIN);
+    },
+    onError: (error) => {
+      open(error.message, 'error');
     },
   });
 };
@@ -143,9 +160,9 @@ export const signUp = async (requestBody: SignUpRequest): Promise<void> => {
   };
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed
     },
     body: JSON.stringify(transformedRequestBody),
@@ -164,8 +181,12 @@ export const useSignUp = (): UseMutationResult<
   SignUpRequest,
   unknown
 > => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: signUp,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 
@@ -181,9 +202,9 @@ export const verifyEmail = async ({
   const url = `/api/verify-email/`;
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed
     },
     body: JSON.stringify({
@@ -200,8 +221,12 @@ export const verifyEmail = async ({
 };
 
 export const useVerifyEmail = () => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: verifyEmail,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 
@@ -213,9 +238,9 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
   const url = `/api/password-reset/`;
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed
     },
     body: JSON.stringify({
@@ -231,8 +256,12 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
 };
 
 export const useResetPassword = () => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: passwordReset,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 
@@ -252,9 +281,9 @@ export const passwordResetConfirm = async ({
   const url = `/api/password-reset-confirm/`;
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed
     },
     body: JSON.stringify({
@@ -278,8 +307,12 @@ export const usePasswordResetConfirm = (): UseMutationResult<
   PasswordResetConfirmRequest,
   unknown
 > => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: passwordResetConfirm,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 
@@ -290,8 +323,12 @@ type UpdateUserRequest = {
 
 // Hook to use for updating the user
 export const useUpdateUser = () => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: updateUser,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 
@@ -302,9 +339,9 @@ export const updateUser = async ({
   const url = `/api/users/${id}/`;
 
   const response = await fetchWithAuth(url, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed, like Authorization
     },
     body: JSON.stringify(attributes),
@@ -332,9 +369,9 @@ export const changePassword = async ({
   const url = `/api/password-change/`;
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed, like Authorization
     },
     body: JSON.stringify({
@@ -357,18 +394,22 @@ type UpdatePhotoRequest = {
   userId: string;
 };
 export const useChangePassword = () => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: changePassword,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
   const formData = new FormData();
-  formData.append("image", image);
+  formData.append('image', image);
 
   const url = `/api/users/${userId}/`;
 
   const response = await fetchWithAuth(url, {
-    method: "PATCH",
+    method: 'PATCH',
     body: formData,
     // Note: FormData sets Content-Type to multipart/form-data automatically
   });
@@ -382,8 +423,12 @@ export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
 };
 
 export const useChangeUserAvatar = () => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: updatePhoto,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };
 
@@ -395,9 +440,9 @@ export const clearUserImage = async ({ userId }: ClearUserImageRequest) => {
   const url = `/api/users/${userId}/`;
 
   const response = await fetchWithAuth(url, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed, like Authorization
     },
     body: JSON.stringify({ image: null }),
@@ -412,7 +457,11 @@ export const clearUserImage = async ({ userId }: ClearUserImageRequest) => {
 };
 
 export const useRemoveUserAvatar = () => {
+  const { open } = useToastNotification();
   return useMutation({
     mutationFn: clearUserImage,
+    onError: (error) => {
+      open(error.message, 'error');
+    },
   });
 };

@@ -1,4 +1,3 @@
-import { FieldType } from '@/types/forms.enum';
 import { Questionnaire } from '@/types/forms.types';
 import { routePaths } from '@/types/routes.enum';
 import {
@@ -16,8 +15,6 @@ import {
   SELLER_READINESS_VALUATION_FORM_ID,
   VALUATION_FORM_ID,
 } from './forms.service';
-
-FieldType.Checkbox9Grid;
 
 export const VALUATION_QUESTIONNAIRE: Questionnaire = {
   formId: VALUATION_FORM_ID,

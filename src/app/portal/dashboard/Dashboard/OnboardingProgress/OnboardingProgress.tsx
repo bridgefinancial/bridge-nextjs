@@ -32,6 +32,7 @@ const OnboardingProgress = ({ forms }: OnboardingProgressProps) => {
               title={value.title}
               completionPercentage={value.completionPercentage}
               href={value.href}
+              key={value.title}
             />
           );
         })}

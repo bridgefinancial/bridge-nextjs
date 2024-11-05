@@ -207,7 +207,7 @@ export type FormField = {
   page?: string;
   parent?: string;
   label: string;
-  type: FieldType;
+  type: FieldType | string;
   required?: boolean;
   order?: number;
   readonly?: boolean;

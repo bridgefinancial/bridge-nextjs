@@ -1,3 +1,4 @@
+import { FieldType } from '@/types/forms.enum';
 import { Questionnaire } from '@/types/forms.types';
 import { routePaths } from '@/types/routes.enum';
 import {
@@ -6,9 +7,17 @@ import {
   RECOMMENDATION_GENERAL_INFO_FORM_ID,
   RECOMMENDATION_MARKETING_FORM_ID,
   RECOMMENDATION_SYSTEMS_FORM_ID,
+  SELLER_READINESS_FINANCES_FORM_ID,
   SELLER_READINESS_FORM_ID,
+  SELLER_READINESS_GROWTH_POTENTIAL_FORM_ID,
+  SELLER_READINESS_MARKET_FORM_ID,
+  SELLER_READINESS_OPERATIONS_FORM_ID,
+  SELLER_READINESS_REASON_FORM_ID,
+  SELLER_READINESS_VALUATION_FORM_ID,
   VALUATION_FORM_ID,
 } from './forms.service';
+
+FieldType.Checkbox9Grid;
 
 export const VALUATION_QUESTIONNAIRE: Questionnaire = {
   formId: VALUATION_FORM_ID,
@@ -54,6 +63,48 @@ export const SELLER_READINESS_QUESTIONNAIRE: Questionnaire = {
   formId: SELLER_READINESS_FORM_ID,
   key: 'seller readiness',
   stepperLabel: 'Seller Readiness',
+  redirectPath: routePaths.SELLER_READINESS_FINANCES,
+};
+
+export const SELLER_READINESS_FINANCES_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_FINANCES_FORM_ID,
+  key: 'seller readiness finances',
+  stepperLabel: 'Financial Info',
+  redirectPath: routePaths.SELLER_READINESS_REASON,
+};
+
+export const SELLER_READINESS_REASON_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_REASON_FORM_ID,
+  key: 'seller readiness reason',
+  stepperLabel: 'Reason for Selling',
+  redirectPath: routePaths.SELLER_READINESS_MARKET,
+};
+
+export const SELLER_READINESS_MARKET_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_MARKET_FORM_ID,
+  key: 'seller readiness market',
+  stepperLabel: 'Market Information',
+  redirectPath: routePaths.SELLER_READINESS_OPERATIONS,
+};
+
+export const SELLER_READINESS_OPERATIONS_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_OPERATIONS_FORM_ID,
+  key: 'seller readiness operations',
+  stepperLabel: 'Operations & Management',
+  redirectPath: routePaths.SELLER_READINESS_GROWTH_POTENTIAL,
+};
+
+export const SELLER_READINESS_GROWTH_POTENTIAL_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_GROWTH_POTENTIAL_FORM_ID,
+  key: 'seller readiness growth potential',
+  stepperLabel: 'Growth Potential',
+  redirectPath: routePaths.SELLER_READINESS_VALUATION,
+};
+
+export const SELLER_READINESS_VALUATION_QUESTIONNAIRE: Questionnaire = {
+  formId: SELLER_READINESS_VALUATION_FORM_ID,
+  key: 'seller readiness valuation',
+  stepperLabel: 'Valuation',
 };
 
 export enum QuestionnaireSlugs {
@@ -64,6 +115,12 @@ export enum QuestionnaireSlugs {
   RECOMMENDATION_CONVERSION = 'conversion',
   RECOMMENDATION_SYSTEMS = 'systems',
   SELLER_READINESS = 'seller-readiness',
+  SELLER_READINESS_FINANCES = 'seller-readiness-finances',
+  SELLER_READINESS_REASON = 'seller-readiness-reason',
+  SELLER_READINESS_MARKET = 'seller-readiness-market',
+  SELLER_READINESS_OPERATIONS = 'seller-readiness-operations',
+  SELLER_READINESS_GROWTH_POTENTIAL = 'seller-readiness-growth-potential',
+  SELLER_READINESS_VALUATION = 'seller-readiness-valuation',
 }
 
 export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
@@ -78,6 +135,19 @@ export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
   [QuestionnaireSlugs.RECOMMENDATION_SYSTEMS]:
     RECOMMENDATION_SYSTEMS_QUESTIONNAIRE,
   [QuestionnaireSlugs.VALUATION]: VALUATION_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS]: SELLER_READINESS_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS_FINANCES]:
+    SELLER_READINESS_FINANCES_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS_REASON]:
+    SELLER_READINESS_REASON_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS_MARKET]:
+    SELLER_READINESS_MARKET_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS_OPERATIONS]:
+    SELLER_READINESS_OPERATIONS_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS_GROWTH_POTENTIAL]:
+    SELLER_READINESS_GROWTH_POTENTIAL_QUESTIONNAIRE,
+  [QuestionnaireSlugs.SELLER_READINESS_VALUATION]:
+    SELLER_READINESS_VALUATION_QUESTIONNAIRE,
 };
 
 export const RECOMMENDATION_QUESTIONNAIRE_SLUGS: string[] = [

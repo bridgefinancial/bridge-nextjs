@@ -1,9 +1,11 @@
 'use client';
 
-import { ALL_ONBOARDING_QUESTIONNAIRES } from '@/app/portal/dashboard/page';
 import { LandingConfig } from '@/providers/Questionnaire.provider';
 import { useFormSubmissions } from '@/services/form-submissions.service';
-import { ONBOARDING_SLUGS } from '@/services/questionnaires.service';
+import {
+  ALL_ONBOARDING_QUESTIONNAIRES,
+  ONBOARDING_SLUGS,
+} from '@/services/questionnaires.service';
 import { FormidableForm } from '@/types/forms.types';
 import { getLandingConfigKey } from '@/utils/local-storage';
 import { useMemo } from 'react';
@@ -25,7 +27,11 @@ export const useOnboardingCompletion = (forms: FormidableForm[]) => {
   const hasCompletedOnboarding = formSubmissionQueries.every((query) => {
     return !!query.data?.json_blob;
   });
-  const completion = useMemo(() => {
+  const completion: {
+    title: string;
+    completionPercentage: number;
+    href: string;
+  }[] = useMemo(() => {
     return ALL_ONBOARDING_QUESTIONNAIRES.map((q, index) => {
       const hasFormSubmission = !!formSubmissionQueries[index].data?.json_blob;
       let landingConfig: LandingConfig | undefined = undefined;

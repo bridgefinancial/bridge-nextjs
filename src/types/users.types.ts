@@ -1,4 +1,4 @@
-import { Industry } from "./industries.types";
+import { Industry } from './industries.types';
 
 export type User = {
   id: string;
@@ -35,4 +35,13 @@ export type Company = {
   updated_at: string;
   valuation: number;
   website: string | null;
+};
+
+export type CompanyFile = {
+  company: number;
+  created_at: string;
+  updated_at: string;
+  description: string;
+  file: string;
+  id: number;
 };

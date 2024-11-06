@@ -1,5 +1,6 @@
 'use client';
 
+import DocumentList from '@/app/portal/documents/DocumentList/DocumentList.component';
 import LabelText from '@/components/atoms/typography/LabelText';
 /* eslint-disable react/display-name */
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
@@ -454,6 +455,22 @@ const FormField = forwardRef(
             disabled={notSure}
             fullWidth={true}
             autoComplete={formField.autocomplete}
+          />
+        )}
+
+        {FieldInformationService.isFileUpload(formField.type) && (
+          <DocumentList
+            onFilesUploaded={(files) => {
+              handleChange(formField.name, [
+                ...(formValues[formField.name] ?? []),
+                ...files,
+              ]);
+            }}
+            uploadedFiles={formValues[formField.name]}
+            onUploadClicked={() =>
+              fieldRefsByName?.current?.[formField.name]?.click()
+            }
+            ref={ref}
           />
         )}
 

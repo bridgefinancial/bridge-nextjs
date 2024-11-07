@@ -470,7 +470,7 @@ const FormField = forwardRef(
                 ...files,
               ]);
             }}
-            uploadedFiles={formValues[formField.name]}
+            uploadedFiles={formValues[formField.name] || []}
             onUploadClicked={() =>
               fieldRefsByName?.current?.[formField.name]?.click()
             }

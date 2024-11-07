@@ -223,7 +223,8 @@ export const QuestionnaireProvider = ({
         page.fields.forEach((field) => {
           if (
             handleCheckConditions(field.conditions) &&
-            FieldInformationService.isNumber(field.type)
+            FieldInformationService.isNumber(field.type) &&
+            typeof formValues[field.name] === 'string'
           ) {
             formDataValues[field.name] = parseFloat(
               formValues[field.name]?.replaceAll(',', '') ?? ''
@@ -289,6 +290,8 @@ export const QuestionnaireProvider = ({
         });
         return true;
       }
+    } else if (FieldInformationService.isFileUpload(field.type)) {
+      return formValues[field.name].length > 0;
     } else {
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
@@ -360,7 +363,7 @@ export const QuestionnaireProvider = ({
         const submissionValues = flattenObject(submission.json_blob);
         Object.keys(submissionValues).forEach((key) => {
           if (formValues[key] === undefined) {
-            defaultValues[key] = submissionValues[key]?.toString();
+            defaultValues[key] = submissionValues[key];
           }
         });
 

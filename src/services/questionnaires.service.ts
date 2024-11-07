@@ -12,7 +12,6 @@ import {
   SELLER_READINESS_MARKET_FORM_ID,
   SELLER_READINESS_OPERATIONS_FORM_ID,
   SELLER_READINESS_REASON_FORM_ID,
-  SELLER_READINESS_VALUATION_FORM_ID,
   VALUATION_FORM_ID,
 } from './forms.service';
 
@@ -95,13 +94,6 @@ export const SELLER_READINESS_GROWTH_POTENTIAL_QUESTIONNAIRE: Questionnaire = {
   formId: SELLER_READINESS_GROWTH_POTENTIAL_FORM_ID,
   key: 'seller readiness growth potential',
   stepperLabel: 'Growth Potential',
-  redirectPath: routePaths.SELLER_READINESS_VALUATION,
-};
-
-export const SELLER_READINESS_VALUATION_QUESTIONNAIRE: Questionnaire = {
-  formId: SELLER_READINESS_VALUATION_FORM_ID,
-  key: 'seller readiness valuation',
-  stepperLabel: 'Valuation',
 };
 
 export enum QuestionnaireSlugs {
@@ -117,7 +109,6 @@ export enum QuestionnaireSlugs {
   SELLER_READINESS_MARKET = 'seller-readiness-market',
   SELLER_READINESS_OPERATIONS = 'seller-readiness-operations',
   SELLER_READINESS_GROWTH_POTENTIAL = 'seller-readiness-growth-potential',
-  SELLER_READINESS_VALUATION = 'seller-readiness-valuation',
 }
 
 export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
@@ -143,8 +134,6 @@ export const QUESTIONNAIRE_BY_SLUG: Record<string, Questionnaire> = {
     SELLER_READINESS_OPERATIONS_QUESTIONNAIRE,
   [QuestionnaireSlugs.SELLER_READINESS_GROWTH_POTENTIAL]:
     SELLER_READINESS_GROWTH_POTENTIAL_QUESTIONNAIRE,
-  [QuestionnaireSlugs.SELLER_READINESS_VALUATION]:
-    SELLER_READINESS_VALUATION_QUESTIONNAIRE,
 };
 
 export const RECOMMENDATION_QUESTIONNAIRE_SLUGS: string[] = [
@@ -167,7 +156,6 @@ export const SELLER_READINESS_SLUGS: string[] = [
   QuestionnaireSlugs.SELLER_READINESS_MARKET,
   QuestionnaireSlugs.SELLER_READINESS_OPERATIONS,
   QuestionnaireSlugs.SELLER_READINESS_GROWTH_POTENTIAL,
-  QuestionnaireSlugs.SELLER_READINESS_VALUATION,
 ];
 
 export const RECOMMENDATION_QUESTIONNAIRES =

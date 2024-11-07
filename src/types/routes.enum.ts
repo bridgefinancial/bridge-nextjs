@@ -64,7 +64,6 @@ export enum QuestionnaireRoutes {
   SELLER_READINESS_MARKET = '/q/seller-readiness-market',
   SELLER_READINESS_OPERATIONS = '/q/seller-readiness-operations',
   SELLER_READINESS_GROWTH_POTENTIAL = '/q/seller-readiness-growth-potential',
-  SELLER_READINESS_VALUATION = '/q/seller-readiness-valuation',
 }
 
 /**

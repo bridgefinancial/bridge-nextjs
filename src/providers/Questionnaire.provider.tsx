@@ -33,7 +33,6 @@ import { useErrors } from './Errors.provider';
 const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = 'redirectTo';
 
 export type LandingConfig = {
-  formIndex?: number;
   pageIndex?: number;
 };
 
@@ -42,8 +41,6 @@ export const QuestionnaireContext = createContext<{
   form?: FormidableForm;
   page?: Page;
   pageIndex: number;
-  formIndex: number;
-  formsCount: number;
   isSubmitting: boolean;
   isLoading: boolean;
   fieldRefsByName?: MutableRefObject<Record<string, HTMLInputElement | null>>;
@@ -51,13 +48,7 @@ export const QuestionnaireContext = createContext<{
   formValues: Record<string, any>;
   bodyRef: RefObject<HTMLDivElement> | null;
   showIntro: boolean;
-  goTo: ({
-    pageIndex,
-    formIndex,
-  }: {
-    pageIndex?: number;
-    formIndex?: number;
-  }) => void;
+  goTo: ({ pageIndex }: { pageIndex?: number }) => void;
   submit: React.FormEventHandler;
   checkPageValidity: (page?: Page) => boolean;
   checkConditions: (conditions?: Condition[]) => boolean;
@@ -68,8 +59,6 @@ export const QuestionnaireContext = createContext<{
   form: undefined,
   page: undefined,
   pageIndex: -1,
-  formIndex: -1,
-  formsCount: 0,
   isSubmitting: false,
   isLoading: true,
   fieldRefsByName: undefined,
@@ -93,12 +82,14 @@ export const QuestionnaireContext = createContext<{
 type QuestionnaireProviderProps = {
   children: ReactNode;
   questionnaire: Questionnaire;
+  form: FormidableForm;
 };
 
 // Define the context provider
 export const QuestionnaireProvider = ({
   children,
   questionnaire,
+  form,
 }: QuestionnaireProviderProps) => {
   // LOCAL STORAGE
   const [localValues, setLocalValues, removeLocalValues] = useLocalStorage<
@@ -135,9 +126,6 @@ export const QuestionnaireProvider = ({
     );
 
   // STATE
-  const [formIndex, setFormIndex] = useState<number>(
-    landingConfig.formIndex ?? 0
-  );
   const [pageIndex, setPageIndex] = useState(landingConfig.pageIndex ?? 0);
   const [fieldErrorsByName, setFieldErrorsByName] = useState<
     Record<string, string>
@@ -155,13 +143,15 @@ export const QuestionnaireProvider = ({
   const questionnaireBodyRef = useRef<HTMLDivElement>(null);
 
   const { onChange: triggerScrollTo } = useScrollTo();
+
   // CALCULATED
-  const { forms, redirectPath } = questionnaire;
-  const form = forms[formIndex];
+  const { formId, redirectPath } = questionnaire;
+
+  // QUERIES
   const [showIntro, setShowIntro] = useState<boolean>(
     landingConfig.pageIndex === undefined && !!form?.intro
   );
-  const page = forms[formIndex].definition.pages[pageIndex];
+  const page = form.definition.pages[pageIndex];
   const redirectTo = useMemo(() => {
     const redirectParam = searchParams.get(
       QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM
@@ -191,8 +181,7 @@ export const QuestionnaireProvider = ({
 
   const handleSaveAndExit = () => {
     setLocalValues(formValues);
-    !showIntro &&
-      setLandingConfig({ formIndex: formIndex, pageIndex: pageIndex });
+    !showIntro && setLandingConfig({ pageIndex: pageIndex });
     router.push(routePaths.DASHBOARD);
   };
 
@@ -208,25 +197,14 @@ export const QuestionnaireProvider = ({
   //   // });
   // };
 
-  const goTo = ({
-    pageIndex,
-    formIndex,
-  }: {
-    pageIndex?: number;
-    formIndex?: number;
-  }) => {
-    if (formIndex !== undefined) {
-      setFormIndex(formIndex);
-    }
-    if (pageIndex === -1 && !!formIndex) {
-      setPageIndex(forms[formIndex].definition.pages.length - 1);
-    } else if (pageIndex !== undefined) {
+  const goTo = ({ pageIndex }: { pageIndex?: number }) => {
+    if (pageIndex !== undefined) {
       setPageIndex(pageIndex);
     }
     setTimeout(() => {
       triggerScrollTo();
     }, 100);
-    setLandingConfig({ pageIndex, formIndex });
+    setLandingConfig({ pageIndex });
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -245,7 +223,8 @@ export const QuestionnaireProvider = ({
         page.fields.forEach((field) => {
           if (
             handleCheckConditions(field.conditions) &&
-            FieldInformationService.isNumber(field.type)
+            FieldInformationService.isNumber(field.type) &&
+            typeof formValues[field.name] === 'string'
           ) {
             formDataValues[field.name] = parseFloat(
               formValues[field.name]?.replaceAll(',', '') ?? ''
@@ -262,11 +241,7 @@ export const QuestionnaireProvider = ({
       },
       {
         onSuccess: () => {
-          if (formIndex === forms.length - 1) {
-            handleComplete();
-          } else {
-            goTo({ pageIndex: 0, formIndex: formIndex + 1 });
-          }
+          handleComplete();
         },
         onError: (error) => {
           setErrorsFunc(
@@ -315,6 +290,8 @@ export const QuestionnaireProvider = ({
         });
         return true;
       }
+    } else if (FieldInformationService.isFileUpload(field.type)) {
+      return formValues[field.name].length > 0;
     } else {
       const input = fieldRefsByName?.current[field.name];
       const validityState = input?.validity;
@@ -380,13 +357,13 @@ export const QuestionnaireProvider = ({
   // EFFECTS
   useEffect(() => {
     setIsLoading(true);
-    getFormSubmission({ formId: form.id })
+    getFormSubmission({ formId: questionnaire.formId })
       .then((submission) => {
         const defaultValues: Record<string, any> = {};
         const submissionValues = flattenObject(submission.json_blob);
         Object.keys(submissionValues).forEach((key) => {
           if (formValues[key] === undefined) {
-            defaultValues[key] = submissionValues[key]?.toString();
+            defaultValues[key] = submissionValues[key];
           }
         });
 
@@ -412,9 +389,7 @@ export const QuestionnaireProvider = ({
   return (
     <QuestionnaireContext.Provider
       value={{
-        formsCount: forms.length,
         form,
-        formIndex,
         page,
         pageIndex,
         isSubmitting,

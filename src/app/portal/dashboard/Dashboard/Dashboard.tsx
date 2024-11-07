@@ -3,20 +3,25 @@
 import { useOnboardingCompletion } from '@/hooks/useOnboardingCompletion.hook';
 import { useTasksCompletion } from '@/services/recommendations.service';
 import { useSessionUser } from '@/services/users.service';
+import { FormidableForm } from '@/types/forms.types';
 import { routePaths } from '@/types/routes.enum';
 import Calendar from './Calendar/Calendar';
 import LockedContent from './LockedContent/LockedContent';
 import OnboardingProgress from './OnboardingProgress/OnboardingProgress';
 import Valuation from './Valuation/Valuation';
 
-const Dashboard = () => {
+type DashboardProps = {
+  forms: FormidableForm[];
+};
+
+const Dashboard = ({ forms }: DashboardProps) => {
   // HOOKS
   const { completionPercentage } = useTasksCompletion();
 
   // QUERIES
   const { data: user, isLoading: isLoadingUser } = useSessionUser();
   const { hasStartedOnboarding, hasCompletedOnboarding } =
-    useOnboardingCompletion();
+    useOnboardingCompletion(forms);
 
   // CALCULATED
   const hasValuation = !!user?.company?.valuation;
@@ -45,7 +50,7 @@ const Dashboard = () => {
             blurred={!hasStartedOnboarding}
             buttonHref={routePaths.RECOMMENDATION}
           >
-            <OnboardingProgress />
+            <OnboardingProgress forms={forms} />
           </LockedContent>
         </div>
       </div>

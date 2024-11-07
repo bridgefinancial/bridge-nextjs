@@ -1,18 +1,19 @@
-import { QuestionnaireProvider } from "@/providers/Questionnaire.provider";
+import Questionnaire from '@/components/organisms/forms/Questionnaire';
+import RecommendationSteps from '@/components/organisms/forms/Steppers/RecommendationSteps';
+import SellerReadinessSteps from '@/components/organisms/forms/Steppers/SellerReadinessSteps';
+import QuestionnaireLayoutV2 from '@/components/templates/layouts/QuestionnaireLayout/QuestionnaireLayoutV2';
+import { QuestionnaireProvider } from '@/providers/Questionnaire.provider';
+import { getFormById } from '@/services/forms.service';
 import {
   QUESTIONNAIRE_BY_SLUG,
   QuestionnaireSlugs,
   RECOMMENDATION_QUESTIONNAIRE_SLUGS,
-  RECOMMENDATION_QUESTIONNAIRES,
-} from "@/services/questionnaires.service";
-import React, { useMemo } from "react";
-import { notFound } from "next/navigation";
-import Questionnaire from "@/components/organisms/forms/Questionnaire";
-import QuestionnaireLayoutV2 from "@/components/templates/layouts/QuestionnaireLayout/QuestionnaireLayoutV2";
-import Steps, { Step } from "@/components/organisms/forms/Steps";
-import RecommendationSteps from "@/components/organisms/forms/Recommendations/RecommendationSteps";
+  SELLER_READINESS_SLUGS,
+} from '@/services/questionnaires.service';
+import { notFound } from 'next/navigation';
+import { useMemo } from 'react';
 
-const Page = ({ params }: { params: { formId: QuestionnaireSlugs } }) => {
+const Page = async ({ params }: { params: { formId: QuestionnaireSlugs } }) => {
   const questionnaireId = params.formId;
   const questionnaire = QUESTIONNAIRE_BY_SLUG[questionnaireId];
 
@@ -21,9 +22,16 @@ const Page = ({ params }: { params: { formId: QuestionnaireSlugs } }) => {
 
   const isRecommendationQuestionnaire = recommendationSlugIndex !== -1;
 
+  const sellerReadinessSlugIndex =
+    SELLER_READINESS_SLUGS.indexOf(questionnaireId);
+
+  const isSellerReadinessQuestionnaire = sellerReadinessSlugIndex !== -1;
+
   const stepper = useMemo(() => {
     if (isRecommendationQuestionnaire) {
       return <RecommendationSteps slug={questionnaireId} />;
+    } else if (isSellerReadinessQuestionnaire) {
+      return <SellerReadinessSteps slug={questionnaireId} />;
     }
     return undefined;
   }, []);
@@ -32,8 +40,14 @@ const Page = ({ params }: { params: { formId: QuestionnaireSlugs } }) => {
     notFound();
   }
 
+  const form = await getFormById(questionnaire.formId);
+
+  if (!form) {
+    notFound();
+  }
+
   return (
-    <QuestionnaireProvider questionnaire={questionnaire}>
+    <QuestionnaireProvider form={form} questionnaire={questionnaire}>
       <QuestionnaireLayoutV2>
         <Questionnaire stepper={stepper} />
       </QuestionnaireLayoutV2>

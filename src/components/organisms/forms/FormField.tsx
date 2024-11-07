@@ -1,5 +1,6 @@
 'use client';
 
+import DocumentList from '@/app/portal/documents/DocumentList/DocumentList.component';
 import LabelText from '@/components/atoms/typography/LabelText';
 /* eslint-disable react/display-name */
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
@@ -10,6 +11,7 @@ import { FieldInformationService } from '@/services/fields.service';
 import { colors } from '@/theme/theme';
 import { FieldType } from '@/types/forms.enum';
 import { FormField as Field } from '@/types/forms.types';
+import { CalendarMonth } from '@mui/icons-material';
 import {
   Checkbox,
   FormControl,
@@ -25,6 +27,9 @@ import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
 import React, { forwardRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 type FormFieldProps = {
   formField: Field;
@@ -457,6 +462,23 @@ const FormField = forwardRef(
           />
         )}
 
+        {FieldInformationService.isFileUpload(formField.type) && (
+          <DocumentList
+            onFilesUploaded={(files) => {
+              handleChange(formField.name, [
+                ...(formValues[formField.name] ?? []),
+                ...files,
+              ]);
+            }}
+            uploadedFiles={formValues[formField.name] || []}
+            onUploadClicked={() =>
+              fieldRefsByName?.current?.[formField.name]?.click()
+            }
+            ref={ref}
+            showDateUploaded={false}
+          />
+        )}
+
         {/*
             If 'Not sure' checkbox should appear in the same row,
             place the element within this div
@@ -537,25 +559,29 @@ const FormField = forwardRef(
             />
           )}
 
-          {/* {FieldInformationService.isDate(formField.type) && (
-        <div className="fmd-date-container">
-          <input ref={ref} required={isFieldRequired}
-            id={formField.name}
-            name={formField.name}
-            placeholder={formField.placeholder || defaultPlaceholder}
-            className="fmd-input"
-            type="date"
-          />
-          <button
-            disabled={formControl.disabled}
-            onClick={selectToday}
-            className="fmd-button"
-            type="button"
-          >
-            Today
-          </button>
-        </div>
-      )} */}
+          {FieldInformationService.isDate(formField.type) && (
+            <DatePicker
+              selected={formValues[formField.name]}
+              onChange={(date) =>
+                handleChange(formField.name, date?.toISOString())
+              }
+              customInput={
+                <TextField
+                  required={isFieldRequired}
+                  name={formField.name}
+                  placeholder="Select a date"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <CalendarMonth />
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputRef={ref}
+                />
+              }
+            ></DatePicker>
+          )}
 
           {/* {FieldInformationService.isTime(formField.type) && (
         <div className="fmd-date-container">

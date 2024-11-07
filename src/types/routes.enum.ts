@@ -1,5 +1,5 @@
 export enum ExternalUrls {
-  TERMS_OF_SERVICE = "https://bridge.financial/terms-of-service",
+  TERMS_OF_SERVICE = 'https://bridge.financial/terms-of-service',
 }
 
 export const externalUrls = {
@@ -13,10 +13,10 @@ export const externalUrls = {
  * @enum {string}
  */
 export enum BaseRoutes {
-  ROOT = "/",
-  AUTH = "/auth",
-  PORTAL = "/portal",
-  VALUATION_ESTIMATE = "/valuation-estimate",
+  ROOT = '/',
+  AUTH = '/auth',
+  PORTAL = '/portal',
+  VALUATION_ESTIMATE = '/valuation-estimate',
 }
 
 /**
@@ -26,11 +26,11 @@ export enum BaseRoutes {
  * @enum {string}
  */
 export enum AuthRoutes {
-  LOGIN = "/auth/login",
-  SIGN_UP = "/auth/sign-up/",
-  PASSWORD_RESET = "/auth/password-reset",
-  VERIFY_EMAIL = "/auth/verify-email",
-  VERIFY_EMAIL_SENT = "/auth/verify-email-sent",
+  LOGIN = '/auth/login',
+  SIGN_UP = '/auth/sign-up/',
+  PASSWORD_RESET = '/auth/password-reset',
+  VERIFY_EMAIL = '/auth/verify-email',
+  VERIFY_EMAIL_SENT = '/auth/verify-email-sent',
 }
 
 /**
@@ -40,24 +40,30 @@ export enum AuthRoutes {
  * @enum {string}
  */
 export enum PortalRoutes {
-  DASHBOARD = "/portal/dashboard",
-  BLUEPRINT = "/portal/blueprint",
-  DOCUMENTS = "/portal/documents",
-  SETTINGS = "/portal/settings",
-  BUSINESS_HEALTH = "/portal/business-health",
-  RECOMMENDATION = "/portal/recommendation",
+  DASHBOARD = '/portal/dashboard',
+  BLUEPRINT = '/portal/blueprint',
+  DOCUMENTS = '/portal/documents',
+  SETTINGS = '/portal/settings',
+  BUSINESS_HEALTH = '/portal/business-health',
+  RECOMMENDATION = '/portal/recommendation',
 }
 
 /**
  * Enum defining the questionnaire routes.
  */
 export enum QuestionnaireRoutes {
-  VALUATION = "/q/valuation",
-  RECOMMENDATION_GENERAL_INFO = "/q/general-info",
-  RECOMMENDATION_BUSINESS_OFFERRING = "/q/business-offering",
-  RECOMMENDATION_MARKETING = "/q/marketing",
-  RECOMMENDATION_CONVERSION = "/q/conversion",
-  RECOMMENDATION_SYSTEMS = "/q/systems",
+  VALUATION = '/q/valuation',
+  RECOMMENDATION_GENERAL_INFO = '/q/general-info',
+  RECOMMENDATION_BUSINESS_OFFERRING = '/q/business-offering',
+  RECOMMENDATION_MARKETING = '/q/marketing',
+  RECOMMENDATION_CONVERSION = '/q/conversion',
+  RECOMMENDATION_SYSTEMS = '/q/systems',
+  SELLER_READINESS = '/q/seller-readiness',
+  SELLER_READINESS_FINANCES = '/q/seller-readiness-finances',
+  SELLER_READINESS_REASON = '/q/seller-readiness-reason',
+  SELLER_READINESS_MARKET = '/q/seller-readiness-market',
+  SELLER_READINESS_OPERATIONS = '/q/seller-readiness-operations',
+  SELLER_READINESS_GROWTH_POTENTIAL = '/q/seller-readiness-growth-potential',
 }
 
 /**

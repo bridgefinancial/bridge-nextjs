@@ -3,27 +3,20 @@
 import { LandingConfig } from '@/providers/Questionnaire.provider';
 import { useFormSubmissions } from '@/services/form-submissions.service';
 import {
+  ALL_ONBOARDING_QUESTIONNAIRES,
   ONBOARDING_SLUGS,
-  RECOMMENDATION_QUESTIONNAIRES,
-  VALUATION_QUESTIONNAIRE,
 } from '@/services/questionnaires.service';
+import { FormidableForm } from '@/types/forms.types';
 import { getLandingConfigKey } from '@/utils/local-storage';
+import { useMemo } from 'react';
 
-export const useOnboardingCompletion = () => {
-  const allOnboardingQuestionnaires = [
-    VALUATION_QUESTIONNAIRE,
-    ...RECOMMENDATION_QUESTIONNAIRES,
-  ];
+export const useOnboardingCompletion = (forms: FormidableForm[]) => {
   const formSubmissionQueries = useFormSubmissions(
-    allOnboardingQuestionnaires
-      .map((q) => {
-        return q.forms.map((f) => {
-          return {
-            formId: f.id,
-          };
-        });
-      })
-      .flat()
+    ALL_ONBOARDING_QUESTIONNAIRES.map((q) => {
+      return {
+        formId: q.formId,
+      };
+    })
   );
 
   // CALCULATED
@@ -34,25 +27,32 @@ export const useOnboardingCompletion = () => {
   const hasCompletedOnboarding = formSubmissionQueries.every((query) => {
     return !!query.data?.json_blob;
   });
-  const completion = allOnboardingQuestionnaires.map((q, index) => {
-    const hasFormSubmission = !!formSubmissionQueries[index].data?.json_blob;
-    let landingConfig: LandingConfig | undefined = undefined;
-    // only access localStorage on client-side
-    if (typeof window !== 'undefined') {
-      const rawLandingConfig = localStorage.getItem(getLandingConfigKey(q));
-      landingConfig = rawLandingConfig
-        ? (JSON.parse(rawLandingConfig) as LandingConfig)
-        : undefined;
-    }
-    const landingProgress =
-      ((landingConfig?.pageIndex ?? 0) / q.forms[0].definition.pages.length) *
-      100;
-    return {
-      title: q.forms[0].name,
-      completionPercentage: hasFormSubmission ? 100 : landingProgress,
-      href: `/q/${ONBOARDING_SLUGS[index]}`,
-    };
-  });
+  const completion: {
+    title: string;
+    completionPercentage: number;
+    href: string;
+  }[] = useMemo(() => {
+    return ALL_ONBOARDING_QUESTIONNAIRES.map((q, index) => {
+      const hasFormSubmission = !!formSubmissionQueries[index].data?.json_blob;
+      let landingConfig: LandingConfig | undefined = undefined;
+      // only access localStorage on client-side
+      if (typeof window !== 'undefined') {
+        const rawLandingConfig = localStorage.getItem(getLandingConfigKey(q));
+        landingConfig = rawLandingConfig
+          ? (JSON.parse(rawLandingConfig) as LandingConfig)
+          : undefined;
+      }
+      const landingProgress =
+        ((landingConfig?.pageIndex ?? 0) /
+          forms[index].definition.pages.length) *
+        100;
+      return {
+        title: q.stepperLabel,
+        completionPercentage: hasFormSubmission ? 100 : landingProgress,
+        href: `/q/${ONBOARDING_SLUGS[index]}`,
+      };
+    });
+  }, [formSubmissionQueries, forms]);
 
   return { hasStartedOnboarding, hasCompletedOnboarding, completion };
 };

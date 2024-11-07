@@ -19,6 +19,7 @@ type DocumentListProps = {
   onUploadSettled?: () => void;
   onUploadClicked: () => void;
   uploadedFiles?: CompanyFile[];
+  showDateUploaded?: boolean;
 };
 
 const DocumentList = forwardRef(
@@ -28,6 +29,7 @@ const DocumentList = forwardRef(
       onUploadSettled,
       onUploadClicked,
       uploadedFiles = [],
+      showDateUploaded = true,
     }: DocumentListProps,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
@@ -193,21 +195,27 @@ const DocumentList = forwardRef(
               borderColor: 'bridge-gray-border',
             }}
           >
-            <ListHeader
-              columns={[
-                { text: 'Filename', sx: { width: '40%' } },
-                {
-                  text: 'Date Uploaded',
-                  sx: { paddingLeft: '0px', width: '40%' },
-                },
-                { text: '', sx: { width: '20%' } },
-              ]}
-            />
+            {!!showDateUploaded && (
+              <ListHeader
+                columns={[
+                  { text: 'Filename', sx: { width: '40%' } },
+                  {
+                    text: 'Date Uploaded',
+                    sx: { paddingLeft: '0px', width: '40%' },
+                  },
+                  { text: '', sx: { width: '20%' } },
+                ]}
+              />
+            )}
             {uploadedFiles.map((document: CompanyFile, index: number) => (
               <ListItemWithActions
                 key={index}
                 title={document.description}
-                subTitle={new Date(document.created_at).toLocaleDateString()}
+                subTitle={
+                  showDateUploaded
+                    ? new Date(document.created_at).toLocaleDateString()
+                    : undefined
+                }
                 actions={[
                   <IconButton
                     key={`${index}-${document.description.trim().replace(/\s+/g, '')}-action-one`}

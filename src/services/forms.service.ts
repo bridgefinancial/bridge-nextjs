@@ -1,8 +1,11 @@
 import { FormidableForm } from '@/types/forms.types';
+import { baseUrls } from '@/utils/env-variables';
 import { useQueries, useQuery, UseQueryOptions } from '@tanstack/react-query';
 
-const PUBLIC_QUESTIONNAIRE_JSON_BUCKET_PREFIX =
-  'https://storage.googleapis.com/bridge-questionnaires/questionnaire-json';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? baseUrls.api.full;
+
+const PUBLIC_QUESTIONNAIRE_JSON_BUCKET_PREFIX = `${BASE_URL}/static/bridge_portal/q`;
 
 export const getFormById = (id: number) => {
   const url = `${PUBLIC_QUESTIONNAIRE_JSON_BUCKET_PREFIX}/${id}.json`;

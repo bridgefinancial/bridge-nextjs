@@ -61,6 +61,10 @@ export class FieldInformationService {
     return FieldInformationService.fileUploadFieldTypes.includes(field);
   }
 
+  static isDate(field: FieldType | string) {
+    return FieldInformationService.dateFieldTypes.includes(field);
+  }
+
   static isValidUserInput(field: FieldType, input: string) {
     if (FieldInformationService.isNumber(field)) {
       // Regular expression to match numbers with optional commas and decimals
@@ -219,6 +223,12 @@ export class FieldInformationService {
   static fileUploadFieldTypes: string[] = [
     FieldType.File,
     FieldType.MultipleFiles,
+  ];
+
+  static dateFieldTypes: string[] = [
+    FieldType.Date,
+    FieldType.DateRange,
+    FieldType.Datetime,
   ];
 
   static dropdowns: Record<string, { value: any; label: string }[]> = {

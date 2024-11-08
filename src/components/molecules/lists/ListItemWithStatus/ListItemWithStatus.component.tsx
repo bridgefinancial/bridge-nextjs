@@ -1,9 +1,8 @@
-import React from "react";
-import { Box, Typography, IconButton, Grid } from "@mui/material";
-import { BaseTypographyProps } from "@/types/base-typography-props.interface";
-import useMergeStyles from "@/hooks/useMergeStyles.hook";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import Image from "next/image";
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import useMergeStyles from '@/hooks/useMergeStyles.hook';
+import { Box, Grid, IconButton } from '@mui/material';
+import Image from 'next/image';
+import React from 'react';
 
 /**
  * Props for the `ListItemWithStatus` component.
@@ -47,6 +46,8 @@ export interface ListItemWithStatusProps {
    * Custom styles to override or extend default styles.
    */
   sx?: any;
+
+  iconSrc: string;
 }
 
 /**
@@ -159,33 +160,29 @@ const ListItemWithStatus: React.FC<ListItemWithStatusProps> = (props) => {
     title,
     subtitle,
     status,
-    statusColor = "green",
+    statusColor = 'green',
     actionIcon,
     onAction,
     sx,
+    iconSrc,
   } = props;
 
   const defaultStyles = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    border: "1px solid #000",
-    borderRadius: "12px",
-    padding: "8px",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    border: '1px solid #000',
+    borderRadius: '12px',
+    padding: '8px',
   };
 
   const mergedStyles = useMergeStyles(defaultStyles, sx);
 
   return (
     <Box sx={mergedStyles}>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box>
-          <Image
-            alt="PDF Icon"
-            width={20}
-            height={20}
-            src={"/assets/images/pdf-file-icon.png"}
-          />
+          <Image alt="File Type Icon" width={20} height={20} src={iconSrc} />
         </Box>
         <Box sx={{ marginLeft: 2 }}>
           <ParagraphText>{title}</ParagraphText>
@@ -201,7 +198,7 @@ const ListItemWithStatus: React.FC<ListItemWithStatusProps> = (props) => {
           </Grid>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {actionIcon && <IconButton onClick={onAction}>{actionIcon}</IconButton>}
       </Box>
     </Box>

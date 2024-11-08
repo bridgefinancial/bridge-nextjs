@@ -97,7 +97,7 @@ function FormFooter(props: FormFooterProps) {
         id="form-footer"
         style={{
           position: 'fixed', // Always fixed at the bottom
-          zIndex: 5000,
+          zIndex: 100,
           bottom: '0px',
           width: '100%',
           backgroundColor: 'rgba(255, 255, 255, 0.75)', // Semi-transparent background to show blur

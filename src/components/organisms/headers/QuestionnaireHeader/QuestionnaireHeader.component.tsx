@@ -66,7 +66,7 @@ const QuestionnaireHeader = (props: QuestionnaireHeaderProps) => {
           position: 'fixed',
           width: '100%',
           backgroundColor: 'white',
-          zIndex: 100000,
+          zIndex: 100,
         }}
       >
         {/* MOBILE HEADER */}

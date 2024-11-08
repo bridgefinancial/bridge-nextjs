@@ -1,3 +1,4 @@
+import { getDocumentIconSrcFromFileName } from '@/app/portal/documents/DocumentList/DocumentList.component';
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
 import TextButton from '@/components/atoms/buttons/TextButton/TextButton.component';
 import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
@@ -185,6 +186,7 @@ const UploadDialog = forwardRef(
                             <CloseIcon />
                           )
                         }
+                        iconSrc={getDocumentIconSrcFromFileName(file.name)}
                         subtitle={formatFileSize(file.size)}
                       />
                     );

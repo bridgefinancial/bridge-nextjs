@@ -1,4 +1,5 @@
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import ConfirmationDialog from '@/components/molecules/dialogs/ConfirmationDialog';
 import UploadDialog from '@/components/molecules/dialogs/UploadDialog';
 import ToastNotification from '@/components/molecules/feedback/ToastNotification';
@@ -11,11 +12,12 @@ import {
 import { CompanyFile } from '@/types/users.types';
 import { Delete, FileDownload } from '@mui/icons-material';
 import UploadIcon from '@mui/icons-material/Upload';
-import { Box, IconButton, Paper } from '@mui/material';
+import { Alert, Box, IconButton, Paper } from '@mui/material';
 import React, { FormEvent, forwardRef, useRef, useState } from 'react';
 
 type DocumentListProps = {
   onFilesUploaded?: (files: CompanyFile[]) => void;
+  onFileDeleted?: (file: CompanyFile) => void;
   onUploadSettled?: () => void;
   onUploadClicked: () => void;
   uploadedFiles?: CompanyFile[];
@@ -26,6 +28,7 @@ const DocumentList = forwardRef(
   (
     {
       onFilesUploaded,
+      onFileDeleted,
       onUploadSettled,
       onUploadClicked,
       uploadedFiles = [],
@@ -133,6 +136,7 @@ const DocumentList = forwardRef(
           { fileId: fileToDelete.id },
           {
             onSettled: () => {
+              onFileDeleted?.(fileToDelete);
               onUploadSettled?.(); // Refetch files after the mutation is completed
               setToastMessage(
                 `File "${descriptionOfFile}" deleted successfully!`
@@ -195,17 +199,26 @@ const DocumentList = forwardRef(
               borderColor: 'bridge-gray-border',
             }}
           >
-            {!!showDateUploaded && (
-              <ListHeader
-                columns={[
-                  { text: 'Filename', sx: { width: '40%' } },
-                  {
-                    text: 'Date Uploaded',
-                    sx: { paddingLeft: '0px', width: '40%' },
-                  },
-                  { text: '', sx: { width: '20%' } },
-                ]}
-              />
+            <ListHeader
+              columns={[
+                { text: 'Filename', sx: { width: '40%' } },
+                ...(!!showDateUploaded
+                  ? [
+                      {
+                        text: 'Date Uploaded',
+                        sx: { paddingLeft: '0px', width: '40%' },
+                      },
+                    ]
+                  : []),
+                { text: '', sx: { width: '20%' } },
+              ]}
+            />
+            {uploadedFiles.length === 0 && (
+              <Alert severity="info">
+                <ParagraphText>
+                  Upload a file to see it in your list of uploaded documents
+                </ParagraphText>
+              </Alert>
             )}
             {uploadedFiles.map((document: CompanyFile, index: number) => (
               <ListItemWithActions
@@ -232,6 +245,7 @@ const DocumentList = forwardRef(
                     <Delete />
                   </IconButton>,
                 ]}
+                iconSrc={getDocumentIconSrcFromFileName(document.description)}
               />
             ))}
           </Paper>
@@ -284,3 +298,13 @@ const DocumentList = forwardRef(
 );
 
 export default DocumentList;
+
+export const getDocumentIconSrcFromFileName = (fileName: string) => {
+  console.log(fileName);
+  if (fileName.endsWith('csv')) {
+    return '/assets/images/csv-file-icon.png';
+  } else if (fileName.endsWith('docx')) {
+    return '/assets/images/docx-file-icon.png';
+  }
+  return '/assets/images/pdf-file-icon.png';
+};

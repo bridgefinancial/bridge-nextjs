@@ -11,6 +11,7 @@ import { FieldInformationService } from '@/services/fields.service';
 import { colors } from '@/theme/theme';
 import { FieldType } from '@/types/forms.enum';
 import { FormField as Field } from '@/types/forms.types';
+import { CompanyFile } from '@/types/users.types';
 import { CalendarMonth } from '@mui/icons-material';
 import {
   Checkbox,
@@ -464,6 +465,14 @@ const FormField = forwardRef(
 
         {FieldInformationService.isFileUpload(formField.type) && (
           <DocumentList
+            onFileDeleted={(deletedFile) => {
+              const currentFiles: CompanyFile[] =
+                formValues[formField.name] ?? [];
+              const newFiles = currentFiles.filter(
+                (f) => f.id !== deletedFile.id
+              );
+              handleChange(formField.name, newFiles);
+            }}
             onFilesUploaded={(files) => {
               handleChange(formField.name, [
                 ...(formValues[formField.name] ?? []),

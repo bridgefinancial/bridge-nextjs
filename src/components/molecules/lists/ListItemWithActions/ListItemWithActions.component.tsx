@@ -13,13 +13,14 @@ export interface ListItemWithActionsProps {
   onClick?: () => void;
   actions: React.ReactNode[];
   sx?: any;
+  iconSrc?: string;
 }
 
 /**
  * `ListItemWithActions` component displays a document item with actions such as view, download, and delete.
  */
 const ListItemWithActions: React.FC<ListItemWithActionsProps> = (props) => {
-  const { title, subTitle, actions, onClick, sx } = props;
+  const { title, subTitle, actions, onClick, sx, iconSrc } = props;
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -53,11 +54,7 @@ const ListItemWithActions: React.FC<ListItemWithActionsProps> = (props) => {
           width: '100%',
         }}
       >
-        <img
-          className="h-6 w-6"
-          src="/assets/images/pdf-file-icon.png"
-          alt="PDF Icon"
-        />
+        <img className="h-6 w-6" src={iconSrc} alt="PDF Icon" />
         <Grid container={true} spacing={isMobile ? 0 : 2} alignItems="center">
           <Grid item={true} xs={12} sm={6}>
             <ParagraphText>

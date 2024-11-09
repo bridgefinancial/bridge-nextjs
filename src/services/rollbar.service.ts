@@ -1,8 +1,9 @@
 import Rollbar from 'rollbar';
+import { environment } from '../../environments/environment';
 
 // Rollbar configuration
 const rollbarConfig = {
-  accessToken: '26a9695b30054699ae5a8df321ffba09',
+  accessToken: environment.ROLLBAR_ACCESS_TOKEN,
   environment: process.env.NODE_ENV || 'development', // Node environment
   captureUncaught: true, // Capture uncaught errors
   captureUnhandledRejections: true, // Capture unhandled promise rejections

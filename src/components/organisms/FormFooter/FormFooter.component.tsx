@@ -9,7 +9,7 @@ export interface FormFooterProps {
   previousButtonConfig: FormActionConfig;
   nextButtonConfig: FormActionConfig;
   submitButtonConfig: FormActionConfig;
-  className: string;
+  className?: string;
 }
 
 function FormFooter(props: FormFooterProps) {

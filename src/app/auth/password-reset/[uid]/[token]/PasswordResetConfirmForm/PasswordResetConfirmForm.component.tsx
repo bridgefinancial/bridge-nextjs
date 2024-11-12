@@ -1,19 +1,19 @@
-"use client";
-import React, { useState } from "react";
-import { Typography, Box } from "@mui/material";
-import Link from "next/link";
-import { routePaths } from "@/types/routes.enum";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
-import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
-import { usePasswordResetConfirm } from "@/services/users.service";
-import { useParams } from "next/navigation";
+'use client';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
+import { usePasswordResetConfirm } from '@/services/users.service';
+import { routePaths } from '@/types/routes.enum';
+import { Box, Typography } from '@mui/material';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import React, { useState } from 'react';
 
 const PasswordResetConfirmForm: React.FC = () => {
   // STATE
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
@@ -28,13 +28,13 @@ const PasswordResetConfirmForm: React.FC = () => {
   // HANDLERS
 
   const handleNewPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setNewPassword(event.target.value);
   };
 
   const handleConfirmPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setConfirmPassword(event.target.value);
   };
@@ -43,7 +43,7 @@ const PasswordResetConfirmForm: React.FC = () => {
     event.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
       return;
     }
 
@@ -63,12 +63,12 @@ const PasswordResetConfirmForm: React.FC = () => {
         onError: (error) => {
           setError(error.message);
         },
-      },
+      }
     );
   };
 
   return (
-    <CardWithTitle titleProps={{ text: "Password Reset" }}>
+    <CardWithTitle titleProps={{ text: 'Password Reset' }}>
       {submitted ? (
         <Typography variant="body1" align="center">
           Your password has been successfully reset. You can now log in with
@@ -81,10 +81,9 @@ const PasswordResetConfirmForm: React.FC = () => {
             name="newPassword"
             value={newPassword}
             onChange={handleNewPasswordChange}
-            error={Boolean(error && newPassword === "")}
-            helperText={error && newPassword === "" ? error : ""}
+            error={Boolean(error && newPassword === '')}
+            helperText={error && newPassword === '' ? error : ''}
             fullWidth={true}
-            securePressOnChange={() => setNewPassword("")}
             handleOnMouseDown={(event) => event.preventDefault()}
           />
           <SecureTextInputGroup
@@ -92,10 +91,9 @@ const PasswordResetConfirmForm: React.FC = () => {
             name="confirmPassword"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
-            error={Boolean(error && confirmPassword === "")}
-            helperText={error && confirmPassword === "" ? error : ""}
+            error={Boolean(error && confirmPassword === '')}
+            helperText={error && confirmPassword === '' ? error : ''}
             fullWidth={true}
-            securePressOnChange={() => setConfirmPassword("")}
             handleOnMouseDown={(event) => event.preventDefault()}
           />
           {error && (
@@ -106,7 +104,7 @@ const PasswordResetConfirmForm: React.FC = () => {
           <Box sx={{ marginTop: 2 }}>
             <ContainedButton
               type="submit"
-              text={"Reset Password"}
+              text={'Reset Password'}
               fullWidth={true}
               isLoading={isPending}
             />

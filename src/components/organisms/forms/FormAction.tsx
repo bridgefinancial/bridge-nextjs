@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 
 export interface FormActionConfig extends Partial<BaseButtonProps> {
   hidden: boolean;
-  onClick: BaseButtonProps["onClick"];
+  onClick?: BaseButtonProps["onClick"];
   disabled: boolean;
   isLoading: boolean;
   text: string;

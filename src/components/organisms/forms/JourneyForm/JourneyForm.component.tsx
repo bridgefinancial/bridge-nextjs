@@ -19,7 +19,7 @@ const JourneyForm = ({ choices }: JourneyFormProps) => {
       isLoading: false,
       disabled: choice === null,
       text: 'Next',
-      href: choices[choice]?.route,
+      href: choice === null ? undefined : choices[choice].route,
     }),
     [choice, choices],
   );

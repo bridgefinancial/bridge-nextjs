@@ -11,15 +11,7 @@ export interface JourneyFormProps {
 }
 
 const JourneyForm = ({ choices }: JourneyFormProps) => {
-  const router = useRouter();
   const [choice, setChoice] = useState<string | null>(null);
-
-  // PREFETCH LINKED PAGES
-  useEffect(() => {
-    Object.keys(choices).forEach((c) => {
-      router.prefetch(choices[c].route);
-    });
-  }, [router, choices]);
 
   const nextButtonConfig: FormActionConfig = useMemo(
     () => ({
@@ -27,11 +19,9 @@ const JourneyForm = ({ choices }: JourneyFormProps) => {
       isLoading: false,
       disabled: choice === null,
       text: 'Next',
-      onClick: () => {
-        if (choice) router.push(choices[choice].route);
-      },
+      href: choice === null ? undefined : choices[choice].route,
     }),
-    [choice, router, choices],
+    [choice, choices],
   );
 
   return (

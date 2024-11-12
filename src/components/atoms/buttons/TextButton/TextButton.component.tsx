@@ -18,6 +18,7 @@ export interface TextButtonProps extends BaseButtonProps {
   endIcon?: React.ReactNode;
   sx?: Record<string, any>; // Adjust the type of `sx` to be more specific
   textProps?: Record<string, any>; // Extend textProps as needed
+  href?: string;
 }
 
 const TextButton: FC<TextButtonProps> = (props) => {
@@ -33,6 +34,7 @@ const TextButton: FC<TextButtonProps> = (props) => {
     type = "button",
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
     sx = {},
+    href,
     ...rest
   } = props;
 
@@ -76,6 +78,7 @@ const TextButton: FC<TextButtonProps> = (props) => {
       sx={mergedStyles}
       variant="text"
       onClick={onClick}
+      href={href}
       fullWidth={fullWidth}
       disableElevation={true}
       disabled={isLoading || disabled}

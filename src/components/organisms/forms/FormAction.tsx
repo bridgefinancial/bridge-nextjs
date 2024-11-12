@@ -15,6 +15,7 @@ export interface FormActionConfig extends Partial<BaseButtonProps> {
   variant?: "contained" | "text";
   textProps?: BaseButtonProps["textProps"];
   endIcon?: ReactNode;
+  href?: string;
 }
 
 const FormAction = ({
@@ -28,6 +29,7 @@ const FormAction = ({
   variant,
   textProps,
   endIcon,
+  href
 }: FormActionConfig) => {
   if (hidden) {
     return <></>;
@@ -42,6 +44,7 @@ const FormAction = ({
         isLoading={isLoading}
         type={type ?? "button"}
         sx={sx}
+        href={href}
         text={text}
         textColor={colors.bridgeDarkPurple}
       />
@@ -58,6 +61,7 @@ const FormAction = ({
       backgroundColor="#6a5ace"
       endIcon={endIcon}
       textProps={textProps}
+      href={href}
     />
   );
 };

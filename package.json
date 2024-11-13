@@ -9,8 +9,7 @@
     "build": "next build",
     "fix": "eslint --fix . && prettier --write .",
     "start": "next start",
-    "lint": "eslint ./src --fix",
-    "dev:on-local": "next -H 0.0.0.0"
+    "lint": "eslint ./src --fix"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
@@ -21,6 +20,7 @@
     "@emotion/styled": "11.13.0",
     "@mui/icons-material": "5.16.7",
     "@mui/material": "5.16.7",
+    "@rollbar/react": "^0.12.0-beta",
     "@tanstack/react-query": "5.54.1",
     "@testing-library/react": "16.0.1",
     "@types/jest": "29.5.12",
@@ -38,6 +38,7 @@
     "react-datepicker": "^7.5.0",
     "react-dom": "18.3.1",
     "react-error-boundary": "4.0.13",
+    "rollbar": "^2.26.4",
     "sass": "1.78.0",
     "usehooks-ts": "^3.1.0",
     "yup": "1.4.0"

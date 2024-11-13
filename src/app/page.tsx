@@ -17,7 +17,7 @@ export default function Home() {
     } else if (user.company.valuation) {
       router.push(routePaths.RECOMMENDATION);
     } else {
-      router.push(routePaths.VALUATION);
+      router.push(routePaths.JOURNEY);
     }
   } else if (!isLoading) {
     router.push(routePaths.LOGIN);

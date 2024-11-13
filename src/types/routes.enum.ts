@@ -16,6 +16,7 @@ export enum BaseRoutes {
   ROOT = '/',
   AUTH = '/auth',
   PORTAL = '/portal',
+  JOURNEY = '/journey',
   VALUATION_ESTIMATE = '/valuation-estimate',
 }
 

@@ -34,6 +34,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
     textProps = {}, // Start with an empty object
     sx = {},
     textComponent: TextComponent = ParagraphText, // Default to ParagraphText
+    href,
     ...rest
   } = props;
 
@@ -79,6 +80,7 @@ const ContainedButton: FC<ContainedButtonProps> = (props) => {
       disableElevation={true}
       disabled={isLoading || disabled}
       type={type}
+      href={href}
       LinkComponent={Link}
       {...rest}
     >

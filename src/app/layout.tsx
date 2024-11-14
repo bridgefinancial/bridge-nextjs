@@ -1,10 +1,12 @@
 'use client';
 
+import GoogleTracker from '@/components/analytics/GoogleTracker';
 import ErrorBoundary from '@/components/templates/boundaries/ErrorBoundary';
 import MainProvider from '@/providers/Main.provider';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Inter } from 'next/font/google';
 import Head from 'next/head'; // Import Head from next/head
+import { environment } from '../../environments/environment';
 import '../app/globals.css';
 import '../scss/defaults.scss';
 import '../scss/material-theme.scss';
@@ -39,6 +41,7 @@ export default function RootLayout({
             </ThemeProvider>
           </MainProvider>
         </Providers>
+        <GoogleTracker gaId={environment.GOOGLE_ANALYTICS_ID} />
       </body>
     </html>
   );

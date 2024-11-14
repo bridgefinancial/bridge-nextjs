@@ -20,6 +20,7 @@
     "@emotion/styled": "11.13.0",
     "@mui/icons-material": "5.16.7",
     "@mui/material": "5.16.7",
+    "@next/third-parties": "^15.0.3",
     "@rollbar/react": "^0.12.0-beta",
     "@tanstack/react-query": "5.54.1",
     "@testing-library/react": "16.0.1",

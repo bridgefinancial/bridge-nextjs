@@ -1,18 +1,20 @@
-import React from "react";
-import { AppBar, Toolbar, IconButton, Box, Grid } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Image from "next/image";
-import { useTheme, useMediaQuery } from "@mui/material";
-import GradientBox from "@/components/atoms/containers/GradientBox";
-import type { BarProps, LogoProps } from "./PortalLayout.types";
-import { portalDrawerStyles } from "./PortalLayout.styles";
-import PortalLogo, { DefaultLogoProps } from "./PortalLogo.component";
+import GradientBox from '@/components/atoms/containers/GradientBox';
+import LogoImage, {
+  DefaultLogoProps,
+  LogoImageProps,
+} from '@/components/atoms/images/LogoImage/LogoImage.component';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Grid, IconButton, Toolbar, useTheme } from '@mui/material';
+import React from 'react';
+import type { LayoutBarProps } from '../LayoutBar.types';
 
-interface MobileBarProps extends BarProps {
-  logoProps: LogoProps;
+interface MobileLayoutBarProps extends LayoutBarProps {
+  logoProps: LogoImageProps;
 }
 
-const MobileBar: React.FC<MobileBarProps> = (props: MobileBarProps) => {
+const MobileLayoutBar: React.FC<MobileLayoutBarProps> = (
+  props: MobileLayoutBarProps
+) => {
   const { logoProps = DefaultLogoProps, handleDrawerToggle } = props;
 
   const theme = useTheme();
@@ -37,13 +39,13 @@ const MobileBar: React.FC<MobileBarProps> = (props: MobileBarProps) => {
                 aria-label="open drawer"
                 edge="start"
                 sx={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  padding: "6px",
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  padding: '6px',
                   backgroundColor: theme.palette.common.white,
                   zIndex: 10, // Add z-index to bring it to the front
-                  "&:hover": {
+                  '&:hover': {
                     backgroundColor: theme.palette.grey[300],
                   },
                 }}
@@ -53,15 +55,15 @@ const MobileBar: React.FC<MobileBarProps> = (props: MobileBarProps) => {
               </IconButton>
             </Grid>
             <Grid item={true}>
-              <PortalLogo {...logoProps} width={100} height={28.52} />
+              <LogoImage {...logoProps} width={100} height={28.52} />
             </Grid>
             <Grid item={true}>{/* Add any additional content here */}</Grid>
           </Grid>
         </Toolbar>
-        <GradientBox containerStyle={{ width: "100%", height: 3 }} />
+        <GradientBox containerStyle={{ width: '100%', height: 3 }} />
       </AppBar>
     </>
   );
 };
 
-export default MobileBar;
+export default MobileLayoutBar;

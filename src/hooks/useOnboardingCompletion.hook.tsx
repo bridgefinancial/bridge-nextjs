@@ -2,19 +2,17 @@
 
 import { LandingConfig } from '@/providers/Questionnaire.provider';
 import { useFormSubmissions } from '@/services/form-submissions.service';
-import {
-  ALL_ONBOARDING_QUESTIONNAIRES,
-  ONBOARDING_SLUGS,
-} from '@/services/questionnaires.service';
+import { QUESTIONNAIRE_BY_FORM_ID } from '@/services/questionnaires.service';
 import { FormidableForm } from '@/types/forms.types';
+import { routePaths } from '@/types/routes.enum';
 import { getLandingConfigKey } from '@/utils/local-storage';
 import { useMemo } from 'react';
 
 export const useOnboardingCompletion = (forms: FormidableForm[]) => {
   const formSubmissionQueries = useFormSubmissions(
-    ALL_ONBOARDING_QUESTIONNAIRES.map((q) => {
+    forms.map((f) => {
       return {
-        formId: q.formId,
+        formId: f.id,
       };
     })
   );
@@ -22,22 +20,25 @@ export const useOnboardingCompletion = (forms: FormidableForm[]) => {
   // CALCULATED
   // Only started onboarding when they have finished one of the recommendation forms, which excludes the valuation form (index 0)
   const hasStartedOnboarding = formSubmissionQueries.some(
-    (query, index) => index !== 0 && !!query.data?.json_blob
+    (query) => !!query.data?.json_blob
   );
   const hasCompletedOnboarding = formSubmissionQueries.every((query) => {
     return !!query.data?.json_blob;
   });
   const completion: {
-    title: string;
+    title?: string;
     completionPercentage: number;
     href: string;
   }[] = useMemo(() => {
-    return ALL_ONBOARDING_QUESTIONNAIRES.map((q, index) => {
+    return forms.map((form, index) => {
+      const questionnaire = QUESTIONNAIRE_BY_FORM_ID.get(form.id);
       const hasFormSubmission = !!formSubmissionQueries[index].data?.json_blob;
       let landingConfig: LandingConfig | undefined = undefined;
       // only access localStorage on client-side
       if (typeof window !== 'undefined') {
-        const rawLandingConfig = localStorage.getItem(getLandingConfigKey(q));
+        const rawLandingConfig = localStorage.getItem(
+          getLandingConfigKey(form.id)
+        );
         landingConfig = rawLandingConfig
           ? (JSON.parse(rawLandingConfig) as LandingConfig)
           : undefined;
@@ -47,9 +48,11 @@ export const useOnboardingCompletion = (forms: FormidableForm[]) => {
           forms[index].definition.pages.length) *
         100;
       return {
-        title: q.stepperLabel,
+        title: questionnaire?.stepperLabel,
         completionPercentage: hasFormSubmission ? 100 : landingProgress,
-        href: `/q/${ONBOARDING_SLUGS[index]}`,
+        href: questionnaire?.slug
+          ? `/q/${questionnaire.slug}`
+          : routePaths.DASHBOARD,
       };
     });
   }, [formSubmissionQueries, forms]);

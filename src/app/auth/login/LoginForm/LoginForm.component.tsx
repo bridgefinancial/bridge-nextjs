@@ -5,7 +5,6 @@ import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
 import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
 import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
-import { useAuth } from '@/providers/Auth.provider';
 import { useLoginUser, useSessionUser } from '@/services/users.service';
 import { routePaths } from '@/types/routes.enum';
 import { User } from '@/types/users.types';
@@ -48,8 +47,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     email: '',
     password: '',
   });
-
-  const {} = useAuth();
 
   // MUTATIONS
   const { mutateAsync: loginUser, isPending } = useLoginUser();

@@ -94,7 +94,9 @@ function createEnvConfig(environment) {
   `;
   fs.writeFileSync(jsFilePath, jsContent, 'utf8');
 
-  console.log(`${environment} environment configuration has been generated and written to both JSON and JS export files.`);
+  console.log(
+    `${environment} environment configuration has been generated and written to both JSON and JS export files.`
+  );
 }
 
 createEnvConfig(environment);

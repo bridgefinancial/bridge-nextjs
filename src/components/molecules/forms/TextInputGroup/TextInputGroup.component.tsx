@@ -1,6 +1,6 @@
-import { colors } from "@/theme/theme";
-import { FilledTextFieldProps, TextField } from "@mui/material";
-import React from "react";
+import { colors } from '@/theme/theme';
+import { FilledTextFieldProps, TextField } from '@mui/material';
+import React from 'react';
 
 interface TextInputProps extends Partial<FilledTextFieldProps> {
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>; // Ensure correct typing here
@@ -8,12 +8,12 @@ interface TextInputProps extends Partial<FilledTextFieldProps> {
   shrinkLabel?: boolean; // Adding shrinkLabel prop to control the label's shrink behavior
 }
 
-export default function TextInputGroup(props: TextInputProps) {
+function TextInputGroup(props: TextInputProps) {
   const {
     label,
     name,
     value,
-    margin = "none",
+    margin = 'none',
     onChange,
     error,
     fullWidth,
@@ -26,20 +26,20 @@ export default function TextInputGroup(props: TextInputProps) {
     <TextField
       sx={{
         // Styles for the filled text field underline
-        "& .MuiFilledInput-underline:before": {
-          borderBottomColor: "rgba(0, 0, 0, .5);",
+        '& .MuiFilledInput-underline:before': {
+          borderBottomColor: 'rgba(0, 0, 0, .5);',
         },
-        "& .MuiFilledInput-underline:hover:before": {
+        '& .MuiFilledInput-underline:hover:before': {
           borderBottomColor: colors.bridgeLightPurple, // Color on hover
         },
-        "& .MuiFilledInput-underline:after": {
+        '& .MuiFilledInput-underline:after': {
           borderBottomColor: colors.bridgeDarkPurple, // Color when focused
         },
         // Styles for the label
-        "& .MuiFormLabel-root": {
-          color: "rgba(0, 0, 0, .4);",
+        '& .MuiFormLabel-root': {
+          color: 'rgba(0, 0, 0, .4);',
         },
-        "& .MuiFormLabel-root.Mui-focused": {
+        '& .MuiFormLabel-root.Mui-focused': {
           color: colors.bridgeDarkPurple, // Label color when focused
         },
       }}
@@ -59,3 +59,4 @@ export default function TextInputGroup(props: TextInputProps) {
     />
   );
 }
+export default TextInputGroup;

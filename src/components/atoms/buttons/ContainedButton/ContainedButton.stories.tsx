@@ -40,9 +40,9 @@ export const CustomColors: Story = {
 
 export const FullWidth: Story = {
   args: {
-    text: 'Full Width Button',
+    text: 'Full Width',
     fullWidth: true,
-    backgroundColor: '#ff5722',
+    sx: { minWidth: 320 },
   },
 };
 
@@ -50,7 +50,6 @@ export const Disabled: Story = {
   args: {
     text: 'Disabled Button',
     disabled: true,
-    backgroundColor: '#999999',
   },
 };
 
@@ -67,7 +66,5 @@ export const LinkButton: Story = {
   args: {
     text: 'Link Button',
     href: '/example',
-    backgroundColor: '#4caf50',
-    textColor: '#ffffff',
   },
 };

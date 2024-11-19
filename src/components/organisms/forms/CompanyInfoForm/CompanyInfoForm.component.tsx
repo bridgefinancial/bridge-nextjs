@@ -1,20 +1,20 @@
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import TitleText from "@/components/atoms/typography/TitleText";
-import ToastNotification from "@/components/molecules/feedback/ToastNotification";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { UseCompanyFormReturn } from "@/hooks/useCompanyForm.hook";
-import { colors } from "@/theme/theme";
-import { Industry } from "@/types/industries.types";
-import { Autocomplete, Box, TextField } from "@mui/material";
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TitleText from '@/components/atoms/typography/TitleText';
+import ToastNotification from '@/components/molecules/feedback/ToastNotification';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import { UseCompanyFormReturn } from '@/hooks/useCompanyForm.hook';
+import { colors } from '@/theme/theme';
+import { Industry } from '@/types/industries.types';
+import { Autocomplete, Box, TextField } from '@mui/material';
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 
-interface CompanyFormInfoProps extends UseCompanyFormReturn {
-  formState: UseCompanyFormReturn["formState"];
+export interface CompanyFormInfoProps extends UseCompanyFormReturn {
+  formState: UseCompanyFormReturn['formState'];
   toastOpen: boolean;
   setToastOpen: Dispatch<SetStateAction<boolean>>;
   industries: Industry[];
-  onIndustryChange: UseCompanyFormReturn["onIndustryChange"];
+  onIndustryChange: UseCompanyFormReturn['onIndustryChange'];
   isSuccess: boolean;
   isError: boolean;
   isPending: boolean;
@@ -48,8 +48,8 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         gap: 1,
         maxWidth: 500,
         paddingTop: 4,
@@ -58,8 +58,8 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
       {/* Company Info Header */}
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 0.5,
           marginBottom: 1,
         }}
@@ -108,19 +108,19 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
         disabled={isPending} // Disable if form is pending
       />
       {/* Save Changes Button */}
-      <Box sx={{ alignSelf: "flex-end" }}>
+      <Box sx={{ alignSelf: 'flex-end' }}>
         <ContainedButton
           textProps={{
             sx: {
-              fontWeight: "bold",
-              color: "white",
+              fontWeight: 'bold',
+              color: 'white',
               fontSize: 14,
             },
           }}
           disabled={isPending}
           fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
-          text={<strong>{isPending ? "Saving..." : "Save Changes"}</strong>}
+          text={<strong>{isPending ? 'Saving...' : 'Save Changes'}</strong>}
           type="submit"
         />
       </Box>
@@ -129,13 +129,13 @@ const CompanyInfoForm: React.FC<CompanyFormInfoProps> = ({
       <ToastNotification
         setOpen={setToastOpen}
         open={toastOpen}
-        severity={isSuccess ? "success" : isError ? "error" : "info"}
+        severity={isSuccess ? 'success' : isError ? 'error' : 'info'}
         message={
           isSuccess
-            ? "Company Information Updated Successfully"
+            ? 'Company Information Updated Successfully'
             : isError
-              ? "Failed to update company information."
-              : "Updating..."
+              ? 'Failed to update company information.'
+              : 'Updating...'
         }
       />
     </Box>

@@ -1,5 +1,13 @@
 {
-  "cSpell.words": ["formik", "rollbar", "tanstack", "testid"],
+  "cSpell.words": [
+    "clsx",
+    "formik",
+    "rollbar",
+    "tanstack",
+    "testid",
+    "unoptimized",
+    "welldone"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",

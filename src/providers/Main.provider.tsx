@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
-import { AuthProvider } from './Auth.provider';
 import { ColorsProvider } from './Color.provider';
-import { ErrorsProvider } from './Errors.provider';
+import { LoggerStateProvider } from './LoggerProvider/Logger.provider';
 import { ToastNotificationProvider } from './ToastNotification.provider';
 
 interface MainProviderProps {
@@ -14,11 +13,9 @@ const MainProvider: React.FC<MainProviderProps> = (
   const { children } = props;
   return (
     <ToastNotificationProvider>
-      <ErrorsProvider>
-        <AuthProvider>
-          <ColorsProvider>{children}</ColorsProvider>
-        </AuthProvider>
-      </ErrorsProvider>
+      <LoggerStateProvider>
+        <ColorsProvider>{children}</ColorsProvider>
+      </LoggerStateProvider>
     </ToastNotificationProvider>
   );
 };

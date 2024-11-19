@@ -22,14 +22,3 @@ export const Default: Story = {
     logoProps: DefaultLogoProps,
   },
 };
-
-export const CustomLogo: Story = {
-  args: {
-    logoProps: {
-      src: '/custom-logo.png',
-      alt: 'Custom Logo',
-      width: 120,
-      height: 30,
-    },
-  },
-};

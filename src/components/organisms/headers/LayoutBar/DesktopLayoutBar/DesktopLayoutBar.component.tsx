@@ -29,6 +29,7 @@ const DesktopLayoutBar: React.FC<DesktopLayoutBarProps> = ({
       sx={{
         backgroundColor: 'transparent',
         padding: 0,
+
         borderWidth: 1,
         borderColor: 'transparent',
       }}

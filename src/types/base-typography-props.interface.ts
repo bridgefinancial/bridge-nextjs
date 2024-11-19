@@ -1,6 +1,11 @@
-import { TypographyProps } from "@mui/material";
+import { TypographyProps } from '@mui/material';
 
 export interface BaseTypographyProps extends TypographyProps {
   sx?: Record<string, unknown>; // Optional style object
   className?: string;
+}
+
+export interface TitleTextProps {
+  titleText: string;
+  titleStyles?: BaseTypographyProps;
 }

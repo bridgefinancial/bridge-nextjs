@@ -40,6 +40,13 @@ export enum AuthRoutes {
  *
  * @enum {string}
  */
+
+/**
+ * Enum defining the portal-related routes.
+ * These routes are specific to the portal section of the application, which might include user dashboards, settings, etc.
+ *
+ * @enum {string}
+ */
 export enum PortalRoutes {
   DASHBOARD = '/portal/dashboard',
   BLUEPRINT = '/portal/blueprint',

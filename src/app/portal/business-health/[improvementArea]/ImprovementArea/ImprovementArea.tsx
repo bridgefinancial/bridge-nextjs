@@ -91,7 +91,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
             LinkComponent={Link}
             href={routePaths.DASHBOARD}
           >
-            Back to Dashboard
+            Back to DashboardCo
           </Button>
         </div>
         {isLoadingImprovementArea ? (

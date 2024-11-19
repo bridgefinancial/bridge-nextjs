@@ -31,20 +31,9 @@ export const Loading: Story = {
 export const CustomColors: Story = {
   args: {
     text: 'Colored Text Button',
-    textColor: '#ffffff',
-    backgroundColor: '#3f51b5',
-    sx: { padding: '8px 16px' },
+    textColor: '#3f51b5',
+    sx: { padding: '8px 16px', borderWidth: 1, borderColor: '#3f51b5' },
     onClick: () => console.log('Custom Colors Clicked'),
-  },
-};
-
-export const FullWidth: Story = {
-  args: {
-    text: 'Full Width Button',
-    fullWidth: true,
-    textColor: '#fff',
-    backgroundColor: '#ff5722',
-    onClick: () => console.log('Full Width Clicked'),
   },
 };
 
@@ -52,7 +41,6 @@ export const Disabled: Story = {
   args: {
     text: 'Disabled Button',
     disabled: true,
-    textColor: '#999',
   },
 };
 

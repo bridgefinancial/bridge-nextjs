@@ -87,7 +87,7 @@ function MainHeader(props: HeaderProps) {
         height: isMobile ? '80px' : '99px',
         justifyContent: 'center',
         transition: {
-          'ease-in-out': '0.1s',
+          easeInOut: '0.1s',
         },
         boxShadow: 'none',
       }}

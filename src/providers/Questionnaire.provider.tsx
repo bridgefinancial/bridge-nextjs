@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoggerActions } from '@/hooks/useLoggerActions.hook';
 import { default as useScrollTo } from '@/hooks/useScrollTo.hook';
 import { FieldInformationService } from '@/services/fields.service';
 import {
@@ -28,7 +29,6 @@ import {
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { useErrors } from './Errors.provider';
 
 const QUESTIONNAIRE_SUCCESS_REDIRECT_PARAM = 'redirectTo';
 
@@ -137,7 +137,7 @@ export const QuestionnaireProvider = ({
   // HOOKS
   const router = useRouter();
   const fieldRefsByName = useRef<Record<string, HTMLInputElement | null>>({});
-  const { setErrorsFunc } = useErrors();
+  const { logError } = useLoggerActions();
   const { mutateAsync: submitForm, isPending: isSubmitting } = useSubmitForm();
   const searchParams = useSearchParams();
   const questionnaireBodyRef = useRef<HTMLDivElement>(null);
@@ -244,14 +244,11 @@ export const QuestionnaireProvider = ({
           handleComplete();
         },
         onError: (error) => {
-          setErrorsFunc(
+          logError(
             { Error: `Something went wrong: ${error}` },
-            undefined,
+            'handleSubmit:submitForm:handleSubmit',
             true
           );
-          setTimeout(() => {
-            setErrorsFunc({});
-          }, 5000);
         },
       }
     );

@@ -25,21 +25,26 @@ Default.args = {
   title: 'Dashboard',
 };
 
+export const NoTitle = Template.bind({});
+Default.args = {
+  title: '',
+};
+
 export const WithDrawerToggle = Template.bind({});
 WithDrawerToggle.args = {
-  title: 'Dashboard with Drawer',
+  title: 'Dashboard',
   handleDrawerToggle: () => console.log('Drawer toggled'),
 };
 
 export const WithLogout = Template.bind({});
 WithLogout.args = {
-  title: 'Dashboard with Logout',
+  title: 'Dashboard',
   logout: () => console.log('Logging out'),
 };
 
 export const FullyConfigured = Template.bind({});
 FullyConfigured.args = {
-  title: 'Full DesktopLayoutBar',
+  title: 'Dashboard',
   handleDrawerToggle: () => console.log('Drawer toggled'),
   logout: () => console.log('Logging out'),
 };

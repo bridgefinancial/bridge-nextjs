@@ -17,30 +17,24 @@ type Story = StoryObj<ImageBackgroundProps>;
 
 export const Default: Story = {
   args: {
-    src: '/path/to/default-image.jpg',
+    src: 'https://via.placeholder.com/600x400', // Placeholder image
     alt: 'Default Background',
-    children: (
-      <div style={{ color: 'white', fontSize: '20px' }}>Centered Content</div>
-    ),
+    children: <div style={{ width: 100, height: 100 }}></div>,
   },
 };
 
 export const CustomFit: Story = {
   args: {
-    src: '/path/to/custom-fit-image.jpg',
+    src: 'https://via.placeholder.com/800x600', // Placeholder image
     alt: 'Custom Fit Background',
     objectFit: 'contain',
-    children: (
-      <div style={{ color: 'white', fontSize: '20px' }}>
-        Contain Fit Content
-      </div>
-    ),
+    children: <div style={{ width: 100, height: 100 }}></div>,
   },
 };
 
 export const StyledContainer: Story = {
   args: {
-    src: '/path/to/styled-image.jpg',
+    src: 'https://via.placeholder.com/400x300', // Placeholder image
     alt: 'Styled Background',
     containerStyle: {
       borderRadius: '15px',
@@ -48,7 +42,8 @@ export const StyledContainer: Story = {
       width: '400px',
       height: '300px',
     },
+    children: <div style={{ width: 100, height: 100 }}></div>,
+
     innerContainerStyle: { padding: '20px', color: 'white', fontSize: '18px' },
-    children: <div>Styled Container Content</div>,
   },
 };

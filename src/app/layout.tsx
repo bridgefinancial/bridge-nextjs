@@ -1,6 +1,5 @@
 'use client';
 
-import ErrorBoundary from '@/components/templates/boundaries/ErrorBoundary';
 import MainProvider from '@/providers/Main.provider';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Inter } from 'next/font/google';
@@ -13,8 +12,8 @@ import '../scss/open-color.scss';
 import '../scss/typography.scss';
 import '../scss/variables.scss';
 import theme from '../theme/theme'; // Ensure this is a client-side import
+import './client';
 import Providers from './providers';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -35,7 +34,7 @@ export default function RootLayout({
             <ThemeProvider theme={theme}>
               {/* CssBaseline ensures MUI's styles are applied */}
               <CssBaseline />
-              <ErrorBoundary>{children}</ErrorBoundary>
+              {children}
             </ThemeProvider>
           </MainProvider>
         </Providers>

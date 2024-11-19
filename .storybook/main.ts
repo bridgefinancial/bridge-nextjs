@@ -13,13 +13,20 @@ const config: StorybookConfig = {
     name: '@storybook/nextjs',
     options: {},
   },
-  staticDirs: ['../public'],
+  staticDirs: [
+    '../public/assets',
+    '../public', // Existing static directory
+  ],
   webpackFinal: async (config) => {
     config.resolve = {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
         '@': path.resolve(__dirname, '../src'), // Resolve the '@' alias
+      },
+      fallback: {
+        ...config.resolve?.fallback,
+        buffer: false, // Disable Node.js buffer module
       },
     };
     return config;

@@ -3,8 +3,8 @@
 import LogoImage, {
   DefaultLogoProps,
 } from '@/components/atoms/images/LogoImage/LogoImage.component';
-import PortalListItem from '@/components/molecules/lists/PortalListItem/PortalListItem.component';
 import UserProfileMenu from '@/components/molecules/menus/UserProfileMenu';
+import PortalListItem from '@/components/organisms/lists/PortalListItem/PortalListItem.component';
 import { useLogoutUser, useSessionUser } from '@/services/users.service';
 import { LayoutForPortalProps } from '@/types/layout.types';
 import { CloseSharp, LogoutRounded } from '@mui/icons-material';
@@ -36,7 +36,6 @@ import DesktopLayoutBar from '../../../organisms/headers/LayoutBar/DesktopLayout
 import MobileLayoutBar from '../../../organisms/headers/LayoutBar/MobileLayoutBar/MobileLayoutBar.component';
 import { portalDrawerStyles } from './PortalLayout.styles';
 
-// it might be a good idea to have a containers, or views folder where we connect these to data
 export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
   window,
   logoProps = DefaultLogoProps,
@@ -297,8 +296,7 @@ export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
 };
 
 // all this means is that it has data, above the view
-// think of it as the controller, the queries should be seperate from the view
-
+// think of it as the controller, the queries should be separate from the view,
 interface PortalLayoutProps extends Partial<LayoutForPortalProps> {}
 
 export const PortalLayout = (props: PortalLayoutProps) => {

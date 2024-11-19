@@ -1,3 +1,5 @@
+'use client';
+
 import { TextButtonProps } from '@/components/atoms/buttons/TextButton/TextButton.component';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import { User } from '@/types/users.types';
@@ -20,11 +22,17 @@ interface MenuOptionItem extends Partial<TextButtonProps> {
 }
 
 const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
-  user,
+  user = null, // Default to null if user is not provided
   isExpanded = false,
-  menuOptions,
+  menuOptions = [], // Default empty array for menu options
 }) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // Set client-side rendering flag
+    setIsClient(typeof window !== 'undefined');
+  }, []);
 
   const openMenu = (event: React.MouseEvent<HTMLElement>) => {
     setMenuAnchorEl(event.currentTarget);
@@ -51,17 +59,43 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
     };
   }, [menuAnchorEl]);
 
+  const renderMenuOptions = () => {
+    return menuOptions.map((option, index) => (
+      <Box
+        key={index}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          cursor: 'pointer',
+          ...option.sx,
+        }}
+        onClick={option.onClick}
+      >
+        {option.startIcon}
+        <ParagraphText sx={{ fontSize: 16, fontWeight: 400 }}>
+          {option.text}
+        </ParagraphText>
+      </Box>
+    ));
+  };
+
+  const userName = user ? `${user.first_name} ${user.last_name}` : 'Guest';
+  const userEmail = user?.email || 'example@gmail.com';
+
+  if (!isClient) return null; // Ensure component renders only on the client
+
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
         gap: 2,
-        width: isExpanded ? 'initial' : 100,
-        height: isExpanded ? 'initial' : '100%',
+        width: isExpanded ? 'auto' : 100,
+        height: isExpanded ? 'auto' : '100%',
         padding: isExpanded ? 2 : 0,
         backgroundColor: isExpanded ? 'white' : 'inherit',
-        borderRadius: isExpanded ? '8px' : '0',
+        borderRadius: isExpanded ? 2 : 0,
         '&:hover': {
           backgroundColor: isExpanded
             ? 'inherit'
@@ -71,9 +105,7 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
     >
       {isExpanded ? (
         <Box>
-          <div
-            style={{ display: 'flex', alignItems: 'center', rowGap: '16px' }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Avatar
               sx={{ width: isExpanded ? 48 : 32, height: isExpanded ? 48 : 32 }}
             >
@@ -81,13 +113,9 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
             </Avatar>
             <div style={{ marginLeft: '16px' }}>
               <ParagraphText>
-                <strong>
-                  {user?.first_name} {user?.last_name}
-                </strong>
+                <strong>{userName}</strong>
               </ParagraphText>
-              <ParagraphText>
-                {user?.email ? user.email : 'example@gmail.com'}
-              </ParagraphText>
+              <ParagraphText>{userEmail}</ParagraphText>
             </div>
           </div>
 
@@ -95,35 +123,32 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 16,
+              gap: 2,
               marginTop: 2,
             }}
           >
-            {menuOptions.map((option, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  cursor: 'pointer',
-                  ...option.sx,
-                }}
-                onClick={option.onClick}
-              >
-                {option.startIcon}
-                <ParagraphText sx={{ fontSize: '16px', fontWeight: 400 }}>
-                  {option.text}
-                </ParagraphText>
-              </Box>
-            ))}
+            {renderMenuOptions()}
           </Box>
         </Box>
       ) : (
         <>
           <IconButton
             onClick={openMenu}
-            sx={{ display: 'flex', alignItems: 'center', width: 100 }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              width: 100,
+              height: 40,
+              borderRadius: '8px',
+              padding: 1,
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                borderRadius: '8px',
+              },
+              '&.Mui-focusVisible': {
+                backgroundColor: 'rgba(0, 0, 0, 0.12)',
+              },
+            }}
           >
             <Avatar
               sx={{ width: isExpanded ? 48 : 32, height: isExpanded ? 48 : 32 }}
@@ -140,12 +165,10 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
           >
             <Box sx={{ padding: 2, width: '250px' }}>
               <ParagraphText>
-                <strong>
-                  {user?.first_name} {user?.last_name}
-                </strong>
+                <strong>{userName}</strong>
               </ParagraphText>
               <ParagraphText sx={{ color: '#212529' }}>
-                {user?.email ? user?.email : 'example@gmail.com'}
+                {userEmail}
               </ParagraphText>
             </Box>
             {menuOptions.map((option, index) => (

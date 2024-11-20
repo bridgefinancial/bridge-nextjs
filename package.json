@@ -24,7 +24,7 @@
   "dependencies": {
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
-    "@mui/icons-material": "^6.1.7",
+    "@mui/icons-material": "^6.1.8",
     "@mui/material": "5.16.7",
     "@rollbar/react": "^0.12.0-beta",
     "@storybook/testing-library": "^0.2.2",

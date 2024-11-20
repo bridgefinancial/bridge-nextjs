@@ -282,4 +282,5 @@ export type Questionnaire = {
   stepperLabel: string;
   formId: number;
   redirectPath?: string;
+  slug: string;
 };

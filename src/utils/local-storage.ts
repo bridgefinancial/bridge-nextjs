@@ -1,5 +1,3 @@
-import { Questionnaire } from '@/types/forms.types';
-
-export const getLandingConfigKey = (questionnaire: Questionnaire) => {
-  return `last-viewed-${questionnaire.key}`;
+export const getLandingConfigKey = (formId: number) => {
+  return `last-viewed-config-form-id-${formId}`;
 };

@@ -100,8 +100,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         },
         {
           onSuccess: (user: User) => {
-            if (!user.company.valuation) {
-              router.push(routePaths.VALUATION);
+            if (!user.company.has_finished_onboarding) {
+              router.push(routePaths.JOURNEY);
             } else {
               router.push(routePaths.DASHBOARD);
             }

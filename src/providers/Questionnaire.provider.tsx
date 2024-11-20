@@ -113,7 +113,7 @@ export const QuestionnaireProvider = ({
   );
   const [landingConfig, setLandingConfig, removeLandingConfig] =
     useLocalStorage<LandingConfig>(
-      getLandingConfigKey(questionnaire),
+      getLandingConfigKey(questionnaire.formId),
       {},
       {
         serializer: (value) => {

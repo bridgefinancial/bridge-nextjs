@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 
 type QuestionnaireProgressProps = {
-  title: string;
+  title?: string;
   completionPercentage: number;
   href: string;
 };

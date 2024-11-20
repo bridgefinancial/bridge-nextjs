@@ -11,30 +11,10 @@ import {
   SELLER_READINESS_SLUGS,
 } from '@/services/questionnaires.service';
 import { notFound } from 'next/navigation';
-import { useMemo } from 'react';
 
-const Page = async ({ params }: { params: { formId: QuestionnaireSlugs } }) => {
-  const questionnaireId = params.formId;
-  const questionnaire = QUESTIONNAIRE_BY_SLUG[questionnaireId];
-
-  const recommendationSlugIndex =
-    RECOMMENDATION_QUESTIONNAIRE_SLUGS.indexOf(questionnaireId);
-
-  const isRecommendationQuestionnaire = recommendationSlugIndex !== -1;
-
-  const sellerReadinessSlugIndex =
-    SELLER_READINESS_SLUGS.indexOf(questionnaireId);
-
-  const isSellerReadinessQuestionnaire = sellerReadinessSlugIndex !== -1;
-
-  const stepper = useMemo(() => {
-    if (isRecommendationQuestionnaire) {
-      return <RecommendationSteps slug={questionnaireId} />;
-    } else if (isSellerReadinessQuestionnaire) {
-      return <SellerReadinessSteps slug={questionnaireId} />;
-    }
-    return undefined;
-  }, []);
+const Page = async ({ params }: { params: { slug: QuestionnaireSlugs } }) => {
+  const slug = params.slug;
+  const questionnaire = QUESTIONNAIRE_BY_SLUG[slug];
 
   if (!questionnaire) {
     notFound();
@@ -46,10 +26,28 @@ const Page = async ({ params }: { params: { formId: QuestionnaireSlugs } }) => {
     notFound();
   }
 
+  const recommendationSlugIndex =
+    RECOMMENDATION_QUESTIONNAIRE_SLUGS.indexOf(slug);
+
+  const isRecommendationQuestionnaire = recommendationSlugIndex !== -1;
+
+  const sellerReadinessSlugIndex = SELLER_READINESS_SLUGS.indexOf(slug);
+
+  const isSellerReadinessQuestionnaire = sellerReadinessSlugIndex !== -1;
+
+  const getStepper = () => {
+    if (isRecommendationQuestionnaire) {
+      return <RecommendationSteps slug={slug} />;
+    } else if (isSellerReadinessQuestionnaire) {
+      return <SellerReadinessSteps slug={slug} />;
+    }
+    return undefined;
+  };
+
   return (
     <QuestionnaireProvider form={form} questionnaire={questionnaire}>
       <QuestionnaireLayoutV2>
-        <Questionnaire stepper={stepper} />
+        <Questionnaire stepper={getStepper()} />
       </QuestionnaireLayoutV2>
     </QuestionnaireProvider>
   );

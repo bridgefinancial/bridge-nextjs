@@ -1,15 +1,15 @@
-import { baseUrls } from "../utils/env-variables";
+import { baseUrls } from '../utils/env-variables';
 
-const BASE_URL =
+export const BASE_URL =
   process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? baseUrls.api.full;
 // Utility function to get a specific cookie by name
 export const getCookie = (
   cookieString: string,
-  name: string,
+  name: string
 ): string | null => {
   let cookieValue: string | null = null;
-  if (cookieString && cookieString !== "") {
-    const cookies = cookieString.split(";");
+  if (cookieString && cookieString !== '') {
+    const cookies = cookieString.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
       if (cookie.startsWith(`${name}=`)) {
@@ -28,27 +28,27 @@ export interface FetchOptions extends RequestInit {
 export const fetchWithAuth = async (
   url: string,
   options: FetchOptions = {},
-  cookieString = document.cookie,
+  cookieString = document.cookie
 ): Promise<Response> => {
   const headers = new Headers({
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     Cookie: cookieString,
     ...options.headers,
   });
 
   // Get the CSRF token from the cookies
-  const csrfToken = getCookie(cookieString, "csrftoken");
+  const csrfToken = getCookie(cookieString, 'csrftoken');
 
   // If the CSRF token exists, include it in the headers
   if (csrfToken) {
-    headers.set("X-CSRFToken", csrfToken);
+    headers.set('X-CSRFToken', csrfToken);
   }
 
   // Perform the fetch request
   const response = await fetch(`${BASE_URL}${url}`, {
-    method: "GET",
-    credentials: "include", // To send cookies with requests
-    cache: "no-cache",
+    method: 'GET',
+    credentials: 'include', // To send cookies with requests
+    cache: 'no-cache',
     ...options,
     headers: headers,
   });

@@ -549,7 +549,17 @@ const FormField = forwardRef(
               name={formField.name}
               placeholder={formField.placeholder || defaultPlaceholder}
               className="fmd-input"
-              value={formValues[formField.name] ?? ''}
+              value={
+                formValues[formField.name] &&
+                FieldInformationService.isValidUserInput(
+                  formField.type,
+                  formValues[formField.name],
+                )
+                  ? FieldInformationService.formatNumberInput(
+                      String(formValues[formField.name]),
+                    )
+                  : ""
+              }
               onChange={(e) => {
                 if (
                   FieldInformationService.isValidUserInput(

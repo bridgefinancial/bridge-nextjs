@@ -87,7 +87,7 @@ function MainHeader(props: HeaderProps) {
         height: isMobile ? '80px' : '99px',
         justifyContent: 'center',
         transition: {
-          'ease-in-out': '0.1s',
+          easeInOut: '0.1s',
         },
         boxShadow: 'none',
       }}
@@ -113,27 +113,14 @@ function MainHeader(props: HeaderProps) {
           >
             <LinkComponent {...linkProps}>
               {/* Conditionally render based on screen size */}
-              {loading ? (
-                <></>
-              ) : isMobile ? (
-                <Image
-                  loading="lazy"
-                  src={logoPath}
-                  width={107}
-                  height={30}
-                  alt="Bridge Financial Logo"
-                  unoptimized={false}
-                />
-              ) : (
-                <Image
-                  loading="lazy"
-                  src={logoPath}
-                  width={150}
-                  height={42}
-                  alt="Bridge Financial Logo"
-                  unoptimized={false}
-                />
-              )}
+              <Image
+                loading="lazy"
+                src={logoPath}
+                width={isMobile ? 107 : 150}
+                height={isMobile ? 30 : 42}
+                alt="Bridge Financial Logo"
+                unoptimized={false}
+              />
             </LinkComponent>
 
             <div style={{ marginLeft: 'auto' }}>

@@ -1,5 +1,6 @@
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
 import TextButton from '@/components/atoms/buttons/TextButton/TextButton.component';
+import DocumentIcon from '@/components/atoms/images/DocumentIcon/DocumentIcon.component';
 import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
 import { WithLoggingOptions } from '@/hoc/withLogging/withLogging.hoc';
 import { colors } from '@/theme/theme';
@@ -198,7 +199,7 @@ const UploadDialog = forwardRef(
                             <CloseIcon />
                           )
                         }
-                        iconSrc={getDocumentIconSrcFromFileName(file.name)}
+                        iconSrc={<DocumentIcon fileName={file.name} />}
                         subtitle={formatFileSize(file.size)}
                       />
                     );

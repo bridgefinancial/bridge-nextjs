@@ -26,10 +26,6 @@ import React, {
   useState,
 } from 'react';
 
-import { FeatureListItemProps } from '@/components/molecules/display-data/FeatureListItem/FeatureListItem.component';
-import { TestimonialItemProps } from '@/components/molecules/display-data/TestimonialItem/TestimonialItem.component';
-import { MessageWithCTAProps } from '@/components/organisms/MessageWithCTA/MessageWithCTA.component';
-import { DialogReducerState } from '@/reducers/dialog.reducer';
 import MobileLayoutBar from '../../../organisms/headers/LayoutBar/MobileLayoutBar/MobileLayoutBar.component';
 import { portalDrawerStyles } from '../PortalLayout/PortalLayout.styles';
 export interface OfferLayoutProps extends LayoutForPortalProps {}
@@ -257,12 +253,7 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
 // all this means is that it has data, above the view
 // think of it as the controller, the queries should be separate from the view
 
-interface OfferLayoutWithDataProps extends Partial<OfferLayoutProps> {
-  features: FeatureListItemProps[];
-  videoDialogState: DialogReducerState;
-  testimonials: TestimonialItemProps[];
-  messageWithCta: MessageWithCTAProps;
-}
+interface OfferLayoutWithDataProps extends Partial<OfferLayoutProps> {}
 
 const OfferLayoutWithData: React.FC<OfferLayoutWithDataProps> = (props) => {
   const { tabs: tempTabs = [], ...rest } = props;

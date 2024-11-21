@@ -7,6 +7,7 @@ import FeatureListItem, {
 import TestimonialItem, {
   TestimonialItemProps,
 } from '@/components/molecules/display-data/TestimonialItem/TestimonialItem.component';
+import VideoPlayerModal from '@/components/molecules/modals/VideoPlayerModal/VideoPlayerModal.component';
 import DesktopLayoutBar from '@/components/organisms/headers/LayoutBar/DesktopLayoutBar';
 import MessageWithCTA, {
   MessageWithCTAProps,
@@ -63,10 +64,18 @@ const PreviewSection = styled(Box)(({ theme }) => ({
   marginTop: '5%',
 }));
 
+// use onclick inside of features,
+// to change the state of videoDetails.opened to true
+// to open the video model
 export interface OfferContentProps extends Partial<OfferLayoutProps> {
   features: FeatureListItemProps[];
   testimonials: TestimonialItemProps[];
   messageWithCta: MessageWithCTAProps;
+  videoDetails: {
+    opened: boolean;
+    onClose: () => void;
+    url: string;
+  };
   user: LayoutForPortalProps['user'];
   logout: LayoutForPortalProps['logout'];
 }
@@ -133,17 +142,20 @@ const TestimonialSectionWithMount = ({
         }}
       >
         <DisplayGrid
-          config={{ xs: 12, sm: 6, md: 6, lg: 6, xl: 6 }}
+          config={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 6 }}
           renderItem={(item) => <TestimonialItem {...item} />}
           data={testimonials}
-          spacing={4}
+          spacing={6}
           containerStyle={{
             width: '100%',
             padding: 0,
           }}
           itemStyle={{
             padding: 0,
+            paddingBottom: 4,
             width: '100%',
+            justifyContent: 'center',
+            alignContent: 'center',
           }}
         />
       </Box>
@@ -218,7 +230,18 @@ const PreviewSectionWithMount = () => {
 };
 
 const OfferContent = (props: OfferContentProps) => {
-  const { features, testimonials, messageWithCta, user, logout } = props;
+  const {
+    features,
+    testimonials,
+    messageWithCta,
+    user,
+    logout,
+    videoDetails = {
+      opened: false,
+      onClose: () => {},
+      url: '',
+    },
+  } = props;
 
   // Use hooks to track sizes
   const [featureSize, setFeatureRef] = useViewSize();
@@ -228,102 +251,109 @@ const OfferContent = (props: OfferContentProps) => {
   const featureSizeHalf = featureSize.height / 2;
 
   return (
-    <ParentContainer>
-      {/* Gradient Section */}
-      <GradientBox
-        ref={setGradientRef}
-        direction="to right"
-        colors={['#A395F7', '#6A5ACE']}
-        containerStyle={{
-          width: '100%',
-          height: '40%',
-          top: 0,
-          zIndex: 0,
-          marginTop: 0,
-          paddingTop: 0,
-          paddingBottom: featureSize.height / 1.5,
-        }}
-      >
-        <BannerContainer>
-          <HeaderSection>
-            <DesktopLayoutBar user={user} logout={logout} />
-          </HeaderSection>
-          <HeroSection>
-            <MessageWithCTA
-              containerStyles={{
-                marginTop: 0,
-                paddingTop: 0,
-              }}
-              icon={
-                <Image
-                  width={57.93}
-                  height={62.37}
-                  alt="bridge-shield-image"
-                  src="/assets/icons/bridge-shield-icon.png"
-                />
-              }
-              paragraphProps={{
-                paragraphStyles: {
-                  color: 'white',
-                  fontSize: 16,
-                  fontWeight: 700,
-                  textAlign: 'center',
-                },
-                ...messageWithCta.paragraphProps,
-              }}
-              titleProps={{
-                titleStyles: {
-                  fontSize: 32,
-                  fontWeight: 700,
-                  textAlign: 'center',
-                  color: 'white',
-                },
-                ...messageWithCta.titleProps,
-              }}
-              buttonProps={messageWithCta.buttonProps || null}
-            />
-          </HeroSection>
-        </BannerContainer>
-      </GradientBox>
-
-      {/* Features Section */}
-      <FeaturesSection
-        dynamicBottom={gradientSize.bottom - featureSizeHalf}
-        ref={setFeatureRef}
-        dynamicTranslateY={featureSizeHalf}
-        containerStyle={{ margin: 'auto' }}
-      >
-        <DisplayGrid
-          renderItem={(item) => <FeatureListItem {...item} />}
-          data={features}
-          itemStyle={{
-            width: '100%',
-          }}
-          config={{
-            xs: 2,
-            sm: 6,
-            md: 4,
-            lg: 4,
-            xl: 4,
-          }}
-          containerStyle={{
-            maxWidth: '100%',
-            width: '100%',
-            height: '100%',
-            margin: 'auto',
-          }}
-        />
-      </FeaturesSection>
-
-      {/* Testimonial Section */}
-      <TestimonialSectionWithMount
-        featureSize={featureSize}
-        testimonials={testimonials}
+    <>
+      <VideoPlayerModal
+        open={videoDetails.opened}
+        onClose={() => videoDetails.onClose()}
+        url={videoDetails.url}
       />
+      <ParentContainer>
+        {/* Gradient Section */}
+        <GradientBox
+          ref={setGradientRef}
+          direction="to right"
+          colors={['#A395F7', '#6A5ACE']}
+          containerStyle={{
+            width: '100%',
+            height: '40%',
+            top: 0,
+            zIndex: 0,
+            marginTop: 0,
+            paddingTop: 0,
+            paddingBottom: featureSize.height / 1.5,
+          }}
+        >
+          <BannerContainer>
+            <HeaderSection>
+              <DesktopLayoutBar user={user} logout={logout} />
+            </HeaderSection>
+            <HeroSection>
+              <MessageWithCTA
+                containerStyles={{
+                  marginTop: 0,
+                  paddingTop: 0,
+                }}
+                icon={
+                  <Image
+                    width={57.93}
+                    height={62.37}
+                    alt="bridge-shield-image"
+                    src="/assets/icons/bridge-shield-icon.png"
+                  />
+                }
+                paragraphProps={{
+                  paragraphStyles: {
+                    color: 'white',
+                    fontSize: 16,
+                    fontWeight: 700,
+                    textAlign: 'center',
+                  },
+                  ...messageWithCta.paragraphProps,
+                }}
+                titleProps={{
+                  titleStyles: {
+                    fontSize: 32,
+                    fontWeight: 700,
+                    textAlign: 'center',
+                    color: 'white',
+                  },
+                  ...messageWithCta.titleProps,
+                }}
+                buttonProps={messageWithCta.buttonProps || null}
+              />
+            </HeroSection>
+          </BannerContainer>
+        </GradientBox>
 
-      {/* Preview Section */}
-      <PreviewSectionWithMount />
-    </ParentContainer>
+        {/* Features Section */}
+        <FeaturesSection
+          dynamicBottom={gradientSize.bottom - featureSizeHalf}
+          ref={setFeatureRef}
+          dynamicTranslateY={featureSizeHalf}
+          containerStyle={{ margin: 'auto' }}
+        >
+          <DisplayGrid
+            renderItem={(item) => <FeatureListItem {...item} />}
+            data={features}
+            itemStyle={{
+              width: '100%',
+            }}
+            config={{
+              xs: 12,
+              sm: 12,
+              md: 12,
+              lg: 4,
+              xl: 4,
+            }}
+            containerStyle={{
+              maxWidth: '100%',
+              width: '100%',
+              height: '100%',
+              margin: 'auto',
+            }}
+          />
+        </FeaturesSection>
+
+        {/* Testimonial Section */}
+        <TestimonialSectionWithMount
+          featureSize={featureSize}
+          testimonials={testimonials}
+        />
+
+        {/* Preview Section */}
+        <PreviewSectionWithMount />
+      </ParentContainer>
+    </>
   );
 };
 

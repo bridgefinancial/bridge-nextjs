@@ -4,7 +4,7 @@ import { TestimonialItemProps } from '@/components/molecules/display-data/Testim
 import OfferContent from '@/components/templates/layouts/OfferLayout/OfferContent/OfferContent.component';
 import { useLogoutUser, useSessionUser } from '@/services/users.service';
 import { ArrowRight } from '@mui/icons-material';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -24,6 +24,7 @@ const testimonials: TestimonialItemProps[] = [
 ];
 
 export default function DashboardPage() {
+  const [videoOpened, setVideoOpened] = useState(false);
   // QUERIES
   const { data: user } = useSessionUser();
   const { mutateAsync: logout } = useLogoutUser();
@@ -93,13 +94,18 @@ export default function DashboardPage() {
         />
       ),
       isCallToAction: true,
-      onClick: () => alert('Open up video modal'),
+      onClick: () => setVideoOpened(true),
       text: 'What is a certified valuation?',
     },
   ];
   return (
     <Suspense>
       <OfferContent
+        videoDetails={{
+          opened: videoOpened,
+          url: '',
+          onClose: () => setVideoOpened(false),
+        }}
         user={user}
         features={features}
         logout={logout}

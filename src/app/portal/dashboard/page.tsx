@@ -1,3 +1,4 @@
+'use client';
 import { getFormById } from '@/services/forms.service';
 import {
   RECOMMENDATION_QUESTIONNAIRES,

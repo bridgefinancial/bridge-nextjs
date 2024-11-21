@@ -50,7 +50,6 @@ const Template = (args: VideoPlayerModalProps) => {
 export const Default: StoryObj<VideoPlayerModalProps> = {
   render: Template,
   args: {
-    title: 'Frame 91216',
     open: false,
   },
 };
@@ -58,7 +57,6 @@ export const Default: StoryObj<VideoPlayerModalProps> = {
 export const SmallScreen: StoryObj<VideoPlayerModalProps> = {
   render: Template,
   args: {
-    title: 'Small Screen Modal',
     open: true,
   },
   parameters: {
@@ -71,7 +69,6 @@ export const SmallScreen: StoryObj<VideoPlayerModalProps> = {
 export const LargeScreen: StoryObj<VideoPlayerModalProps> = {
   render: Template,
   args: {
-    title: 'Large Screen Modal',
     open: true,
   },
   parameters: {
@@ -84,7 +81,6 @@ export const LargeScreen: StoryObj<VideoPlayerModalProps> = {
 export const CustomTitle: StoryObj<VideoPlayerModalProps> = {
   render: Template,
   args: {
-    title: 'Custom Modal Title',
     open: true,
   },
 };

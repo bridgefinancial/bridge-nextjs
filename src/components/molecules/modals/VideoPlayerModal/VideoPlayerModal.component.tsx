@@ -1,5 +1,6 @@
+import BaseVideoPlayer from '@/components/atoms/players/BaseVideoPlayer';
 import CloseIcon from '@mui/icons-material/Close';
-import { Modal, Typography } from '@mui/material';
+import { Modal } from '@mui/material';
 import React, { useRef } from 'react';
 import {
   VideoPlayerModalBox,
@@ -11,13 +12,13 @@ import {
 export interface VideoPlayerModalProps {
   open: boolean;
   onClose: () => void;
-  title?: string; // Modal title
+  url?: string; // Modal title
 }
 
 const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
   open,
   onClose,
-  title = 'Frame 91216',
+  url = '',
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -34,25 +35,22 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         justifyContent: 'center',
       }}
     >
-      <VideoPlayerModalBox>
-        {/* Header */}
+      <div>
         <VideoPlayerModalHeader>
-          <Typography id="video-player-modal-title" variant="subtitle1">
-            {title}
-          </Typography>
+          <span></span>
           <VideoPlayerModalCloseButton onClick={onClose}>
             <CloseIcon />
           </VideoPlayerModalCloseButton>
         </VideoPlayerModalHeader>
+        <VideoPlayerModalBox>
+          {/* Header */}
 
-        {/* Content */}
-        <VideoPlayerModalContent>
-          <Typography>
-            {' '}
-            {/* Replace with video player component */} Video Player Component{' '}
-          </Typography>
-        </VideoPlayerModalContent>
-      </VideoPlayerModalBox>
+          {/* Content */}
+          <VideoPlayerModalContent>
+            <BaseVideoPlayer url={url} />
+          </VideoPlayerModalContent>
+        </VideoPlayerModalBox>
+      </div>
     </Modal>
   );
 };

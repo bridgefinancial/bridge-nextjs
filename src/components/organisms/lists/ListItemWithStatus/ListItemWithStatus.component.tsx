@@ -47,7 +47,7 @@ export interface ListItemWithStatusProps {
    */
   sx?: any;
 
-  iconSrc: string;
+  iconSrc: string | React.ReactNode;
 }
 
 /**
@@ -182,7 +182,11 @@ const ListItemWithStatus: React.FC<ListItemWithStatusProps> = (props) => {
     <Box sx={mergedStyles}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box>
-          <Image alt="File Type Icon" width={20} height={20} src={iconSrc} />
+          {typeof iconSrc === 'string' ? (
+            <Image alt="File Type Icon" width={20} height={20} src={iconSrc} />
+          ) : (
+            iconSrc
+          )}
         </Box>
         <Box sx={{ marginLeft: 2 }}>
           <ParagraphText>{title}</ParagraphText>

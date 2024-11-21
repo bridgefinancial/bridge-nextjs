@@ -38,13 +38,30 @@ export const VideoPlayerModalHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: theme.spacing(2),
+  flexDirection: 'row',
+  paddingBottom: theme.spacing(2),
+  width: '100%',
   color: '#ccc', // Light grey title color
 }));
 
-// Styled close button
 export const VideoPlayerModalCloseButton = styled(IconButton)(({ theme }) => ({
-  color: '#fff', // White close button
+  color: 'black', // Default text color for the icon
+  backgroundColor: '#fff', // White background
+
+  // Transition for smooth hover effect
+  transition: 'background-color 0.3s, color 0.3s',
+
+  // Hover effect
+  '&:hover': {
+    color: '#fff', // Change text color on hover
+    backgroundColor: 'black', // Change background color on hover
+  },
+
+  // Focus and active states for better accessibility
+  '&:focus': {
+    outline: 'none',
+    boxShadow: `0 0 0 3px ${theme.palette.primary.main}`,
+  },
 }));
 
 // Styled content area

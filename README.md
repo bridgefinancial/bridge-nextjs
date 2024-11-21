@@ -1,5 +1,8 @@
 # Bridge Financial NextJS
 
+
+
+
 ## Getting Started
 
 To begin working with this project, follow these steps to set up the repository locally:

@@ -21,6 +21,7 @@
       "react/react-in-jsx-scope": "off"
     }
   },
+  
   "workbench.colorCustomizations": {
     "panelTitle.activeBorder": "#6ba0f1",
     "panelSection.dropBackground": "#121212",

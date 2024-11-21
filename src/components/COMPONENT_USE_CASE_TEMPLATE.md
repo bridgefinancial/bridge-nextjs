@@ -1,3 +1,5 @@
+## this is a general tempalate you can use for **Example.mdx** files that are a sibling to **Example.stories** file
+
 ```mdx
 import { Meta } from '@storybook/addon-docs/blocks';
 
@@ -6,15 +8,6 @@ import { Meta } from '@storybook/addon-docs/blocks';
 # Your Component Name
 
 Keep in mind, components are designed with functionality as a priority. Once they are functional, they can undergo A/B testing for conversion optimization. We focus on **data-driven design** rather than aesthetics alone.
-
-{/_ Optional: Embed a Figma wireframe for reference _/}
-{/\* <iframe
-  width="800"
-  height="450"
-  src="https://www.figma.com/embed?embed_host=storybook&url=https://www.figma.com/file/[file-id]/[frame-id]"
-  allowfullscreen>
-
-</iframe> */}
 
 ## Introduction
 

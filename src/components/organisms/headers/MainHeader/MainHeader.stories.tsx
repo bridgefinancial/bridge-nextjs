@@ -33,7 +33,7 @@ export const Default = Template;
 export const MobileView: StoryObj<HeaderProps> = {
   args: {
     ...Template.args,
-    logoPath: '/assets/images/mobile-logo.png',
+    logoPath: '/assets/images/bridge-logo.png',
   },
   parameters: {
     viewport: {
@@ -47,22 +47,5 @@ export const WithoutActions: StoryObj<HeaderProps> = {
     logoPath: '/assets/images/bridge-logo.png',
     linkProps: { href: '/' },
     HeaderActions: null,
-  },
-};
-
-export const CustomLogo: StoryObj<HeaderProps> = {
-  args: {
-    logoPath: '/assets/images/custom-logo.png',
-    linkProps: { href: '/' },
-    HeaderActions: (
-      <div style={{ display: 'flex', gap: '10px', marginLeft: 'auto' }}>
-        <Button variant="outlined" color="primary">
-          Log In
-        </Button>
-        <Button variant="contained" color="primary">
-          Register
-        </Button>
-      </div>
-    ),
   },
 };

@@ -48,12 +48,22 @@ const defaultButtonProps: Partial<CTAButtonProps> = {
 
 const defaultTitleProps: Partial<MessageWithCTAProps['titleProps']> = {
   titleText: '',
-  titleStyles: {},
+  titleStyles: {
+    fontSize: 32,
+    fontWeight: 700,
+    textAlign: 'center',
+    color: 'white',
+  },
 };
 
 const defaultParagraphProps: Partial<MessageWithCTAProps['paragraphProps']> = {
   paragraphText: '',
-  paragraphStyles: {},
+  paragraphStyles: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 700,
+    textAlign: 'center',
+  },
 };
 
 function MessageWithCTA(props: MessageWithCTAProps) {
@@ -83,7 +93,7 @@ function MessageWithCTA(props: MessageWithCTAProps) {
 
   return (
     <MessageWithCTAWrap sx={containerStyles}>
-      <MessageWithCTAIconWrap>{icon}</MessageWithCTAIconWrap>
+      {icon ? <MessageWithCTAIconWrap>{icon}</MessageWithCTAIconWrap> : null}
 
       <MessageWithCTATitleWrap>
         <TitleText sx={{ ...(mergeTitleProps.titleStyles as any) }}>

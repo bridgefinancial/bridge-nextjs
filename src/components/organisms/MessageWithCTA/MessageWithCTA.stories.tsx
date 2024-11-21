@@ -9,6 +9,14 @@ const meta: Meta<typeof MessageWithCTA> = {
   component: MessageWithCTA,
   parameters: {
     layout: 'centered', // Ensures the component is centered in the viewport
+    theme: 'dark',
+    backgrounds: {
+      default: 'dark', // Define the default background
+      values: [
+        { name: 'dark', value: 'grey' }, // Black background
+        { name: 'light', value: '#ffffff' }, // Optional light background
+      ],
+    },
   },
   argTypes: {
     titleProps: {
@@ -86,7 +94,7 @@ export const Default: Story = {
         width={57.93}
         height={62.37}
         alt="Bridge Financial Shield"
-        src={'/assets/images/bridge-shield-icon.png'}
+        src={'/assets/icons/bridge-shield-icon.png'}
       />
     ),
   },
@@ -110,7 +118,7 @@ export const ButtonLink: Story = {
         width={57.93}
         height={62.37}
         alt="Bridge Financial Shield"
-        src={'/assets/images/bridge-shield-icon.png'}
+        src={'/assets/icons/bridge-shield-icon.png'}
       />
     ),
   },

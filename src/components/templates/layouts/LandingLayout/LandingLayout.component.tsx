@@ -15,7 +15,7 @@ const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
   const {
     children,
     pathForHome = '/',
-    logoPath = '/assets/images/bridge-logo.png',
+    logoPath = '/assets/images/Bridge-logo.png',
   } = props;
   return (
     <div

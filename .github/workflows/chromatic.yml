@@ -1,4 +1,4 @@
-name: 'Chromatic'
+name: 'Deploy to Chromatic'
 
 on: push
 

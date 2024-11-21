@@ -26,6 +26,7 @@ const LandingLayout: React.FC<LayoutProps> = (props: LayoutProps) => {
     >
       <div>
         <MainHeader
+          logoPath={logoPath}
           linkProps={{
             href: pathForHome,
           }}

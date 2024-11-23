@@ -1,26 +1,24 @@
-import React from "react";
+import useMergeStyles from '@/hooks/useMergeStyles.hook';
+import { colors } from '@/theme/theme';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
-  TextField,
-  InputAdornment,
   IconButton,
+  InputAdornment,
+  TextField,
   TextFieldProps,
-} from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { colors } from "@/theme/theme";
-import useMergeStyles from "@/hooks/useMergeStyles.hook";
+} from '@mui/material';
+import React, { useState } from 'react';
 
 // Define the types for icon components
 export type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
 export interface SecureTextInputGroupProps
-  extends Omit<TextFieldProps, "variant" | "type"> {
-  isSecure?: boolean;
-  securePressOnChange: () => void;
+  extends Omit<TextFieldProps, 'variant' | 'type'> {
   handleOnMouseDown: (event: React.MouseEvent<HTMLButtonElement>) => void;
   SecureTextOnIcon?: IconComponent;
   SecureTextOffIcon?: IconComponent;
-  sx?: TextFieldProps["sx"];
+  sx?: TextFieldProps['sx'];
 }
 
 /**
@@ -63,39 +61,38 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
   label,
   name,
   value,
-  margin = "normal",
+  margin = 'normal',
   onChange,
   error,
-  securePressOnChange,
   handleOnMouseDown,
   fullWidth,
-  isSecure = true,
   helperText,
   SecureTextOnIcon = Visibility,
   SecureTextOffIcon = VisibilityOff,
   sx = {},
   ...rest
 }) => {
+  const [isSecure, setIsSecure] = useState(true);
   const mergedStyles = useMergeStyles(
     {
-      "& .MuiFilledInput-underline:before": {
-        borderBottomColor: "rgba(0, 0, 0, .5)",
+      '& .MuiFilledInput-underline:before': {
+        borderBottomColor: 'rgba(0, 0, 0, .5)',
       },
-      "& .MuiFilledInput-underline:hover:before": {
+      '& .MuiFilledInput-underline:hover:before': {
         borderBottomColor: colors.bridgeLightPurple, // Color on hover
       },
-      "& .MuiFilledInput-underline:after": {
+      '& .MuiFilledInput-underline:after': {
         borderBottomColor: colors.bridgeDarkPurple, // Color when focused
       },
       // Styles for the label
-      "& .MuiFormLabel-root": {
-        color: "rgba(0, 0, 0, .4)",
+      '& .MuiFormLabel-root': {
+        color: 'rgba(0, 0, 0, .4)',
       },
-      "& .MuiFormLabel-root.Mui-focused": {
+      '& .MuiFormLabel-root.Mui-focused': {
         color: colors.bridgeDarkPurple, // Label color when focused
       },
     },
-    {},
+    {}
   );
 
   return (
@@ -103,7 +100,7 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
       sx={mergedStyles}
       label={label}
       variant="filled"
-      type={isSecure ? "password" : "text"}
+      type={isSecure ? 'password' : 'text'}
       fullWidth={fullWidth}
       margin={margin}
       name={name}
@@ -117,14 +114,14 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
           <InputAdornment position="end">
             <IconButton
               aria-label="toggle password visibility"
-              onClick={securePressOnChange}
+              onClick={() => setIsSecure((prev) => !prev)}
               onMouseDown={handleOnMouseDown}
               edge="end"
               sx={{
-                width: "36px", // Set width to create a square button
-                height: "36px", // Set height to match the width
-                borderRadius: "50%", // Ensure the button is a circle
-                padding: "6px", // Optional: Adjust padding as needed to ensure the icon fits nicely
+                width: '36px', // Set width to create a square button
+                height: '36px', // Set height to match the width
+                borderRadius: '50%', // Ensure the button is a circle
+                padding: '6px', // Optional: Adjust padding as needed to ensure the icon fits nicely
               }}
             >
               {isSecure ? <SecureTextOnIcon /> : <SecureTextOffIcon />}

@@ -1,47 +1,40 @@
-import React from "react";
-import {
-  Box,
-  SxProps,
-  Typography,
-  useMediaQuery,
-  useTheme,
-  IconButton,
-  Grid,
-} from "@mui/material";
+import { Box, Grid, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import React from 'react';
 
-import useMergeStyles from "@/hooks/useMergeStyles.hook";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import useMergeStyles from '@/hooks/useMergeStyles.hook';
 
 /**
  * Props for the `ListItemWithActions` component.
  */
 export interface ListItemWithActionsProps {
   title: string;
-  subTitle: string;
+  subTitle?: string;
   onClick?: () => void;
   actions: React.ReactNode[];
   sx?: any;
+  iconSrc?: string;
 }
 
 /**
  * `ListItemWithActions` component displays a document item with actions such as view, download, and delete.
  */
 const ListItemWithActions: React.FC<ListItemWithActionsProps> = (props) => {
-  const { title, subTitle, actions, onClick, sx } = props;
+  const { title, subTitle, actions, onClick, sx, iconSrc } = props;
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const defaultStyles = {
-    display: "flex",
+    display: 'flex',
     height: 60,
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "16px",
-    cursor: "pointer",
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '16px',
+    cursor: 'pointer',
     borderRadius: 2,
-    "&:hover": {
-      backgroundColor: "#f0f0f0",
+    '&:hover': {
+      backgroundColor: '#f0f0f0',
     },
   };
 
@@ -50,22 +43,18 @@ const ListItemWithActions: React.FC<ListItemWithActionsProps> = (props) => {
   return (
     <Box
       sx={mergedStyles}
-      onClick={() => (typeof onClick === "function" ? onClick() : null)}
+      onClick={() => (typeof onClick === 'function' ? onClick() : null)}
     >
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
 
-          width: "100%",
+          width: '100%',
         }}
       >
-        <img
-          className="h-6 w-6"
-          src="/assets/images/pdf-file-icon.png"
-          alt="PDF Icon"
-        />
+        <img className="h-6 w-6" src={iconSrc} alt="PDF Icon" />
         <Grid container={true} spacing={isMobile ? 0 : 2} alignItems="center">
           <Grid item={true} xs={12} sm={6}>
             <ParagraphText>
@@ -73,12 +62,14 @@ const ListItemWithActions: React.FC<ListItemWithActionsProps> = (props) => {
             </ParagraphText>
           </Grid>
 
-          <Grid item={true} xs={12} sm={4}>
-            <ParagraphText>{subTitle}</ParagraphText>
-          </Grid>
+          {!!subTitle && (
+            <Grid item={true} xs={12} sm={4}>
+              <ParagraphText>{subTitle}</ParagraphText>
+            </Grid>
+          )}
         </Grid>
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {actions.map((action, index) => {
           return <div key={index}>{action}</div>;
         })}
@@ -94,7 +85,7 @@ interface ListItemActionButtonProps {
 }
 
 export const ListItemActionButton: React.FC<ListItemActionButtonProps> = (
-  props,
+  props
 ) => {
   const { sx = {}, onClick = () => {}, children } = props;
 

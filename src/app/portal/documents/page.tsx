@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import DocumentList from "./DocumentList/DocumentList.component";
+import { Suspense } from 'react';
+import DocumentListWrapper from './DocumentList/DocumentListWrapper.component';
 
 const DocumentsPage = () => {
   return (
     <Suspense>
-      <DocumentList />
+      <DocumentListWrapper />
     </Suspense>
   );
 };

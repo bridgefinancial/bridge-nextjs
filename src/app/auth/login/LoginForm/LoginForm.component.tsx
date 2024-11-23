@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState, ChangeEvent, FormEvent, MouseEvent } from "react";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
-import SecureTextInputGroup from "@/components/molecules/forms/SecureTextInputGroup";
-import { routePaths } from "@/types/routes.enum";
-import Link from "next/link";
-import { useLoginUser, useSessionUser } from "@/services/users.service";
-import { useAuth } from "@/providers/Auth.provider";
-import { User } from "@/types/users.types";
-import { useRouter } from "next/navigation";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import { useAuth } from '@/providers/Auth.provider';
+import { useLoginUser, useSessionUser } from '@/services/users.service';
+import { routePaths } from '@/types/routes.enum';
+import { User } from '@/types/users.types';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
 
 // Define types for form values and errors
 interface FormValues {
@@ -40,17 +40,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
   // STATE
   const [formValues, setFormValues] = useState<FormValues>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
-
-  const [isPasswordTextSecure, setIsPasswordTextSecure] =
-    useState<boolean>(true); // State to manage secure text visibility
 
   const {} = useAuth();
 
@@ -68,11 +65,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     });
   };
 
-  // Toggle password visibility
-  const handleSecurePressOnChange = () => {
-    setIsPasswordTextSecure(!isPasswordTextSecure);
-  };
-
   // Handle mouse down event
   const handleOnMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Prevent the button from gaining focus
@@ -83,13 +75,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     const errors: FormErrors = {};
 
     if (!formValues.email) {
-      errors.email = "Email is required";
+      errors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      errors.email = "Invalid email address";
+      errors.email = 'Invalid email address';
     }
 
     if (!formValues.password) {
-      errors.password = "Password is required";
+      errors.password = 'Password is required';
     }
 
     setFormErrors(errors);
@@ -106,18 +98,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       const formData = new FormData(formElement);
       loginUser(
         {
-          email: formData.get("email") as string,
-          password: formData.get("password") as string,
+          email: formData.get('email') as string,
+          password: formData.get('password') as string,
         },
         {
           onSuccess: (user: User) => {
-            if (!user.company.valuation) {
-              router.push(routePaths.VALUATION);
+            if (!user.company.has_finished_onboarding) {
+              router.push(routePaths.JOURNEY);
             } else {
               router.push(routePaths.DASHBOARD);
             }
           },
-        },
+        }
       );
     }
   };
@@ -125,7 +117,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <CardWithTitle
       containerStyle={cardContainerStyles}
-      titleProps={{ text: "Login" }}
+      titleProps={{ text: 'Login' }}
     >
       <form onSubmit={handleSubmit}>
         <TextInputGroup
@@ -143,15 +135,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         <SecureTextInputGroup
           label="Password"
           fullWidth={true}
-          margin={"normal"}
+          margin={'normal'}
           name="password"
           value={formValues.password}
           disabled={isPending}
           onChange={handleChange}
           error={Boolean(formErrors && formErrors.password)}
           helperText={formErrors?.password}
-          isSecure={isPasswordTextSecure}
-          securePressOnChange={handleSecurePressOnChange}
           handleOnMouseDown={handleOnMouseDown}
         />
 
@@ -164,13 +154,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         <ContainedButton
           isLoading={isPending}
           fullWidth={true}
-          text={"Login"}
+          text={'Login'}
           type="submit"
         />
       </form>
 
       <ParagraphText variant="body2" align="center" sx={{ mt: 2 }}>
-        Don't have an account?{" "}
+        Don't have an account?{' '}
         <Link href={routePaths.SIGN_UP} color="primary">
           Sign Up
         </Link>

@@ -1,11 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import "./LockedContent.css";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { colors } from "@/theme/theme";
-import { ArrowForward } from "@mui/icons-material";
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import { routePaths } from '@/types/routes.enum';
+import clsx from 'clsx';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
+import React from 'react';
+import './LockedContent.css';
 
 type LockedContentProps = {
   buttonLabel?: string;
@@ -17,7 +16,7 @@ type LockedContentProps = {
 };
 
 const LockedContent = ({
-  buttonLabel = "Complete Profile",
+  buttonLabel = 'Complete Profile',
   buttonHref,
   children,
   body,
@@ -30,7 +29,7 @@ const LockedContent = ({
 
   return (
     <div className="blur-container h-full min-h-[300px]">
-      <div className={clsx("h-full", { "blurred-content": blurred })}>
+      <div className={clsx('h-full', { 'blurred-content': blurred })}>
         {/* Replace with the actual content passed in */}
         {children}
       </div>
@@ -42,13 +41,13 @@ const LockedContent = ({
               {/* You can use an actual icon from a library like FontAwesome if preferred */}
             </div>
             <ParagraphText className="p-4">{body}</ParagraphText>
-            <ContainedButton
+            <Link
+              className="cursor-pointer text-sm font-semibold text-bridge-dark-purple"
               onClick={onButtonClick}
-              href={buttonHref}
-              text={buttonLabel}
-              backgroundColor={colors.bridgeDarkPurple}
-              endIcon={<ArrowForward />}
-            />
+              href={buttonHref ?? routePaths.DASHBOARD}
+            >
+              {buttonLabel}
+            </Link>
           </div>
         </div>
       )}

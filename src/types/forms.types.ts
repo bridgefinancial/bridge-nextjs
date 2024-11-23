@@ -279,6 +279,8 @@ export enum CleanType {
 
 export type Questionnaire = {
   key: string;
-  forms: FormidableForm[];
+  stepperLabel: string;
+  formId: number;
   redirectPath?: string;
+  slug: string;
 };

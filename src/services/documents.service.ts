@@ -1,39 +1,41 @@
+import { PaginatedResponse } from '@/types/api.types';
+import { CompanyFile } from '@/types/users.types';
 import {
   useMutation,
   UseMutationResult,
   useQuery,
-} from "@tanstack/react-query";
-import { FetchOptions, getCookie } from "./authorized-request.service";
+} from '@tanstack/react-query';
+import { FetchOptions, getCookie } from './authorized-request.service';
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? "http://localhost:8000";
+  process.env.NEXT_PUBLIC_DJANGO_API_BASE_URL ?? 'http://localhost:8000';
 
 export const customFetchWithAuth = async (
   url: string,
   options: FetchOptions = {},
-  cookieString = document.cookie,
+  cookieString = document.cookie
 ): Promise<Response> => {
   const headers = new Headers({
     ...options.headers,
   });
 
   // Get the CSRF token from the cookies
-  const csrfToken = getCookie(cookieString, "csrftoken");
+  const csrfToken = getCookie(cookieString, 'csrftoken');
 
   // If the CSRF token exists, include it in the headers
   if (csrfToken) {
-    headers.set("X-CSRFToken", csrfToken);
+    headers.set('X-CSRFToken', csrfToken);
   }
 
   // Handle form data automatically for file uploads, otherwise default to JSON
   if (!(options.body instanceof FormData)) {
-    headers.set("Content-Type", "application/json");
+    headers.set('Content-Type', 'application/json');
   }
 
   const response = await fetch(`${BASE_URL}${url}`, {
-    method: options.method || "GET",
-    credentials: "include", // Include cookies in the request
-    cache: "no-cache",
+    method: options.method || 'GET',
+    credentials: 'include', // Include cookies in the request
+    cache: 'no-cache',
     ...options,
     headers,
   });
@@ -42,11 +44,13 @@ export const customFetchWithAuth = async (
 };
 
 // Fetch company files
-export const getCompanyFiles = async (): Promise<any> => {
+export const getCompanyFiles = async (): Promise<
+  PaginatedResponse<CompanyFile>
+> => {
   const url = `/api/company-files/`;
 
   const response = await customFetchWithAuth(url, {
-    method: "GET",
+    method: 'GET',
   });
 
   if (!response.ok) {
@@ -66,7 +70,7 @@ export const deleteCompanyFile = async ({
   const url = `/api/company-files/${fileId}`;
 
   const response = await customFetchWithAuth(url, {
-    method: "DELETE",
+    method: 'DELETE',
   });
 
   if (!response.ok) {
@@ -84,7 +88,10 @@ interface UploadDocumentResponse {
 
 export const handleUploadDocuments = async ({
   files,
-}: UploadDocumentResponse): Promise<{ responses: any[]; errors: any[] }> => {
+}: UploadDocumentResponse): Promise<{
+  responses: CompanyFile[];
+  errors: any[];
+}> => {
   const url = `/api/company-files/`;
 
   const responses = [];
@@ -92,25 +99,25 @@ export const handleUploadDocuments = async ({
 
   for (const file of files) {
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("description", file.name);
+    formData.append('file', file);
+    formData.append('description', file.name);
 
     try {
       const response = await customFetchWithAuth(url, {
-        method: "POST",
+        method: 'POST',
         body: formData,
       });
 
       if (!response.ok) {
         const responseBody = await response.text();
-        console.error("Response body:", responseBody);
+        console.error('Response body:', responseBody);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data: CompanyFile = await response.json();
       responses.push(data);
     } catch (error) {
-      console.error("Error uploading document:", error);
+      console.error('Error uploading document:', error);
       errors.push(error);
     }
   }
@@ -119,10 +126,10 @@ export const handleUploadDocuments = async ({
 };
 
 // Fetch company files with cacheable query
-export const useGetCompaniesFilesQuery = (queryKey: string = "") => {
+export const useGetCompaniesFilesQuery = (queryKey: string = '') => {
   return useQuery({
     queryFn: getCompanyFiles,
-    queryKey: [`useCompanyFilesQuery${queryKey ? queryKey : "KeyForQuery"}`],
+    queryKey: [`useCompanyFilesQuery${queryKey ? queryKey : 'KeyForQuery'}`],
   });
 };
 

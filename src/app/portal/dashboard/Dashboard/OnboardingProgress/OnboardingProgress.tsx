@@ -1,14 +1,17 @@
 import { useOnboardingCompletion } from '@/hooks/useOnboardingCompletion.hook';
 import { useTasksCompletion } from '@/services/recommendations.service';
+import { FormidableForm } from '@/types/forms.types';
 import BusinessHealthScore from '../BusinessHealthRoadmap/BusinessHealthScore';
 import QuestionnaireProgress from './QuestionnaireProgress';
 
-type OnboardingProgressProps = {};
+type OnboardingProgressProps = {
+  forms: FormidableForm[];
+};
 
-const OnboardingProgress = ({}: OnboardingProgressProps) => {
+const OnboardingProgress = ({ forms }: OnboardingProgressProps) => {
   // HOOKS
   const { completionPercentage } = useTasksCompletion();
-  const { hasCompletedOnboarding, completion } = useOnboardingCompletion();
+  const { hasCompletedOnboarding, completion } = useOnboardingCompletion(forms);
 
   if (hasCompletedOnboarding) {
     return (
@@ -29,6 +32,7 @@ const OnboardingProgress = ({}: OnboardingProgressProps) => {
               title={value.title}
               completionPercentage={value.completionPercentage}
               href={value.href}
+              key={value.title}
             />
           );
         })}

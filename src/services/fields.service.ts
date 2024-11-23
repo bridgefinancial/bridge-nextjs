@@ -1,5 +1,5 @@
-import { FieldType } from "@/types/forms.enum";
-import { FormField } from "@/types/forms.types";
+import { FieldType } from '@/types/forms.enum';
+import { FormField } from '@/types/forms.types';
 
 export class FieldInformationService {
   static isShortText(field: FieldType | string) {
@@ -57,6 +57,14 @@ export class FieldInformationService {
     return FieldInformationService.sliderFieldTypes.includes(field);
   }
 
+  static isFileUpload(field: FieldType | string) {
+    return FieldInformationService.fileUploadFieldTypes.includes(field);
+  }
+
+  static isDate(field: FieldType | string) {
+    return FieldInformationService.dateFieldTypes.includes(field);
+  }
+
   static isValidUserInput(field: FieldType, input: string) {
     if (FieldInformationService.isNumber(field)) {
       // Regular expression to match numbers with optional commas and decimals
@@ -76,19 +84,19 @@ export class FieldInformationService {
   }
 
   static formatNumberInput(input: string) {
-    if (input === "") {
-      return "";
+    if (input === '') {
+      return '';
     }
-    const sections = input.split(".");
-    const stripped = sections[0].replaceAll(",", "");
+    const sections = input.split('.');
+    const stripped = sections[0].replaceAll(',', '');
     const int = parseInt(stripped);
 
-    let formatted = int.toLocaleString("en-us");
+    let formatted = int.toLocaleString('en-us');
 
     if ((sections[1]?.length ?? 0) > 0) {
       formatted += `.${sections[1].substring(0, 2)}`;
-    } else if (input.endsWith(".")) {
-      formatted += ".";
+    } else if (input.endsWith('.')) {
+      formatted += '.';
     }
 
     return formatted;
@@ -96,16 +104,16 @@ export class FieldInformationService {
 
   static getStartInputAdornment(field: FieldType) {
     if (field === FieldType.USD) {
-      return "$";
+      return '$';
     }
-    return "";
+    return '';
   }
 
   static getEndInputAdornment(field: FieldType) {
     if (field === FieldType.Percent || field === FieldType.SliderPercent) {
-      return "%";
+      return '%';
     }
-    return "";
+    return '';
   }
 
   static getDefaultSelections(field: FormField):
@@ -139,7 +147,7 @@ export class FieldInformationService {
     // dropdown
     if (FieldInformationService.isDropdown(field.type)) {
       const defaultOptions = FieldInformationService.getDropdownEnum(
-        field.type,
+        field.type
       );
       if (!field.enum) {
         return defaultOptions ? defaultOptions : undefined;
@@ -152,7 +160,7 @@ export class FieldInformationService {
 
   static getDefaultInternalFields(field: FormField): FormField[] | undefined {
     const defaultFields = FieldInformationService.complexData.find(
-      (listing) => listing.name === field.type,
+      (listing) => listing.name === field.type
     )?.data;
     if (!field.internal_fields) {
       return defaultFields ? defaultFields : undefined;
@@ -212,64 +220,74 @@ export class FieldInformationService {
     FieldType.Slider,
     FieldType.SliderPercent,
   ];
+  static fileUploadFieldTypes: string[] = [
+    FieldType.File,
+    FieldType.MultipleFiles,
+  ];
+
+  static dateFieldTypes: string[] = [
+    FieldType.Date,
+    FieldType.DateRange,
+    FieldType.Datetime,
+  ];
 
   static dropdowns: Record<string, { value: any; label: string }[]> = {
     usa_states_dropdown: [
-      { value: "AK", label: "AK" },
-      { value: "AL", label: "AL" },
-      { value: "AR", label: "AR" },
-      { value: "AZ", label: "AZ" },
-      { value: "CA", label: "CA" },
-      { value: "CO", label: "CO" },
-      { value: "CT", label: "CT" },
-      { value: "DE", label: "DE" },
-      { value: "FL", label: "FL" },
-      { value: "GA", label: "GA" },
-      { value: "HI", label: "HI" },
-      { value: "IA", label: "IA" },
-      { value: "ID", label: "ID" },
-      { value: "IL", label: "IL" },
-      { value: "IN", label: "IN" },
-      { value: "KS", label: "KS" },
-      { value: "KY", label: "KY" },
-      { value: "LA", label: "LA" },
-      { value: "MA", label: "MA" },
-      { value: "MD", label: "MD" },
-      { value: "ME", label: "ME" },
-      { value: "MI", label: "MI" },
-      { value: "MN", label: "MN" },
-      { value: "MO", label: "MO" },
-      { value: "MS", label: "MS" },
-      { value: "MT", label: "MT" },
-      { value: "NC", label: "NC" },
-      { value: "ND", label: "ND" },
-      { value: "NE", label: "NE" },
-      { value: "NH", label: "NH" },
-      { value: "NJ", label: "NJ" },
-      { value: "NM", label: "NM" },
-      { value: "NV", label: "NV" },
-      { value: "NY", label: "NY" },
-      { value: "OH", label: "OH" },
-      { value: "OK", label: "OK" },
-      { value: "OR", label: "OR" },
-      { value: "PA", label: "PA" },
-      { value: "RI", label: "RI" },
-      { value: "SC", label: "SC" },
-      { value: "SD", label: "SD" },
-      { value: "TN", label: "TN" },
-      { value: "TX", label: "TX" },
-      { value: "UT", label: "UT" },
-      { value: "VA", label: "VA" },
-      { value: "VT", label: "VT" },
-      { value: "WA", label: "WA" },
-      { value: "WI", label: "WI" },
-      { value: "WV", label: "WV" },
-      { value: "WY", label: "WY" },
+      { value: 'AK', label: 'AK' },
+      { value: 'AL', label: 'AL' },
+      { value: 'AR', label: 'AR' },
+      { value: 'AZ', label: 'AZ' },
+      { value: 'CA', label: 'CA' },
+      { value: 'CO', label: 'CO' },
+      { value: 'CT', label: 'CT' },
+      { value: 'DE', label: 'DE' },
+      { value: 'FL', label: 'FL' },
+      { value: 'GA', label: 'GA' },
+      { value: 'HI', label: 'HI' },
+      { value: 'IA', label: 'IA' },
+      { value: 'ID', label: 'ID' },
+      { value: 'IL', label: 'IL' },
+      { value: 'IN', label: 'IN' },
+      { value: 'KS', label: 'KS' },
+      { value: 'KY', label: 'KY' },
+      { value: 'LA', label: 'LA' },
+      { value: 'MA', label: 'MA' },
+      { value: 'MD', label: 'MD' },
+      { value: 'ME', label: 'ME' },
+      { value: 'MI', label: 'MI' },
+      { value: 'MN', label: 'MN' },
+      { value: 'MO', label: 'MO' },
+      { value: 'MS', label: 'MS' },
+      { value: 'MT', label: 'MT' },
+      { value: 'NC', label: 'NC' },
+      { value: 'ND', label: 'ND' },
+      { value: 'NE', label: 'NE' },
+      { value: 'NH', label: 'NH' },
+      { value: 'NJ', label: 'NJ' },
+      { value: 'NM', label: 'NM' },
+      { value: 'NV', label: 'NV' },
+      { value: 'NY', label: 'NY' },
+      { value: 'OH', label: 'OH' },
+      { value: 'OK', label: 'OK' },
+      { value: 'OR', label: 'OR' },
+      { value: 'PA', label: 'PA' },
+      { value: 'RI', label: 'RI' },
+      { value: 'SC', label: 'SC' },
+      { value: 'SD', label: 'SD' },
+      { value: 'TN', label: 'TN' },
+      { value: 'TX', label: 'TX' },
+      { value: 'UT', label: 'UT' },
+      { value: 'VA', label: 'VA' },
+      { value: 'VT', label: 'VT' },
+      { value: 'WA', label: 'WA' },
+      { value: 'WI', label: 'WI' },
+      { value: 'WV', label: 'WV' },
+      { value: 'WY', label: 'WY' },
     ],
   };
 
   static getDropdownEnum: (
-    fieldType: FieldType,
+    fieldType: FieldType
   ) => { value: any; label: string }[] = (fieldType) => {
     return FieldInformationService.dropdowns[fieldType];
   };
@@ -279,75 +297,75 @@ export class FieldInformationService {
     { name: string; data: { value: any; label: string; iconUrl?: string }[] }
   > = {
     [FieldType.TrueFalse]: {
-      name: "true_false",
+      name: 'true_false',
       data: [
-        { value: true, label: "True" },
-        { value: false, label: "False" },
+        { value: true, label: 'True' },
+        { value: false, label: 'False' },
       ],
     },
     [FieldType.YesNo]: {
-      name: "yes_no",
+      name: 'yes_no',
       data: [
-        { value: "yes", label: "Yes" },
-        { value: "no", label: "No" },
+        { value: 'yes', label: 'Yes' },
+        { value: 'no', label: 'No' },
       ],
     },
   };
 
   static complexData: { name: string; data: FormField[] }[] = [
     {
-      name: "address",
+      name: 'address',
       data: [
         {
           id: 1,
-          label: "",
-          placeholder: "Line 1",
-          name: "line1",
+          label: '',
+          placeholder: 'Line 1',
+          name: 'line1',
           type: FieldType.Text,
         },
         {
           id: 2,
-          label: "",
-          placeholder: "Line 2 (optional)",
+          label: '',
+          placeholder: 'Line 2 (optional)',
           required: false,
-          name: "line2",
+          name: 'line2',
           type: FieldType.Text,
         },
         {
           id: 3,
-          label: "",
-          placeholder: "City",
-          name: "city",
+          label: '',
+          placeholder: 'City',
+          name: 'city',
           type: FieldType.Text,
         },
         {
           id: 4,
-          label: "",
-          name: "state",
+          label: '',
+          name: 'state',
           type: FieldType.USAStatesDropdown,
         },
         {
           id: 5,
-          label: "",
-          placeholder: "Zip Code",
-          name: "zip",
+          label: '',
+          placeholder: 'Zip Code',
+          name: 'zip',
           type: FieldType.Zip,
         },
       ],
     },
     {
-      name: "date_range",
+      name: 'date_range',
       data: [
         {
           id: 1,
-          label: "Start Date",
-          name: "start",
+          label: 'Start Date',
+          name: 'start',
           type: FieldType.Date,
         },
         {
           id: 2,
-          label: "End Date",
-          name: "end",
+          label: 'End Date',
+          name: 'end',
           type: FieldType.Date,
         },
       ],

@@ -31,8 +31,6 @@ export const useLoggerActions = () => {
    * @param severity - The severity level ('error', 'info', 'success', 'warning').
    * @param methodName - Optional name of the method or action for context.
    */
-
-  // Element implicitly has an 'any' type because expression of type 'Severity' can't be used to index type '{ error: (...args: LogArgument[]) => LogResult; warning: (...args: LogArgument[]) => LogResult; info: (...args: LogArgument[]) => LogResult; success: (...args: LogArgument[]) => LogResult; }'.ts(7053)
   const logMessage = useCallback(
     (
       logs: Record<string, any>,

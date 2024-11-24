@@ -268,7 +268,7 @@ const FallbackUI: React.FC<any> = ({ error, resetError }) => {
 /**
  * LoggerStateProvider to provide logger state and dispatch to the application.
  */
-export const LoggerStateProvider: React.FC<{ children: ReactNode }> = ({
+const LoggerStateProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(loggerReducer, initialState);
@@ -294,3 +294,5 @@ export const useLoggerState = (): LoggerContextType => {
   }
   return context;
 };
+
+export default LoggerStateProvider;

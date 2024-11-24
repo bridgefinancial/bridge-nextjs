@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useMemo } from "react";
-import { Avatar, Box } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import { colors } from "@/theme/theme";
-import PersonIcon from "@mui/icons-material/Person";
-import TextButton from "@/components/atoms/buttons/TextButton/TextButton.component";
-import ToastNotification from "@/components/molecules/feedback/ToastNotification";
-import { ToastState } from "@/reducers/toast.reducer";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import TextButton from '@/components/atoms/buttons/TextButton/TextButton.component';
+import ToastNotification from '@/components/molecules/feedback/ToastNotification';
+import { ToastState } from '@/reducers/toast.reducer';
+import { colors } from '@/theme/theme';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PersonIcon from '@mui/icons-material/Person';
+import { Avatar, Box } from '@mui/material';
+import React, { useMemo } from 'react';
 
 /**
  * A form component for managing the user's avatar.
@@ -42,55 +42,55 @@ const AvatarForm: React.FC<AvatarFormProps> = (props: AvatarFormProps) => {
     handleHideToast,
   } = props;
 
-  console.log(props, "this is props");
+  console.log(props, 'this is props');
 
   const buttonTextToDisplay = useMemo(
     () =>
       submittingAvatarChanges
-        ? "Saving..."
+        ? 'Saving...'
         : avatarSourceImage && avatarSourceImage !== initialImage
-          ? "Save Image"
-          : "Add Image",
-    [avatarSourceImage, initialImage, submittingAvatarChanges],
+          ? 'Save Image'
+          : 'Add Image',
+    [avatarSourceImage, initialImage, submittingAvatarChanges]
   );
   const buttonAction = useMemo(
     () =>
       submittingAvatarChanges
-        ? () => console.log("saving")
+        ? () => console.log('saving')
         : avatarSourceImage !== initialImage
           ? () => handleAvatarSubmit()
-          : () => document.getElementById("avatar-input")?.click(),
+          : () => document.getElementById('avatar-input')?.click(),
     [
       avatarSourceImage,
       handleAvatarSubmit,
       initialImage,
       submittingAvatarChanges,
-    ],
+    ]
   );
   return (
     <>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
         <Avatar
           alt="Avatar"
           sx={{
             width: 64,
             height: 64,
-            borderRadius: "50%",
-            objectFit: "contain",
-            backgroundColor: "#f9fafb",
+            borderRadius: '50%',
+            objectFit: 'contain',
+            backgroundColor: '#f9fafb',
           }}
         >
           {avatarSourceImage ? (
             <img
               src={avatarSourceImage as string}
               alt="User avatar"
-              style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+              style={{ width: '100%', height: '100%', borderRadius: '50%' }}
             />
           ) : (
-            <PersonIcon sx={{ color: "#212121" }} fontSize="medium" />
+            <PersonIcon sx={{ color: '#212121' }} fontSize="medium" />
           )}
         </Avatar>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <ContainedButton
             text={<strong>{buttonTextToDisplay}</strong>}
             backgroundColor={colors.bridgeDarkPurple}

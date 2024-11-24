@@ -1,5 +1,5 @@
-import { ButtonProps } from "@mui/material";
-import { BaseTypographyProps } from "./base-typography-props.interface";
+import { ButtonProps } from '@mui/material';
+import { BaseTypographyProps } from './base-typography-props.interface';
 
 export interface BaseButtonProps {
   fullWidth?: boolean;
@@ -15,9 +15,13 @@ export interface BaseButtonProps {
     | undefined;
   textComponent?: React.ElementType; // Allow dynamic text component
   href?: string;
-  type?: ButtonProps["type"];
+  type?: ButtonProps['type'];
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   sx?: Record<string, unknown>; // Adjust the type of `sx` to be more specific
   target?: React.HTMLAttributeAnchorTarget;
+}
+
+export interface ActionButtonProps {
+  actions: BaseButtonProps[];
 }

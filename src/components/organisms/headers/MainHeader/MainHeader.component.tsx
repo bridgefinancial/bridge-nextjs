@@ -70,7 +70,7 @@ function MainHeader(props: HeaderProps) {
   const {
     linkProps = { href: '/' },
     LinkComponent = Link,
-    logoPath = '/assets/images/bridge-logo.png',
+    logoPath = '/assets/images/Bridge-logo.png',
     HeaderActions = <></>,
   } = props;
 

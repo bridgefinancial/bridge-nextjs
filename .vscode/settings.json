@@ -1,5 +1,13 @@
 {
-  "cSpell.words": ["formik", "rollbar", "tanstack", "testid"],
+  "cSpell.words": [
+    "clsx",
+    "formik",
+    "rollbar",
+    "tanstack",
+    "testid",
+    "unoptimized",
+    "welldone"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",
@@ -13,6 +21,7 @@
       "react/react-in-jsx-scope": "off"
     }
   },
+  
   "workbench.colorCustomizations": {
     "panelTitle.activeBorder": "#6ba0f1",
     "panelSection.dropBackground": "#121212",

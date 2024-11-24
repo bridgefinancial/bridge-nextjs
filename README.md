@@ -1,21 +1,156 @@
-## Project Setup Documentation
+# Bridge Financial NextJS
 
-Before getting started with the project, please review the documentation on how the project is set up. This will help you understand the structure, patterns, and conventions used throughout the codebase:
 
-- **[Atomic Design Patterns](src/components/design-system/DESIGN_SYSTEM_README.md)**
 
-## Folder Structure
 
-Below is an example of our project’s folder structure:
+## Getting Started
+
+To begin working with this project, follow these steps to set up the repository locally:
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- **Node.js** (LTS version recommended)
+- **Yarn** (Package Manager)
+- **Git** (For version control)
+
+### Steps to Run the Repository
+
+1. **Clone the Repository:**
+
+```bash
+   git clone <repository-url>
+   cd <repository-name>
+
 
 ```
-- public
+
+2. **Install Dependencies:**
+
+Use Yarn to install all necessary dependencies:
+
+```bash
+   yarn install
+```
+
+3. **Start the Development Server:**
+
+   For local development:
+
+```bash
+   yarn run dev:start:browser
+```
+
+Output:
+
+```bash
+Starting Next.js on localhost:3000
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3000
+  - Network:      http://[::1]:3000
+```
+
+4. **Run on a Mobile Device:**
+
+   For responsive testing on your mobile phone:
+
+```bash
+  yarn run dev:start:device
+```
+
+You’ll receive a network IP address like:
+
+```bash
+  Starting Next.js on xxx.xxx.x.xxx:3000
+     ▲ Next.js 14.2.5
+     - Local:        xxx.xxx.x.xxx:3000
+     - Network:      xxx.xxx.x.xxx:3000
+```
+
+Copy the IP address to your mobile device's browser (e.g., iPhone).
+
+5. **Start Storybook:**
+
+To develop and test components in isolation:
+
+```bash
+  yarn run storybook
+```
+
+Access Storybook at `http://localhost:6006`.
+
+---
+
+## About the Project
+
+Bridge Financial leverages modern web development standards to ensure a scalable and maintainable application built with **Next.js**. The project emphasizes:
+
+- **Coding Methodology:** Clear, modular, and reusable code.
+- **Scalability:** Structured for growth and adaptation to future requirements.
+- **Design Patterns:** Following best practices such as Atomic Design and separation of concerns.
+
+---
+
+## Component Preview and Design with Storybook
+
+**Storybook** is an integral part of our UI development process. It allows you to:
+
+- Design, test, and style components in isolation.
+- Avoid premature entanglement of components with data or logic.
+- Focus on component functionality, responsiveness, and props handling.
+
+For details on structuring reusable components, refer to the **[Atomic Design Patterns Documentation](src/components/design-system/DESIGN_SYSTEM_README.md)**. It explains how to organize components to enhance reusability and maintain clarity.
+
+### Why Prioritize View-First Coding?
+
+Designing the view layer first offers several benefits:
+
+- Reduces the risk of production bugs.
+- Documents clear usage patterns for each component.
+- Prevents duplication of effort as the team scales.
+- Establishes a **single source of truth** for component implementations.
+
+---
+
+## Separation of Concerns
+
+**Definition:** Separation of concerns (SoC) is a design principle for dividing a system into distinct sections, each addressing a separate aspect of functionality.
+
+### Importance in Programming
+
+- **Improved Maintainability:** Clear boundaries between concerns make code easier to update and debug.
+- **Enhanced Scalability:** Independent modules can grow without introducing system-wide complexity.
+- **Reusable Code:** Decoupled components encourage reuse across different parts of the application.
+
+For a deeper dive, check out this resource: **[FreeCodeCamp - Separation of Concerns in React](https://www.freecodecamp.org/news/separation-of-concerns-react-container-and-presentational-components/)**.
+
+---
+
+## Project Setup Documentation
+
+Before contributing to the codebase, review the setup documentation to understand:
+
+- Project structure.
+- Design patterns and conventions.
+- Key dependencies and tools.
+
+For design pattern details, see: **[Atomic Design Patterns](src/components/design-system/DESIGN_SYSTEM_README.md)**.
+
+---
+
+## Project Folder Structure
+
+Here’s an overview of the folder organization:
+
+```bash
+- public/
   ├── assets/
   │   ├── icons/
   │   └── images/
-- src
-  ├── app
-  │   └── auth/
+- src/
+  ├── app/
+  │   ├── auth/
   │   └── portal/
   ├── components/
   │   ├── design-system/
@@ -34,65 +169,68 @@ Below is an example of our project’s folder structure:
   └── theme/
 ```
 
-## Using the Next.js App Router
+---
 
-Our project utilizes the Next.js App Router, which offers a more flexible and declarative way to manage routing compared to the traditional Page Router. Here are some key concepts and practices to keep in mind:
+## Routing with Next.js App Router
 
-### Shared Routes and Layouts
+The project utilizes the **Next.js App Router** for flexible and declarative routing.
 
-With the App Router, you can define shared layouts that automatically wrap around nested pages. This allows for a consistent layout across multiple routes without needing to duplicate code. For instance, a header or sidebar component that persists across all pages can be defined once and applied across different routes.
+### Key Features:
 
-### Dynamic Routing with Segments
+1. **Shared Routes and Layouts:**
 
-Dynamic routing in the App Router is handled by segment-based routing. Files and directories with square brackets (`[param]`) denote dynamic segments that capture parts of the URL. This approach makes it easy to build flexible routes that handle various parameters and dynamic content without manually configuring routes.
+   - Define consistent UI elements (e.g., headers, sidebars) across pages.
+   - Maintain a unified design throughout the application.
 
-### Reusable Styles and Components in the Design System
+2. **Dynamic Routing with Segments:**
+   - Use `[param]` syntax in directories for dynamic routes.
+   - Easily adapt to URL parameters for content or functionality.
 
-- **Design System Components:** Reusable styles and components are organized under the `design-system` directory within `components`. These are treated as view or display components, meaning they are generic, reusable building blocks of the UI.
-- **Usage:** These reusable components, such as buttons, typography, and layout templates, should be imported into the `app` directory and customized for specific pages or features. This approach ensures consistency across the application while allowing for flexibility in design.
+---
 
-### Where to Place Components
+## Design System: Reusable Styles and Components
 
-- **Reusable Header/Footer Components:** Place these inside `components/design-system/organisms`. Organisms typically consist of more complex and reusable components that combine multiple atoms and molecules to form a meaningful section of the UI.
-- **Layout Components:** Layout components that define the structure of the page (e.g., the arrangement of headers, footers, sidebars, and content areas) should be placed inside `components/design-system/templates`. Templates are high-level structures that arrange various organisms and provide a consistent layout for the pages.
+### Organized for Consistency
 
-### Data Fetching in the App Router
+Reusable styles and components are housed in the `design-system` directory. Examples include buttons, typography, and layouts. These components are generic, ensuring consistency across the application.
 
-Explore the new data-fetching patterns available in the App Router, such as fetching data at the layout level, and how this integrates with React Server Components.
+#### Placement Guidelines:
 
-## Redirects
+- **Reusable Components:** Place complex, reusable elements like headers or footers in `design-system/organisms`.
+- **Layouts:** Define overarching structures (e.g., pages with headers, sidebars) in `design-system/templates`.
 
-The `Middleware.ts` file is responsible for checking the authentication token and redirecting the user based on their login status. This implementation is flexible and subject to future enhancements.
+By reusing these building blocks, the project achieves a consistent look and feel while preserving flexibility.
 
-## Getting Started
+---
 
-First, run the development server:
+## Data Fetching with Next.js
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The **App Router** enables efficient data fetching, including server-side rendering and React Server Components. Fetching data at the layout level improves:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Performance:** Avoids redundant requests.
+- **Simplified Data Management:** Centralizes logic for shared resources.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
+
+## Redirects and Middleware
+
+The `Middleware.ts` file manages:
+
+- **Authentication Checks:** Ensures users are properly authenticated.
+- **Dynamic Redirects:** Redirect users based on login status or other criteria.
+
+This flexible system can be extended as the app evolves.
+
+---
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+Additional resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
+- **[Next.js Documentation](https://nextjs.org/docs):** Full feature and API details.
+- **[Learn Next.js](https://nextjs.org/learn):** Interactive tutorials.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```

@@ -1,0 +1,47 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Welcome" />
+
+# Welcome
+
+Welcome to the documentation! Here, we’ll cover what this library is for, how to use it, why it’s important, how not to use it, and what you’ll typically do when working with it.
+
+## Create Components Based on Use Cases
+
+With proper documentation, you can create components tailored to specific use cases.
+
+**Why is this important?**  
+Because even if the design team updates the visual styling, the logic and functionality of the component should stay consistent. In these cases, only the styling changes while the component’s core behavior remains intact across the application. This ensures consistency and simplifies maintenance.
+
+### Example: Button Component
+
+Take a **Button** component, for instance. It might have props like `label`, `onClick`, and `disabled`. These define its functionality, which will likely remain unchanged over time. However, the button’s design—its colors, fonts, or shapes—may evolve to match new design standards. By separating logic and styling, the button can be easily updated without affecting its functionality or requiring changes throughout the app.
+
+## Separation of Concerns
+
+This approach emphasizes separating logic from presentation. Components are divided into two types:
+
+- **Containers:** Handle data fetching, API calls, and business logic.
+- **Presenters:** Focus solely on rendering the data passed to them, free of backend or fetching logic.
+
+### What that means in this project
+
+Ideally the **/components** folder would contain **Presenters**, and the **Containers** would be in **/app** folder
+
+This modular structure makes components reusable, easier to maintain, and more reliable. It also prevents common issues like hydration problems or rendering errors, ensuring a smoother development process.
+
+## Atomic Design Pattern
+
+The atomic design pattern takes modular programming further, breaking down components into smaller, independent parts like "atoms," "molecules," and "organisms." These components fit together like building blocks, promoting flexibility and scalability in design systems.
+
+In React, this pattern works seamlessly by isolating presenters (atoms) from containers (organisms). Presenters focus on the "what"—what data to display—while containers handle the "how"—how the data is fetched or processed.
+
+### Benefits
+
+- **Faster Development:** A new developer can browse the component library to see what’s available without guessing or reverse engineering the application.
+- **Collaboration-Friendly:** Improves collaboration with stakeholders and designers by providing a clear, centralized reference.
+- **Internal Reference Site:** You can render Storybook as a separate internal site, giving the entire team quick access to the library and documentation, which speeds up development and ensures consistency.
+
+## Helpful tips
+
+- Sometimes with styled components it can be hard figuring out what elements are what when inspecting them with browser dev tools, if you can. Get in the happen of applying **test-id** to parts of your components to make things easier. I say **test-id** because it also preps the components to be tested later on, rather than using just id

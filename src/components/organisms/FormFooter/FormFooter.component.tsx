@@ -71,7 +71,7 @@ function FormFooter(props: FormFooterProps) {
   // Conditionally apply padding for mobile or desktop
   const classesForFooterContainer = useMemo(
     () => (isMobile ? 'px-3 pb-3 pt-3' : 'py-3 px-8'),
-    [isMobile],
+    [isMobile]
   );
 
   const buttonStyle = useMemo(() => {
@@ -101,7 +101,7 @@ function FormFooter(props: FormFooterProps) {
     <div className={'bg-white'}>
       <div
         ref={footerRef}
-        id='form-footer'
+        id="form-footer"
         style={{
           position: 'fixed', // Always fixed at the bottom
           zIndex: 100,
@@ -118,12 +118,12 @@ function FormFooter(props: FormFooterProps) {
         }
       >
         <div
-          id='glass-content'
+          id="glass-content"
           className={clsx(
             'w-full flex items-center',
             !className.includes('justify') && 'justify-between',
             className,
-            classesForFooterContainer,
+            classesForFooterContainer
           )}
         >
           {/* Previous Action */}
@@ -149,7 +149,7 @@ function FormFooter(props: FormFooterProps) {
         </div>
       </div>
       <div
-        className='bg-white'
+        className="bg-white"
         style={{
           height: footerHeight, // Set placeholder height to match the footer
           marginTop: footerHeight / 4, // Optional margin adjustment

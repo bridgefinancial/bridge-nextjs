@@ -1,22 +1,18 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
 // Initial state
 const initialState = {
   width: 0,
   height: 0,
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
+  top: 0, // Distance from the top of the document
+  bottom: 0, // Distance from the top of the document + height
 };
 
-// Reducer for state updates
 const sizeReducer = (
   state: typeof initialState,
   action: Partial<typeof initialState>
 ) => ({ ...state, ...action });
 
-// Hook to measure size and position
 export const useViewSize = () => {
   const [size, dispatch] = useReducer(sizeReducer, initialState);
 
@@ -25,13 +21,13 @@ export const useViewSize = () => {
 
     const updateSize = () => {
       const rect = node.getBoundingClientRect();
+      const scrollY = window.scrollY || 0;
+
       dispatch({
         width: rect.width,
         height: rect.height,
-        top: rect.top,
-        left: rect.left,
-        bottom: rect.bottom,
-        right: rect.right,
+        top: rect.top + scrollY, // Calculate top relative to the document
+        bottom: rect.bottom + scrollY, // Calculate bottom relative to the document
       });
     };
 
@@ -42,6 +38,17 @@ export const useViewSize = () => {
     resizeObserver.observe(node);
 
     return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleUpdate = () => dispatch({});
+    window.addEventListener('resize', handleUpdate);
+    window.addEventListener('scroll', handleUpdate);
+
+    return () => {
+      window.removeEventListener('resize', handleUpdate);
+      window.removeEventListener('scroll', handleUpdate);
+    };
   }, []);
 
   return [size, callbackRef] as const;

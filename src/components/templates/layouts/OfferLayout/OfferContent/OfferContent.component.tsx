@@ -14,56 +14,21 @@ import MessageWithCTA, {
 } from '@/components/organisms/MessageWithCTA/MessageWithCTA.component';
 import { useViewSize } from '@/hooks/useViewSize.hook';
 import { LayoutForPortalProps } from '@/types/layout.types';
+import { useTheme } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { OfferLayoutProps } from '../OfferLayout.component';
-
-// Styled Components
-const ParentContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  width: '100%',
-  marginTop: 0,
-  paddingTop: 0,
-  zIndex: 0,
-  paddingBottom: 30,
-}));
-
-const BannerContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  width: '93%',
-
-  margin: '1% auto',
-  marginTop: 0,
-  paddingTop: 0,
-  zIndex: 1,
-}));
-
-const HeaderSection = styled(Box)(({ theme }) => ({
-  width: '100%',
-  height: '15%',
-  marginBottom: theme.spacing(2),
-}));
-
-const HeroSection = styled(Box)(({ theme }) => ({
-  width: '100%',
-  height: '15%',
-}));
-
-const TestimonialSection = styled(Box)(({ theme }) => ({
-  width: '93%',
-  height: '15%',
-  margin: '1% auto',
-}));
-
-const PreviewSection = styled(Box)(({ theme }) => ({
-  flexDirection: 'column',
-  alignItems: 'center',
-  display: 'flex',
-  marginTop: '5%',
-}));
-
+import {
+  BannerContainerStyled,
+  HeaderSectionStyled,
+  HeroSectionStyled,
+  ParentContainerStyled,
+  PreviewSectionStyled,
+  TestimonialSectionStyled,
+} from './OfferContent.styles';
 // use onclick inside of features,
 // to change the state of videoDetails.opened to true
 // to open the video model
@@ -123,10 +88,15 @@ const TestimonialSectionWithMount = ({
     setIsMounted(true); // Set mounted state after the component mounts
   }, []);
 
+  // it's important to use the style property right here instead of the sx
+  // prop. if you use the sx prop marginTop will not handle the units properly
   return (
-    <TestimonialSection
+    <TestimonialSectionStyled
+      test-id={'display-grid-for-feature-list'}
       style={{
-        marginTop: featureSize.height / 1.3,
+        marginTop: featureSize.height / 2,
+        paddingTop: 100,
+        paddingBottom: 100,
         opacity: isMounted ? 1 : 0, // Set opacity based on mounted state
         transition: 'opacity 0.5s ease-in-out', // Add a smooth transition
       }}
@@ -136,8 +106,8 @@ const TestimonialSectionWithMount = ({
           width: '100%',
           paddingLeft: { xs: 2, sm: 12 },
           paddingRight: { xs: 2, sm: 12 },
-          paddingTop: 5,
-          paddingBottom: 5,
+          paddingTop: 0,
+          paddingBottom: 0,
           borderRadius: 4,
         }}
       >
@@ -147,19 +117,18 @@ const TestimonialSectionWithMount = ({
           data={testimonials}
           spacing={6}
           containerStyle={{
-            width: '100%',
-            padding: 0,
+            padding: 2,
           }}
           itemStyle={{
-            padding: 0,
-            paddingBottom: 4,
+            padding: 5,
+
             width: '100%',
             justifyContent: 'center',
             alignContent: 'center',
           }}
         />
       </Box>
-    </TestimonialSection>
+    </TestimonialSectionStyled>
   );
 };
 const FeaturesSection = forwardRef<HTMLDivElement, FeaturesSectionProps>(
@@ -176,6 +145,7 @@ const FeaturesSection = forwardRef<HTMLDivElement, FeaturesSectionProps>(
     return (
       <FeaturesContainer
         ref={ref}
+        test-id="feature-container"
         style={{
           ...containerStyle,
           opacity: isMounted ? 1 : 0, // Set opacity based on mounted state
@@ -199,13 +169,15 @@ const PreviewSectionWithMount = () => {
   }, []);
 
   return (
-    <PreviewSection
+    <PreviewSectionStyled
       sx={{
         opacity: isMounted ? 1 : 0, // Set opacity based on mounted state
         transition: 'opacity 0.5s ease-in-out', // Add a smooth transition
       }}
+      test-id="preview-container"
     >
       <Box
+        test-id="preview-container-text-wrapper"
         sx={{
           width: '90%',
           backgroundColor: 'white',
@@ -225,7 +197,7 @@ const PreviewSectionWithMount = () => {
           PDF
         </TitleText>
       </Box>
-    </PreviewSection>
+    </PreviewSectionStyled>
   );
 };
 
@@ -242,13 +214,19 @@ const OfferContent = (props: OfferContentProps) => {
       url: '',
     },
   } = props;
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Use hooks to track sizes
   const [featureSize, setFeatureRef] = useViewSize();
   const [gradientSize, setGradientRef] = useViewSize();
 
   // Calculate styles dynamically
-  const featureSizeHalf = featureSize.height / 2;
+  const featureSizeHalf = useMemo(
+    () => featureSize.height / 2,
+    [featureSize.height]
+  );
 
   return (
     <>
@@ -257,8 +235,7 @@ const OfferContent = (props: OfferContentProps) => {
         onClose={() => videoDetails.onClose()}
         url={videoDetails.url}
       />
-      <ParentContainer>
-        {/* Gradient Section */}
+      <ParentContainerStyled>
         <GradientBox
           ref={setGradientRef}
           direction="to right"
@@ -273,11 +250,11 @@ const OfferContent = (props: OfferContentProps) => {
             paddingBottom: featureSize.height / 1.5,
           }}
         >
-          <BannerContainer>
-            <HeaderSection>
-              <DesktopLayoutBar user={user} logout={logout} />
-            </HeaderSection>
-            <HeroSection>
+          <BannerContainerStyled>
+            <HeaderSectionStyled>
+              <DesktopLayoutBar maxWidth="100%" user={user} logout={logout} />
+            </HeaderSectionStyled>
+            <HeroSectionStyled>
               <MessageWithCTA
                 containerStyles={{
                   marginTop: 0,
@@ -311,8 +288,8 @@ const OfferContent = (props: OfferContentProps) => {
                 }}
                 buttonProps={messageWithCta.buttonProps || null}
               />
-            </HeroSection>
-          </BannerContainer>
+            </HeroSectionStyled>
+          </BannerContainerStyled>
         </GradientBox>
 
         {/* Features Section */}
@@ -323,6 +300,7 @@ const OfferContent = (props: OfferContentProps) => {
           containerStyle={{ margin: 'auto' }}
         >
           <DisplayGrid
+            test-id={'display-grid-for-feature-list'}
             renderItem={(item) => <FeatureListItem {...item} />}
             data={features}
             itemStyle={{
@@ -352,7 +330,7 @@ const OfferContent = (props: OfferContentProps) => {
 
         {/* Preview Section */}
         <PreviewSectionWithMount />
-      </ParentContainer>
+      </ParentContainerStyled>
     </>
   );
 };

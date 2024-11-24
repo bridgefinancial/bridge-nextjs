@@ -6,12 +6,15 @@ import { useTheme } from '@mui/material/styles';
 import React from 'react';
 import { LayoutBarProps } from '../LayoutBar.types';
 
-export interface DesktopLayoutBarProps extends Partial<LayoutBarProps> {}
+export interface DesktopLayoutBarProps extends Partial<LayoutBarProps> {
+  maxWidth?: string;
+}
 
 const DesktopLayoutBar: React.FC<DesktopLayoutBarProps> = ({
   title,
   user,
   logout,
+  maxWidth = '1200px',
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -44,7 +47,7 @@ const DesktopLayoutBar: React.FC<DesktopLayoutBarProps> = ({
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '100%',
-            maxWidth: '1200px',
+            maxWidth: maxWidth,
             color: theme.palette.text.primary,
             paddingY: 2,
             paddingX: 0,

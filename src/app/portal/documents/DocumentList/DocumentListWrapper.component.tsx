@@ -14,6 +14,7 @@ const DocumentListWrapper = () => {
       onUploadSettled={refetchFiles}
       uploadedFiles={existingFilesData?.results}
       onUploadClicked={() => fileInputRef?.current?.click()}
+      ref={fileInputRef}
     />
   );
 };

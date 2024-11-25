@@ -17,21 +17,21 @@ export const PORTAL_TABS = [
   },
   {
     label: 'Optimize',
-    icon: 'graph',
+    icon: 'clipboard-check',
     linkProps: {
       href: routePaths.OPTIMIZATION_PACKAGE,
     },
   },
   {
     label: 'Seller Readiness',
-    icon: 'graph',
+    icon: 'bullseye',
     linkProps: {
       href: routePaths.SELLER_READINESS_PACKAGE,
     },
   },
   {
     label: 'Documents',
-    icon: 'graph',
+    icon: 'document',
     linkProps: {
       href: routePaths.DOCUMENTS,
     },

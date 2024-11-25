@@ -127,8 +127,9 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
       test-id={'offer-layout'}
       style={{
         display: 'flex',
-        backgroundColor: 'transparent',
+
         width: '100%',
+        backgroundColor: '#FBFBFB',
         flexDirection: 'column',
         overflowY: 'auto',
       }}

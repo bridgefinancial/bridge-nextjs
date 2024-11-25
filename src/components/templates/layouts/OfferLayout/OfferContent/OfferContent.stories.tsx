@@ -64,7 +64,7 @@ const sampleFeatureDataUsingImages: FeatureListItemProps[] = [
         src="/assets/icons/checkmark-circle-icon.svg"
       />
     ),
-    text: 'Obtain a certified valuation and discover growth opportunities for revenue and value.',
+    text: 'Obtain a certified valuation and pdiscover growth opportunities for revenue and value.',
   },
   {
     icon: (
@@ -81,8 +81,8 @@ const sampleFeatureDataUsingImages: FeatureListItemProps[] = [
     icon: (
       <Image
         alt="video-play-icon"
-        width={18}
-        height={18}
+        width={25}
+        height={25}
         src="/assets/icons/video-play-favicon.svg"
       />
     ),
@@ -95,12 +95,9 @@ const sampleFeatureDataUsingImages: FeatureListItemProps[] = [
 export default {
   title: 'components/templates/layouts/OfferLayout/OfferContent',
   component: OfferContent,
-  parameters: {
-    // layout: 'centered',
-  },
 } as Meta<any>;
 
-const Template: StoryObj<any> = {
+export const Desktop = {
   args: {
     testimonials,
     features: sampleFeatureDataUsingImages,
@@ -118,6 +115,35 @@ const Template: StoryObj<any> = {
       },
     },
   },
+  parameters: {
+    viewport: {
+      defaultViewport: 'Desktop',
+    },
+  },
 };
 
-export const Default = Template;
+// Story in Mobile View
+export const OnMobile: StoryObj<any> = {
+  args: {
+    testimonials,
+    features: sampleFeatureDataUsingImages,
+    messageWithCta: {
+      titleProps: {
+        titleText: 'Discover your business’s worth',
+      },
+      paragraphProps: {
+        paragraphText: 'Get a Bridge Certified Valuation for $1,999.',
+      },
+      buttonProps: {
+        text: 'Order Certified Valuation',
+        endIcon: <ArrowRight />,
+        onClick: () => alert('Learn More clicked!'),
+      },
+    },
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'smallDevicePortrait',
+    },
+  },
+};

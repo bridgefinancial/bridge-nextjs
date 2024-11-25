@@ -16,13 +16,16 @@ export const StyledFeatureListItem = styled(Box, {
     : theme.palette.text.primary,
 
   // Padding is always applied
-  padding: `${theme.spacing(2)} ${theme.spacing(3)}`, // 16px top/bottom, 24px left/right
+  padding: `${theme.spacing(2)} ${theme.spacing(0)}`, // 16px top/bottom, 24px left/right
 
   // Cursor changes to pointer for Call-to-Action
   cursor: isCallToAction ? 'pointer' : 'default',
 
   // Target text (e.g., <p>) inside the component
   '& p': {
+    paddingLeft: 0,
+    marginLeft: 0,
+
     fontWeight: isCallToAction ? '800 !important' : 'initial', // Enforce fontWeight
     whiteSpace: isCallToAction ? 'nowrap' : 'normal', // No wrapping for Call-to-Action
     overflow: isCallToAction ? 'hidden' : 'visible', // Prevent overflow
@@ -33,18 +36,20 @@ export const StyledFeatureListItem = styled(Box, {
 // Styled Component for FeatureListItem
 
 // Styled Component for Icon Wrapper
-export const FeatureIconWrapper = styled(Box)({
-  maxWidth: 18, // Updated size for Call-to-Action
-  maxHeight: 18,
+export const FeatureIconWrapper = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isCallToAction',
+})<{ isCallToAction?: boolean }>(({ theme, isCallToAction = false }) => ({
+  maxWidth: 35,
+  maxHeight: 35,
   width: '100%',
   height: '100%',
   display: 'flex',
+  marginTop: isCallToAction ? 'initial' : 1.3,
   justifyContent: 'center',
   alignItems: 'center',
-  padding: 0, // Remove all padding
   overflow: 'hidden', // Prevent content overflow
   boxSizing: 'border-box', // Ensures consistent sizing
-
+  padding: isCallToAction ? `${theme.spacing(1)} ${theme.spacing(0)}` : 0,
   // Target images and SVGs within this Box
   '& img, & svg': {
     maxWidth: '100%',
@@ -52,4 +57,4 @@ export const FeatureIconWrapper = styled(Box)({
     width: 'auto',
     height: 'auto',
   },
-});
+}));

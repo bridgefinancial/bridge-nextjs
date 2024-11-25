@@ -1,10 +1,16 @@
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import TitleText from '@/components/atoms/typography/TitleText';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import React from 'react';
 import { StyledTestimonial } from './TestimonialItem.styles';
 
+// preview compiled with 1 error
+// 62% building 2/3 entries 357/367 dependencies 1413/155 modulesWARN Failed to parse /Users/landonjohnson/dev-local/workplaces/bridge-financial/bridge-nextjs/src/components/organisms/MessageWithCTA/MessageWithCTA.component.tsx with react-docgen. Rerun Storybook with --loglevel=debug to get more info.
+// ERROR in ./src/components/organisms/MessageWithCTA/MessageWithCTA.component.tsx
+// Module build failed (from ./node_modules/@storybook/nextjs/dist/swc/next-swc-loader-patch.js):
+// Error:
 // Props Interface
 export interface TestimonialItemProps {
   quote: string; // The main testimonial text
@@ -20,6 +26,9 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({
   role,
   quoteImageSrc = '/assets/icons/quote-icon.svg',
 }) => {
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   // Construct alt text dynamically
   const altText: string = `Quote ${
     role ? `from ${role}` : ''
@@ -29,17 +38,26 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({
     <StyledTestimonial>
       <Box>
         <Box
-          sx={{ width: 38, height: 38, marginRight: 2 }}
+          sx={{
+            width: isMobile ? 38 / 1.5 : 38,
+            height: isMobile ? 38 / 1.5 : 38,
+            marginRight: isMobile ? 1 : 2,
+          }}
           className="quoteWrapper"
         >
-          <Image width={38} height={29} alt={altText} src={quoteImageSrc} />
+          <Image
+            width={isMobile ? 38 / 1.5 : 38}
+            height={isMobile ? 38 / 1.5 : 38}
+            alt={altText}
+            src={quoteImageSrc}
+          />
         </Box>
       </Box>
       <Box>
         {/* Quote Text */}
         <TitleText
           sx={{
-            fontSize: 24,
+            fontSize: isMobile ? 20 : 24,
             fontWeight: 800,
           }}
         >
@@ -49,7 +67,7 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({
         {/* Author and Role */}
         <ParagraphText
           sx={{
-            fontSize: 20,
+            fontSize: isMobile ? 16 : 20,
             marginTop: 1,
             fontWeight: 'bold',
           }}

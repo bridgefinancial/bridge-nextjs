@@ -8,9 +8,6 @@ import FeatureListItem from './FeatureListItem.component';
 const meta: Meta<typeof FeatureListItem> = {
   title: 'components/molecules/display-data/FeatureListItem',
   component: FeatureListItem,
-  argTypes: {
-    onClick: { action: 'clicked' }, // Logs actions for onClick
-  },
 };
 
 export default meta;
@@ -27,7 +24,7 @@ export const Example: Story = {
         }}
       />
     ),
-    onClick: () => console.log('Default item clicked'),
+    href: '#',
   },
 };
 
@@ -44,6 +41,6 @@ export const CallToAction: Story = {
       />
     ),
     isCallToAction: true,
-    onClick: () => console.log('Call-to-action item clicked'),
+    href: '#',
   },
 };

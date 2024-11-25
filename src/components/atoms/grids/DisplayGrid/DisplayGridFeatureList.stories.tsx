@@ -74,7 +74,7 @@ const sampleFeatureDataUsingImages: FeatureListItemProps[] = [
       />
     ),
     isCallToAction: true,
-    onClick: () => alert('Open up video modal'),
+    href: '#',
     text: 'What is a certified valuation?',
   },
 ];

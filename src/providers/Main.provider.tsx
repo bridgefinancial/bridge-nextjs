@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { ColorsProvider } from './Color.provider';
-import { LoggerStateProvider } from './LoggerProvider/Logger.provider';
+import LoggerStateProvider from './LoggerProvider/Logger.provider';
 import { ToastNotificationProvider } from './ToastNotification.provider';
 
 interface MainProviderProps {

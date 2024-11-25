@@ -5,6 +5,7 @@ import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import { colors } from '@/theme/theme';
 import { ArrowForward } from '@mui/icons-material';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type PageCTAProps = {
   imageSrc: string;
@@ -35,13 +36,14 @@ const PageCTA = ({
         </div>
       </div>
       <div className="w-full">
-        <ContainedButton
-          endIcon={<ArrowForward />}
-          text={buttonText}
-          href={buttonHref}
-          fullWidth
-          backgroundColor={colors.bridgeDarkPurple}
-        ></ContainedButton>
+        <Link href={buttonHref}>
+          <ContainedButton
+            endIcon={<ArrowForward />}
+            text={buttonText}
+            fullWidth
+            backgroundColor={colors.bridgeDarkPurple}
+          ></ContainedButton>
+        </Link>
       </div>
     </div>
   );

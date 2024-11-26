@@ -6,6 +6,7 @@ import { colors } from '@/theme/theme';
 import { BaseButtonProps } from '@/types/base-button-props.interface';
 import { BaseTypographyProps } from '@/types/base-typography-props.interface';
 import { SxProps } from '@mui/material';
+import CheckoutForm, { ProductKey } from '../Checkout/CheckoutForm';
 import {
   MessageWithCTAButtonWrap,
   MessageWithCTAIconWrap,
@@ -33,6 +34,7 @@ export interface CTAButtonProps extends BaseButtonProps {
   text: BaseButtonProps['text'];
   href?: BaseButtonProps['href'];
   endIcon?: React.ReactNode;
+  checkoutProductKey?: ProductKey;
 }
 
 // Default props for fallback values
@@ -105,7 +107,13 @@ function MessageWithCTA(props: MessageWithCTAProps) {
 
       {mergeButtonProps && ( // Render the button only if mergeButtonProps is not null
         <MessageWithCTAButtonWrap>
-          <ContainedButton {...mergeButtonProps} />
+          {mergeButtonProps.checkoutProductKey ? (
+            <CheckoutForm productKey={mergeButtonProps.checkoutProductKey}>
+              <ContainedButton type="submit" {...mergeButtonProps} />
+            </CheckoutForm>
+          ) : (
+            <ContainedButton {...mergeButtonProps} />
+          )}
         </MessageWithCTAButtonWrap>
       )}
     </MessageWithCTAWrap>

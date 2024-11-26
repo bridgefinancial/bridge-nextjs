@@ -88,7 +88,7 @@ const Dashboard = ({
             title="Get a Certified Valuation"
             description="A certified valuation offers an unbiased assessment of your business’s worth, perfect for planning or investment. This paid service delivers a reliable, professional report."
             buttonText="Get My Valuation"
-            buttonHref={routePaths.DASHBOARD}
+            buttonHref={routePaths.CERTIFIED_VALUATION}
           />
         </div>
         <div className="grow shrink basis-0">
@@ -97,7 +97,7 @@ const Dashboard = ({
             title="Business Optimization"
             description="Our business optimization service aims to streamline operations, reduce costs, and support growth, offered as a paid service."
             buttonText="Start Optimizing"
-            buttonHref={routePaths.DASHBOARD}
+            buttonHref={routePaths.OPTIMIZATION_PACKAGE}
           />
         </div>
         <div className="grow shrink basis-0">
@@ -106,7 +106,7 @@ const Dashboard = ({
             title="Sell My Business"
             description="Get expert support to maximize your business’s value while we connect you with potential buyers. Start the journey."
             buttonText="Connect with an Advisor"
-            buttonHref={routePaths.DASHBOARD}
+            buttonHref={routePaths.SELLER_READINESS_PACKAGE}
           />
         </div>
       </div>

@@ -1,8 +1,14 @@
 import { BASE_URL } from '@/services/authorized-request.service';
 import { ReactNode } from 'react';
 
+export enum ProductKey {
+  CertifiedValuation = 'certified_valuation',
+  OptimizationPackage = 'optimization_package',
+  SellerReadinessPackage = 'seller_readiness_package',
+}
+
 export type CreateCheckoutSessionVariables = {
-  productKey: 'certified_valuation';
+  productKey: ProductKey;
   successUrl?: string;
   cancelUrl?: string;
 };

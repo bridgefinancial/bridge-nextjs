@@ -14,7 +14,7 @@ const SCHEDULED_EVENT_TIME_LOCAL_STORAGE_KEY = 'calendly_scheduled_event_time';
 const DAYS_AFTER_SCHEDULING_TO_HIDE_CALENDAR = 14;
 
 export const CALENDLY_LINK =
-  'https://calendly.com/jimmy-choi-bridge/consultation-to-buy-a-business';
+  'https://calendly.com/jimmy-choi-bridge/sell-buy-optimize-a-business-consulation';
 
 const Calendar = ({ user }: CalendarProps) => {
   const [height, setHeight] = useState('900px');

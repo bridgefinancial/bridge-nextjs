@@ -75,6 +75,15 @@ export enum QuestionnaireRoutes {
 }
 
 /**
+ * Enum defining the offer routes.
+ */
+export enum OfferRoutes {
+  CERTIFIED_VALUATION = '/offer/certified_valuation',
+  OPTIMIZATION_PACKAGE = '/offer/optimize',
+  SELLER_READINESS_PACKAGE = '/offer/sell',
+}
+
+/**
  * Object combining all the route paths from BaseRoutes, AuthRoutes, and PortalRoutes.
  * This consolidated object provides a single source of truth for all route paths in the application.
  *
@@ -86,6 +95,7 @@ export const routePaths = {
   ...AuthRoutes,
   ...PortalRoutes,
   ...QuestionnaireRoutes,
+  ...OfferRoutes,
 };
 
 /**

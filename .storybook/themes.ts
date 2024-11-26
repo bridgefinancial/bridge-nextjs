@@ -22,9 +22,9 @@ export const lightTheme: ThemeVars = {
   inputBorderRadius: 8,
   colorPrimary: colors.bridgeDarkPurple, // Primary accent color
   colorSecondary: colors.bridgeDarkOrange, // Secondary accent color
-  appBg: 'transparent',
-  inputTextColor: 'white',
-  appPreviewBg: 'transparent', // Light preview background
+  appBg: '#ffffff',
+  inputTextColor: '#ffffff',
+  appPreviewBg: 'white', // Light preview background
   textInverseColor: '#ffffff', // Text color for dark elements
   buttonBg: colors.bridgeDarkPurple, // Background color for buttons
   buttonBorder: colors.bridgeDarkPurple, // Border color for buttons

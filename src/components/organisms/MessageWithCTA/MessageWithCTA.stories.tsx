@@ -40,6 +40,41 @@ export default meta;
 
 type Story = StoryObj<typeof MessageWithCTA>;
 
+export const Default: Story = {
+  args: {
+    titleProps: {
+      titleText: 'Discover your business’s worth',
+    },
+    paragraphProps: {
+      paragraphText: 'Get a Bridge Certified Valuation for $1,999.',
+
+      paragraphStyles: {
+        color: 'white',
+        sx: {
+          color: 'white',
+        },
+        fontWeight: '800',
+      },
+    },
+    buttonProps: {
+      text: 'Order Certified Valuation',
+      endIcon: <ArrowRight />,
+      onClick: () => alert('Learn More clicked!'),
+      textProps: {
+        fontWeight: 800,
+      },
+    },
+    icon: (
+      <Image
+        width={57.93}
+        height={62.37}
+        alt="Bridge Financial Shield"
+        src={'/assets/icons/bridge-shield-icon.png'}
+      />
+    ),
+  },
+};
+
 export const CustomStyles: Story = {
   args: {
     titleProps: {
@@ -73,30 +108,6 @@ export const WithoutIcon: Story = {
       onClick: () => alert('No icon button clicked!'),
     },
     icon: null, // No icon in this variant
-  },
-};
-
-export const Default: Story = {
-  args: {
-    titleProps: {
-      titleText: 'Discover your business’s worth',
-    },
-    paragraphProps: {
-      paragraphText: 'Get a Bridge Certified Valuation for $1,999.',
-    },
-    buttonProps: {
-      text: 'Order Certified Valuation',
-      endIcon: <ArrowRight />,
-      onClick: () => alert('Learn More clicked!'),
-    },
-    icon: (
-      <Image
-        width={57.93}
-        height={62.37}
-        alt="Bridge Financial Shield"
-        src={'/assets/icons/bridge-shield-icon.png'}
-      />
-    ),
   },
 };
 

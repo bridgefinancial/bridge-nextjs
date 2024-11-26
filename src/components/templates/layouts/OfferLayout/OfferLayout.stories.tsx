@@ -83,8 +83,8 @@ const sampleFeatureDataUsingImages = [
     icon: (
       <Image
         alt="video-play-icon"
-        width={18}
-        height={18}
+        width={25}
+        height={25}
         src="/assets/icons/video-play-favicon.svg"
       />
     ),

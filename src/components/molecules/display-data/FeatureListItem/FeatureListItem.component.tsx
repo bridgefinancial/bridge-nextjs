@@ -35,7 +35,9 @@ const FeatureListItem: React.FC<FeatureListItemProps> = ({
         ...containerStyle, // Merge custom container styles
       }}
     >
-      <FeatureIconWrapper>{icon}</FeatureIconWrapper>
+      <FeatureIconWrapper isCallToAction={isCallToAction}>
+        {icon}
+      </FeatureIconWrapper>
 
       <ParagraphText
         variant={textVariant}

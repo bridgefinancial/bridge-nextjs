@@ -42,7 +42,7 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
               src="/assets/icons/checkmark-circle-icon.svg"
             />
           ),
-          text: '48-Hour Turnaround certified valuation.',
+          text: '48-Hour turnaround certified valuations.',
         },
         {
           icon: (
@@ -64,7 +64,7 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
               src="/assets/icons/checkmark-circle-icon.svg"
             />
           ),
-          text: 'Direct access to CPAs and valuators .',
+          text: 'Direct access to CPAs and valuators.',
         },
         {
           icon: (
@@ -292,7 +292,7 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
           ),
           isCallToAction: true,
           href: `?${OPEN_VIDEO_SEARCH_PARAM_KEY}=t`,
-          text: 'How does the selling processs work?',
+          text: 'How does the selling process work?',
         },
       ],
       testimonials: [

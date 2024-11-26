@@ -58,7 +58,7 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
 
   useEffect(() => {
     if (desktopBarRef.current) {
-      setLayoutContentHeight(`calc(100vh)`);
+      setLayoutContentHeight('calc(100vh)');
     }
   }, []);
 

@@ -1,6 +1,6 @@
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import { BaseTypographyProps } from "@/types/base-typography-props.interface";
-import { CloseOutlined } from "@mui/icons-material";
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import { BaseTypographyProps } from '@/types/base-typography-props.interface';
+import { CloseOutlined } from '@mui/icons-material';
 import {
   Box,
   Dialog,
@@ -10,15 +10,15 @@ import {
   IconButton,
   SxProps,
   Theme,
-} from "@mui/material";
-import React, { useMemo } from "react";
+} from '@mui/material';
+import React, { useMemo } from 'react';
 
 export interface BaseDialogProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
   actions?: React.ReactNode;
-  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number; // Allow custom pixel values as well
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number; // Allow custom pixel values as well
   fullWidth?: boolean;
   titleProps?: {
     titleText: string;
@@ -34,19 +34,19 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   children,
   actions,
   titleProps = {
-    titleText: "",
+    titleText: '',
     titleStyles: {
       fontWeight: 400,
     },
   },
   paperStyles = {},
-  maxWidth = "sm",
+  maxWidth = 'sm',
   fullWidth = false,
   ariaDescribedBy,
 }) => {
   const { titleText, titleStyles } = titleProps;
   const memoizedMaxWidth = useMemo(
-    () => (typeof maxWidth === "number" ? `${maxWidth}px` : undefined),
+    () => (typeof maxWidth === 'number' ? `${maxWidth}px` : undefined),
     [maxWidth],
   );
 
@@ -54,10 +54,10 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth={typeof maxWidth === "number" ? false : maxWidth}
+      maxWidth={typeof maxWidth === 'number' ? false : maxWidth}
       PaperProps={{
         sx: {
-          borderRadius: "20px", // Correctly applying border-radius here
+          borderRadius: '20px', // Correctly applying border-radius here
           maxWidth: memoizedMaxWidth,
           ...paperStyles, // Apply any additional styles passed in props
         },
@@ -69,9 +69,9 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
       <DialogTitle
         id={`base-dialog-title-${ariaDescribedBy}`}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center", // Center align the items
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center', // Center align the items
         }}
       >
         <ParagraphText sx={{ margin: 0, padding: 0, ...titleStyles }}>

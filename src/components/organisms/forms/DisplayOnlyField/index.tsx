@@ -1,1 +1,1 @@
-export { default } from "./DisplayOnlyField.component";
+export { default } from './DisplayOnlyField.component';

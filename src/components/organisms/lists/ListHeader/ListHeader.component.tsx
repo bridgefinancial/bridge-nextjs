@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { Box, SxProps, useMediaQuery, useTheme, Grid } from "@mui/material";
+import React, { useMemo } from 'react';
+import { Box, SxProps, useMediaQuery, useTheme, Grid } from '@mui/material';
 
-import useMergeStyles from "@/hooks/useMergeStyles.hook";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
+import useMergeStyles from '@/hooks/useMergeStyles.hook';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
 
 interface Column {
   text: string;
@@ -26,7 +26,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
   const { columns } = props;
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const renderColumns = useMemo(() => {
     if (isMobile) {
@@ -46,7 +46,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
   return (
     <Grid
       sx={{
-        padding: isMobile ? 0 : "16px",
+        padding: isMobile ? 0 : '16px',
       }}
       container={true}
       alignItems="center"

@@ -1,14 +1,14 @@
-"use client";
-import React from "react";
-import { Box } from "@mui/material";
-import BasicInfoForm from "./BasicInfoForm/BasicInfoForm.component";
-import ChangePasswordForm from "./ChangePasswordForm";
-import MappedTabs from "@/components/molecules/tabs/MappedTabs";
+'use client';
+import React from 'react';
+import { Box } from '@mui/material';
+import BasicInfoForm from './BasicInfoForm/BasicInfoForm.component';
+import ChangePasswordForm from './ChangePasswordForm';
+import MappedTabs from '@/components/molecules/tabs/MappedTabs';
 
 export default function SettingsTabs() {
   const tabs = [
-    { label: "Basic Info", content: <BasicInfoForm /> },
-    { label: "Change Password", content: <ChangePasswordForm /> },
+    { label: 'Basic Info', content: <BasicInfoForm /> },
+    { label: 'Change Password', content: <ChangePasswordForm /> },
   ];
 
   return (

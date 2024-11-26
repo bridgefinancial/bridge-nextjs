@@ -1,12 +1,12 @@
-import React from "react";
-import { Box } from "@mui/material";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import TitleText from "@/components/atoms/typography/TitleText";
-import ToastNotification from "@/components/molecules/feedback/ToastNotification";
-import { colors } from "@/theme/theme";
-import { PersonalInfoFormReturn } from "../../../../hooks/usePersonalInfoForm.hook";
+import React from 'react';
+import { Box } from '@mui/material';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TitleText from '@/components/atoms/typography/TitleText';
+import ToastNotification from '@/components/molecules/feedback/ToastNotification';
+import { colors } from '@/theme/theme';
+import { PersonalInfoFormReturn } from '../../../../hooks/usePersonalInfoForm.hook';
 
 /**
  * A form component for managing personal information like name, email, and phone number.
@@ -54,8 +54,8 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         gap: 1,
         maxWidth: 430,
         paddingTop: 4,
@@ -64,8 +64,8 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       {/* Personal Info Header */}
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 0.5,
           marginBottom: 0.1,
         }}
@@ -143,19 +143,19 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       />
 
       {/* Save Changes Button */}
-      <Box sx={{ alignSelf: "flex-end" }}>
+      <Box sx={{ alignSelf: 'flex-end' }}>
         <ContainedButton
           textProps={{
             sx: {
-              fontWeight: "bold",
-              color: "white",
+              fontWeight: 'bold',
+              color: 'white',
               fontSize: 14,
             },
           }}
           disabled={isPending}
           fullWidth={true}
           backgroundColor={colors.bridgeDarkPurple}
-          text={<strong>Save Chang{isPending ? "ing" : "e"}</strong>}
+          text={<strong>Save Chang{isPending ? 'ing' : 'e'}</strong>}
           type="submit"
         />
       </Box>
@@ -164,13 +164,13 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       <ToastNotification
         setOpen={setToastOpen}
         open={toastOpen}
-        severity={isSuccess ? "success" : isError ? "error" : "info"}
+        severity={isSuccess ? 'success' : isError ? 'error' : 'info'}
         message={
           isSuccess
-            ? "Profile Updated Successfully"
+            ? 'Profile Updated Successfully'
             : isError
-              ? "Failed to update profile."
-              : "Updating..."
+              ? 'Failed to update profile.'
+              : 'Updating...'
         }
       />
     </Box>

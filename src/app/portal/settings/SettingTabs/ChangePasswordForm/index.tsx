@@ -1,1 +1,1 @@
-export { default } from "./ChangePasswordForm.component";
+export { default } from './ChangePasswordForm.component';

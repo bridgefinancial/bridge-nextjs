@@ -1,1 +1,1 @@
-export { default } from "./GradientBox.component";
+export { default } from './GradientBox.component';

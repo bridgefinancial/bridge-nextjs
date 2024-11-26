@@ -7,12 +7,12 @@ export interface FormState<TFormValues> {
 // Type definition for FormAction with dynamic value handling
 export type FormAction<TFormValues> =
   | {
-      type: "SET_FIELD";
+      type: 'SET_FIELD';
       field: keyof TFormValues;
       value: TFormValues[keyof TFormValues];
     }
-  | { type: "SET_ERRORS"; errors: Partial<Record<keyof TFormValues, string>> }
-  | { type: "RESET_FORM"; values: TFormValues };
+  | { type: 'SET_ERRORS'; errors: Partial<Record<keyof TFormValues, string>> }
+  | { type: 'RESET_FORM'; values: TFormValues };
 
 // Generic reducer function for form state management
 export function formReducer<TFormValues>(
@@ -20,7 +20,7 @@ export function formReducer<TFormValues>(
   action: FormAction<TFormValues>,
 ): FormState<TFormValues> {
   switch (action.type) {
-    case "SET_FIELD": {
+    case 'SET_FIELD': {
       return {
         ...state,
         formValues: {
@@ -30,14 +30,14 @@ export function formReducer<TFormValues>(
       };
     }
 
-    case "SET_ERRORS": {
+    case 'SET_ERRORS': {
       return {
         ...state,
         formErrors: action.errors,
       };
     }
 
-    case "RESET_FORM": {
+    case 'RESET_FORM': {
       return {
         ...state,
         formValues: action.values,

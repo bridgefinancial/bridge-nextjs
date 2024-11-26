@@ -1,8 +1,8 @@
-import React from "react";
-import { useCompanyForm } from "@/hooks/useCompanyForm.hook";
-import CompanyInfoForm from "@/components/organisms/forms/CompanyInfoForm/";
-import { usePersonalInfoForm } from "@/hooks/usePersonalInfoForm.hook";
-import PersonalInfoForm from "@/components/organisms/forms/PersonalInfoForm/PersonalInfoForm.component";
+import React from 'react';
+import { useCompanyForm } from '@/hooks/useCompanyForm.hook';
+import CompanyInfoForm from '@/components/organisms/forms/CompanyInfoForm/';
+import { usePersonalInfoForm } from '@/hooks/usePersonalInfoForm.hook';
+import PersonalInfoForm from '@/components/organisms/forms/PersonalInfoForm/PersonalInfoForm.component';
 
 const BasicInfoForm: React.FC = () => {
   // const companyFormData = useCompanyForm();

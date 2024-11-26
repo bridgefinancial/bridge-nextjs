@@ -1,21 +1,21 @@
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import TitleText from "@/components/atoms/typography/TitleText";
-import { BaseButtonProps } from "@/types/base-button-props.interface";
-import React from "react";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import TitleText from '@/components/atoms/typography/TitleText';
+import { BaseButtonProps } from '@/types/base-button-props.interface';
+import React from 'react';
 import BaseDialog, {
   BaseDialogProps,
-} from "../BaseDialog/BaseDialog.component";
+} from '../BaseDialog/BaseDialog.component';
 
 export interface ConfirmationDialog {
-  open: BaseDialogProps["open"];
+  open: BaseDialogProps['open'];
   onClose: () => void;
   onCancelButtonProps: BaseButtonProps;
   onConfirmButtonProps: BaseButtonProps;
   messageText: string;
-  ariaDescribedBy?: BaseDialogProps["ariaDescribedBy"];
-  maxWidth?: BaseDialogProps["maxWidth"];
-  fullWidth?: BaseDialogProps["fullWidth"];
-  titleProps: BaseDialogProps["titleProps"];
+  ariaDescribedBy?: BaseDialogProps['ariaDescribedBy'];
+  maxWidth?: BaseDialogProps['maxWidth'];
+  fullWidth?: BaseDialogProps['fullWidth'];
+  titleProps: BaseDialogProps['titleProps'];
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialog> = (
@@ -23,20 +23,20 @@ const ConfirmationDialog: React.FC<ConfirmationDialog> = (
 ) => {
   const {
     titleProps = {
-      titleText: "",
+      titleText: '',
       titleStyles: {
         fontWeight: 400,
       },
     },
-    ariaDescribedBy = "cd",
+    ariaDescribedBy = 'cd',
     onConfirmButtonProps = {
-      text: "Save",
+      text: 'Save',
     },
-    messageText = "Are you sure?",
-    maxWidth = "sm",
+    messageText = 'Are you sure?',
+    maxWidth = 'sm',
     fullWidth = true,
     onCancelButtonProps = {
-      text: "Cancel",
+      text: 'Cancel',
     },
     onClose,
     open = true,
@@ -56,10 +56,10 @@ const ConfirmationDialog: React.FC<ConfirmationDialog> = (
       titleProps={titleProps}
     >
       <TitleText
-        component={"h1"}
+        component={'h1'}
         sx={{
           fontSize: 20,
-          textAlign: "center",
+          textAlign: 'center',
         }}
       >
         {messageText}

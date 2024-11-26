@@ -1,9 +1,9 @@
-import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import { useImprovementArea } from "@/services/recommendations.service";
-import { Book, Close } from "@mui/icons-material";
-import { Dialog, DialogContent, useMediaQuery, useTheme } from "@mui/material";
-import React, { useMemo } from "react";
-import "./ImprovementAreaDialog.scss";
+import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
+import { useImprovementArea } from '@/services/recommendations.service';
+import { Book, Close } from '@mui/icons-material';
+import { Dialog, DialogContent, useMediaQuery, useTheme } from '@mui/material';
+import React, { useMemo } from 'react';
+import './ImprovementAreaDialog.scss';
 
 type ImprovementAreaDialogProps = {
   open: boolean;
@@ -18,7 +18,7 @@ const ImprovementAreaDialog = ({
 }: ImprovementAreaDialogProps) => {
   // THEME
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // QUERIES
   const { data: improvementArea, isLoading } = useImprovementArea({
@@ -30,7 +30,7 @@ const ImprovementAreaDialog = ({
     if (!improvementArea) {
       return [];
     }
-    return improvementArea.how_it_impacts.split(". ");
+    return improvementArea.how_it_impacts.split('. ');
   }, []);
 
   return (

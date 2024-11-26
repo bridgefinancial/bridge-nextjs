@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import BlueprintComponent from "./BluePrintCard";
+import React, { Suspense } from 'react';
+import BlueprintComponent from './BluePrintCard';
 
 export default function BlueprintPage() {
   return (

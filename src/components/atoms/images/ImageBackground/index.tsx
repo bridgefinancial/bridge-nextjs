@@ -1,1 +1,1 @@
-export { default } from "./ImageBackground.component";
+export { default } from './ImageBackground.component';

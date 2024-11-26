@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
-import { useRouter } from "next/navigation"; // Import the useRouter from next/navigation for app router
-import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import LandingLayout from "@/components/templates/layouts/LandingLayout";
-import { routePaths } from "@/types/routes.enum";
-import { useSessionUser } from "@/services/users.service";
-import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
+'use client';
+import React from 'react';
+import { useRouter } from 'next/navigation'; // Import the useRouter from next/navigation for app router
+import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
+import LandingLayout from '@/components/templates/layouts/LandingLayout';
+import { routePaths } from '@/types/routes.enum';
+import { useSessionUser } from '@/services/users.service';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
 
 export default function Home() {
   const { data: user, isLoading } = useSessionUser();
@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <LandingLayout>
-      <CardWithTitle titleProps={{ text: "" }}>
+      <CardWithTitle titleProps={{ text: '' }}>
         <div className="w-full h-full flex items-center justify-center">
           <LoadingSpinner />
         </div>

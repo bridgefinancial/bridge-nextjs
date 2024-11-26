@@ -1,7 +1,7 @@
-"use client";
-import React, { Suspense } from "react";
-import { ValuationEstimate } from "./ValuationEstimate/ValuationEstimate.component";
-import { useSessionUser } from "@/services/users.service";
+'use client';
+import React, { Suspense } from 'react';
+import { ValuationEstimate } from './ValuationEstimate/ValuationEstimate.component';
+import { useSessionUser } from '@/services/users.service';
 
 // Page component
 export default function ValuationEstimatePage() {

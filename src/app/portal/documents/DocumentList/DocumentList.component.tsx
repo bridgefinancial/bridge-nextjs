@@ -1,10 +1,11 @@
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import DocumentIcon from '@/components/atoms/images/DocumentIcon/DocumentIcon.component';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import ConfirmationDialog from '@/components/molecules/dialogs/ConfirmationDialog';
 import UploadDialog from '@/components/molecules/dialogs/UploadDialog';
 import ToastNotification from '@/components/molecules/feedback/ToastNotification';
-import ListHeader from '@/components/molecules/lists/ListHeader';
-import ListItemWithActions from '@/components/molecules/lists/ListItemWithActions/ListItemWithActions.component';
+import ListHeader from '@/components/organisms/lists/ListHeader';
+import ListItemWithActions from '@/components/organisms/lists/ListItemWithActions/ListItemWithActions.component';
 import {
   useDeleteFileMutation,
   useUploadDocumentsMutation,
@@ -245,7 +246,7 @@ const DocumentList = forwardRef(
                     <Delete />
                   </IconButton>,
                 ]}
-                iconSrc={getDocumentIconSrcFromFileName(document.description)}
+                icon={<DocumentIcon fileName={document.description} />}
               />
             ))}
           </Paper>
@@ -298,13 +299,3 @@ const DocumentList = forwardRef(
 );
 
 export default DocumentList;
-
-export const getDocumentIconSrcFromFileName = (fileName: string) => {
-  console.log(fileName);
-  if (fileName.endsWith('csv')) {
-    return '/assets/images/csv-file-icon.png';
-  } else if (fileName.endsWith('docx')) {
-    return '/assets/images/docx-file-icon.png';
-  }
-  return '/assets/images/pdf-file-icon.png';
-};

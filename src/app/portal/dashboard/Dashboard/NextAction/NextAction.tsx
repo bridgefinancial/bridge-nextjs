@@ -1,11 +1,11 @@
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import { Recommendation } from "@/types/recommendations.types";
-import { routePaths } from "@/types/routes.enum";
-import { useRouter } from "next/navigation";
-import React from "react";
-import "./NextAction.scss";
-import { colors } from "@/theme/theme";
-import { ArrowForward } from "@mui/icons-material";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import { Recommendation } from '@/types/recommendations.types';
+import { routePaths } from '@/types/routes.enum';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import './NextAction.scss';
+import { colors } from '@/theme/theme';
+import { ArrowForward } from '@mui/icons-material';
 
 type NextActionProps = {
   recommendations?: Recommendation[];

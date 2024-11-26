@@ -1,20 +1,33 @@
-import { getDocumentIconSrcFromFileName } from '@/app/portal/documents/DocumentList/DocumentList.component';
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
 import TextButton from '@/components/atoms/buttons/TextButton/TextButton.component';
+import DocumentIcon from '@/components/atoms/images/DocumentIcon/DocumentIcon.component';
 import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
 import { WithLoggingOptions } from '@/hoc/withLogging/withLogging.hoc';
 import { colors } from '@/theme/theme';
 import { CompanyFile } from '@/types/users.types';
 import { CheckCircle } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Grid, List } from '@mui/material';
+import { Box, Grid, List, SxProps, Theme } from '@mui/material';
 import { File } from 'buffer';
 import React, { ChangeEvent, FormEvent, forwardRef, useMemo } from 'react'; // Use ChangeEvent instead of SyntheticEvent
 import { BaseTypographyProps } from '../../../../types/base-typography-props.interface';
-import ListItemWithStatus from '../../lists/ListItemWithStatus';
+import UploadBox from '../../../organisms/forms/UploadBox/UploadBox.component';
+import ListItemWithStatus from '../../../organisms/lists/ListItemWithStatus';
 import BaseDialog from '../BaseDialog';
-import { BaseDialogProps } from '../BaseDialog/BaseDialog.component';
-import Upload from './Upload';
+export interface BaseDialogProps {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  actions?: React.ReactNode;
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number; // Allow custom pixel values as well
+  fullWidth?: boolean;
+  titleProps?: {
+    titleText: string;
+    titleStyles?: BaseTypographyProps;
+  };
+  paperStyles?: SxProps<Theme>;
+  ariaDescribedBy: string; // Required ID for `aria-labelledby`
+}
 
 export interface UploadDialogProps
   extends Partial<BaseDialogProps>,
@@ -130,7 +143,7 @@ const UploadDialog = forwardRef(
           onClose={onClose}
           actions={dialogActions}
         >
-          <Upload
+          <UploadBox
             supportedFormats={supportedFormats}
             onFileChange={onFileChange}
             onUploadClicked={onUploadClicked}
@@ -186,7 +199,7 @@ const UploadDialog = forwardRef(
                             <CloseIcon />
                           )
                         }
-                        iconSrc={getDocumentIconSrcFromFileName(file.name)}
+                        iconSrc={<DocumentIcon fileName={file.name} />}
                         subtitle={formatFileSize(file.size)}
                       />
                     );
@@ -194,7 +207,7 @@ const UploadDialog = forwardRef(
                 </List>
               </Box>
             )}
-          </Upload>
+          </UploadBox>
         </BaseDialog>
       </form>
     );

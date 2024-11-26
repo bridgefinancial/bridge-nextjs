@@ -40,6 +40,13 @@ export enum AuthRoutes {
  *
  * @enum {string}
  */
+
+/**
+ * Enum defining the portal-related routes.
+ * These routes are specific to the portal section of the application, which might include user dashboards, settings, etc.
+ *
+ * @enum {string}
+ */
 export enum PortalRoutes {
   DASHBOARD = '/portal/dashboard',
   BLUEPRINT = '/portal/blueprint',
@@ -68,6 +75,15 @@ export enum QuestionnaireRoutes {
 }
 
 /**
+ * Enum defining the offer routes.
+ */
+export enum OfferRoutes {
+  CERTIFIED_VALUATION = '/offer/certified_valuation',
+  OPTIMIZATION_PACKAGE = '/offer/optimize',
+  SELLER_READINESS_PACKAGE = '/offer/sell',
+}
+
+/**
  * Object combining all the route paths from BaseRoutes, AuthRoutes, and PortalRoutes.
  * This consolidated object provides a single source of truth for all route paths in the application.
  *
@@ -79,6 +95,7 @@ export const routePaths = {
   ...AuthRoutes,
   ...PortalRoutes,
   ...QuestionnaireRoutes,
+  ...OfferRoutes,
 };
 
 /**

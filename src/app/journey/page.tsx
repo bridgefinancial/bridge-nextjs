@@ -41,7 +41,7 @@ const JourneyPage = () => {
   return (
     <>
       <Container>
-        <TitleText className='text-3xl text-center'>
+        <TitleText className="text-3xl text-center">
           How can we assist you in growing your business?
         </TitleText>
       </Container>

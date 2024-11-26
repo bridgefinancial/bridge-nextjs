@@ -1,6 +1,6 @@
-import React from "react";
-import ImprovementArea from "./ImprovementArea/ImprovementArea";
-import { notFound } from "next/navigation";
+import React from 'react';
+import ImprovementArea from './ImprovementArea/ImprovementArea';
+import { notFound } from 'next/navigation';
 
 const ImprovementAreaPage = ({
   params,

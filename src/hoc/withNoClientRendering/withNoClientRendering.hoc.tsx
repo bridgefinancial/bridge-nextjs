@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 /**
  * A Higher-Order Component (HOC) that ensures the wrapped component does not run on the client side.
@@ -17,17 +17,17 @@ const withNoClientRendering = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
 ) => {
   const ServerOnlyWrapper = (props: P) => {
-    if (typeof window !== "undefined") {
-      console.error("This component should not run on the client side.");
+    if (typeof window !== 'undefined') {
+      console.error('This component should not run on the client side.');
       throw new Error(
-        "Client-side features are being used in a server-side component.",
+        'Client-side features are being used in a server-side component.',
       );
     }
 
     return <WrappedComponent {...props} />;
   };
 
-  ServerOnlyWrapper.displayName = `withNoClientRendering(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
+  ServerOnlyWrapper.displayName = `withNoClientRendering(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
   return ServerOnlyWrapper;
 };

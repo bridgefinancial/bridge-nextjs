@@ -5,7 +5,7 @@ export interface DialogReducerState {
 }
 
 export interface DialogReducerAction {
-  type: "OPEN" | "CLOSE" | "SET_FIELD";
+  type: 'OPEN' | 'CLOSE' | 'SET_FIELD';
   payload?: Record<any, any>;
   field?: string;
   value?: any;
@@ -16,11 +16,11 @@ export const dialogReducer = (
   action: DialogReducerAction,
 ): DialogReducerState => {
   switch (action.type) {
-    case "OPEN":
+    case 'OPEN':
       return { open: true, data: action.payload || {} }; // Set data when opening
-    case "CLOSE":
+    case 'CLOSE':
       return { open: false, data: {} }; // Clear data when closing
-    case "SET_FIELD": {
+    case 'SET_FIELD': {
       return {
         ...state,
         data: {

@@ -1,5 +1,5 @@
-import React from "react";
-import Head from "next/head";
+import React from 'react';
+import Head from 'next/head';
 
 interface PageMetaDataProps {
   companyName?: string;
@@ -16,9 +16,9 @@ interface PageMetaDataProps {
 
 export function PageMetaData(props: PageMetaDataProps) {
   const {
-    companyName = "Bridge Financial",
-    pageName = "",
-    description = "Bridge offers expert consulting, real-time business valuation, and technology solutions to optimize and sell your business for maximum value.",
+    companyName = 'Bridge Financial',
+    pageName = '',
+    description = 'Bridge offers expert consulting, real-time business valuation, and technology solutions to optimize and sell your business for maximum value.',
     keywords,
     author,
     ogTitle,
@@ -29,7 +29,7 @@ export function PageMetaData(props: PageMetaDataProps) {
   } = props;
 
   // Combine companyName and pageName to create the title
-  const combinedTitle = `${companyName}${pageName ? ` - ${pageName}` : ""}`;
+  const combinedTitle = `${companyName}${pageName ? ` - ${pageName}` : ''}`;
 
   // Limit description length
   const truncatedDescription =

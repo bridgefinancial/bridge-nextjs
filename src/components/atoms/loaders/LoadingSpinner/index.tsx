@@ -1,1 +1,1 @@
-export { default } from "./LoadingSpinner.component";
+export { default } from './LoadingSpinner.component';

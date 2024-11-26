@@ -1,8 +1,8 @@
 // components/Layout.tsx
 
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
-import LandingLayout from "@/components/templates/layouts/LandingLayout/LandingLayout.component";
+import LandingLayout from '@/components/templates/layouts/LandingLayout/LandingLayout.component';
 interface LayoutProps {
   children: ReactNode;
 }

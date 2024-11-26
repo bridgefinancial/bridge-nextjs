@@ -1,9 +1,9 @@
-import React from "react";
-import { useRouter } from "next/navigation";
-import { useSessionUser } from "@/services/users.service";
-import { routePaths } from "@/types/routes.enum";
-import "./Valuation.scss";
-import Link from "next/link";
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useSessionUser } from '@/services/users.service';
+import { routePaths } from '@/types/routes.enum';
+import './Valuation.scss';
+import Link from 'next/link';
 
 const Valuation = () => {
   // HOOKS
@@ -35,7 +35,7 @@ const Valuation = () => {
 
       <div className="flex w-full flex-col gap-4">
         <p className="text-sm font-medium text-gray-500">
-          * based on reported revenue and an industry multiple of{" "}
+          * based on reported revenue and an industry multiple of{' '}
           {industry?.revenue_multiple} ({industry?.name?.toLowerCase()})
         </p>
         <div className="quadruple-gradient h-1 w-full rounded-full" />

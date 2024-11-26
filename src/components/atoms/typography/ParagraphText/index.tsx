@@ -1,1 +1,1 @@
-export { default } from "./ParagraphText.component";
+export { default } from './ParagraphText.component';

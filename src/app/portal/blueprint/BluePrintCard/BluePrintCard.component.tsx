@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import GradientBox from "@/components/atoms/containers/GradientBox";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import TitleText from "@/components/atoms/typography/TitleText";
-import { colors } from "@/theme/theme";
-import { ArrowForward } from "@mui/icons-material";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import GradientBox from '@/components/atoms/containers/GradientBox';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TitleText from '@/components/atoms/typography/TitleText';
+import { colors } from '@/theme/theme';
+import { ArrowForward } from '@mui/icons-material';
 // import React from 'react';linear-gradient(234.13deg, #fb9f1e 5.37%, #a395f7 30.76%, #6ba0f1 69.06%, #bce762 91.78%);
 
 const BluePrintCard = () => {
@@ -13,13 +13,13 @@ const BluePrintCard = () => {
     <div className="w-full flex items-center justify-center pt-16">
       <GradientBox
         containerStyle={{ padding: 0.2, borderRadius: 22 }}
-        direction={"234.13deg"}
+        direction={'234.13deg'}
         colors={[
-          "#fb9f1e 5.37%",
-          "#a395f7 30.76%",
-          "#6ba0f1 69.06%",
-          "#6ba0f1 69.06%",
-          "#bce762 91.78%",
+          '#fb9f1e 5.37%',
+          '#a395f7 30.76%',
+          '#6ba0f1 69.06%',
+          '#6ba0f1 69.06%',
+          '#bce762 91.78%',
         ]}
       >
         <div className="gradient-border p-[2px]">
@@ -34,7 +34,7 @@ const BluePrintCard = () => {
                 sx={{
                   fontSize: 24,
                 }}
-                component={"h2"}
+                component={'h2'}
               >
                 A blueprint made just for you.
               </TitleText>
@@ -53,7 +53,7 @@ const BluePrintCard = () => {
               className="mat-flat-button text-white bg-primary px-4 py-2 rounded-md flex items-center gap-2"
             >
               <ContainedButton
-                text={"Contact us to get a blueprint"}
+                text={'Contact us to get a blueprint'}
                 backgroundColor={colors.bridgeDarkPurple}
                 endIcon={<ArrowForward />}
               />

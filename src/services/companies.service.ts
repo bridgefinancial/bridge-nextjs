@@ -1,10 +1,10 @@
-import { Company } from "@/types/users.types";
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
-import { fetchWithAuth } from "./authorized-request.service";
+import { Company } from '@/types/users.types';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { fetchWithAuth } from './authorized-request.service';
 
 type UpdateCompanyRequest = {
   attributes: Partial<Company>;
-  id: Company["id"];
+  id: Company['id'];
 };
 
 export const useUpdateCompany = (): UseMutationResult<
@@ -25,9 +25,9 @@ export const updateCompany = async ({
   const url = `/api/companies/${id}/`;
 
   const response = await fetchWithAuth(url, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed, like Authorization
     },
     body: JSON.stringify(attributes),
@@ -50,12 +50,12 @@ export const createCompany = async ({
   name,
   industry,
 }: CreateCompanyRequest) => {
-  const url = `/api/companies/`;
+  const url = '/api/companies/';
 
   const response = await fetchWithAuth(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Include other headers if needed, like Authorization
     },
     body: JSON.stringify({

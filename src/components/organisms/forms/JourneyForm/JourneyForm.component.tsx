@@ -26,7 +26,7 @@ const JourneyForm = ({ choices }: JourneyFormProps) => {
 
   return (
     <>
-      <Container className='flex flex-wrap items-center content-start justify-start h-full gap-6 mt-12 sm:px-16 sm:justify-center lg:gap-12'>
+      <Container className="flex flex-wrap items-center content-start justify-start h-full gap-6 mt-12 sm:px-16 sm:justify-center lg:gap-12">
         {Object.keys(choices).map((c) => (
           <IconCard
             onClick={() => setChoice(c)}
@@ -55,7 +55,7 @@ const JourneyForm = ({ choices }: JourneyFormProps) => {
           onClick: undefined,
         }}
         nextButtonConfig={nextButtonConfig}
-        className='justify-end'
+        className="justify-end"
       />
     </>
   );

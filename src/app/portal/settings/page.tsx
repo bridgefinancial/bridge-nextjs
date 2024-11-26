@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import SettingsTabs from "./SettingTabs";
+import React, { Suspense } from 'react';
+import SettingsTabs from './SettingTabs';
 
 const SettingsPage = (): React.JSX.Element => {
   return (

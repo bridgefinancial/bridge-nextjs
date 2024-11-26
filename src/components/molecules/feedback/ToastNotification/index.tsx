@@ -1,1 +1,1 @@
-export { default } from "./ToastNotification.component";
+export { default } from './ToastNotification.component';

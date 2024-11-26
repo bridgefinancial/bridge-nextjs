@@ -1,21 +1,22 @@
-import React from "react";
+import { colors } from '@/theme/theme';
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
-  FormHelperText,
   SelectProps,
-} from "@mui/material";
-import { colors } from "@/theme/theme";
+} from '@mui/material';
+import React from 'react';
 
-interface SelectInputProps extends Omit<SelectProps, "onChange" | "margin"> {
+export interface SelectInputProps
+  extends Omit<SelectProps, 'onChange' | 'margin'> {
   options: { value: string | number; label: string }[];
   label: string;
   helperText?: string;
   error?: boolean;
-  margin?: "none" | "dense" | "normal"; // Add "normal" here
+  margin?: 'none' | 'dense' | 'normal'; // Add "normal" here
   onChange: (event: SelectChangeEvent<unknown>) => void; // Use SelectChangeEvent<unknown>
 }
 
@@ -26,7 +27,7 @@ const SelectInputGroup: React.FC<SelectInputProps> = ({
   onChange,
   error,
   fullWidth = false,
-  margin = "normal", // Default to "normal" as you intended
+  margin = 'normal', // Default to "normal" as you intended
   options,
   helperText,
   ...otherProps
@@ -40,19 +41,19 @@ const SelectInputGroup: React.FC<SelectInputProps> = ({
       sx={{
         m: 0,
         minWidth: 100,
-        "& .MuiFilledInput-underline:before": {
-          borderBottomColor: "rgba(0, 0, 0, .5);",
+        '& .MuiFilledInput-underline:before': {
+          borderBottomColor: 'rgba(0, 0, 0, .5);',
         },
-        "& .MuiFilledInput-underline:hover:before": {
+        '& .MuiFilledInput-underline:hover:before': {
           borderBottomColor: colors.bridgeLightPurple, // Color on hover
         },
-        "& .MuiFilledInput-underline:after": {
+        '& .MuiFilledInput-underline:after': {
           borderBottomColor: colors.bridgeDarkPurple, // Color when focused
         },
-        "& .MuiFormLabel-root": {
-          color: "rgba(0, 0, 0, .4);",
+        '& .MuiFormLabel-root': {
+          color: 'rgba(0, 0, 0, .4);',
         },
-        "& .MuiFormLabel-root.Mui-focused": {
+        '& .MuiFormLabel-root.Mui-focused': {
           color: colors.bridgeDarkPurple, // Label color when focused
         },
       }}

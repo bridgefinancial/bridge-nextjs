@@ -13,7 +13,7 @@ const BASE_URL =
 export const customFetchWithAuth = async (
   url: string,
   options: FetchOptions = {},
-  cookieString = document.cookie
+  cookieString = document.cookie,
 ): Promise<Response> => {
   const headers = new Headers({
     ...options.headers,
@@ -47,7 +47,7 @@ export const customFetchWithAuth = async (
 export const getCompanyFiles = async (): Promise<
   PaginatedResponse<CompanyFile>
 > => {
-  const url = `/api/company-files/`;
+  const url = '/api/company-files/';
 
   const response = await customFetchWithAuth(url, {
     method: 'GET',
@@ -92,7 +92,7 @@ export const handleUploadDocuments = async ({
   responses: CompanyFile[];
   errors: any[];
 }> => {
-  const url = `/api/company-files/`;
+  const url = '/api/company-files/';
 
   const responses = [];
   const errors = [];

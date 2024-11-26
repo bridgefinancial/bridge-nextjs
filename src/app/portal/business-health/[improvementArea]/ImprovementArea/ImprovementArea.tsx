@@ -1,15 +1,15 @@
-"use client";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import LoadingSpinner from "@/components/atoms/loaders/LoadingSpinner";
-import ImprovementAreaDialog from "@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog";
+'use client';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
+import ImprovementAreaDialog from '@/components/molecules/dialogs/ImprovementAreaDialog/ImprovementAreaDialog';
 import {
   useImprovementArea,
   useServiceCategoryRecommendations,
   useToggleRecommendationCompletion,
-} from "@/services/recommendations.service";
-import { colors } from "@/theme/theme";
-import { Recommendation } from "@/types/recommendations.types";
-import { routePaths } from "@/types/routes.enum";
+} from '@/services/recommendations.service';
+import { colors } from '@/theme/theme';
+import { Recommendation } from '@/types/recommendations.types';
+import { routePaths } from '@/types/routes.enum';
 import {
   ArrowBack,
   ArrowDropDown,
@@ -17,7 +17,7 @@ import {
   ArrowRight,
   ExpandMore,
   InfoOutlined,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -26,10 +26,10 @@ import {
   Checkbox,
   IconButton,
   Typography,
-} from "@mui/material";
-import Link from "next/link";
-import { useState } from "react";
-import "./ImprovementArea.scss";
+} from '@mui/material';
+import Link from 'next/link';
+import { useState } from 'react';
+import './ImprovementArea.scss';
 
 type ImprovementAreaProps = {
   improvementAreaId: number;
@@ -91,7 +91,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
             LinkComponent={Link}
             href={routePaths.DASHBOARD}
           >
-            Back to Dashboard
+            Back to DashboardCo
           </Button>
         </div>
         {isLoadingImprovementArea ? (
@@ -122,7 +122,7 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
                 <strong>
                   {completedRecommendationsLength}/
                   {recommendations?.length ?? 0}
-                </strong>{" "}
+                </strong>{' '}
                 recommendations done
               </p>
               <div className="improvementArea__progressBar__bar">
@@ -144,14 +144,14 @@ const ImprovementArea = ({ improvementAreaId }: ImprovementAreaProps) => {
             key={recommendation.id}
             className={`serviceProvider ${
               expandedRecommendationId !== recommendation.id
-                ? "serviceProvider--collapsed"
-                : ""
+                ? 'serviceProvider--collapsed'
+                : ''
             }`}
             style={{
               height:
                 expandedRecommendationId !== recommendation.id
-                  ? "74px"
-                  : "auto",
+                  ? '74px'
+                  : 'auto',
             }}
           >
             <div className="serviceProvider__header">

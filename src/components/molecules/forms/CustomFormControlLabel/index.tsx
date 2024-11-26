@@ -1,1 +1,1 @@
-export { default } from "./CustomFormControlLabel.component";
+export { default } from './CustomFormControlLabel.component';

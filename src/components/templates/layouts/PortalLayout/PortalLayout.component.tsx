@@ -78,7 +78,7 @@ export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
 
   useEffect(() => {
     if (desktopBarRef.current) {
-      setLayoutContentHeight(`calc(100vh)`);
+      setLayoutContentHeight('calc(100vh)');
     }
   }, []);
 

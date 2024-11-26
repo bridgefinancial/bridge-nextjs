@@ -1,9 +1,9 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container } from '@mui/material';
 
 import {
   SignUpForm as SignUpComponent,
   SignUpFormProps,
-} from "./SignUpForm.component";
+} from './SignUpForm.component';
 
 const SignUpForm: React.FC<SignUpFormProps> = (
   props: SignUpFormProps,
@@ -11,9 +11,9 @@ const SignUpForm: React.FC<SignUpFormProps> = (
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         paddingBottom: 10,
       }}
     >

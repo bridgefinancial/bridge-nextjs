@@ -1,14 +1,14 @@
-import { formReducer, FormState } from "@/reducers/form.reducer";
-import { useUpdateCompany } from "@/services/companies.service";
-import { useIndustries } from "@/services/industries.service";
-import { useSessionUser } from "@/services/users.service";
-import { Industry } from "@/types/industries.types";
-import { Company } from "@/types/users.types";
+import { formReducer, FormState } from '@/reducers/form.reducer';
+import { useUpdateCompany } from '@/services/companies.service';
+import { useIndustries } from '@/services/industries.service';
+import { useSessionUser } from '@/services/users.service';
+import { Industry } from '@/types/industries.types';
+import { Company } from '@/types/users.types';
 import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@mui/material";
-import { isEmpty } from "lodash";
+} from '@mui/material';
+import { isEmpty } from 'lodash';
 import {
   ChangeEvent,
   Dispatch,
@@ -19,7 +19,7 @@ import {
   useMemo,
   useReducer,
   useState,
-} from "react";
+} from 'react';
 
 // Define form-related interfaces and types
 interface FormValues {
@@ -29,8 +29,8 @@ interface FormValues {
 
 const initialState: FormState<FormValues> = {
   formValues: {
-    businessName: "",
-    industry: "",
+    businessName: '',
+    industry: '',
   },
   formErrors: {},
 };
@@ -93,10 +93,10 @@ export function useCompanyForm(): UseCompanyFormReturn {
   useEffect(() => {
     if (userIsLoaded && currentCompanyIndustry) {
       dispatch({
-        type: "RESET_FORM",
+        type: 'RESET_FORM',
         values: {
-          businessName: user?.company?.name || "",
-          industry: currentCompanyIndustry.id || "",
+          businessName: user?.company?.name || '',
+          industry: currentCompanyIndustry.id || '',
         },
       });
     }
@@ -108,28 +108,28 @@ export function useCompanyForm(): UseCompanyFormReturn {
     value: Industry | null,
   ) => {
     if (value && value.id) {
-      dispatch({ type: "SET_FIELD", field: "industry", value: value.id });
+      dispatch({ type: 'SET_FIELD', field: 'industry', value: value.id });
     } else {
-      dispatch({ type: "SET_FIELD", field: "industry", value: "" });
+      dispatch({ type: 'SET_FIELD', field: 'industry', value: '' });
     }
   };
 
   // Handle text input change
   const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch({ type: "SET_FIELD", field: name as keyof FormValues, value });
+    dispatch({ type: 'SET_FIELD', field: name as keyof FormValues, value });
   };
 
   // Validate form fields
   const validate = (): boolean => {
     const errors: Partial<Record<keyof FormValues, string>> = {};
     if (!state.formValues.businessName) {
-      errors.businessName = "Business name is required";
+      errors.businessName = 'Business name is required';
     }
     if (!state.formValues.industry) {
-      errors.industry = "Industry is required";
+      errors.industry = 'Industry is required';
     }
-    dispatch({ type: "SET_ERRORS", errors });
+    dispatch({ type: 'SET_ERRORS', errors });
     return isEmpty(errors);
   };
 
@@ -142,7 +142,7 @@ export function useCompanyForm(): UseCompanyFormReturn {
       );
 
       if (!selectedIndustry) {
-        console.error("Selected industry not found.");
+        console.error('Selected industry not found.');
         return;
       }
 
@@ -159,7 +159,7 @@ export function useCompanyForm(): UseCompanyFormReturn {
             setToastOpen(true);
           },
           onError: (error: any) => {
-            console.error("Failed to update company:", error);
+            console.error('Failed to update company:', error);
           },
         },
       );

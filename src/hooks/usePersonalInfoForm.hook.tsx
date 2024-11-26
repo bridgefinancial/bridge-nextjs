@@ -6,10 +6,10 @@ import {
   SetStateAction,
   useReducer,
   useState,
-} from "react";
+} from 'react';
 
 // Import your custom hooks (make sure the paths are correct in your project)
-import { useSessionUser, useUpdateUser } from "@/services/users.service";
+import { useSessionUser, useUpdateUser } from '@/services/users.service';
 
 // Define the shape of form values
 interface FormValues {
@@ -29,8 +29,8 @@ interface FormErrors {
 
 // Define the possible actions for the reducer
 type Action =
-  | { type: "SET_FIELD"; field: keyof FormValues; value: string }
-  | { type: "SET_ERRORS"; errors: FormErrors };
+  | { type: 'SET_FIELD'; field: keyof FormValues; value: string }
+  | { type: 'SET_ERRORS'; errors: FormErrors };
 
 // Define the state structure
 interface State {
@@ -41,10 +41,10 @@ interface State {
 // Initial state
 const initialState: State = {
   formValues: {
-    email: "",
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    email: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
   },
   formErrors: {},
 };
@@ -52,7 +52,7 @@ const initialState: State = {
 // Reducer function to manage state updates
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case "SET_FIELD":
+    case 'SET_FIELD':
       return {
         ...state,
         formValues: {
@@ -60,7 +60,7 @@ function reducer(state: State, action: Action): State {
           [action.field]: action.value,
         },
       };
-    case "SET_ERRORS":
+    case 'SET_ERRORS':
       return {
         ...state,
         formErrors: action.errors,
@@ -95,10 +95,10 @@ export function usePersonalInfoForm(): PersonalInfoFormReturn {
   const currentUserId = isFetched && user?.id;
 
   const initialFormValues: FormValues = {
-    email: (isFetched && user?.email) || "",
-    firstName: (isFetched && user?.first_name) || "",
-    lastName: (isFetched && user?.last_name) || "",
-    phoneNumber: (isFetched && user?.phone) || "",
+    email: (isFetched && user?.email) || '',
+    firstName: (isFetched && user?.first_name) || '',
+    lastName: (isFetched && user?.last_name) || '',
+    phoneNumber: (isFetched && user?.phone) || '',
   };
 
   const [state, dispatch] = useReducer(reducer, {
@@ -116,19 +116,19 @@ export function usePersonalInfoForm(): PersonalInfoFormReturn {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch({ type: "SET_FIELD", field: name as keyof FormValues, value });
+    dispatch({ type: 'SET_FIELD', field: name as keyof FormValues, value });
   };
 
   const validate = (): boolean => {
     const errors: FormErrors = {};
 
     if (!state.formValues.email) {
-      errors.email = "Email is required";
+      errors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(state.formValues.email)) {
-      errors.email = "Invalid email address";
+      errors.email = 'Invalid email address';
     }
 
-    dispatch({ type: "SET_ERRORS", errors });
+    dispatch({ type: 'SET_ERRORS', errors });
     return Object.keys(errors).length === 0;
   };
 

@@ -42,7 +42,7 @@ const inter = Inter({ subsets: ['latin'] });
 const FormField = forwardRef(
   (
     { formField, error }: FormFieldProps,
-    ref: React.ForwardedRef<HTMLInputElement>
+    ref: React.ForwardedRef<HTMLInputElement>,
   ) => {
     // CALCULATED
     const defaultPlaceholder = '';
@@ -55,7 +55,7 @@ const FormField = forwardRef(
     } = useQuestionnaire();
     // STATE
     const [notSure, setNotSure] = useState<boolean>(
-      formValues[formField.name] === 'Not sure'
+      formValues[formField.name] === 'Not sure',
     );
     const isFieldRequired =
       formField.required && checkConditions(formField.conditions);
@@ -83,8 +83,8 @@ const FormField = forwardRef(
               {formField.label}
               {formField.hint && (
                 <span title={formField.hint} className="fmd-icon fmd-hint">
-                  ?
-                </span>
+                ?
+              </span>
               )}
             </LabelText>
           )}
@@ -172,7 +172,7 @@ const FormField = forwardRef(
                 } else if (currentValue.includes(option.value as string)) {
                   handleChange(
                     formField.name,
-                    currentValue.filter((v) => v !== option.value)
+                    currentValue.filter((v) => v !== option.value),
                   );
                 } else {
                   handleChange(formField.name, [...currentValue, option.value]);
@@ -469,7 +469,7 @@ const FormField = forwardRef(
               const currentFiles: CompanyFile[] =
                 formValues[formField.name] ?? [];
               const newFiles = currentFiles.filter(
-                (f) => f.id !== deletedFile.id
+                (f) => f.id !== deletedFile.id,
               );
               handleChange(formField.name, newFiles);
             }}
@@ -526,14 +526,14 @@ const FormField = forwardRef(
                 startAdornment: (
                   <InputAdornment position="start">
                     {FieldInformationService.getStartInputAdornment(
-                      formField.type
+                      formField.type,
                     )}
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     {FieldInformationService.getEndInputAdornment(
-                      formField.type
+                      formField.type,
                     )}
                   </InputAdornment>
                 ),
@@ -558,18 +558,18 @@ const FormField = forwardRef(
                   ? FieldInformationService.formatNumberInput(
                       String(formValues[formField.name]),
                     )
-                  : ""
+                  : ''
               }
               onChange={(e) => {
                 if (
                   FieldInformationService.isValidUserInput(
                     formField.type,
-                    e.target.value
+                    e.target.value,
                   )
                 ) {
                   handleChange(
                     formField.name,
-                    FieldInformationService.formatNumberInput(e.target.value)
+                    FieldInformationService.formatNumberInput(e.target.value),
                   );
                 }
               }}
@@ -599,7 +599,7 @@ const FormField = forwardRef(
                   inputRef={ref}
                 />
               }
-            ></DatePicker>
+            />
           )}
 
           {/* {FieldInformationService.isTime(formField.type) && (
@@ -655,14 +655,14 @@ const FormField = forwardRef(
                   startAdornment: (
                     <InputAdornment position="start">
                       {FieldInformationService.getStartInputAdornment(
-                        formField.type
+                        formField.type,
                       )}
                     </InputAdornment>
                   ),
                   endAdornment: (
                     <InputAdornment position="end">
                       {FieldInformationService.getEndInputAdornment(
-                        formField.type
+                        formField.type,
                       )}
                     </InputAdornment>
                   ),
@@ -681,12 +681,12 @@ const FormField = forwardRef(
                   if (
                     FieldInformationService.isValidUserInput(
                       formField.type,
-                      e.target.value
+                      e.target.value,
                     )
                   ) {
                     handleChange(
                       formField.name,
-                      e.target.value ? parseInt(e.target.value) : 0
+                      e.target.value ? parseInt(e.target.value) : 0,
                     );
                   }
                 }}
@@ -729,7 +729,7 @@ const FormField = forwardRef(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default FormField;

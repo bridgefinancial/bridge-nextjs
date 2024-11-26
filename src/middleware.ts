@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { routePaths } from "./types/routes.enum";
-import { User } from "./types/users.types";
-import { fetchWithAuth } from "./services/authorized-request.service";
-import { cookies } from "next/headers";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { routePaths } from './types/routes.enum';
+import { User } from './types/users.types';
+import { fetchWithAuth } from './services/authorized-request.service';
+import { cookies } from 'next/headers';
 
 export async function middleware(request: NextRequest) {
   let session: User | undefined;
 
   try {
-    const url = "/api/session/";
+    const url = '/api/session/';
 
     const response = await fetchWithAuth(
       url,
       {
-        method: "GET",
+        method: 'GET',
       },
       cookies().toString(),
     );
@@ -30,12 +30,12 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Check if the user is trying to access an auth-related route
-  const isAuthRoute = pathname.startsWith("/auth");
+  const isAuthRoute = pathname.startsWith('/auth');
 
   if (!session && !isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = routePaths.LOGIN;
-    url.searchParams.set("navigateTo", encodeURIComponent(pathname));
+    url.searchParams.set('navigateTo', encodeURIComponent(pathname));
     return NextResponse.redirect(url);
   }
 
@@ -50,6 +50,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next|static|favicon.ico|images|css|js|fonts|media|assets).*)", // Adjust to match all your asset directories
+    '/((?!_next|static|favicon.ico|images|css|js|fonts|media|assets).*)', // Adjust to match all your asset directories
   ],
 };

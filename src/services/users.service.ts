@@ -11,7 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { fetchWithAuth } from './authorized-request.service';
 
 export const fetchSession: () => Promise<User> = async () => {
-  const url = `/api/session/`;
+  const url = '/api/session/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -47,7 +47,7 @@ export const loginUser = async ({
   email,
   password,
 }: LoginRequest): Promise<any> => {
-  const url = `/api/login/`;
+  const url = '/api/login/';
 
   const response = await fetchWithAuth(url, {
     method: 'POST',
@@ -68,7 +68,7 @@ export const loginUser = async ({
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       throw new Error(
-        data.non_field_errors?.[0] ?? 'An unknown error occurred'
+        data.non_field_errors?.[0] ?? 'An unknown error occurred',
       );
     }
   }
@@ -90,7 +90,7 @@ export const useLoginUser = (): UseMutationResult<
     mutationFn: loginUser,
     onSuccess: () => {
       const landingUrl = decodeURIComponent(
-        searchParams.get('navigateTo') ?? ''
+        searchParams.get('navigateTo') ?? '',
       );
       router.push(landingUrl || routePaths.ROOT);
     },
@@ -101,7 +101,7 @@ export const useLoginUser = (): UseMutationResult<
 };
 
 export const logoutUser = async () => {
-  const url = `/api/logout/`;
+  const url = '/api/logout/';
 
   const response = await fetchWithAuth(url, {
     method: 'POST',
@@ -151,7 +151,7 @@ export type SignUpRequest = {
 };
 
 export const signUp = async (requestBody: SignUpRequest): Promise<void> => {
-  const url = `/api/users/`;
+  const url = '/api/users/';
 
   const transformedRequestBody = {
     ...requestBody,
@@ -199,7 +199,7 @@ export const verifyEmail = async ({
   token,
   uid,
 }: VerifyEmailRequest): Promise<void> => {
-  const url = `/api/verify-email/`;
+  const url = '/api/verify-email/';
 
   const response = await fetchWithAuth(url, {
     method: 'POST',
@@ -235,7 +235,7 @@ type PasswordResetRequest = {
 };
 
 export const passwordReset = async ({ email }: PasswordResetRequest) => {
-  const url = `/api/password-reset/`;
+  const url = '/api/password-reset/';
 
   const response = await fetchWithAuth(url, {
     method: 'POST',
@@ -278,7 +278,7 @@ export const passwordResetConfirm = async ({
   token,
   uid,
 }: PasswordResetConfirmRequest): Promise<void> => {
-  const url = `/api/password-reset-confirm/`;
+  const url = '/api/password-reset-confirm/';
 
   const response = await fetchWithAuth(url, {
     method: 'POST',
@@ -366,7 +366,7 @@ export const changePassword = async ({
   newPassword1,
   newPassword2,
 }: ChangePasswordRequest) => {
-  const url = `/api/password-change/`;
+  const url = '/api/password-change/';
 
   const response = await fetchWithAuth(url, {
     method: 'POST',

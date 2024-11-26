@@ -25,15 +25,15 @@ const IconCard: FC<IconCardProps> = ({
           { 'border-bridge-light-blue shadow-lg': selected },
         )}
       >
-        <Container className='flex flex-col items-center justify-evenly w-[160px] h-[200px] md:w-[200px]'>
+        <Container className="flex flex-col items-center justify-evenly w-[160px] h-[200px] md:w-[200px]">
           <Image
             src={iconPath}
             width={80}
             height={80}
-            alt='Chart'
-            className='flex-item w-[80px] h-[80px]'
+            alt="Chart"
+            className="flex-item w-[80px] h-[80px]"
           />
-          <ParagraphText className='font-bold text-center flex-item'>
+          <ParagraphText className="font-bold text-center flex-item">
             {children}
           </ParagraphText>
         </Container>

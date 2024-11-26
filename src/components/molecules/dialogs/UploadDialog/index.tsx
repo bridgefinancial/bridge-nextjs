@@ -1,1 +1,1 @@
-export { default } from "./UploadDialog.component";
+export { default } from './UploadDialog.component';

@@ -11,15 +11,15 @@ class ColorLogger {
    * This is used to apply colors to console logs in browser environments.
    */
   private colors: { [key: string]: string } = {
-    blue: "color: blue",
-    green: "color: green",
-    red: "color: red",
-    yellow: "color: yellow",
-    magenta: "color: magenta",
-    bgBlue: "background-color: blue; color: white",
-    bgGreen: "background-color: green; color: white",
-    bgRed: "background-color: red; color: white",
-    reset: "color: inherit",
+    blue: 'color: blue',
+    green: 'color: green',
+    red: 'color: red',
+    yellow: 'color: yellow',
+    magenta: 'color: magenta',
+    bgBlue: 'background-color: blue; color: white',
+    bgGreen: 'background-color: green; color: white',
+    bgRed: 'background-color: red; color: white',
+    reset: 'color: inherit',
   };
 
   /**
@@ -45,8 +45,8 @@ class ColorLogger {
    */
   separator(): void {
     console.log(
-      "%c==============================================",
-      "color: grey",
+      '%c==============================================',
+      'color: grey',
     );
   }
 
@@ -59,8 +59,8 @@ class ColorLogger {
    */
   start(functionName: string, fileName?: string): void {
     this.separator();
-    const location = fileName ? ` (${fileName})` : "";
-    this.log("blue", `==== START: ${functionName}${location} ====`);
+    const location = fileName ? ` (${fileName})` : '';
+    this.log('blue', `==== START: ${functionName}${location} ====`);
     this.separator();
   }
 
@@ -73,8 +73,8 @@ class ColorLogger {
    */
   end(functionName: string, fileName?: string): void {
     this.separator();
-    const location = fileName ? ` (${fileName})` : "";
-    this.log("blue", `==== END: ${functionName}${location} ====`);
+    const location = fileName ? ` (${fileName})` : '';
+    this.log('blue', `==== END: ${functionName}${location} ====`);
     this.separator();
   }
 }

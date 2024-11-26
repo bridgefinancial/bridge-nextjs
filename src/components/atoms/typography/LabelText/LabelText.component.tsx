@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
-import clsx from "clsx";
-import React, { CSSProperties } from "react";
+import { styled } from '@mui/material/styles';
+import clsx from 'clsx';
+import React, { CSSProperties } from 'react';
 
 /**
  * Props for the LabelText component.
@@ -16,7 +16,7 @@ interface LabelTextProps {
 }
 
 // Define a styled label component
-const StyledLabel = styled("label")(({ theme }) => ({
+const StyledLabel = styled('label')(({ theme }) => ({
   fontSize: theme.typography.pxToRem(18), // Equivalent to 'text-lg'
   fontWeight: theme.typography.fontWeightMedium, // Customize further if needed
 }));

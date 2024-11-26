@@ -64,6 +64,7 @@
     "@storybook/nextjs": "^8.4.4",
     "@storybook/react": "^8.4.5",
     "@storybook/test": "^8.4.4",
+    "@stylistic/eslint-plugin-js": "^2.11.0",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.5.0",
     "@types/canvas-confetti": "1.6.4",

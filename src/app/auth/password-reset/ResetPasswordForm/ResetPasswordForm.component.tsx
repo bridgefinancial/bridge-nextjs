@@ -1,17 +1,17 @@
-"use client";
-import React, { useState } from "react";
-import { Typography, Box } from "@mui/material";
-import { routePaths } from "@/types/routes.enum";
-import Link from "next/link";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import CardWithTitle from "@/components/molecules/cards/CardWithTitle";
-import { useResetPassword } from "@/services/users.service";
+'use client';
+import React, { useState } from 'react';
+import { Typography, Box } from '@mui/material';
+import { routePaths } from '@/types/routes.enum';
+import Link from 'next/link';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import CardWithTitle from '@/components/molecules/cards/CardWithTitle';
+import { useResetPassword } from '@/services/users.service';
 
 const ResetPasswordForm: React.FC = () => {
   // STATE
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,11 +26,11 @@ const ResetPasswordForm: React.FC = () => {
     e.preventDefault();
     // Validation logic
     if (!email) {
-      setError("Email is required");
+      setError('Email is required');
       return;
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Invalid email address");
+      setError('Invalid email address');
       return;
     }
 
@@ -52,7 +52,7 @@ const ResetPasswordForm: React.FC = () => {
   };
 
   return (
-    <CardWithTitle titleProps={{ text: "Password Reset" }}>
+    <CardWithTitle titleProps={{ text: 'Password Reset' }}>
       {submitted ? (
         <Typography variant="body1" align="center">
           Please check your email for a password reset link.
@@ -72,7 +72,7 @@ const ResetPasswordForm: React.FC = () => {
           <Box sx={{ marginTop: 2 }}>
             <ContainedButton
               type="submit"
-              text={"Send Recovery Link"}
+              text={'Send Recovery Link'}
               fullWidth={true}
               isLoading={isPending}
             />

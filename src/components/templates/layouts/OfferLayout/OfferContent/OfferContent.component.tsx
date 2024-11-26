@@ -71,9 +71,9 @@ const FeaturesContainer = styled(Box)<FeaturesContainerProps>(
     top: `${dynamicBottom}px`,
     borderRadius: 10,
     minHeight: 250,
-    transform: `translate(-50%)`, // Adjusting vertical position
+    transform: 'translate(-50%)', // Adjusting vertical position
     boxShadow: theme.shadows[2],
-  })
+  }),
 );
 const TestimonialSectionWithMount = ({
   testimonials,
@@ -134,7 +134,7 @@ const TestimonialSectionWithMount = ({
 const FeaturesSection = forwardRef<HTMLDivElement, FeaturesSectionProps>(
   (
     { children, containerStyle = {}, dynamicTranslateY = 0, dynamicBottom },
-    ref
+    ref,
   ) => {
     const [isMounted, setIsMounted] = useState(false);
 
@@ -157,7 +157,7 @@ const FeaturesSection = forwardRef<HTMLDivElement, FeaturesSectionProps>(
         {children}
       </FeaturesContainer>
     );
-  }
+  },
 );
 FeaturesSection.displayName = 'FeaturesSection';
 
@@ -225,7 +225,7 @@ const OfferContent = (props: OfferContentProps) => {
   // Calculate styles dynamically
   const featureSizeHalf = useMemo(
     () => featureSize.height / 2,
-    [featureSize.height]
+    [featureSize.height],
   );
 
   return (

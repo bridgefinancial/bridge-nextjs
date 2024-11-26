@@ -1,5 +1,5 @@
-import colorLogger from "@/utils/color-logger";
-import React, { ComponentType, useEffect } from "react";
+import colorLogger from '@/utils/color-logger';
+import React, { ComponentType, useEffect } from 'react';
 
 // Mark all options as optional for extending
 export interface WithLoggingOptions {
@@ -15,11 +15,11 @@ const withLogging = <P extends object>(
   const WithLoggingComponent: React.FC<P> = (props) => {
     useEffect(() => {
       if (shouldLog) {
-        colorLogger.start("WithLogging", fileName); // Use start method for logging start
+        colorLogger.start('WithLogging', fileName); // Use start method for logging start
         logValues.forEach((value) => {
-          colorLogger.log("green", "Logging value:", value); // Use the log method for logging values
+          colorLogger.log('green', 'Logging value:', value); // Use the log method for logging values
         });
-        colorLogger.end("WithLogging", fileName); // Use end method for logging end
+        colorLogger.end('WithLogging', fileName); // Use end method for logging end
       }
       // Empty dependency array ensures this runs only once on mount
     }, []);
@@ -29,7 +29,7 @@ const withLogging = <P extends object>(
 
   // Set a display name for easier debugging
   const wrappedComponentName =
-    WrappedComponent.displayName || WrappedComponent.name || "Component";
+    WrappedComponent.displayName || WrappedComponent.name || 'Component';
   WithLoggingComponent.displayName = `withLogging(${wrappedComponentName})`;
 
   return WithLoggingComponent;

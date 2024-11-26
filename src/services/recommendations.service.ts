@@ -11,7 +11,7 @@ import { fetchWithAuth } from './authorized-request.service';
 export const getNextActionRecommendations = async (): Promise<
   Recommendation[]
 > => {
-  const url = `/api/service-category-recommendations/get_next_action/`;
+  const url = '/api/service-category-recommendations/get_next_action/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -38,7 +38,7 @@ export const useNextRecommendations = () => {
 
 // Function to fetchWithAuth improvement areas
 const getImprovementAreas = async () => {
-  const url = `/api/improvement-areas/`;
+  const url = '/api/improvement-areas/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -91,7 +91,7 @@ export const useImprovementArea = (variables: GetImprovementAreaRequest) => {
 
 // Function to fetchWithAuth improvement categories
 const getImprovementCategories = async (): Promise<ImprovementCategory[]> => {
-  const url = `/api/improvement-categories/`;
+  const url = '/api/improvement-categories/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -128,7 +128,7 @@ export const useTasksCompletion = () => {
         (areaAcc: number, area: any) => {
           return areaAcc + area.total;
         },
-        0
+        0,
       );
       map[category.id] = total;
     });
@@ -142,7 +142,7 @@ export const useTasksCompletion = () => {
         (areaAcc: number, area: any) => {
           return areaAcc + area.completed;
         },
-        0
+        0,
       );
       map[category.id] = total;
     });
@@ -167,14 +167,14 @@ export const useTasksCompletion = () => {
   const totalSteps = useMemo(() => {
     return Object.values(totalStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0
+      0,
     );
   }, [totalStepsByCategory]);
 
   const completedSteps = useMemo(() => {
     return Object.values(completedStepsByCategory).reduce(
       (acc, val) => val + acc,
-      0
+      0,
     );
   }, [completedStepsByCategory]);
 
@@ -190,7 +190,7 @@ export const useTasksCompletion = () => {
 
 // Function to fetchWithAuth services
 const getServices = async () => {
-  const url = `/api/services/`;
+  const url = '/api/services/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -210,7 +210,7 @@ const getServices = async () => {
 
 // Function to fetchWithAuth service categories
 const getServiceCategories = async () => {
-  const url = `/api/service-categories/`;
+  const url = '/api/service-categories/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -230,7 +230,7 @@ const getServiceCategories = async () => {
 
 // Function to fetchWithAuth service providers
 const getServiceProviders = async () => {
-  const url = `/api/service-providers/`;
+  const url = '/api/service-providers/';
 
   const response = await fetchWithAuth(url, {
     method: 'GET',
@@ -257,7 +257,7 @@ type GetServiceCategoryRecommendationsResponse =
 
 // Function to fetchWithAuth service category recommendations
 const getServiceCategoryRecommendations = async (
-  variables: GetServiceCategoryRecommendationsRequest
+  variables: GetServiceCategoryRecommendationsRequest,
 ): Promise<GetServiceCategoryRecommendationsResponse> => {
   const searchParams = new URLSearchParams(variables);
   const url = `/api/service-category-recommendations/?${searchParams.toString()}`;
@@ -279,7 +279,7 @@ const getServiceCategoryRecommendations = async (
 };
 
 export const useServiceCategoryRecommendations = (
-  variables: GetServiceCategoryRecommendationsRequest
+  variables: GetServiceCategoryRecommendationsRequest,
 ) => {
   return useQuery({
     queryFn: () => getServiceCategoryRecommendations(variables),

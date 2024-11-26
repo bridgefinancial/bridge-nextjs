@@ -1,1 +1,1 @@
-export { default } from "./TitleText.component";
+export { default } from './TitleText.component';

@@ -1,1 +1,1 @@
-export { default } from "./BaseDialog.component";
+export { default } from './BaseDialog.component';

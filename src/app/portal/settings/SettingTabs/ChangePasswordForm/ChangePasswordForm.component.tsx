@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import ContainedButton from "@/components/atoms/buttons/ContainedButton";
-import ParagraphText from "@/components/atoms/typography/ParagraphText";
-import TitleText from "@/components/atoms/typography/TitleText";
-import ToastNotification from "@/components/molecules/feedback/ToastNotification";
-import TextInputGroup from "@/components/molecules/forms/TextInputGroup";
-import { useChangePassword, useSessionUser } from "@/services/users.service";
-import { colors } from "@/theme/theme";
-import { Box } from "@mui/material";
-import React, { ChangeEvent, FormEvent, useReducer, useState } from "react";
+import ContainedButton from '@/components/atoms/buttons/ContainedButton';
+import ParagraphText from '@/components/atoms/typography/ParagraphText';
+import TitleText from '@/components/atoms/typography/TitleText';
+import ToastNotification from '@/components/molecules/feedback/ToastNotification';
+import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import { useChangePassword, useSessionUser } from '@/services/users.service';
+import { colors } from '@/theme/theme';
+import { Box } from '@mui/material';
+import React, { ChangeEvent, FormEvent, useReducer, useState } from 'react';
 
 // Interfaces for form values and errors
 interface FormValues {
@@ -25,8 +25,8 @@ interface FormErrors {
 
 // Action types for reducer
 type Action =
-  | { type: "SET_FIELD"; field: string; value: string }
-  | { type: "SET_ERRORS"; errors: FormErrors };
+  | { type: 'SET_FIELD'; field: string; value: string }
+  | { type: 'SET_ERRORS'; errors: FormErrors };
 
 interface State {
   formValues: FormValues;
@@ -35,9 +35,9 @@ interface State {
 
 const initialState: State = {
   formValues: {
-    password: "",
-    password1: "",
-    password2: "",
+    password: '',
+    password1: '',
+    password2: '',
   },
   formErrors: {},
 };
@@ -45,7 +45,7 @@ const initialState: State = {
 // Reducer function to manage form state
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case "SET_FIELD":
+    case 'SET_FIELD':
       return {
         ...state,
         formValues: {
@@ -53,7 +53,7 @@ function reducer(state: State, action: Action): State {
           [action.field]: action.value,
         },
       };
-    case "SET_ERRORS":
+    case 'SET_ERRORS':
       return {
         ...state,
         formErrors: action.errors,
@@ -82,7 +82,7 @@ const ChangePasswordForm: React.FC = () => {
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch({ type: "SET_FIELD", field: name, value });
+    dispatch({ type: 'SET_FIELD', field: name, value });
   };
 
   // Validate form fields
@@ -90,16 +90,16 @@ const ChangePasswordForm: React.FC = () => {
     const errors: FormErrors = {};
 
     if (!state.formValues.password) {
-      errors.password = "Current password is required";
+      errors.password = 'Current password is required';
     }
     if (!state.formValues.password1) {
-      errors.password1 = "New password is required";
+      errors.password1 = 'New password is required';
     }
     if (state.formValues.password1 !== state.formValues.password2) {
-      errors.password2 = "Passwords do not match";
+      errors.password2 = 'Passwords do not match';
     }
 
-    dispatch({ type: "SET_ERRORS", errors });
+    dispatch({ type: 'SET_ERRORS', errors });
     return Object.keys(errors).length === 0;
   };
 
@@ -116,9 +116,9 @@ const ChangePasswordForm: React.FC = () => {
         {
           onSuccess: () => {
             refetchUser(); // Refetch user data after successful password change
-            dispatch({ type: "SET_FIELD", field: "password", value: "" });
-            dispatch({ type: "SET_FIELD", field: "password1", value: "" });
-            dispatch({ type: "SET_FIELD", field: "password2", value: "" });
+            dispatch({ type: 'SET_FIELD', field: 'password', value: '' });
+            dispatch({ type: 'SET_FIELD', field: 'password1', value: '' });
+            dispatch({ type: 'SET_FIELD', field: 'password2', value: '' });
           },
           onSettled: () => {
             setToastOpen(true); // Open success toast notification
@@ -133,8 +133,8 @@ const ChangePasswordForm: React.FC = () => {
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         gap: 1,
         maxWidth: 430,
       }}
@@ -142,8 +142,8 @@ const ChangePasswordForm: React.FC = () => {
       {/* Personal Info Header */}
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 0.5,
           marginBottom: 1,
         }}
@@ -196,12 +196,12 @@ const ChangePasswordForm: React.FC = () => {
       />
 
       {/* Save Changes Button */}
-      <Box sx={{ alignSelf: "flex-end" }}>
+      <Box sx={{ alignSelf: 'flex-end' }}>
         <ContainedButton
           textProps={{
             sx: {
-              fontWeight: "bold",
-              color: "white",
+              fontWeight: 'bold',
+              color: 'white',
               fontSize: 14,
             },
           }}
@@ -217,13 +217,13 @@ const ChangePasswordForm: React.FC = () => {
       <ToastNotification
         setOpen={setToastOpen}
         open={toastOpen}
-        severity={isSuccess ? "success" : isError ? "error" : "info"}
+        severity={isSuccess ? 'success' : isError ? 'error' : 'info'}
         message={
           isSuccess
-            ? "Password Updated Successfully"
+            ? 'Password Updated Successfully'
             : isError
-              ? "Failed to update password."
-              : "Updating..."
+              ? 'Failed to update password.'
+              : 'Updating...'
         }
       />
     </Box>

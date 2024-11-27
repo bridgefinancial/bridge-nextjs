@@ -13,6 +13,7 @@ type OfferPageDynamicContent = {
   subheading: string;
   buttonProps: CTAButtonProps;
   testimonials: TestimonialItemProps[];
+  iconPath: string;
 };
 
 export enum OfferSlug {
@@ -116,6 +117,7 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
           role: 'CEO',
         },
       ],
+      iconPath: '/assets/images/journey/chart.png',
     },
   ],
   [
@@ -213,6 +215,7 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
           role: 'Tech Startup Founder',
         },
       ],
+      iconPath: '/assets/images/journey/revenue.png',
     },
   ],
   [
@@ -309,6 +312,7 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
           role: 'Manufacturing Business Owner',
         },
       ],
+      iconPath: '/assets/images/journey/price.png',
     },
   ],
 ]);

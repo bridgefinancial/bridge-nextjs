@@ -2,15 +2,15 @@ import ContainedButton from '@/components/atoms/buttons/ContainedButton';
 import GradientBox from '@/components/atoms/containers/GradientBox';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import TitleText from '@/components/atoms/typography/TitleText';
+import { useCelebration } from '@/hooks/useCelebration';
 import { useLogoutUser } from '@/services/users.service';
 import { colors } from '@/theme/theme';
 import { Industry } from '@/types/industries.types';
 import { routePaths } from '@/types/routes.enum';
 import { ArrowForward } from '@mui/icons-material';
 import { Box } from '@mui/material';
-import confetti from 'canvas-confetti';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Define the default props for the industry valuation
 const defaultIndustry: Industry = {
@@ -53,21 +53,7 @@ export const ValuationEstimate: React.FC<ValuationEstimateProps> = ({
     });
   };
 
-  const celebrate = () => {
-    const duration = 3000; // in milliseconds
-
-    confetti({
-      particleCount: 100,
-      spread: 160,
-    });
-
-    // Clear confetti after a certain duration
-    setTimeout(() => confetti.reset(), duration);
-  };
-
-  useEffect(() => {
-    celebrate();
-  }, []);
+  useCelebration({ mode: 'onMount' });
 
   return (
     <div className="w-full flex items-center justify-center pt-16 flex-col gap-16">

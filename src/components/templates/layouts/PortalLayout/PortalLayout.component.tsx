@@ -5,6 +5,7 @@ import LogoImage, {
 } from '@/components/atoms/images/LogoImage/LogoImage.component';
 import UserProfileMenu from '@/components/molecules/menus/UserProfileMenu';
 import PortalListItem from '@/components/organisms/lists/PortalListItem/PortalListItem.component';
+import { useCelebration } from '@/hooks/useCelebration';
 import { useLogoutUser, useSessionUser } from '@/services/users.service';
 import { LayoutForPortalProps } from '@/types/layout.types';
 import { CloseSharp, LogoutRounded } from '@mui/icons-material';
@@ -17,14 +18,8 @@ import List from '@mui/material/List';
 import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import confetti from 'canvas-confetti';
 import Link from 'next/link';
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-  useSelectedLayoutSegment,
-} from 'next/navigation';
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
 import React, {
   useCallback,
   useEffect,
@@ -55,39 +50,19 @@ export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
   const desktopBarRef = useRef<HTMLDivElement>(null);
   const mobileBarRef = useRef<HTMLDivElement>(null);
   const segment = useSelectedLayoutSegment();
-  const params = useSearchParams();
-  const router = useRouter();
   const handleDrawerToggle = useCallback(() => {
     if (isMobile) {
       setMobileOpen(!mobileOpen);
     }
   }, [isMobile, mobileOpen]);
 
-  // HANDLERS
-  const celebrate = () => {
-    const duration = 3000; // in milliseconds
-
-    confetti({
-      particleCount: 100,
-      spread: 160,
-    });
-
-    // Clear confetti after a certain duration
-    setTimeout(() => confetti.reset(), duration);
-  };
+  useCelebration();
 
   useEffect(() => {
     if (desktopBarRef.current) {
       setLayoutContentHeight('calc(100vh)');
     }
   }, []);
-
-  useEffect(() => {
-    if (params.get('celebrate')) {
-      celebrate();
-      router.replace(pathname);
-    }
-  }, [params, pathname, router]);
 
   const activeTabLabel = useMemo(() => {
     const activeTab = tabs.find((tab) => tab.active);

@@ -79,8 +79,11 @@ export enum QuestionnaireRoutes {
  */
 export enum OfferRoutes {
   CERTIFIED_VALUATION = '/offer/certified_valuation',
+  CERTIFIED_VALUATION_SUCCESS = '/offer/certified_valuation/success',
   OPTIMIZATION_PACKAGE = '/offer/optimize',
+  OPTIMIZATION_PACKAGE_SUCCESS = '/offer/optimize/success',
   SELLER_READINESS_PACKAGE = '/offer/sell',
+  SELLER_READINESS_PACKAGE_SUCCESS = '/offer/sell/success',
 }
 
 /**

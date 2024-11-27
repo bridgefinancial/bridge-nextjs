@@ -6,7 +6,7 @@ import React, { FC } from 'react';
 
 export interface IconCardProps {
   children: React.ReactNode | React.ReactNode[];
-  onClick?: React.MouseEventHandler<HTMLDivElement> | (() => void) | undefined;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   iconPath: string;
   selected?: boolean;
 }
@@ -18,7 +18,7 @@ const IconCard: FC<IconCardProps> = ({
   selected,
 }: IconCardProps) => {
   return (
-    <div onClick={onClick}>
+    <button tabIndex={0} onClick={onClick}>
       <Card
         className={clsx(
           'hover:bg-bridge-light-gray',
@@ -39,7 +39,7 @@ const IconCard: FC<IconCardProps> = ({
           </ParagraphText>
         </Container>
       </Card>
-    </div>
+    </button>
   );
 };
 

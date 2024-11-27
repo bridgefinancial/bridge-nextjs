@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledGridContainer, StyledGridItem } from './DisplayGrid.styles';
+import { Grid } from '@mui/material';
 
 export interface DisplayGridProps<T = any> {
   /**
@@ -67,22 +67,22 @@ const DisplayGrid = <T,>({
   keyExtractor,
 }: DisplayGridProps<T>): JSX.Element => {
   return (
-    <StyledGridContainer container spacing={spacing} style={containerStyle}>
+    <Grid container={true} spacing={spacing} style={containerStyle}>
       {data.map((item, index) => (
-        <StyledGridItem
-          item
+        <Grid
+          item={true}
           xs={config.xs}
           sm={config.sm}
           md={config.md}
           lg={config.lg}
           xl={config.xl}
           key={keyExtractor ? keyExtractor(item, index) : index}
-          style={itemStyle}
+          style={{ transition: 'transform 0.3s ease-in-out', ...itemStyle }}
         >
           {renderItem(item, index)}
-        </StyledGridItem>
+        </Grid>
       ))}
-    </StyledGridContainer>
+    </Grid>
   );
 };
 

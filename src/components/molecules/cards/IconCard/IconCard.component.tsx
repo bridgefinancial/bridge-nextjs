@@ -21,8 +21,9 @@ const IconCard: FC<IconCardProps> = ({
     <div onClick={onClick}>
       <Card
         className={clsx(
+          'hover:bg-bridge-light-gray',
           'bg-white w-200 h-200 border-2px border border-[#949494] rounded-[15px]',
-          { 'border-bridge-light-blue shadow-lg': selected },
+          { 'border-bridge-dark-purple shadow-lg': selected },
         )}
       >
         <Container className="flex flex-col items-center justify-evenly w-[160px] h-[200px] md:w-[200px]">

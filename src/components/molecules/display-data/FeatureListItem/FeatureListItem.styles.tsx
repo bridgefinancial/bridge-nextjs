@@ -16,20 +16,21 @@ export const StyledFeatureListItem = styled(Box, {
     : theme.palette.text.primary,
 
   // Padding is always applied
-  padding: `${theme.spacing(2)} ${theme.spacing(0)}`, // 16px top/bottom, 24px left/right
+  padding: `${theme.spacing(2)} ${theme.spacing(1)}`, // 16px top/bottom, 24px left/right
 
   // Cursor changes to pointer for Call-to-Action
   cursor: isCallToAction ? 'pointer' : 'default',
 
   // Target text (e.g., <p>) inside the component
+
   '& p': {
     paddingLeft: 0,
     marginLeft: 0,
 
     fontWeight: isCallToAction ? '800 !important' : 'initial', // Enforce fontWeight
-    whiteSpace: isCallToAction ? 'nowrap' : 'normal', // No wrapping for Call-to-Action
-    overflow: isCallToAction ? 'hidden' : 'visible', // Prevent overflow
-    textOverflow: isCallToAction ? 'ellipsis' : 'clip', // Add ellipsis for Call-to-Action
+    whiteSpace: 'normal',
+    overflow: 'visible',
+    textOverflow: 'clip',
   },
 }));
 

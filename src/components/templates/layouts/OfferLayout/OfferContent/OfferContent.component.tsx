@@ -43,6 +43,7 @@ export interface OfferContentProps extends Partial<OfferLayoutProps> {
   };
   user: LayoutForPortalProps['user'];
   logout: LayoutForPortalProps['logout'];
+  previewDetails?: undefined;
 }
 
 export interface FeaturesSectionProps {
@@ -213,6 +214,7 @@ const OfferContent = (props: OfferContentProps) => {
       onClose: () => {},
       url: '',
     },
+    previewDetails = undefined,
   } = props;
   const theme = useTheme();
 
@@ -329,7 +331,7 @@ const OfferContent = (props: OfferContentProps) => {
         />
 
         {/* Preview Section */}
-        <PreviewSectionWithMount />
+        {previewDetails && <PreviewSectionWithMount />}
       </ParentContainerStyled>
     </>
   );

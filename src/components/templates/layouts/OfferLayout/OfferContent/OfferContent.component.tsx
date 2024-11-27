@@ -112,7 +112,7 @@ const TestimonialSectionWithMount = ({
         }}
       >
         <DisplayGrid
-          config={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 6 }}
+          gridItemSizes={{ xs: 12, lg: 6 }}
           renderItem={(item) => <TestimonialItem {...item} />}
           data={testimonials}
           spacing={6}
@@ -306,7 +306,7 @@ const OfferContent = (props: OfferContentProps) => {
             itemStyle={{
               width: '100%',
             }}
-            config={{
+            gridItemSizes={{
               xs: 12,
               sm: 12,
               md: 12,

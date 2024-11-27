@@ -57,7 +57,7 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({
         {/* Quote Text */}
         <TitleText
           sx={{
-            fontSize: isMobile ? 20 : 24,
+            fontSize: { xs: 16, sm: 20, md: 24 },
             fontWeight: 800,
           }}
         >
@@ -67,8 +67,8 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({
         {/* Author and Role */}
         <ParagraphText
           sx={{
-            fontSize: isMobile ? 16 : 20,
-            marginTop: 1,
+            fontSize: { xs: 16, sm: 20, md: 24 },
+            marginTop: { xs: 2, sm: 3 },
             fontWeight: 'bold',
           }}
         >

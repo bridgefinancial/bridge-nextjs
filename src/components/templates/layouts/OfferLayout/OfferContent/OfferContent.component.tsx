@@ -104,11 +104,11 @@ const TestimonialSectionWithMount = ({
       <Box
         sx={{
           width: '100%',
-          paddingLeft: { xs: 2, sm: 12 },
-          paddingRight: { xs: 2, sm: 12 },
           paddingTop: 0,
           paddingBottom: 0,
           borderRadius: 4,
+          paddingLeft: { xs: 6, sm: 1 },
+          paddingRight: { xs: 6, sm: 1 },
         }}
       >
         <DisplayGrid
@@ -116,15 +116,15 @@ const TestimonialSectionWithMount = ({
           renderItem={(item) => <TestimonialItem {...item} />}
           data={testimonials}
           spacing={6}
-          containerStyle={{
-            padding: 2,
+          containerSx={{
+            paddingLeft: { xs: 0, sm: 4, md: 6, lg: 12 },
+            paddingRight: { xs: 0, sm: 4, md: 6, lg: 12 },
           }}
           itemStyle={{
-            padding: 5,
-
+            padding: 35,
             width: '100%',
             justifyContent: 'center',
-            alignContent: 'center',
+            alignContent: 'start',
           }}
         />
       </Box>

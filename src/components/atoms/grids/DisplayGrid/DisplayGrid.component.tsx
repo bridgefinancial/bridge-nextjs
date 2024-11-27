@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
+import type { SxProps } from '@mui/material';
 
 export interface DisplayGridProps<T = any> {
   /**
@@ -40,6 +41,11 @@ export interface DisplayGridProps<T = any> {
   containerStyle?: React.CSSProperties;
 
   /**
+   * Optional sx for the grid container.
+   */
+  containerSx?: SxProps;
+
+  /**
    * Optional styles for each grid item.
    */
   itemStyle?: React.CSSProperties;
@@ -58,10 +64,16 @@ const DisplayGrid = <T,>({
   spacing = 2,
   containerStyle,
   itemStyle = { minWidth: 320, maxWidth: '100%' },
+  containerSx = {},
   keyExtractor,
 }: DisplayGridProps<T>): JSX.Element => {
   return (
-    <Grid container={true} spacing={spacing} style={containerStyle}>
+    <Grid
+      container={true}
+      spacing={spacing}
+      style={containerStyle}
+      sx={containerSx}
+    >
       {data.map((item, index) => (
         <Grid
           item={true}

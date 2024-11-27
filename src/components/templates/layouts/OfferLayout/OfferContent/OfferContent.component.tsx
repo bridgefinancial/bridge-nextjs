@@ -12,14 +12,11 @@ import DesktopLayoutBar from '@/components/organisms/headers/LayoutBar/DesktopLa
 import MessageWithCTA, {
   MessageWithCTAProps,
 } from '@/components/organisms/MessageWithCTA/MessageWithCTA.component';
-import { useViewSize } from '@/hooks/useViewSize.hook';
 import { LayoutForPortalProps } from '@/types/layout.types';
-import { useTheme } from '@mui/material';
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
-import { forwardRef, useEffect, useMemo, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { OfferLayoutProps } from '../OfferLayout.component';
 import {
   BannerContainerStyled,
@@ -48,40 +45,26 @@ export interface OfferContentProps extends Partial<OfferLayoutProps> {
 
 export interface FeaturesSectionProps {
   children?: React.ReactNode;
-  dynamicTranslateY: number;
-  dynamicBottom?: number;
 
   containerStyle?: React.CSSProperties; // Allow custom container styles
 }
 
-// Extend BoxProps to include dynamicTranslateY
-interface FeaturesContainerProps extends BoxProps {
-  dynamicTranslateY?: number;
-  dynamicBottom?: number;
-}
-
 // Styled Component with extended props
-const FeaturesContainer = styled(Box)<FeaturesContainerProps>(
-  ({ theme, dynamicBottom = 0 }) => ({
-    backgroundColor: '#FFF',
-    width: '90%',
-    padding: theme.spacing(2),
-    position: 'absolute',
-    left: '50%',
+const FeaturesContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: '#FFF',
+  width: '90%',
+  padding: theme.spacing(2),
+  left: '50%',
 
-    top: `${dynamicBottom}px`,
-    borderRadius: 10,
-    minHeight: 250,
-    transform: 'translate(-50%)', // Adjusting vertical position
-    boxShadow: theme.shadows[2],
-  }),
-);
+  borderRadius: 10,
+  minHeight: 250,
+  boxShadow: theme.shadows[4],
+}));
+
 const TestimonialSectionWithMount = ({
   testimonials,
-  featureSize,
 }: {
   testimonials: TestimonialItemProps[];
-  featureSize: any;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -91,15 +74,21 @@ const TestimonialSectionWithMount = ({
 
   // it's important to use the style property right here instead of the sx
   // prop. if you use the sx prop marginTop will not handle the units properly
+  // see 
   return (
     <TestimonialSectionStyled
       test-id={'display-grid-for-feature-list'}
       style={{
-        marginTop: featureSize.height / 2,
+        marginTop: 20,
         paddingTop: 100,
         paddingBottom: 100,
-        opacity: isMounted ? 1 : 0, // Set opacity based on mounted state
-        transition: 'opacity 0.5s ease-in-out', // Add a smooth transition
+        /*
+         * disabled for now -- doesn't handle going from one OfferPage to another (animation flickers)
+         *
+         * opacity: isMounted ? 1 : 0, // Set opacity based on mounted state
+         * transition: 'opacity 0.5s ease-in-out', // Add a smooth transition
+         *
+         */
       }}
     >
       <Box
@@ -133,10 +122,7 @@ const TestimonialSectionWithMount = ({
   );
 };
 const FeaturesSection = forwardRef<HTMLDivElement, FeaturesSectionProps>(
-  (
-    { children, containerStyle = {}, dynamicTranslateY = 0, dynamicBottom },
-    ref,
-  ) => {
+  ({ children, containerStyle = {} }, ref) => {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -152,8 +138,6 @@ const FeaturesSection = forwardRef<HTMLDivElement, FeaturesSectionProps>(
           opacity: isMounted ? 1 : 0, // Set opacity based on mounted state
           transition: 'opacity 0.5s ease-in-out', // Add a smooth transition
         }}
-        dynamicBottom={dynamicBottom}
-        dynamicTranslateY={dynamicTranslateY}
       >
         {children}
       </FeaturesContainer>
@@ -216,19 +200,6 @@ const OfferContent = (props: OfferContentProps) => {
     },
     previewDetails = undefined,
   } = props;
-  const theme = useTheme();
-
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  // Use hooks to track sizes
-  const [featureSize, setFeatureRef] = useViewSize();
-  const [gradientSize, setGradientRef] = useViewSize();
-
-  // Calculate styles dynamically
-  const featureSizeHalf = useMemo(
-    () => featureSize.height / 2,
-    [featureSize.height],
-  );
 
   return (
     <>
@@ -239,7 +210,6 @@ const OfferContent = (props: OfferContentProps) => {
       />
       <ParentContainerStyled>
         <GradientBox
-          ref={setGradientRef}
           direction="to right"
           colors={['#A395F7', '#6A5ACE']}
           containerStyle={{
@@ -249,7 +219,6 @@ const OfferContent = (props: OfferContentProps) => {
             zIndex: 0,
             marginTop: 0,
             paddingTop: 0,
-            paddingBottom: featureSize.height / 1.5,
           }}
         >
           <BannerContainerStyled>
@@ -295,12 +264,7 @@ const OfferContent = (props: OfferContentProps) => {
         </GradientBox>
 
         {/* Features Section */}
-        <FeaturesSection
-          dynamicBottom={gradientSize.bottom - featureSizeHalf}
-          ref={setFeatureRef}
-          dynamicTranslateY={featureSizeHalf}
-          containerStyle={{ margin: 'auto' }}
-        >
+        <FeaturesSection containerStyle={{ margin: 'auto', marginTop: 50 }}>
           <DisplayGrid
             test-id={'display-grid-for-feature-list'}
             renderItem={(item) => <FeatureListItem {...item} />}
@@ -319,16 +283,14 @@ const OfferContent = (props: OfferContentProps) => {
               maxWidth: '100%',
               width: '100%',
               height: '100%',
-              margin: 'auto',
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
           />
         </FeaturesSection>
 
         {/* Testimonial Section */}
-        <TestimonialSectionWithMount
-          featureSize={featureSize}
-          testimonials={testimonials}
-        />
+        <TestimonialSectionWithMount testimonials={testimonials} />
 
         {/* Preview Section */}
         {previewDetails && <PreviewSectionWithMount />}

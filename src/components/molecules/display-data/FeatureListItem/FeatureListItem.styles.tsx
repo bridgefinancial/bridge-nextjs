@@ -32,6 +32,9 @@ export const StyledFeatureListItem = styled(Box, {
     overflow: 'visible',
     textOverflow: 'clip',
   },
+  '&:hover': {
+    backgroundColor: isCallToAction ? theme.palette.grey[300] : 'transparent',
+  },
 }));
 
 // Styled Component for FeatureListItem

@@ -21,11 +21,14 @@ const IconCard: FC<IconCardProps> = ({
     <button onClick={onClick}>
       <Card
         className={clsx(
-          'hover:bg-bridge-light-gray',
-          'bg-white w-200 h-200 border-[2px] border border-[#949494] cursor-pointer rounded-[15px]',
+          'hover:bg-bridge-light-gray cursor-pointer',
+          'w-200 h-200 border-[2px] border border-[#949494] rounded-[15px]',
           {
             'border-bridge-dark-purple shadow-lg bg-bridge-light-gray':
               selected,
+          },
+          {
+            'bg-white': !selected,
           },
         )}
       >

@@ -96,7 +96,7 @@ const meta: Meta<DisplayGridProps<FeatureListItemProps>> = {
   argTypes: {
     data: { control: { disable: true } },
     renderItem: { control: { disable: true } },
-    config: { control: { type: 'object' } },
+    gridItemSizes: { control: { type: 'object' } },
     spacing: { control: { type: 'number' } },
     containerStyle: { control: { type: 'object' } },
     itemStyle: { control: { type: 'object' } },

@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyledGridContainer, StyledGridItem } from './DisplayGrid.styles';
+import { Grid } from '@mui/material';
+import type { SxProps } from '@mui/material';
 
 export interface DisplayGridProps<T = any> {
   /**
@@ -16,10 +17,11 @@ export interface DisplayGridProps<T = any> {
   renderItem: (item: T, index: number) => React.ReactNode;
 
   /**
-   * Configuration for the grid layout breakpoints.
+   * Configuration for each grid item's column widths at
+   * different breakpoints.
    * @default { xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }
    */
-  config?: {
+  gridItemSizes?: {
     xs?: number;
     sm?: number;
     md?: number;
@@ -39,6 +41,11 @@ export interface DisplayGridProps<T = any> {
   containerStyle?: React.CSSProperties;
 
   /**
+   * Optional sx for the grid container.
+   */
+  containerSx?: SxProps;
+
+  /**
    * Optional styles for each grid item.
    */
   itemStyle?: React.CSSProperties;
@@ -50,39 +57,38 @@ export interface DisplayGridProps<T = any> {
   keyExtractor?: (item: T, index: number) => string | number;
 }
 
-export interface GridStyles {
-  spacing?: DisplayGridProps['spacing'];
-  itemStyle?: DisplayGridProps['itemStyle'];
-  config: DisplayGridProps['config'];
-  containerStyle: DisplayGridProps['containerStyle'];
-}
-
 const DisplayGrid = <T,>({
   data = [],
   renderItem,
-  config = { xs: 12, sm: 6, md: 4, lg: 3, xl: 2 },
+  gridItemSizes = { xs: 12, sm: 6, md: 4, lg: 3, xl: 2 },
   spacing = 2,
   containerStyle,
   itemStyle = { minWidth: 320, maxWidth: '100%' },
+  containerSx = {},
   keyExtractor,
 }: DisplayGridProps<T>): JSX.Element => {
   return (
-    <StyledGridContainer container spacing={spacing} style={containerStyle}>
+    <Grid
+      container={true}
+      spacing={spacing}
+      style={containerStyle}
+      sx={containerSx}
+    >
       {data.map((item, index) => (
-        <StyledGridItem
-          item
-          xs={config.xs}
-          sm={config.sm}
-          md={config.md}
-          lg={config.lg}
-          xl={config.xl}
+        <Grid
+          item={true}
+          xs={gridItemSizes.xs}
+          sm={gridItemSizes.sm}
+          md={gridItemSizes.md}
+          lg={gridItemSizes.lg}
+          xl={gridItemSizes.xl}
           key={keyExtractor ? keyExtractor(item, index) : index}
-          style={itemStyle}
+          style={{ transition: 'transform 0.3s ease-in-out', ...itemStyle }}
         >
           {renderItem(item, index)}
-        </StyledGridItem>
+        </Grid>
       ))}
-    </StyledGridContainer>
+    </Grid>
   );
 };
 

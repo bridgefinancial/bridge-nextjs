@@ -20,7 +20,7 @@ const meta: Meta<DisplayGridProps<{ id: number; label: string }>> = {
   argTypes: {
     data: { control: { disable: true } },
     renderItem: { control: { disable: true } },
-    config: { control: { type: 'object' } },
+    gridItemSizes: { control: { type: 'object' } },
     spacing: { control: { type: 'number' } },
     containerStyle: { control: { type: 'object' } },
     itemStyle: { control: { type: 'object' } },
@@ -69,7 +69,7 @@ export const CustomConfig: Story = {
         {item.label}
       </div>
     ),
-    config: { xs: 12, sm: 6, md: 3, lg: 2, xl: 1 },
+    gridItemSizes: { xs: 12, sm: 6, md: 3, lg: 2, xl: 1 },
   },
 };
 

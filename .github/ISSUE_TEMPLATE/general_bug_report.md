@@ -1,3 +1,11 @@
+---
+name: 🪲 General Bug Report
+about: Suggest a new feature or improvement
+title: '[🪲 Bug] '
+labels: '🪲Bug'
+assignees: ''
+---
+
 ## Bug Description
 
 Please provide a clear and concise description of the bug.

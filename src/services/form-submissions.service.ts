@@ -1,7 +1,6 @@
 import { FormSubmission } from '@/types/forms.types';
 import {
   useMutation,
-  useQueries,
   useQuery,
   useQueryClient,
   UseQueryOptions,
@@ -57,9 +56,47 @@ export const useFormSubmission = (
   });
 };
 
-export const useFormSubmissions = (variables: GetFormSubmissionVariables[]) => {
-  return useQueries({
-    queries: variables.map((v) => getFormSubmissionQueryVariables(v)),
+type GetFormSubmissionsVariables = {
+  formIds: number[];
+};
+
+export const getFormSubmissions: (
+  variables: GetFormSubmissionsVariables
+) => Promise<FormSubmission[]> = async (variables) => {
+  const url = `/api/form-submissions/`;
+  const params = new URLSearchParams(
+    variables.formIds.map((id) => ['ids', id.toString()])
+  );
+  const response = await fetchWithAuth(`${url}?${params.toString()}`, {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status}`);
+  }
+
+  const responseBody = (await response.json()) as FormSubmission[];
+  return responseBody;
+};
+
+export const useFormSubmissions = (
+  variables: GetFormSubmissionsVariables,
+  options?: {
+    onSuccess?: (submissions: FormSubmission[]) => void;
+    onError?: () => void;
+  }
+) => {
+  return useQuery({
+    queryFn: () => getFormSubmissions(variables),
+    retry: (_, error) => {
+      console.log(error.message);
+      if (error.message.includes('404')) {
+        return false;
+      }
+      return true;
+    },
+    queryKey: ['form-submissions', variables],
+    ...options,
   });
 };
 

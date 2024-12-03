@@ -9,30 +9,26 @@ import { getLandingConfigKey } from '@/utils/local-storage';
 import { useMemo } from 'react';
 
 export const useOnboardingCompletion = (forms: FormidableForm[]) => {
-  const formSubmissionQueries = useFormSubmissions(
-    forms.map((f) => {
-      return {
-        formId: f.id,
-      };
-    })
-  );
+  const formSubmissionsQuery = useFormSubmissions({
+    formIds: forms.map((f) => f.id),
+  });
 
   // CALCULATED
   // Only started onboarding when they have finished one of the recommendation forms, which excludes the valuation form (index 0)
-  const hasStartedOnboarding = formSubmissionQueries.some(
-    (query) => !!query.data?.json_blob
-  );
-  const hasCompletedOnboarding = formSubmissionQueries.every((query) => {
-    return !!query.data?.json_blob;
-  });
+  const hasStartedOnboarding = (formSubmissionsQuery.data?.length ?? 0) > 0;
+  const hasCompletedOnboarding =
+    (formSubmissionsQuery.data?.length ?? 0) === forms.length;
   const completion: {
     title?: string;
     completionPercentage: number;
     href: string;
   }[] = useMemo(() => {
     return forms.map((form, index) => {
+      const formSubmission = formSubmissionsQuery.data?.find(
+        (formSubmission) => formSubmission.form === form.id
+      );
       const questionnaire = QUESTIONNAIRE_BY_FORM_ID.get(form.id);
-      const hasFormSubmission = !!formSubmissionQueries[index].data?.json_blob;
+      const hasFormSubmission = !!formSubmission;
       let landingConfig: LandingConfig | undefined = undefined;
       // only access localStorage on client-side
       if (typeof window !== 'undefined') {
@@ -55,7 +51,7 @@ export const useOnboardingCompletion = (forms: FormidableForm[]) => {
           : routePaths.DASHBOARD,
       };
     });
-  }, [formSubmissionQueries, forms]);
+  }, [formSubmissionsQuery, forms]);
 
   return { hasStartedOnboarding, hasCompletedOnboarding, completion };
 };

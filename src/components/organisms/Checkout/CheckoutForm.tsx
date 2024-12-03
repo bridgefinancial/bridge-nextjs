@@ -1,4 +1,6 @@
 import { BASE_URL } from '@/services/authorized-request.service';
+import { routePaths } from '@/types/routes.enum';
+import { baseUrls } from '@/utils/env-variables';
 import { ReactNode } from 'react';
 
 export enum ProductKey {
@@ -27,14 +29,38 @@ const CheckoutForm = ({
   cancelUrl,
   children,
 }: CheckoutFormProps) => {
+  let defaultSuccessUrl: string = '/';
+  let defaultCancelUrl: string = '/';
+
+  switch (productKey) {
+    case ProductKey.CertifiedValuation:
+      defaultSuccessUrl = `${routePaths.CERTIFIED_VALUATION_SUCCESS}?celebrate=t`;
+      defaultCancelUrl = `${routePaths.CERTIFIED_VALUATION}`;
+      break;
+    case ProductKey.OptimizationPackage:
+      defaultSuccessUrl = `${routePaths.OPTIMIZATION_PACKAGE_SUCCESS}?celebrate=t`;
+      defaultCancelUrl = `${routePaths.OPTIMIZATION_PACKAGE}`;
+      break;
+    case ProductKey.SellerReadinessPackage:
+      defaultSuccessUrl = `${routePaths.SELLER_READINESS_PACKAGE_SUCCESS}?celebrate=t`;
+      defaultCancelUrl = `${routePaths.SELLER_READINESS_PACKAGE}`;
+  }
   return (
     <form method="post" action={`${BASE_URL}/api/create-checkout-session/`}>
       <input type="hidden" name="product_key" value={productKey}></input>
-      {successUrl && (
-        <input type="hidden" name="success_url" value={successUrl}></input>
+      {(successUrl || defaultSuccessUrl) && (
+        <input
+          type="hidden"
+          name="success_url"
+          value={`${baseUrls.web.full}${successUrl ?? defaultSuccessUrl}`}
+        ></input>
       )}
-      {cancelUrl && (
-        <input type="hidden" name="cancel_url" value={cancelUrl}></input>
+      {(cancelUrl || defaultCancelUrl) && (
+        <input
+          type="hidden"
+          name="cancel_url"
+          value={`${baseUrls.web.full}${cancelUrl ?? defaultCancelUrl}`}
+        ></input>
       )}
       {children}
     </form>

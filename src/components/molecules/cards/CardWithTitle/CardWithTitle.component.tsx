@@ -1,3 +1,4 @@
+import TitleText from '@/components/atoms/typography/TitleText';
 import { useBreakpointQuery } from '@/hooks/useBreakpointQuery.hook';
 import { BaseTypographyProps } from '@/types/base-typography-props.interface';
 import { Box } from '@mui/material';
@@ -69,6 +70,17 @@ const CardWithTitle: FC<CardWithTitleProps> = (props: CardWithTitleProps) => {
           paddingBottom: 5,
         }}
       >
+        {text ? (
+          <TitleText
+            variant={titleTextProps.variant || 'h1'}
+            component={titleTextProps.component || 'h1'}
+            gutterBottom={true}
+            textAlign={titleTextProps.textAlign || 'center'}
+            sx={mergedTextTitleStyles}
+          >
+            {text}
+          </TitleText>
+        ) : null}
         {children}
       </Box>
     </Box>

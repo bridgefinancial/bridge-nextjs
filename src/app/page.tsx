@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Import the useRouter from next/navigation for app router
 import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
 import LandingLayout from '@/components/templates/layouts/LandingLayout';
@@ -11,17 +11,30 @@ export default function Home() {
   const { data: user, isLoading } = useSessionUser();
   const router = useRouter();
 
-  if (user) {
-    if (user.company.has_finished_onboarding) {
-      router.push(routePaths.DASHBOARD);
-    } else if (user.company.valuation) {
-      router.push(routePaths.RECOMMENDATION);
-    } else {
-      router.push(routePaths.JOURNEY);
+  useEffect(() => {
+    for (const route of [
+      routePaths.DASHBOARD,
+      routePaths.RECOMMENDATION,
+      routePaths.JOURNEY,
+      routePaths.LOGIN,
+    ]) {
+      router.prefetch(route);
     }
-  } else if (!isLoading) {
-    router.push(routePaths.LOGIN);
-  }
+  }, [router]);
+
+  useEffect(() => {
+    if (user) {
+      if (user.company.has_finished_onboarding) {
+        router.push(routePaths.DASHBOARD);
+      } else if (user.company.valuation) {
+        router.push(routePaths.RECOMMENDATION);
+      } else {
+        router.push(routePaths.JOURNEY);
+      }
+    } else if (!isLoading) {
+      router.push(routePaths.LOGIN);
+    }
+  }, [user, isLoading, router]);
 
   return (
     <LandingLayout>

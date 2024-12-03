@@ -10,7 +10,13 @@ import { routePaths } from '@/types/routes.enum';
 import { User } from '@/types/users.types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useState,
+  useEffect,
+} from 'react';
 
 // Define types for form values and errors
 interface FormValues {
@@ -52,6 +58,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const { mutateAsync: loginUser, isPending } = useLoginUser();
 
   const { data: user } = useSessionUser();
+
+  // EFFECTS
+
+  useEffect(() => {
+    router.prefetch(routePaths.DASHBOARD);
+    router.prefetch(routePaths.JOURNEY);
+  }, [router]);
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +119,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               router.push(routePaths.DASHBOARD);
             }
           },
-        }
+        },
       );
     }
   };

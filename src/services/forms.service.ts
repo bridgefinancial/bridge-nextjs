@@ -10,7 +10,7 @@ const PUBLIC_QUESTIONNAIRE_JSON_BUCKET_PREFIX = `${BASE_URL}/static/bridge_porta
 
 export const getFormById = (id: number) => {
   const url = `${PUBLIC_QUESTIONNAIRE_JSON_BUCKET_PREFIX}/${id}.json`;
-  return fetch(url).then((response) => {
+  return fetch(url, { next: { revalidate: 7200 } }).then((response) => {
     return response.json() as Promise<FormidableForm>;
   });
 };

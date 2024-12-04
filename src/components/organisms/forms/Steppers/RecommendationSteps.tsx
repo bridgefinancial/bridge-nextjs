@@ -16,13 +16,9 @@ const RecommendationSteps = ({ slug }: RecommendationStepsProps) => {
   const recommendationSlugIndex =
     RECOMMENDATION_QUESTIONNAIRE_SLUGS.indexOf(slug);
 
-  const formSubmissionQueries = useFormSubmissions(
-    RECOMMENDATION_QUESTIONNAIRES.map((q) => {
-      return {
-        formId: q.formId,
-      };
-    })
-  );
+  const formSubmissions = useFormSubmissions({
+    formIds: RECOMMENDATION_QUESTIONNAIRES.map((q) => q.formId),
+  });
 
   if (recommendationSlugIndex === -1) {
     return null;
@@ -35,7 +31,9 @@ const RecommendationSteps = ({ slug }: RecommendationStepsProps) => {
         steps={RECOMMENDATION_QUESTIONNAIRES.map((q, index) => {
           const step: Step = {
             label: q.stepperLabel,
-            isCompleted: formSubmissionQueries[index].isSuccess,
+            isCompleted: !!formSubmissions.data?.some(
+              (f) => f.form === q.formId
+            ),
             href: RECOMMENDATION_QUESTIONNAIRE_SLUGS[index],
           };
           return step;

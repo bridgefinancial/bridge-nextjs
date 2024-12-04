@@ -27,12 +27,9 @@ const QuestionnaireProgress = ({
     <Link href={href} className="flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
         <p className="text-[14px] font-semibold">{title}</p>
-        <Link
-          className="cursor-pointer text-sm font-semibold text-bridge-dark-purple"
-          href={href}
-        >
+        <p className="cursor-pointer text-sm font-semibold text-bridge-dark-purple">
           {linkText}
-        </Link>
+        </p>
       </div>
       <LinearProgress variant="determinate" value={completionPercentage} />
     </Link>

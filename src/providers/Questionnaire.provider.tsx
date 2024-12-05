@@ -226,6 +226,11 @@ export const QuestionnaireProvider = ({
             FieldInformationService.isNumber(field.type) &&
             typeof formValues[field.name] === 'string'
           ) {
+            // Check if the value is "Not sure" to prevent parseFloat from transforming it into NaN
+            if (formDataValues[field.name] === 'Not sure') {
+              return formDataValues[field.name];
+            }
+
             formDataValues[field.name] = parseFloat(
               formValues[field.name]?.replaceAll(',', '') ?? ''
             );

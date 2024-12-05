@@ -550,7 +550,8 @@ const FormField = forwardRef(
               placeholder={formField.placeholder || defaultPlaceholder}
               className="fmd-input"
               value={
-                formValues[formField.name] &&
+                // handle zero values correctly; prevents 0 from being treated as false
+                formValues[formField.name] != null &&
                 FieldInformationService.isValidUserInput(
                   formField.type,
                   formValues[formField.name],

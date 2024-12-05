@@ -8,9 +8,9 @@ export interface LogoProps extends Omit<ImageProps, 'src' | 'alt'> {
   alt?: string;
 }
 
-// Default properties for LogoImage
+// this right here needs to be "assets/" or the image is going to break for the layout
 export const DefaultLogoProps = {
-  src: '/assets/images/Bridge-logo.png',
+  src: 'assets/images/Bridge-logo.png',
   alt: 'Bridge Financial Logo',
   height: 34.23,
   width: 120,

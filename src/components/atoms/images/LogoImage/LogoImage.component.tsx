@@ -10,7 +10,7 @@ export interface LogoProps extends Omit<ImageProps, 'src' | 'alt'> {
 
 // Default properties for LogoImage
 export const DefaultLogoProps = {
-  src: '/assets/images/Bridge-logo.png',
+  src: 'assets/images/Bridge-logo.png',
   alt: 'Bridge Financial Logo',
   height: 34.23,
   width: 120,

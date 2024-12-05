@@ -62,7 +62,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   // EFFECTS
 
   useEffect(() => {
-    router.prefetch(routePaths.DASHBOARD);
     router.prefetch(routePaths.JOURNEY);
   }, [router]);
 

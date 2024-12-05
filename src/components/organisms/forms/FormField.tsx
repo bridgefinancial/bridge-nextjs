@@ -429,7 +429,11 @@ const FormField = forwardRef(
             size="small"
             min={formField.min}
             max={formField.max}
-            value={formValues[formField.name] ?? 0}
+            value={
+              formValues[formField.name] == 'Not sure'
+                ? 0
+                : (formValues[formField.name] ?? 0)
+            }
             onChange={(e, value) => {
               handleChange(formField.name, value);
             }}

@@ -11,14 +11,10 @@ const testimonials = [
   {
     quote:
       'Bridge’s tailored approach to business optimization transformed our processes and boosted profitability. I wish we had done this sooner.',
-    author: 'Rebecca H.',
-    role: 'Retail Business Owner',
   },
   {
     quote:
       'The Business Health Check gave us clear insights into what we were doing right and where we could improve. Bridge helped us create a roadmap for real growth.',
-    author: 'Linda M.',
-    role: 'Tech Startup Founder',
   },
 ];
 

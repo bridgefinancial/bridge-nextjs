@@ -20,7 +20,18 @@ const meta: Meta<DisplayGridProps<TestimonialItemProps>> = {
   },
 };
 
-const sampleTestimonialListData: TestimonialItemProps[] = [
+const sampleTestimonialListDataNoAuthorOrRole: TestimonialItemProps[] = [
+  {
+    quote:
+      'Bridge’s tailored approach to business optimization transformed our processes and boosted profitability. I wish we had done this sooner.',
+  },
+  {
+    quote:
+      'The Business Health Check gave us clear insights into what we were doing right and where we could improve. Bridge helped us create a roadmap for real growth.',
+  },
+];
+
+const sampleTestimonialListDataWithAuthorAndRole: TestimonialItemProps[] = [
   {
     quote:
       'Bridge’s tailored approach to business optimization transformed our processes and boosted profitability. I wish we had done this sooner.',
@@ -45,10 +56,17 @@ export const Default: Story = {
       width: '100%',
     },
     gridItemSizes: { xs: 12, sm: 6, md: 6, lg: 6, xl: 6 },
-    data: sampleTestimonialListData,
+    data: sampleTestimonialListDataNoAuthorOrRole, // current state of the application
     renderItem: (item) => <TestimonialItem {...item} />,
     containerStyle: {
       maxWidth: 1080,
     },
+  },
+};
+
+export const WithAuthorAndRole: Story = {
+  args: {
+    ...Default.args,
+    data: sampleTestimonialListDataWithAuthorAndRole, // future scenario with author and role
   },
 };

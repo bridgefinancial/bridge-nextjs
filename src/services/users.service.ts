@@ -251,8 +251,16 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
     }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!data) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    } else {
+      throw new Error(
+        data.error?.email?.[0]?.message ?? 'An unknown error occurred',
+      );
+    }
   }
 
   return;

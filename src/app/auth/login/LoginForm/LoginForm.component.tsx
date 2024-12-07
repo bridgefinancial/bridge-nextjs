@@ -10,13 +10,7 @@ import { routePaths } from '@/types/routes.enum';
 import { User } from '@/types/users.types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, {
-  ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  useState,
-  useEffect,
-} from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 // Define types for form values and errors
 interface FormValues {
@@ -72,11 +66,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       ...formValues,
       [name]: value,
     });
-  };
-
-  // Handle mouse down event
-  const handleOnMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent the button from gaining focus
   };
 
   // Validate form fields
@@ -151,7 +140,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           onChange={handleChange}
           error={Boolean(formErrors && formErrors.password)}
           helperText={formErrors?.password}
-          handleOnMouseDown={handleOnMouseDown}
         />
 
         <ParagraphText variant="body2" align="left" sx={{ mt: 3, mb: 3 }}>

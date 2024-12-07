@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export interface SignUpFormProps {
   title?: string;
@@ -141,11 +141,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
     }
   };
 
-  // Handle mouse down event
-  const handleOnMouseDownForSecure = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent the button from gaining focus
-  };
-
   return (
     <CardWithTitle
       containerStyle={cardContainerStyles}
@@ -266,7 +261,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
           onChange={handleChange}
           error={Boolean(errors && errors.password)}
           helperText={errors?.password}
-          handleOnMouseDown={handleOnMouseDownForSecure}
           onBlur={handleBlur}
         />
         <FormControlLabel

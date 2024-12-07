@@ -69,7 +69,8 @@ export const loginUser = async ({
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       throw new Error(
-        data.non_field_errors?.[0] ?? 'An unknown error occurred',
+        data.error?.non_field_errors?.[0]?.message ??
+          'An unknown error occurred',
       );
     }
   }

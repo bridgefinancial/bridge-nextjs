@@ -91,7 +91,7 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
     {}
   );
 
-  // Need to put both on OnMouseDown and OnMouseUp
+  // Add this to both OnMouseDown and OnMouseUp to prevent the cursor from jumping to the start.
   // Reference: https://github.com/mui/material-ui/issues/26007
   const handleMouseInteraction = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Prevent the button from gaining focus

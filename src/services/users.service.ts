@@ -251,9 +251,8 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
     }),
   });
 
-  const data = await response.json();
-
   if (!response.ok) {
+    const data = await response.json();
     if (!data) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {

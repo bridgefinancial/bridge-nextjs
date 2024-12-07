@@ -8,14 +8,13 @@ import {
   TextField,
   TextFieldProps,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 // Define the types for icon components
 export type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
 export interface SecureTextInputGroupProps
   extends Omit<TextFieldProps, 'variant' | 'type'> {
-  handleOnMouseDown: (event: React.MouseEvent<HTMLButtonElement>) => void;
   SecureTextOnIcon?: IconComponent;
   SecureTextOffIcon?: IconComponent;
   sx?: TextFieldProps['sx'];
@@ -33,7 +32,6 @@ export interface SecureTextInputGroupProps
  * @param {boolean} [error] - If true, the input will be displayed in an error state.
  * @param {boolean} [isSecure=false] - Determines whether the input field should hide the entered text (i.e., treat it as a password).
  * @param {() => void} securePressOnChange - Function that gets called when the visibility toggle button is clicked.
- * @param {(event: React.MouseEvent<HTMLButtonElement>) => void} handleOnMouseDown - Function that gets called on the mouse down event of the visibility toggle button.
  * @param {boolean} [fullWidth] - If true, the input field will take up the full width of its container.
  * @param {string} [helperText] - Helper text to display below the input field.
  * @param {IconComponent} [SecureTextOnIcon=Visibility] - Icon to display when the text is hidden (secure mode), default is `Visibility`.
@@ -49,13 +47,12 @@ export interface SecureTextInputGroupProps
  *   onChange={handlePasswordChange}
  *   isSecure={isPasswordHidden}
  *   securePressOnChange={togglePasswordVisibility}
- *   handleOnMouseDown={handleMouseDown}
  * />
  *
  * @remarks
  * - `isSecure`: When `true`, the input field will mask the text as a password. The icon displayed will also change accordingly.
  * - `SecureTextOnIcon` and `SecureTextOffIcon` are optional props that allow the developer to pass custom icons for the secure text toggle button. By default, `Visibility` and `VisibilityOff` icons from MUI are used.
- * - The developer is responsible for passing down the `securePressOnChange`, `handleOnMouseDown`, `onChange`, and `SecureOnChange` functions to ensure the component behaves as expected.
+ * - The developer is responsible for passing down the `securePressOnChange`, `onChange`, and `SecureOnChange` functions to ensure the component behaves as expected.
  */
 const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
   label,
@@ -64,7 +61,6 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
   margin = 'normal',
   onChange,
   error,
-  handleOnMouseDown,
   fullWidth,
   helperText,
   SecureTextOnIcon = Visibility,
@@ -95,6 +91,12 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
     {}
   );
 
+  // Add this to both OnMouseDown and OnMouseUp to prevent the cursor from jumping to the start.
+  // Reference: https://github.com/mui/material-ui/issues/26007
+  const handleMouseInteraction = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent the button from gaining focus
+  };
+
   return (
     <TextField
       sx={mergedStyles}
@@ -115,7 +117,8 @@ const SecureTextInputGroup: React.FC<SecureTextInputGroupProps> = ({
             <IconButton
               aria-label="toggle password visibility"
               onClick={() => setIsSecure((prev) => !prev)}
-              onMouseDown={handleOnMouseDown}
+              onMouseDown={handleMouseInteraction}
+              onMouseUp={handleMouseInteraction}
               edge="end"
               sx={{
                 width: '36px', // Set width to create a square button

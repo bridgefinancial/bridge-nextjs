@@ -384,11 +384,18 @@ export const changePassword = async ({
     }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!data) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    } else {
+      throw new Error(
+        data.error?.password?.[0]?.message ?? 'An unknown error occurred',
+      );
+    }
   }
 
-  const data = await response.json();
   return data;
 };
 

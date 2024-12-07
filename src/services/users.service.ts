@@ -1,6 +1,7 @@
 import { useToastNotification } from '@/providers/ToastNotification.provider';
 import { routePaths } from '@/types/routes.enum';
 import { User } from '@/types/users.types';
+import { clearQuestionnaireData } from '@/utils/local-storage';
 import {
   useMutation,
   UseMutationResult,
@@ -131,6 +132,7 @@ export const useLogoutUser = (): UseMutationResult<
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
+      clearQuestionnaireData();
       queryClient.invalidateQueries({ queryKey: ['session'] });
       router.push(routePaths.LOGIN);
     },

@@ -13,6 +13,7 @@ type LockedContentProps = {
   blurred: boolean;
   buttonHref?: string;
   onAction?: () => void;
+  isLoading?: boolean;
 };
 
 const LockedContent = ({
@@ -22,13 +23,20 @@ const LockedContent = ({
   body,
   blurred = true,
   onAction,
+  isLoading = false,
 }: LockedContentProps) => {
   const onButtonClick = () => {
     onAction?.();
   };
 
+  if (isLoading) {
+    return (
+      <div className="bg-gray-200 animate-pulse h-full min-h-[300px] rounded-[20px]" />
+    );
+  }
+
   return (
-    <div className="blur-container h-full min-h-[300px]">
+    <div className="blur-container h-full min-h-[300px] rounded-[20px]">
       <div className={clsx('h-full', { 'blurred-content': blurred })}>
         {/* Replace with the actual content passed in */}
         {children}

@@ -7,9 +7,9 @@ import {
 } from '@tanstack/react-query';
 import { fetchWithAuth } from './authorized-request.service';
 
-type GetFormSubmissionVariables = {
+interface GetFormSubmissionVariables {
   formId: number;
-};
+}
 
 export const getFormSubmission: (
   variables: GetFormSubmissionVariables

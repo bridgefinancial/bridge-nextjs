@@ -15,6 +15,26 @@ export const getFormById = (id: number) => {
   });
 };
 
+const getFormsByIds = async (ids: number[]): Promise<FormidableForm[]> => {
+  const url = `/api/forms/`;
+  const params = new URLSearchParams(ids.map((id) => ['ids', id.toString()]));
+  const response = await fetch(`${url}?${params.toString()}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch forms: ${response.statusText}`);
+  }
+  return response.json() as Promise<FormidableForm[]>;
+};
+
+export const useForms = (formIds: number[]) => {
+  return useQuery({
+    queryKey: ['forms', { ids: formIds }],
+    queryFn: () => getFormsByIds(formIds),
+    staleTime: 7200 * 1000, // Cache for 2 hours
+    placeholderData: (previousData) => previousData,
+    retry: false, // Optional: avoid retrying on 404 errors
+  });
+};
+
 const getFormJsonQueryVariables = (
   id: number
 ): UseQueryOptions<FormidableForm> => {

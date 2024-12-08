@@ -70,7 +70,7 @@ const UserProfileMenu: React.FC<UserProfileMenuProps> = ({
           cursor: 'pointer',
           ...option.sx,
         }}
-        onClick={option.onClick}
+        onClick={() => option.onClick?.()}
       >
         {option.startIcon}
         <ParagraphText sx={{ fontSize: 16, fontWeight: 400 }}>

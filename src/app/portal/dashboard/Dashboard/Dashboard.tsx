@@ -13,13 +13,13 @@ import Valuation from './Valuation/Valuation';
 
 type DashboardProps = {
   sellerReadinessForms: FormidableForm[];
-  valuationForms: FormidableForm[];
+  // valuationForms: FormidableForm[];
   optimizationForms: FormidableForm[];
 };
 
 const Dashboard = ({
   sellerReadinessForms,
-  valuationForms,
+  // valuationForms,
   optimizationForms,
 }: DashboardProps) => {
   // HOOKS

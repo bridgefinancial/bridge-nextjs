@@ -7,9 +7,14 @@ import {
 } from '@tanstack/react-query';
 import { fetchWithAuth } from './authorized-request.service';
 
-type GetFormSubmissionVariables = {
+interface GetFormSubmissionVariables {
   formId: number;
-};
+}
+
+interface GetFormSubmissionWithFields extends GetFormSubmissionVariables {
+  formId: number;
+  fields: string[];
+}
 
 export const getFormSubmission: (
   variables: GetFormSubmissionVariables
@@ -17,6 +22,25 @@ export const getFormSubmission: (
   formId,
 }: GetFormSubmissionVariables) => {
   const url = `/api/form-submission/${formId}/`;
+  const response = await fetchWithAuth(url, { cache: 'no-store' });
+
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status}`);
+  }
+
+  const responseBody = (await response.json()) as FormSubmission;
+  return responseBody;
+};
+
+export const getFormSubmissionWithFields: (
+  variables: GetFormSubmissionWithFields
+) => Promise<FormSubmission> = async (variables) => {
+  const { formId, fields } = variables;
+
+  // Join the fields array into a comma-separated string
+  const fieldsQuery = fields?.join(',') || '';
+  const url = `/api/form-submission/${formId}?fields=${encodeURIComponent(fieldsQuery)}/`;
+
   const response = await fetchWithAuth(url, { cache: 'no-store' });
 
   if (!response.ok) {

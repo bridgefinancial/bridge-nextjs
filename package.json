@@ -29,6 +29,7 @@
     "@rollbar/react": "^0.12.0-beta",
     "@storybook/testing-library": "^0.2.2",
     "@tanstack/react-query": "5.54.1",
+    "@tanstack/react-query-devtools": "^5.62.3",
     "@testing-library/react": "16.0.1",
     "@types/jest": "29.5.12",
     "@types/lodash.merge": "4.6.9",

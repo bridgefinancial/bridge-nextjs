@@ -4465,101 +4465,22 @@ __metadata:
   version: 3.0.3
   resolution: "braces@npm:3.0.3"
   dependencies:
-    fill-range: ^7.1.1
-  checksum: b95aa0b3bd909f6cd1720ffcf031aeaf46154dd88b4da01f9a1d3f7ea866a79eba76a6d01cbc3c422b2ee5cdc39a4f02491058d5df0d7bf6e6a162a832df1f69
-  languageName: node
-  linkType: hard
+    fill-range "^7.1.1"
 
-"bridge@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "bridge@workspace:."
-  dependencies:
-    "@chromatic-com/storybook": ^3.2.2
-    "@emotion/react": 11.13.3
-    "@emotion/styled": 11.13.0
-    "@eslint/compat": ^1.2.0
-    "@eslint/eslintrc": ^3.1.0
-    "@eslint/js": ^9.12.0
-    "@mui/icons-material": ^6.1.8
-    "@mui/material": 5.16.7
-    "@rollbar/react": ^0.12.0-beta
-    "@storybook/addon-essentials": ^8.4.4
-    "@storybook/addon-interactions": ^8.4.4
-    "@storybook/addon-onboarding": ^8.4.4
-    "@storybook/blocks": ^8.4.4
-    "@storybook/nextjs": ^8.4.4
-    "@storybook/react": ^8.4.5
-    "@storybook/test": ^8.4.4
-    "@storybook/testing-library": ^0.2.2
-    "@stylistic/eslint-plugin-js": ^2.11.0
-    "@tanstack/react-query": 5.54.1
-    "@testing-library/dom": 10.4.0
-    "@testing-library/jest-dom": 6.5.0
-    "@testing-library/react": 16.0.1
-    "@types/canvas-confetti": 1.6.4
-    "@types/jest": 29.5.12
-    "@types/json2mq": ^0.2.2
-    "@types/lodash.merge": 4.6.9
-    "@types/node": 22.5.4
-    "@types/react": 18.3.5
-    "@types/react-dom": 18.3.0
-    "@typescript-eslint/eslint-plugin": latest
-    "@typescript-eslint/parser": latest
-    "@welldone-software/why-did-you-render": ^8.0.3
-    autoprefixer: 10.4.20
-    browser-image-compression: ^2.0.2
-    canvas-confetti: 1.9.3
-    clsx: 2.1.1
-    eslint: ^9.12.0
-    eslint-config-next: 14.2.8
-    eslint-config-prettier: 9.1.0
-    eslint-plugin-prettier: 5.2.1
-    eslint-plugin-react: ^7.37.1
-    eslint-plugin-storybook: ^0.11.0
-    formik: 2.4.6
-    globals: ^15.11.0
-    json2mq: ^0.2.0
-    lodash: 4.17.21
-    lodash.merge: 4.6.2
-    next: 14.2.5
-    prettier: 3.3.3
-    react: 18.3.1
-    react-calendly: ^4.3.1
-    react-datepicker: ^7.5.0
-    react-dom: 18.3.1
-    react-error-boundary: 4.0.13
-    react-player: ^2.16.0
-    rollbar: ^2.26.4
-    sass: 1.78.0
-    storybook: ^8.4.4
-    tailwindcss: 3.4.10
-    typescript: 5.5.4
-    typescript-eslint: ^8.9.0
-    usehooks-ts: ^3.1.0
-    yup: 1.4.0
-  peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  languageName: unknown
-  linkType: soft
+brorand@^1.0.1, brorand@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
+  integrity sha512-cKV8tMCEpQs4hK/ik71d6LrPOnpkpGBR0wzxqr68g2m/LB2GxVYQroAjMJZRVM1Y4BCjCKc3vAamxSzOY2RP+w==
 
-"brorand@npm:^1.0.1, brorand@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "brorand@npm:1.1.0"
-  checksum: 8a05c9f3c4b46572dec6ef71012b1946db6cae8c7bb60ccd4b7dd5a84655db49fe043ecc6272e7ef1f69dc53d6730b9e2a3a03a8310509a3d797a618cbee52be
-  languageName: node
-  linkType: hard
+browser-assert@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/browser-assert/-/browser-assert-1.2.1.tgz#9aaa5a2a8c74685c2ae05bfe46efd606f068c200"
+  integrity sha512-nfulgvOR6S4gt9UKCeGJOuSGBPGiFT6oQ/2UBnvTY/5aQ1PnksW72fhZkM30DzoRRv2WpwZf1vHHEr3mtuXIWQ==
 
-"browser-assert@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "browser-assert@npm:1.2.1"
-  checksum: 8b2407cd04c1ed592cf892dec35942b7d72635829221e0788c9a16c4d2afa8b7156bc9705b1c4b32c30d88136c576fda3cbcb8f494d6f865264c706ea8798d92
-  languageName: node
-  linkType: hard
-
-"browser-image-compression@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "browser-image-compression@npm:2.0.2"
+browser-image-compression@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/browser-image-compression/-/browser-image-compression-2.0.2.tgz#4d5ef8882e9e471d6d923715ceb9034499d14eaa"
+  integrity sha512-pBLlQyUf6yB8SmmngrcOw3EoS4RpQ1BcylI3T9Yqn7+4nrQTXJD4sJDe5ODnJdrvNMaio5OicFo75rDyJD2Ucw==
   dependencies:
     uzip: 0.20201231.0
   checksum: 16051f07b0ec3927d30600d244d07d46bd41de16d6c44b872efe89f4b2b22dbd9dfbb66e3d1ff2c6282057722456a53759996e1478774dc520843ffb48f7441e

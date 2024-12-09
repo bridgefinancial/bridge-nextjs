@@ -20,7 +20,6 @@ const meta: Meta<typeof SecureTextInputGroup> = {
 
     fullWidth: { control: 'boolean' },
     onChange: { action: 'changed' },
-    handleOnMouseDown: { action: 'mouseDown' },
   },
   args: {
     label: 'Password',

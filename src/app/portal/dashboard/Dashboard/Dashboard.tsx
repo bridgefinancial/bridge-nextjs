@@ -27,8 +27,10 @@ const Dashboard = ({
 
   // QUERIES
   const { data: user, isLoading: isLoadingUser } = useSessionUser();
-  const { hasStartedOnboarding: hasStartedOptimization } =
-    useOnboardingCompletion(optimizationForms);
+  const {
+    isLoading: isLoadingOptimization,
+    hasStartedOnboarding: hasStartedOptimization,
+  } = useOnboardingCompletion(optimizationForms);
   const {
     hasStartedOnboarding: hasStartedSellerReadiness,
     hasCompletedOnboarding: hasCompletedSellerReadiness,
@@ -42,7 +44,7 @@ const Dashboard = ({
       <div className="flex flex-col lg:flex-row items-stretch gap-6 w-full">
         <div className="grow shrink basis-0">
           {isLoadingUser ? (
-            <div className="bg-gray-200 animate-pulse h-60 rounded-[20px]" />
+            <div className="bg-gray-200 animate-pulse h-full min-h-[300px] rounded-[20px]" />
           ) : (
             <LockedContent
               body={
@@ -75,6 +77,7 @@ const Dashboard = ({
             body="Get personalized next steps for your business by completing your business profile!"
             buttonLabel="Complete Profile"
             blurred={!hasStartedOptimization}
+            isLoading={isLoadingOptimization}
             buttonHref={routePaths.RECOMMENDATION}
           >
             <OnboardingProgress forms={optimizationForms} />

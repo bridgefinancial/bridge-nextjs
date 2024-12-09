@@ -1,6 +1,7 @@
 import { useToastNotification } from '@/providers/ToastNotification.provider';
 import { routePaths } from '@/types/routes.enum';
 import { User } from '@/types/users.types';
+import { clearQuestionnaireData } from '@/utils/local-storage';
 import {
   useMutation,
   UseMutationResult,
@@ -68,7 +69,8 @@ export const loginUser = async ({
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       throw new Error(
-        data.non_field_errors?.[0] ?? 'An unknown error occurred',
+        data.error?.non_field_errors?.[0]?.message ??
+          'An unknown error occurred',
       );
     }
   }
@@ -131,6 +133,7 @@ export const useLogoutUser = (): UseMutationResult<
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
+      clearQuestionnaireData();
       queryClient.invalidateQueries({ queryKey: ['session'] });
       router.push(routePaths.LOGIN);
     },
@@ -249,7 +252,14 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+    if (!data) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    } else {
+      throw new Error(
+        data.error?.email?.[0]?.message ?? 'An unknown error occurred',
+      );
+    }
   }
 
   return;
@@ -381,11 +391,18 @@ export const changePassword = async ({
     }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!data) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    } else {
+      throw new Error(
+        data.error?.password?.[0]?.message ?? 'An unknown error occurred',
+      );
+    }
   }
 
-  const data = await response.json();
   return data;
 };
 

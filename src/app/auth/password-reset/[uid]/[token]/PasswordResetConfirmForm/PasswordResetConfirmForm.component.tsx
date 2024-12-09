@@ -84,7 +84,6 @@ const PasswordResetConfirmForm: React.FC = () => {
             error={Boolean(error && newPassword === '')}
             helperText={error && newPassword === '' ? error : ''}
             fullWidth={true}
-            handleOnMouseDown={(event) => event.preventDefault()}
           />
           <SecureTextInputGroup
             label="Confirm New Password"
@@ -94,7 +93,6 @@ const PasswordResetConfirmForm: React.FC = () => {
             error={Boolean(error && confirmPassword === '')}
             helperText={error && confirmPassword === '' ? error : ''}
             fullWidth={true}
-            handleOnMouseDown={(event) => event.preventDefault()}
           />
           {error && (
             <Typography color="error" variant="body2" align="center">

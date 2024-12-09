@@ -14,7 +14,7 @@ import { StyledTestimonial } from './TestimonialItem.styles';
 // Props Interface
 export interface TestimonialItemProps {
   quote: string; // The main testimonial text
-  author: string; // The author of the testimonial
+  author?: string; // The author of the testimonial
   role?: string; // The role or designation of the author
   quoteImageSrc?: string; // Source for the quote image
 }
@@ -72,8 +72,7 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({
             fontWeight: 'bold',
           }}
         >
-          {author}
-          {role && `, ${role}`}
+          {[author, role].filter(Boolean).join(', ')}
         </ParagraphText>
       </Box>
     </StyledTestimonial>

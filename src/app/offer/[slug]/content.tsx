@@ -107,14 +107,10 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
         {
           quote:
             'Bridge’s 48-hour turnaround gave us the insights we needed right when we needed them. Fast, accurate, and invaluable!',
-          author: 'Sarah L',
-          role: 'Owner of Sole Agave',
         },
         {
           quote:
             'I was amazed by the level of expertise and personal support. Bridge’s valuation was spot-on and helped secure my business’s future.',
-          author: 'David M',
-          role: 'CEO',
         },
       ],
       iconPath: '/assets/images/journey/chart.png',
@@ -205,14 +201,10 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
         {
           quote:
             'Bridge’s tailored approach to business optimization transformed our processes and boosted profitability. I wish we had done this sooner.',
-          author: 'Rebecca H',
-          role: 'Retail Business Owner',
         },
         {
           quote:
             'The Business Health Check gave us clear insights into what we were doing right and where we could improve. Bridge helped us create a roadmap for real growth.',
-          author: 'Linda M',
-          role: 'Tech Startup Founder',
         },
       ],
       iconPath: '/assets/images/journey/revenue.png',
@@ -302,14 +294,10 @@ export const contentBySlug: Map<OfferSlug, OfferPageDynamicContent> = new Map([
         {
           quote:
             'With Bridge’s guidance, I knew exactly what buyers were looking for. It was a game-changer for my sale process.',
-          author: 'Rachel T',
-          role: 'Franchise Owner',
         },
         {
           quote:
             'I couldn’t believe how much Bridge’s insights and preparation boosted my business’s sale price. They made it easy, efficient, and effective.',
-          author: 'Mark J',
-          role: 'Manufacturing Business Owner',
         },
       ],
       iconPath: '/assets/images/journey/price.png',

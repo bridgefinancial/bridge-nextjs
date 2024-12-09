@@ -4,7 +4,7 @@ import ContainedButton from '@/components/atoms/buttons/ContainedButton';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import TitleText from '@/components/atoms/typography/TitleText';
 import ToastNotification from '@/components/molecules/feedback/ToastNotification';
-import TextInputGroup from '@/components/molecules/forms/TextInputGroup';
+import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
 import { useChangePassword, useSessionUser } from '@/services/users.service';
 import { colors } from '@/theme/theme';
 import { Box } from '@mui/material';
@@ -157,9 +157,8 @@ const ChangePasswordForm: React.FC = () => {
       </Box>
 
       {/* Current Password Input */}
-      <TextInputGroup
+      <SecureTextInputGroup
         label="Current password"
-        type="password"
         fullWidth={true}
         margin="normal"
         name="password"
@@ -170,9 +169,8 @@ const ChangePasswordForm: React.FC = () => {
       />
 
       {/* New Password Input */}
-      <TextInputGroup
+      <SecureTextInputGroup
         label="New password"
-        type="password"
         fullWidth={true}
         margin="normal"
         name="password1"
@@ -183,9 +181,8 @@ const ChangePasswordForm: React.FC = () => {
       />
 
       {/* Confirm Password Input */}
-      <TextInputGroup
+      <SecureTextInputGroup
         label="Confirm password"
-        type="password"
         fullWidth={true}
         margin="normal"
         name="password2"

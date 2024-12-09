@@ -53,5 +53,10 @@ export const useOnboardingCompletion = (forms: FormidableForm[]) => {
     });
   }, [formSubmissionsQuery, forms]);
 
-  return { hasStartedOnboarding, hasCompletedOnboarding, completion };
+  return {
+    isLoading: formSubmissionsQuery.isLoading,
+    hasStartedOnboarding,
+    hasCompletedOnboarding,
+    completion,
+  };
 };

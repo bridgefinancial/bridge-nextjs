@@ -287,13 +287,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
               }}
             >
               I accept the Bridge{' '}
-              <Link
-                legacyBehavior={true}
+              <a
                 target="_blank"
                 href={externalUrls.TERMS_OF_SERVICE}
               >
                 Terms of Service
-              </Link>
+              </a>
             </ParagraphText>
           }
         />

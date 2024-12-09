@@ -100,7 +100,7 @@ Bridge Financial leverages modern web development standards to ensure a scalable
 - Avoid premature entanglement of components with data or logic.
 - Focus on component functionality, responsiveness, and props handling.
 
-For details on structuring reusable components, refer to the **[Atomic Design Patterns Documentation](src/components/design-system/DESIGN_SYSTEM_README.md)**. It explains how to organize components to enhance reusability and maintain clarity.
+For details on structuring reusable components, refer to the **[Atomic Design Patterns Documentation](./src/components/design-system/DESIGN_SYSTEM_README.md)**. It explains how to organize components to enhance reusability and maintain clarity.
 
 ### Why Prioritize View-First Coding?
 

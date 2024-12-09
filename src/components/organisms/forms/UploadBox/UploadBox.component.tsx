@@ -1,8 +1,9 @@
+import React, { ChangeEvent, forwardRef, ReactNode } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { Box } from '@mui/material';
+import { CloudUpload } from '@mui/icons-material';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import { colors } from '@/theme/theme';
-import { CloudUpload } from '@mui/icons-material';
-import { Box } from '@mui/material';
-import React, { ChangeEvent, forwardRef, ReactNode } from 'react';
 
 export interface UploadProps {
   supportedFormats: string[];
@@ -31,16 +32,37 @@ const UploadBox = forwardRef(
     }: UploadProps,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
-    const acceptFormats = supportedFormats
-      .map((format) => `.${format}`)
-      .join(',');
+    const acceptFormats = supportedFormats.reduce((acc, format) => {
+      const mimeType = format === 'pdf' ? 'application/pdf' :
+                      format === 'docx' ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+                      format === 'jpg' ? 'image/jpeg' : '';
+      if (mimeType) acc[mimeType] = [];
+      return acc;
+    }, {} as { [key: string]: string[] });
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      accept: acceptFormats,
+      onDrop: (acceptedFiles) => {
+        const event = {
+          target: {
+            files: acceptedFiles,
+          },
+        } as unknown as ChangeEvent<HTMLInputElement>;
+        onFileChange(event);
+      },
+    });
+
     return (
       <Box className="space-y-2">
         {/* Hidden File Input */}
         <input
           type="file"
           multiple={true}
-          accept={acceptFormats}
+          accept={supportedFormats.map((format) => {
+            return format === 'pdf' ? 'application/pdf' :
+                   format === 'docx' ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+                   format === 'jpg' ? 'image/jpeg' : '';
+          }).join(',')}
           style={{ display: 'none' }}
           ref={ref}
           onChange={onFileChange}
@@ -49,6 +71,8 @@ const UploadBox = forwardRef(
 
         {/* Clickable Upload Box */}
         <Box
+          {...getRootProps()}
+          data-testid="upload-dropzone"
           component="label"
           className="flex flex-col items-center justify-center w-full"
           sx={{
@@ -60,10 +84,11 @@ const UploadBox = forwardRef(
           }}
           onClick={onUploadClicked}
         >
+          <input {...getInputProps()} />
           <Box className="flex flex-col sm:flex-row items-center justify-center gap-2 w-full">
             <CloudUpload color="primary" />
             <ParagraphText sx={{ color: 'rgba(0, 0, 0, 0.6)' }}>
-              {dropzoneText}
+              {isDragActive ? 'Drop the files here ...' : dropzoneText}
             </ParagraphText>
           </Box>
           <ParagraphText sx={{ color: colors.bridgeDarkPurple }}>

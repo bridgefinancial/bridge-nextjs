@@ -70,7 +70,7 @@ export const loginUser = async ({
     } else {
       throw new Error(
         data.error?.non_field_errors?.[0]?.message ??
-          'An unknown error occurred',
+          'An unknown error occurred'
       );
     }
   }
@@ -92,7 +92,7 @@ export const useLoginUser = (): UseMutationResult<
     mutationFn: loginUser,
     onSuccess: () => {
       const landingUrl = decodeURIComponent(
-        searchParams.get('navigateTo') ?? '',
+        searchParams.get('navigateTo') ?? ''
       );
       router.push(landingUrl || routePaths.ROOT);
     },
@@ -128,14 +128,13 @@ export const useLogoutUser = (): UseMutationResult<
   unknown
 > => {
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { open } = useToastNotification();
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
       clearQuestionnaireData();
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      router.push(routePaths.LOGIN);
+      queryClient.clear()
+
     },
     onError: (error) => {
       open(error.message, 'error');
@@ -257,7 +256,7 @@ export const passwordReset = async ({ email }: PasswordResetRequest) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       throw new Error(
-        data.error?.email?.[0]?.message ?? 'An unknown error occurred',
+        data.error?.email?.[0]?.message ?? 'An unknown error occurred'
       );
     }
   }
@@ -398,7 +397,7 @@ export const changePassword = async ({
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       throw new Error(
-        data.error?.password?.[0]?.message ?? 'An unknown error occurred',
+        data.error?.password?.[0]?.message ?? 'An unknown error occurred'
       );
     }
   }

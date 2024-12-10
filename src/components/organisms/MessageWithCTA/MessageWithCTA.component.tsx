@@ -82,7 +82,7 @@ function MessageWithCTA(props: MessageWithCTAProps) {
 
   const mergeParagraphProps = useMergeProps(
     defaultParagraphProps,
-    paragraphProps
+    paragraphProps,
   );
 
   const mergeTitleProps = useMergeProps(defaultTitleProps, titleProps);
@@ -109,7 +109,15 @@ function MessageWithCTA(props: MessageWithCTAProps) {
         <MessageWithCTAButtonWrap>
           {mergeButtonProps.checkoutProductKey ? (
             <CheckoutForm productKey={mergeButtonProps.checkoutProductKey}>
-              <ContainedButton type="submit" {...mergeButtonProps} />
+              <ContainedButton
+                type="submit"
+                {...(() => {
+                  // remove checkoutProductKey from button using destructuring
+                  const { checkoutProductKey, ...withoutCheckoutProductKey } =
+                    mergeButtonProps;
+                  return withoutCheckoutProductKey;
+                })()}
+              />
             </CheckoutForm>
           ) : (
             <ContainedButton {...mergeButtonProps} />

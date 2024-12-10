@@ -2,11 +2,11 @@
 
 import LogoImage, {
   DefaultLogoProps,
+  LogoImageProps,
 } from '@/components/atoms/images/LogoImage/LogoImage.component';
 import UserProfileMenu from '@/components/molecules/menus/UserProfileMenu';
 import PortalListItem from '@/components/organisms/lists/PortalListItem/PortalListItem.component';
-import { useLogoutUser, useSessionUser } from '@/services/users.service';
-import { LayoutForPortalProps } from '@/types/layout.types';
+import { LayoutForPortalProps, PortalTab } from '@/types/layout.types';
 import { CloseSharp, LogoutRounded } from '@mui/icons-material';
 import { Box, CssBaseline } from '@mui/material';
 import Divider from '@mui/material/Divider';
@@ -26,9 +26,25 @@ import React, {
   useState,
 } from 'react';
 
+import withAuth from '@/hoc/withAuth';
+import { User } from '@/types/users.types';
+import { MutationFunction } from '@tanstack/react-query';
 import MobileLayoutBar from '../../../organisms/headers/LayoutBar/MobileLayoutBar/MobileLayoutBar.component';
 import { portalDrawerStyles } from '../PortalLayout/PortalLayout.styles';
-export interface OfferLayoutProps extends LayoutForPortalProps {}
+export interface OfferLayoutProps extends LayoutForPortalProps {
+  window?: () => Window;
+  logoProps?: LogoImageProps;
+  LinkComponent?: typeof Link;
+  tabs?: PortalTab[];
+  children?: React.ReactNode;
+  user?: User;
+  pathname: string;
+  logout:
+    | MutationFunction<void, void>
+    | (() => void)
+    | (() => Promise<void>)
+    | any;
+}
 
 // it might be a good idea to have a containers, or views folder where we connect these to data
 export const OfferLayout: React.FC<OfferLayoutProps> = ({
@@ -122,9 +138,18 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
     handleDrawerToggle,
   ]);
 
+  const handleLogout: () => void = () => {
+    console.log('logging out');
+    if (typeof logout === 'function') {
+      console.log('invoking logout function');
+      // make sure this is not an await function
+      logout();
+    }
+  };
+
   return (
     <div
-      test-id={'offer-layout'}
+      data-test-id={'offer-layout'}
       style={{
         display: 'flex',
 
@@ -186,12 +211,7 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
                   {
                     startIcon: <LogoutRounded />,
                     text: 'Log out',
-                    onClick: () => {
-                      console.log('logging out');
-                      if (typeof logout === 'function') {
-                        logout();
-                      }
-                    },
+                    onClick: handleLogout,
                   },
                 ]}
                 user={user as any}
@@ -223,7 +243,7 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
         </Drawer>
       </Box>
       <main
-        test-id="main-box"
+        data-test-id={'main-box'}
         style={{
           flexGrow: 1,
           padding: 0,
@@ -234,7 +254,7 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
         }}
       >
         <div
-          test-id="inner-box-for-main"
+          data-test-id="inner-box-for-main"
           style={{
             width: '100%',
             // maxWidth: '1200px',
@@ -254,41 +274,45 @@ export const OfferLayout: React.FC<OfferLayoutProps> = ({
 // all this means is that it has data, above the view
 // think of it as the controller, the queries should be separate from the view
 
-interface OfferLayoutWithDataProps extends Partial<OfferLayoutProps> {}
+interface OfferLayoutWithDataProps extends Partial<OfferLayoutProps> {
+  window?: () => Window;
+  logoProps?: LogoImageProps;
+  LinkComponent?: typeof Link;
+  tabs?: PortalTab[];
+  children?: React.ReactNode;
+}
 
-const OfferLayoutWithData: React.FC<OfferLayoutWithDataProps> = (props) => {
-  const { tabs: tempTabs = [], ...rest } = props;
+const OfferLayoutWithData: React.FC<OfferLayoutWithDataProps> = withAuth(
+  (props) => {
+    const { tabs: tempTabs = [], sessionQuery, logout, ...rest } = props;
 
-  // QUERIES
-  const { data: user } = useSessionUser();
+    // HOOKS
+    const pathname = usePathname();
+    const segment = useSelectedLayoutSegment();
 
-  // HOOKS
-  const { mutateAsync: logout } = useLogoutUser();
-  const pathname = usePathname();
-  const segment = useSelectedLayoutSegment();
+    // Map and determine active tabs in a single step
+    const tabs = useMemo(() => {
+      let activeTabFound = false;
 
-  // Map and determine active tabs in a single step
-  const tabs = useMemo(() => {
-    let activeTabFound = false;
+      return tempTabs.map((tab) => {
+        const isActive =
+          tab.active ||
+          (!activeTabFound &&
+            tab.label?.toLowerCase() === segment?.toLowerCase());
+        if (isActive) activeTabFound = true; // Ensure only one active tab
+        return { ...tab, active: isActive };
+      });
+    }, [tempTabs, segment]);
 
-    return tempTabs.map((tab) => {
-      const isActive =
-        tab.active ||
-        (!activeTabFound &&
-          tab.label?.toLowerCase() === segment?.toLowerCase());
-      if (isActive) activeTabFound = true; // Ensure only one active tab
-      return { ...tab, active: isActive };
-    });
-  }, [tempTabs, segment]);
-
-  return (
-    <OfferLayout
-      user={user}
-      pathname={pathname}
-      logout={logout}
-      tabs={tabs}
-      {...rest}
-    />
-  );
-};
+    return (
+      <OfferLayout
+        user={sessionQuery.data}
+        pathname={pathname}
+        logout={logout}
+        tabs={tabs}
+        {...rest}
+      />
+    );
+  }
+);
 export default OfferLayoutWithData;

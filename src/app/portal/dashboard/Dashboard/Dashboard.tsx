@@ -13,13 +13,19 @@ import Valuation from './Valuation/Valuation';
 
 type DashboardProps = {
   sellerReadinessForms: FormidableForm[];
-  valuationForms: FormidableForm[];
+  // valuationForms: FormidableForm[];
   optimizationForms: FormidableForm[];
 };
 
+
+
+// my reasoning for commenting out valuation forms is that it was a unused variable.
+// i don't think we should be making any more requests than we have to
+// I commented it out rather than removing it just in case we decide we are reusing it later
+
 const Dashboard = ({
   sellerReadinessForms,
-  valuationForms,
+  // valuationForms,
   optimizationForms,
 }: DashboardProps) => {
   // HOOKS

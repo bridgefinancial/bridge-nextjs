@@ -2,12 +2,13 @@
 
 import LogoImage, {
   DefaultLogoProps,
+  LogoImageProps,
 } from '@/components/atoms/images/LogoImage/LogoImage.component';
 import UserProfileMenu from '@/components/molecules/menus/UserProfileMenu';
 import PortalListItem from '@/components/organisms/lists/PortalListItem/PortalListItem.component';
+import withAuth, { AuthInjectedProps } from '@/hoc/withAuth/withAuth';
 import { useCelebration } from '@/hooks/useCelebration';
-import { useLogoutUser, useSessionUser } from '@/services/users.service';
-import { LayoutForPortalProps } from '@/types/layout.types';
+import { LayoutForPortalProps, PortalTab } from '@/types/layout.types';
 import { CloseSharp, LogoutRounded } from '@mui/icons-material';
 import { CssBaseline } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -137,6 +138,15 @@ export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
     handleDrawerToggle,
   ]);
 
+  const handleLogout: () => void = () => {
+    console.log('logging out');
+    if (typeof logout === 'function') {
+      console.log('invoking logout function');
+      // make sure this is not an await function
+      logout();
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -198,12 +208,7 @@ export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
                   {
                     startIcon: <LogoutRounded />,
                     text: 'Log out',
-                    onClick: () => {
-                      console.log('logging out');
-                      if (typeof logout === 'function') {
-                        logout();
-                      }
-                    },
+                    onClick: handleLogout,
                   },
                 ]}
                 user={user}
@@ -272,25 +277,32 @@ export const LayoutForPortal: React.FC<LayoutForPortalProps> = ({
 
 // all this means is that it has data, above the view
 // think of it as the controller, the queries should be separate from the view,
-interface PortalLayoutProps extends Partial<LayoutForPortalProps> {}
+interface PortalLayoutProps extends Partial<LayoutForPortalProps> {
+  window?: () => Window;
+  logoProps?: LogoImageProps;
+  LinkComponent?: typeof Link;
+  tabs?: PortalTab[];
+  children?: React.ReactNode;
+}
 
-export const PortalLayout = (props: PortalLayoutProps) => {
-  const { ...rest } = props;
-  // QUERIES
-  const { data: user } = useSessionUser();
-
-  // HOOKS
-  const { mutateAsync: logout } = useLogoutUser();
-  const pathname = usePathname();
-
-  return (
-    <LayoutForPortal
-      user={user}
-      pathname={pathname}
-      logout={logout}
-      {...rest}
-    />
-  );
-};
+// Define PortalLayout using withAuth HOC
+const PortalLayout = withAuth(
+  ({
+    sessionQuery,
+    logout,
+    ...rest
+  }: AuthInjectedProps & { [key: string]: any }) => {
+    // QUERIES
+    const pathname = usePathname();
+    return (
+      <LayoutForPortal
+        user={sessionQuery?.data}
+        pathname={pathname}
+        logout={logout || (() => console.log('please pass logout prop'))}
+        {...rest}
+      />
+    );
+  }
+);
 
 export default PortalLayout;

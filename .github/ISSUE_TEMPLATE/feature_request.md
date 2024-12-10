@@ -19,10 +19,10 @@ Briefly describe the feature you're requesting.
 Is this feature focused on project completion or solving a user problem?
 
 - [ ] Project completion  
-      <small>Getting the feature ready for launch.</small>
+       <small>Getting the feature ready for launch.</small>
 
 - [ ] Solving a specific user problem  
-      <small>Addressing a challenge faced by users.</small>
+       <small>Addressing a challenge faced by users.</small>
 
 ---
 
@@ -31,19 +31,22 @@ Is this feature focused on project completion or solving a user problem?
 What is the main goal of this feature? (Select all that apply)
 
 - [ ] Ensure the feature is ready for release  
-      <small>Make the feature launch-ready.</small>
+       <small>Make the feature launch-ready.</small>
 
 - [ ] Add a new feature  
-      <small>Introduce a new functionality.</small>
+       <small>Introduce a new functionality.</small>
 
 - [ ] Fix a problem  
-      <small>Resolve existing issues.</small>
+       <small>Resolve existing issues.</small>
 
 - [ ] Improve performance  
-      <small>Enhance the system's efficiency.</small>
+       <small>Enhance the system's efficiency.</small>
+
+- [ ] Improve user experience (UX)  
+       <small>Make the feature more user-friendly and accessible.</small>
 
 - [ ] Other (please specify):  
-      <small>Describe additional goals if applicable.</small>
+       <small>Describe additional goals if applicable.</small>
 
 ---
 
@@ -52,19 +55,22 @@ What is the main goal of this feature? (Select all that apply)
 How will we know if this feature is successful? (Select all that apply)
 
 - [ ] The feature is complete and meets project goals  
-      <small>Achieves the intended objectives.</small>
+       <small>Achieves the intended objectives.</small>
 
 - [ ] Increased user engagement  
-      <small>Drives higher interaction from users.</small>
+       <small>Drives higher interaction from users.</small>
 
 - [ ] Fewer bugs/issues  
-      <small>Reduces reported problems.</small>
+       <small>Reduces reported problems.</small>
 
 - [ ] Improved performance  
-      <small>Delivers noticeable improvements.</small>
+       <small>Delivers noticeable improvements.</small>
+
+- [ ] Improved user experience (UX)  
+       <small>Enhances usability and satisfaction.</small>
 
 - [ ] Other (please specify):  
-      <small>List any other success measures.</small>
+       <small>List any other success measures.</small>
 
 ---
 
@@ -73,31 +79,19 @@ How will we know if this feature is successful? (Select all that apply)
 Which platform does this feature impact? (Select one):
 
 - [ ] 🎨 **Client Side**  
-      <small>UI/UX or component design tasks.</small>
+       <small>UI/UX or component design tasks.</small>
 
 - [ ] 🖥 **Backend**  
-      <small>APIs, database, or server logic.</small>
+       <small>APIs, database, or server logic.</small>
 
 - [ ] ⚙ **DevOps**  
-      <small>Deployment pipelines or operational infrastructure.</small>
+       <small>Deployment pipelines or operational infrastructure.</small>
 
 - [ ] ☁ **Cloud Infrastructure**  
-      <small>Cloud services, hosting, or scalability.</small>
-
-- [ ] 🍎 **iOS**  
-      <small>Impacts functionality on iOS devices.</small>
-
-- [ ] 🤖 **Android**  
-      <small>Impacts functionality on Android devices.</small>
+       <small>Cloud services, hosting, or scalability.</small>
 
 - [ ] 🌐 **Web**  
-      <small>Affects browser-based platforms.</small>
-
-- [ ] 🖥 **Windows**  
-      <small>Targets functionality on Windows platforms.</small>
-
-- [ ] 🍏 **macOS**  
-      <small>Targets functionality on macOS platforms.</small>
+       <small>Affects browser-based platforms.</small>
 
 ---
 
@@ -106,16 +100,16 @@ Which platform does this feature impact? (Select one):
 Please select the priority of this feature:
 
 - [ ] 🚨 **Priority: Critical**  
-      <small>Must be completed immediately.</small>
+       <small>Must be completed immediately.</small>
 
 - [ ] 🚨 **Priority: High**  
-      <small>Should be addressed as soon as possible.</small>
+       <small>Should be addressed as soon as possible.</small>
 
 - [ ] 🟧 **Priority: Medium**  
-      <small>Important but not urgent.</small>
+       <small>Important but not urgent.</small>
 
 - [ ] 🟦 **Priority: Low**  
-      <small>Can be addressed later; minimal impact.</small>
+       <small>Can be addressed later; minimal impact.</small>
 
 ---
 
@@ -124,22 +118,22 @@ Please select the priority of this feature:
 Select story points based on the effort, complexity, and risk of the task:
 
 - [ ] ⏳ **Story Points: 1**  
-      <small>Simple task, minimal effort or risk.</small>
+       <small>Simple task, minimal effort or risk.</small>
 
 - [ ] ⏳ **Story Points: 2-3**  
-      <small>Slightly more effort or complexity, but still straightforward.</small>
+       <small>Slightly more effort or complexity, but still straightforward.</small>
 
 - [ ] ⏳ **Story Points: 5**  
-      <small>Moderate effort, some complexity or dependencies.</small>
+       <small>Moderate effort, some complexity or dependencies.</small>
 
 - [ ] ⏳ **Story Points: 8**  
-      <small>High effort, notable complexity, or risks involved.</small>
+       <small>High effort, notable complexity, or risks involved.</small>
 
 - [ ] ⏳ **Story Points: 13**  
-      <small>Significant effort, complexity, or unknowns.</small>
+       <small>Significant effort, complexity, or unknowns.</small>
 
 - [ ] ⏳ **Story Points: 20+**  
-      <small>Very large or complex task; consider breaking it into smaller stories.</small>
+       <small>Very large or complex task; consider breaking it into smaller stories.</small>
 
 ---
 
@@ -148,22 +142,22 @@ Select story points based on the effort, complexity, and risk of the task:
 Please select the difficulty level for this task:
 
 - [ ] 🌱 **Difficulty: Simple**  
-      <small>Basic and straightforward task.</small>
+       <small>Basic and straightforward task.</small>
 
 - [ ] 👍 **Difficulty: Easy**  
-      <small>Requires minimal effort and complexity.</small>
+       <small>Requires minimal effort and complexity.</small>
 
 - [ ] 🛠 **Difficulty: Moderate**  
-      <small>Involves moderate effort and dependencies.</small>
+       <small>Involves moderate effort and dependencies.</small>
 
 - [ ] 🔥 **Difficulty: Hard**  
-      <small>Challenging task with notable complexity.</small>
+       <small>Challenging task with notable complexity.</small>
 
 - [ ] 🧠 **Difficulty: Very Hard**  
-      <small>Highly complex with significant challenges.</small>
+       <small>Highly complex with significant challenges.</small>
 
 - [ ] ⚫ **Difficulty: Epic**  
-      <small>Massive task requiring exceptional effort.</small>
+       <small>Massive task requiring exceptional effort.</small>
 
 ---
 

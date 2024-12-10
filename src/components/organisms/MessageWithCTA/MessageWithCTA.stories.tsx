@@ -91,7 +91,13 @@ export const CustomStyles: Story = {
       textColor: '#ffffff',
       onClick: () => alert('Custom styled button clicked!'),
     },
-    icon: <LogoImage width={100} height={50} />,
+    icon: (
+      <LogoImage
+        src={'/assets/images/Bridge-logo.png'}
+        width={100}
+        height={50}
+      />
+    ),
   },
 };
 

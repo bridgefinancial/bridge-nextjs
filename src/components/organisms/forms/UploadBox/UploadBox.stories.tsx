@@ -1,11 +1,11 @@
-import { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react';
-import UploadBox from './UploadBox.component';
-import ListItemWithStatus from '../../lists/ListItemWithStatus';
-import { CheckCircle, Close as CloseIcon } from '@mui/icons-material';
-import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
 import DocumentIcon from '@/components/atoms/images/DocumentIcon/DocumentIcon.component';
+import LoadingSpinner from '@/components/atoms/loaders/LoadingSpinner';
 import { colors } from '@/theme/theme';
+import { CheckCircle, Close as CloseIcon } from '@mui/icons-material';
+import { Meta, StoryObj } from '@storybook/react';
+import React, { useRef, useState } from 'react';
+import ListItemWithStatus from '../../lists/ListItemWithStatus';
+import UploadBox from './UploadBox.component';
 
 const meta: Meta<typeof UploadBox> = {
   title: 'components/organisms/forms/UploadBox',
@@ -45,11 +45,12 @@ export default meta;
 
 type Story = StoryObj<typeof UploadBox>;
 
-
 export const DragAndDropWithStatus: Story = {
   render: () => {
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const [fileStatuses, setFileStatuses] = useState<string[]>([]);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
     const formatFileSize = (size: number) => `${(size / 1024).toFixed(2)} KB`;
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,14 +71,29 @@ export const DragAndDropWithStatus: Story = {
       );
     };
 
+    const handleUploadClick = () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    };
+
     return (
       <UploadBox
-        supportedFormats={['pdf', 'docx', 'jpg']}
+        supportedFormats={['pdf', 'docx', 'jpg', 'csv']}
         dropzoneText="Drag and drop your files here"
         onFileChange={handleFileChange}
-        onUploadClicked={() => console.log('Upload clicked')}
+        onUploadClicked={handleUploadClick}
         handleRemoveFile={handleRemoveFile}
       >
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+          multiple
+        />
+
         <div>
           <h3>Uploaded Files:</h3>
           <ul>
@@ -87,8 +103,8 @@ export const DragAndDropWithStatus: Story = {
                 status === 'complete'
                   ? colors.bridgeDarkGreen
                   : status === 'uploading'
-                  ? colors.bridgeDarkPurple
-                  : colors.bridgeDarkBlue;
+                    ? colors.bridgeDarkPurple
+                    : colors.bridgeDarkBlue;
 
               return (
                 <ListItemWithStatus
@@ -98,8 +114,8 @@ export const DragAndDropWithStatus: Story = {
                     status === 'complete'
                       ? 'Uploaded'
                       : status === 'uploading'
-                      ? 'Uploading...'
-                      : 'Ready to upload'
+                        ? 'Uploading...'
+                        : 'Ready to upload'
                   }
                   onAction={() => handleRemoveFile(index)}
                   statusColor={statusColor}
@@ -123,4 +139,3 @@ export const DragAndDropWithStatus: Story = {
     );
   },
 };
-

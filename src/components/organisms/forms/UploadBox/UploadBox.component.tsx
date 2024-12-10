@@ -1,9 +1,10 @@
-import React, { ChangeEvent, forwardRef, ReactNode } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Box } from '@mui/material';
-import { CloudUpload } from '@mui/icons-material';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import { colors } from '@/theme/theme';
+import getMimeType from '@/utils/getMimeType';
+import { CloudUpload } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import React, { ChangeEvent, forwardRef, ReactNode } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 export interface UploadProps {
   supportedFormats: string[];
@@ -32,13 +33,14 @@ const UploadBox = forwardRef(
     }: UploadProps,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
-    const acceptFormats = supportedFormats.reduce((acc, format) => {
-      const mimeType = format === 'pdf' ? 'application/pdf' :
-                      format === 'docx' ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-                      format === 'jpg' ? 'image/jpeg' : '';
-      if (mimeType) acc[mimeType] = [];
-      return acc;
-    }, {} as { [key: string]: string[] });
+    const acceptFormats = supportedFormats.reduce(
+      (acc, format) => {
+        const mimeType = getMimeType(format);
+        if (mimeType) acc[mimeType] = [];
+        return acc;
+      },
+      {} as { [key: string]: string[] }
+    );
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       accept: acceptFormats,
@@ -58,11 +60,10 @@ const UploadBox = forwardRef(
         <input
           type="file"
           multiple={true}
-          accept={supportedFormats.map((format) => {
-            return format === 'pdf' ? 'application/pdf' :
-                   format === 'docx' ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-                   format === 'jpg' ? 'image/jpeg' : '';
-          }).join(',')}
+          accept={supportedFormats
+            .map((format) => getMimeType(format))
+            .filter((mimeType) => mimeType !== null)
+            .join(',')}
           style={{ display: 'none' }}
           ref={ref}
           onChange={onFileChange}

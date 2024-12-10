@@ -4,7 +4,7 @@ import { CSSProperties } from 'react';
 
 // Define LogoProps without making src and alt required
 export interface LogoProps extends Omit<ImageProps, 'src' | 'alt'> {
-  src?: string | StaticImport;
+  src: string | StaticImport;
   alt?: string;
 }
 

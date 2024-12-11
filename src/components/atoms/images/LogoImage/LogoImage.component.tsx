@@ -4,13 +4,13 @@ import { CSSProperties } from 'react';
 
 // Define LogoProps without making src and alt required
 export interface LogoProps extends Omit<ImageProps, 'src' | 'alt'> {
-  src?: string | StaticImport;
+  src: string | StaticImport;
   alt?: string;
 }
 
 // Default properties for LogoImage
 export const DefaultLogoProps = {
-  src: '/assets/images/Bridge-logo.png',
+  src: 'assets/images/Bridge-logo.png',
   alt: 'Bridge Financial Logo',
   height: 34.23,
   width: 120,

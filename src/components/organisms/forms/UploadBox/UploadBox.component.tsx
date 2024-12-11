@@ -1,8 +1,10 @@
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import { colors } from '@/theme/theme';
+import getMimeType from '@/utils/getMimeType';
 import { CloudUpload } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import React, { ChangeEvent, forwardRef, ReactNode } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 export interface UploadProps {
   supportedFormats: string[];
@@ -31,16 +33,37 @@ const UploadBox = forwardRef(
     }: UploadProps,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
-    const acceptFormats = supportedFormats
-      .map((format) => `.${format}`)
-      .join(',');
+    const acceptFormats = supportedFormats.reduce(
+      (acc, format) => {
+        const mimeType = getMimeType(format);
+        if (mimeType) acc[mimeType] = [];
+        return acc;
+      },
+      {} as { [key: string]: string[] }
+    );
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      accept: acceptFormats,
+      onDrop: (acceptedFiles) => {
+        const event = {
+          target: {
+            files: acceptedFiles,
+          },
+        } as unknown as ChangeEvent<HTMLInputElement>;
+        onFileChange(event);
+      },
+    });
+
     return (
       <Box className="space-y-2">
         {/* Hidden File Input */}
         <input
           type="file"
           multiple={true}
-          accept={acceptFormats}
+          accept={supportedFormats
+            .map((format) => getMimeType(format))
+            .filter((mimeType) => mimeType !== null)
+            .join(',')}
           style={{ display: 'none' }}
           ref={ref}
           onChange={onFileChange}
@@ -49,6 +72,8 @@ const UploadBox = forwardRef(
 
         {/* Clickable Upload Box */}
         <Box
+          {...getRootProps()}
+          data-testid="upload-dropzone"
           component="label"
           className="flex flex-col items-center justify-center w-full"
           sx={{
@@ -60,10 +85,11 @@ const UploadBox = forwardRef(
           }}
           onClick={onUploadClicked}
         >
+          <input {...getInputProps()} />
           <Box className="flex flex-col sm:flex-row items-center justify-center gap-2 w-full">
             <CloudUpload color="primary" />
             <ParagraphText sx={{ color: 'rgba(0, 0, 0, 0.6)' }}>
-              {dropzoneText}
+              {isDragActive ? 'Drop the files here ...' : dropzoneText}
             </ParagraphText>
           </Box>
           <ParagraphText sx={{ color: colors.bridgeDarkPurple }}>

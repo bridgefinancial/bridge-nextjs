@@ -272,7 +272,7 @@ const DocumentList = forwardRef(
 
           {/* Upload Dialog */}
           <UploadDialog
-            existingFiles={uploadedFiles || []}
+            existingFiles={uploadedFiles as any || [] as any}
             open={uploadOpen}
             onClose={handleCloseUpload}
             handleSave={handleSave}

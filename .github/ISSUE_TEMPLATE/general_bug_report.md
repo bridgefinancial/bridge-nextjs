@@ -33,20 +33,8 @@ Which platform does this bug affect? (Select one):
 - [ ] 🖥 **Backend**  
        <small>APIs, server logic.</small>
 
-- [ ] 🍎 **iOS**  
-       <small>Impacts functionality on iOS devices.</small>
-
-- [ ] 🤖 **Android**  
-       <small>Impacts functionality on Android devices.</small>
-
 - [ ] 🌐 **Web**  
        <small>Browser-based functionality or features.</small>
-
-- [ ] 🖥 **Windows**  
-       <small>Targets functionality or performance on Windows platforms.</small>
-
-- [ ] 🍏 **macOS**  
-       <small>Targets functionality or performance on macOS platforms.</small>
 
 - [ ] ☁ **Cloud Infrastructure**  
        <small>Related to cloud services or hosting.</small>
@@ -86,6 +74,9 @@ Please select the severity of the bug:
 
 - [ ] 🟦 **Severity: Cosmetic**  
        <small>Purely visual or stylistic issue.</small>
+
+- [ ] 🎭 **Severity: User Experience (UX)**  
+       <small>Impacts user interaction, usability, or experience (e.g., slow loading times, confusing navigation).</small>
 
 ---
 

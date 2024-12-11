@@ -21,7 +21,7 @@
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
     "@mui/icons-material": "6.1.8",
-    "@mui/material": "5.16.7",
+    "@mui/material": "6.1.10",
     "@rollbar/react": "^0.12.0-beta",
     "@tanstack/react-query": "5.54.1",
     "@testing-library/react": "16.0.1",
@@ -35,10 +35,10 @@
     "lodash.merge": "^4.6.2",
     "next": "14.2.5",
     "nprogress": "^0.2.0",
-    "react": "^19.0.0",
+    "react": "^18.0.0",
     "react-calendly": "^4.3.1",
     "react-datepicker": "^7.5.0",
-    "react-dom": "^19.0.0",
+    "react-dom": "^18.0.0",
     "react-dropzone": "^14.3.5",
     "react-error-boundary": "4.0.13",
     "react-player": "^2.16.0",
@@ -70,8 +70,8 @@
     "@types/node": "22.5.4",
     "@types/react": "18.3.5",
     "@types/react-dom": "18.3.0",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
     "autoprefixer": "10.4.20",
     "eslint": "^9.12.0",
     "eslint-config-next": "14.2.8",
@@ -85,8 +85,7 @@
     "prop-types": "^15.8.1",
     "storybook": "^8.4.4",
     "tailwindcss": "3.4.10",
-    "typescript": "5.5.4",
-    "typescript-eslint": "^8.9.0"
+    "typescript": "5.5.4"
   },
   "eslintConfig": {
     "extends": [

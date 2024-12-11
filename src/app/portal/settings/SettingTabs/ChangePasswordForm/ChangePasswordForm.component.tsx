@@ -3,12 +3,11 @@
 import ContainedButton from '@/components/atoms/buttons/ContainedButton';
 import ParagraphText from '@/components/atoms/typography/ParagraphText';
 import TitleText from '@/components/atoms/typography/TitleText';
-import ToastNotification from '@/components/molecules/feedback/ToastNotification';
 import SecureTextInputGroup from '@/components/molecules/forms/SecureTextInputGroup';
 import { useChangePassword, useSessionUser } from '@/services/users.service';
 import { colors } from '@/theme/theme';
 import { Box } from '@mui/material';
-import React, { ChangeEvent, FormEvent, useReducer, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useReducer } from 'react';
 
 // Interfaces for form values and errors
 interface FormValues {
@@ -71,13 +70,7 @@ const ChangePasswordForm: React.FC = () => {
   } = useSessionUser();
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [toastOpen, setToastOpen] = useState(false);
-  const {
-    mutate: changePassword,
-    isSuccess,
-    isError,
-    error,
-  } = useChangePassword();
+  const { mutate: changePassword } = useChangePassword();
 
   // Handle change in form fields
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -120,10 +113,7 @@ const ChangePasswordForm: React.FC = () => {
             dispatch({ type: 'SET_FIELD', field: 'password1', value: '' });
             dispatch({ type: 'SET_FIELD', field: 'password2', value: '' });
           },
-          onSettled: () => {
-            setToastOpen(true); // Open success toast notification
-          },
-        },
+        }
       );
     }
   };
@@ -209,20 +199,6 @@ const ChangePasswordForm: React.FC = () => {
           disabled={isLoadingUser}
         />
       </Box>
-
-      {/* Toast Notification */}
-      <ToastNotification
-        setOpen={setToastOpen}
-        open={toastOpen}
-        severity={isSuccess ? 'success' : isError ? 'error' : 'info'}
-        message={
-          isSuccess
-            ? 'Password Updated Successfully'
-            : isError
-              ? 'Failed to update password.'
-              : 'Updating...'
-        }
-      />
     </Box>
   );
 };

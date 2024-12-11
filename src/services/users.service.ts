@@ -133,8 +133,7 @@ export const useLogoutUser = (): UseMutationResult<
     mutationFn: logoutUser,
     onSuccess: () => {
       clearQuestionnaireData();
-      queryClient.clear()
-
+      queryClient.clear();
     },
     onError: (error) => {
       open(error.message, 'error');
@@ -416,8 +415,13 @@ export const useChangePassword = () => {
     onError: (error) => {
       open(error.message, 'error');
     },
+    onSuccess: (data) => {
+      const message = data?.message || 'Password successfully changed';
+      open(message, 'success');
+    },
   });
 };
+
 export const updatePhoto = async ({ image, userId }: UpdatePhotoRequest) => {
   const formData = new FormData();
   formData.append('image', image);
